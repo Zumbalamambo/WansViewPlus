@@ -83,15 +83,23 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     public void setContentView(View view) {
         super.setContentView(view);
         toolbar = mToolBarHelper.getToolBar();
+        toolbar.registerClickListener(this);
         initTittle();
+        initView();
+        initData();
+        initListener();
     }
 
     /**
      * 子类实现
      */
-    protected void initTittle() {
-        toolbar.registerClickListener(this);
-    }
+    protected void initTittle() {}
+
+    protected void initView() {}
+
+    protected void initData() {}
+
+    protected void initListener() {}
 
     @Override
     public void onClick(View v) {

@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">WansViewPlus</string>
     <string name="Stopwork_Prompt">The program has stopped running</string>
+    <string name="home">home</string>
+    <string name="message">message</string>
+    <string name="mine">mine</string>
 </resources>
