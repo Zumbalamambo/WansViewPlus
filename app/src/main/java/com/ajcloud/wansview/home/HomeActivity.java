@@ -9,9 +9,11 @@ import com.ajcloud.wansview.application.BaseActivity;
 import com.ajcloud.wansview.support.utils.ToastUtil;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class HomeActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     private FrameLayout mContent;
     private BottomNavigationBar bottomNavigationBar;
 
@@ -19,6 +21,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContent(R.layout.activity_home);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     @Override
@@ -46,6 +49,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
             bottomNavigationBar.selectTab(currentSelectedPosition, false);
         }
 
+        mContent = findViewById(R.id.content);
     }
 
     @Override
