@@ -20,17 +20,15 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContent(R.layout.activity_home);
+        setContentView(R.layout.activity_home, false);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
-    @Override
-    protected void initTittle() {
-        super.initTittle();
-        toolbar.setTittle("wansview");
-        toolbar.setLeftImg(R.drawable.ic_all);
-        toolbar.setRightImg(R.drawable.ic_search);
-    }
+//    @Override
+//    protected void initTittle() {
+//        super.initTittle();
+//        toolbar.setTittle("wansview");
+//    }
 
     @Override
     protected void initView() {

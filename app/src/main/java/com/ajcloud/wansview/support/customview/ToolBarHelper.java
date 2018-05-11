@@ -26,15 +26,19 @@ public class ToolBarHelper {
 
     private int toolbarHeight;
     private int statusBarHeight;
+    private boolean hasTittle;
 
-    public ToolBarHelper(Context context, int layoutId, int statusBarHeight) {
+    public ToolBarHelper(Context context, int layoutId, int statusBarHeight, boolean hasTittle) {
         mContext = context;
+        this.hasTittle = hasTittle;
         mInflater = LayoutInflater.from(mContext);
         toolbarHeight = DisplayUtil.dip2Pix(MainApplication.getApplication(), 48);
         this.statusBarHeight = statusBarHeight;
 
         initContentView();
-        initToolBar();
+        if (hasTittle){
+            initToolBar();
+        }
         initUserView(layoutId);
     }
 
@@ -57,7 +61,11 @@ public class ToolBarHelper {
     private void initUserView(int layoutId) {
         mUserView = mInflater.inflate(layoutId, null);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        params.topMargin = toolbarHeight + statusBarHeight;
+        if (hasTittle){
+            params.topMargin = toolbarHeight + statusBarHeight;
+        }else {
+            params.topMargin = 0;
+        }
         mContentView.addView(mUserView, 0, params);
     }
 
@@ -73,20 +81,6 @@ public class ToolBarHelper {
     }
 
     public MyToolbar getToolBar() {
-        return mToolBar;
-    }
-
-    public void setToolBarVisible(boolean visible) {
-        if (visible) {
-            toolbarView.setVisibility(View.VISIBLE);
-            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mUserView.getLayoutParams();
-            params.topMargin = toolbarHeight + statusBarHeight;
-            mUserView.setLayoutParams(params);
-        } else {
-            toolbarView.setVisibility(View.GONE);
-            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mUserView.getLayoutParams();
-            params.topMargin = 0;
-            mUserView.setLayoutParams(params);
-        }
+        return hasTittle?mToolBar:null;
     }
 }

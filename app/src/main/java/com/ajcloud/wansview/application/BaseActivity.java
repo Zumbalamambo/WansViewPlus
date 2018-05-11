@@ -41,7 +41,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         application.removeActivity(this);
     }
 
-    protected void setContent(int layoutResID) {
+    /**
+     * @param layoutResID 布局id
+     * @param hasTittle   是否带标题栏
+     */
+    protected void setContentView(int layoutResID, boolean hasTittle) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             try {
                 Class decorViewClazz = Class.forName("com.android.internal.policy.DecorView");
@@ -74,7 +78,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 getWindow().setStatusBarColor(Color.TRANSPARENT);
             }
         }
-        mToolBarHelper = new ToolBarHelper(this, layoutResID, statusBarHeight);
+        mToolBarHelper = new ToolBarHelper(this, layoutResID, statusBarHeight, hasTittle);
         setContentView(mToolBarHelper.getContentView());
         setSupportActionBar(toolbar);
     }
@@ -83,8 +87,10 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     public void setContentView(View view) {
         super.setContentView(view);
         toolbar = mToolBarHelper.getToolBar();
-        toolbar.registerClickListener(this);
-        initTittle();
+        if (toolbar != null){
+            toolbar.registerClickListener(this);
+            initTittle();
+        }
         initView();
         initData();
         initListener();
@@ -93,13 +99,17 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 子类实现
      */
-    protected void initTittle() {}
+    protected void initTittle() {
+    }
 
-    protected void initView() {}
+    protected void initView() {
+    }
 
-    protected void initData() {}
+    protected void initData() {
+    }
 
-    protected void initListener() {}
+    protected void initListener() {
+    }
 
     @Override
     public void onClick(View v) {
