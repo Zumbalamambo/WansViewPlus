@@ -40,6 +40,7 @@ public class MainApplication extends Application {
         super.onCreate();
         mInstance = this;
         if (!BuildConfig.DEBUG) {
+            //Firebase错误收集
             Fabric.with(this, new Crashlytics());
             //自定义崩溃处理
             CrashHandler crashHandler = CrashHandler.getInstance();
