@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "523513968496",
+    "firebase_url": "https://wansviewplus.firebaseio.com",
+    "project_id": "wansviewplus",
+    "storage_bucket": "wansviewplus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523513968496:android:7c75db5d975cf773",
+        "android_client_info": {
+          "package_name": "com.ajcloud.wansview"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523513968496-qkb1bl9eu2k9l21l3bltht6l1nl267rs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ajcloud.wansview",
+            "certificate_hash": "c235b1dfd1cced8ef10ad19498582db42260a641"
+          }
+        },
+        {
+          "client_id": "523513968496-2nm2notkl7jqbl6picph70rspmlg35uk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNtlvabw-zbAWJMW1NZzK0Yk6c1xV6iYs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "523513968496-2nm2notkl7jqbl6picph70rspmlg35uk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

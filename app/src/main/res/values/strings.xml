@@ -4,4 +4,7 @@
     <string name="home">home</string>
     <string name="message">message</string>
     <string name="mine">mine</string>
+
+    <!--FCM notification channel id-->
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 </resources>
