@@ -21,18 +21,21 @@ android {
         debug {
             // 显示Log
             buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "boolean", "LOG_OKGO", "true"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         _test {
             // 显示Log
             buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "boolean", "LOG_OKGO", "true"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
             // 显示Log
             buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "LOG_OKGO", "false"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -52,6 +55,7 @@ dependencies {
         transitive = true
     }
     implementation 'com.google.firebase:firebase-core:11.8.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
