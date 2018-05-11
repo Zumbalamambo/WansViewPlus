@@ -5,9 +5,12 @@ import android.app.Application;
 
 import com.ajcloud.wansview.BuildConfig;
 import com.ajcloud.wansview.support.tools.CrashHandler;
+import com.crashlytics.android.Crashlytics;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by mamengchao on 2018/05/10.
@@ -28,6 +31,7 @@ public class MainApplication extends Application {
         super.onCreate();
         mInstance = this;
         if (!BuildConfig.DEBUG) {
+            Fabric.with(this, new Crashlytics());
             //自定义崩溃处理
             CrashHandler crashHandler = CrashHandler.getInstance();
             crashHandler.init(this);
