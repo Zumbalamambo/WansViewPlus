@@ -70,11 +70,11 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     @Override
     public void onTabSelected(int position) {
         //test
-        if (position == 0){
+        if (position == 0) {
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            if (homeFragment.isAdded()){
+            if (homeFragment.isAdded()) {
                 ft.show(homeFragment);
-            }else {
+            } else {
                 ft.add(R.id.content, homeFragment, "home");
             }
             ft.commitAllowingStateLoss();
@@ -98,5 +98,20 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.content, homeFragment, "home");
         transaction.commit();
+    }
+
+    private long saveLastBackPressTime;
+    private static final long BackPressTimeGap = 1800;
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - saveLastBackPressTime > BackPressTimeGap) {
+            saveLastBackPressTime = currentTime;
+            ToastUtil.show(R.string.exit_twotwice);
+            return;
+        }
+        this.moveTaskToBack(true);
     }
 }
