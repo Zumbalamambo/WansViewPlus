@@ -5,7 +5,7 @@ import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ajcloud.wansview.application.MainApplication;
+import com.ajcloud.wansview.main.application.MainApplication;
 
 /**
  * Created by mamengchao on 2018/05/10.

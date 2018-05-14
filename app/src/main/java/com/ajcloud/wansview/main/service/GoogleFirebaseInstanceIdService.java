@@ -1,4 +1,4 @@
-package com.ajcloud.wansview.service;
+package com.ajcloud.wansview.main.service;
 
 import com.ajcloud.wansview.support.tools.WLog;
 import com.google.firebase.iid.FirebaseInstanceId;

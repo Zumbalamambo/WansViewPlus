@@ -1,13 +1,12 @@
-package com.ajcloud.wansview.home;
+package com.ajcloud.wansview.main.home;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.ajcloud.wansview.R;
-import com.ajcloud.wansview.application.BaseActivity;
+import com.ajcloud.wansview.main.application.BaseActivity;
 import com.ajcloud.wansview.support.utils.ToastUtil;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;

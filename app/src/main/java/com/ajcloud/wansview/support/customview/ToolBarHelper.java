@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.ajcloud.wansview.R;
-import com.ajcloud.wansview.application.MainApplication;
+import com.ajcloud.wansview.main.application.MainApplication;
 import com.ajcloud.wansview.support.utils.DisplayUtil;
 
 /**

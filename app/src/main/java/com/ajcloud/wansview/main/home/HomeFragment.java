@@ -1,9 +1,9 @@
-package com.ajcloud.wansview.home;
+package com.ajcloud.wansview.main.home;
 
 import android.view.View;
 
 import com.ajcloud.wansview.R;
-import com.ajcloud.wansview.application.BaseFragment;
+import com.ajcloud.wansview.main.application.BaseFragment;
 
 public class HomeFragment extends BaseFragment {
 

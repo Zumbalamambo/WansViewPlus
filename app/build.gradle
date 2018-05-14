@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 26
@@ -42,6 +43,15 @@ android {
     }
 }
 
+greendao {
+    //数据库版本号  需要更新时加1
+    schemaVersion 1
+    //设置DaoMaster、DaoSession、Dao包名，也就是要放置这些类的包的全路径。
+    daoPackage 'com.ajcloud.wansview.support.dao'
+    //设置DaoMaster、DaoSession、Dao目录
+    targetGenDir 'src/main/java'
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
@@ -57,6 +67,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:11.8.0'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.android.support:support-v4:26.1.0'
+    implementation 'org.greenrobot:greendao:3.2.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

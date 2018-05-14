@@ -5,3 +5,4 @@
 /proguard
 
 /.classpath
+/src/main/java/com/ajcloud/wansview/support/dao

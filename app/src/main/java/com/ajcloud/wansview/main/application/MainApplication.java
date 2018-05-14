@@ -1,4 +1,4 @@
-package com.ajcloud.wansview.application;
+package com.ajcloud.wansview.main.application;
 
 import android.app.Activity;
 import android.app.Application;

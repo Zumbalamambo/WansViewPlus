@@ -3,7 +3,7 @@ package com.ajcloud.wansview.support.utils;
 import android.graphics.Bitmap;
 import android.os.Environment;
 
-import com.ajcloud.wansview.application.MainApplication;
+import com.ajcloud.wansview.main.application.MainApplication;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

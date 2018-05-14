@@ -10,7 +10,7 @@ import android.os.Environment;
 import android.os.Looper;
 
 import com.ajcloud.wansview.R;
-import com.ajcloud.wansview.application.MainApplication;
+import com.ajcloud.wansview.main.application.MainApplication;
 import com.ajcloud.wansview.support.utils.FileUtil;
 import com.ajcloud.wansview.support.utils.ToastUtil;
 
