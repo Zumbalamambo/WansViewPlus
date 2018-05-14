@@ -6,6 +6,7 @@ import com.ajcloud.wansview.R;
 import com.ajcloud.wansview.application.BaseFragment;
 
 public class HomeFragment extends BaseFragment {
+
     @Override
     public int layoutResID() {
         return R.layout.fragment_home;
@@ -21,5 +22,4 @@ public class HomeFragment extends BaseFragment {
     protected void initView(View rootView) {
 
     }
-
 }

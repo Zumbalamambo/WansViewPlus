@@ -80,7 +80,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         }
         mToolBarHelper = new ToolBarHelper(this, layoutResID, statusBarHeight, hasTittle);
         setContentView(mToolBarHelper.getContentView());
-        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -88,6 +87,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         super.setContentView(view);
         toolbar = mToolBarHelper.getToolBar();
         if (toolbar != null){
+            setSupportActionBar(toolbar);
             toolbar.registerClickListener(this);
             initTittle();
         }
