@@ -2,10 +2,13 @@ package com.ajcloud.wansview.support.customview.lockgesture;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.ajcloud.wansview.R;
@@ -20,56 +23,38 @@ import java.util.List;
 public class LockGestureLayout extends RelativeLayout {
 
     private int mWidth;
+
     private int mHeight;
 
     private LockGestureView[] mLockGestureViews;
 
-    /**
-     * 每个边上的LockGestureView的个数
-     */
+    //每个边上的LockGestureView的个数
     private int mCount = 3;
-    /**
-     * 存储密码
-     */
+    //LockGestureView间距：mLockGestureViewWidth * 25%
+    private int mMarginBetweenLockView;
+    //LockGestureView的边长 4 * mWidth / ( 5 * mCount + 1 )
+    private int mLockGestureViewWidth;
+    //LockGestureView无手指触摸的状态下内圆的颜色
+    private int circleColor = 0xCC555555;
+    //LockGestureView手指触摸的状态下内圆和外圆的颜色
+    private int selectedColor = 0xCC66CCFF;
+    //LockGestureView验证失败颜色
+    private int errorColor = 0xCCFF0000;
+    //指引线的开始位置x
+    private int mLastPathX;
+    //指引线的开始位置y
+    private int mLastPathY;
+    //指引下的结束位置
+    private Point mTmpTarget = new Point();
+    //存储密码
     private int[] mAnswer = {};
-    /**
-     * 保存用户选中的LockGestureView的id
-     */
-    private List<Integer> mChoose = new ArrayList<Integer>();
+    //保存用户选中的LockGestureView的id
+    private List<Integer> mChoose = new ArrayList<>();
 
     private Paint mPaint;
 
-    /**
-     * 每个LockGestureView中间的间距 设置为：mLockGestureViewWidth * 25%
-     */
-    private int mMarginBetweenLockView = 30;
-    /**
-     * LockGestureView的边长 4 * mWidth / ( 5 * mCount + 1 )
-     */
-    private int mLockGestureViewWidth;
-
-    /**
-     * LockGestureView无手指触摸的状态下内圆的颜色
-     */
-    private int circleColor = 0xFF555555;
-    /**
-     * LockGestureView手指触摸的状态下内圆和外圆的颜色
-     */
-    private int selectedColor = 0xcc66CCFF;
-
     private Path mPath;
-    /**
-     * 指引线的开始位置x
-     */
-    private int mLastPathX;
-    /**
-     * 指引线的开始位置y
-     */
-    private int mLastPathY;
-    /**
-     * 指引下的结束位置
-     */
-    private Point mTmpTarget = new Point();
+
 
     public LockGestureLayout(Context context) {
         super(context);
@@ -83,7 +68,7 @@ public class LockGestureLayout extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LockGestureLayout, defStyleAttr, 0);
         circleColor = a.getColor(R.styleable.LockGestureLayout_circleColor, getResources().getColor(R.color.light_gray));
-        selectedColor = a.getColor(R.styleable.LockGestureLayout_selectedColor, getResources().getColor(R.color.colorPrimary));
+        selectedColor = a.getColor(R.styleable.LockGestureLayout_selectedColor, getResources().getColor(R.color.gesture_select_blue));
         mCount = a.getInteger(R.styleable.LockGestureLayout_mCount, 3);
         a.recycle();
 
@@ -111,11 +96,12 @@ public class LockGestureLayout extends RelativeLayout {
             mLockGestureViewWidth = (int) (4 * mWidth * 1.0f / (5 * mCount + 1));
             //计算每个LockGestureView的间距  
             mMarginBetweenLockView = (int) (mLockGestureViewWidth * 0.25);
+            mPaint.setStrokeWidth(mLockGestureViewWidth * 0.1f);
 
             for (int i = 0; i < mLockGestureViews.length; i++) {
                 //初始化每个LockGestureView  
                 mLockGestureViews[i] = new LockGestureView(getContext(),
-                        circleColor, selectedColor);
+                        circleColor, selectedColor, errorColor);
                 mLockGestureViews[i].setId(i + 1);
                 //设置参数，主要是定位LockGestureView间的位置  
                 RelativeLayout.LayoutParams lockerParams = new RelativeLayout.LayoutParams(
@@ -137,20 +123,133 @@ public class LockGestureLayout extends RelativeLayout {
                 int leftMagin = 0;
                 int topMargin = 0;
 
-                // 每个View都有右外边距和底外边距 第一行的有上外边距 第一列的有左外边距
-                if (i >= 0 && i < mCount)// 第一行
-                {
+                // 默认每个View都有右边距和下边距 第一行的有上边距 第一列的有左边距
+                if (i < mCount) {       // 第一行
                     topMargin = mMarginBetweenLockView;
                 }
-                if (i % mCount == 0)// 第一列  
-                {
+                if (i % mCount == 0) {  // 第一列
                     leftMagin = mMarginBetweenLockView;
                 }
 
                 lockerParams.setMargins(leftMagin, topMargin, rightMargin,
                         bottomMargin);
-                mLockGestureViews[i].setMode(LockGestureView.MODE.TOUCH_DOWN);
+                mLockGestureViews[i].setMode(LockGestureView.MODE.NORMAL);
                 addView(mLockGestureViews[i], lockerParams);
+            }
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int action = event.getAction();
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                reset();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                mPaint.setColor(selectedColor);
+                LockGestureView child = getChildIdByPos(x, y);
+                if (child != null) {
+                    int cId = child.getId();
+                    if (!mChoose.contains(cId)) {
+                        mChoose.add(cId);
+                        child.setMode(LockGestureView.MODE.VERIFY);
+//                        if (mOnLockGestureViewListener != null)
+//                            mOnLockGestureViewListener.onBlockSelected(cId);
+                        // 设置指引线的起点  
+                        mLastPathX = child.getLeft() / 2 + child.getRight() / 2;
+                        mLastPathY = child.getTop() / 2 + child.getBottom() / 2;
+
+                        if (mChoose.size() == 1) {  // 当前添加为第一个
+                            mPath.moveTo(mLastPathX, mLastPathY);
+                        } else {                    // 非第一个，将两者使用线连上
+                            mPath.lineTo(mLastPathX, mLastPathY);
+                        }
+
+                    }
+                }
+                // 指引线的终点  
+                mTmpTarget.x = x;
+                mTmpTarget.y = y;
+                break;
+            case MotionEvent.ACTION_UP:
+                // 将终点设置位置为起点，即取消指引线
+                mTmpTarget.x = mLastPathX;
+                mTmpTarget.y = mLastPathY;
+
+                changeItemMode(LockGestureView.MODE.ERROR);
+                break;
+
+        }
+        invalidate();
+        return true;
+    }
+
+    @Override
+    public void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+        //绘制LockGestureView间的连线
+        if (mPath != null) {
+            canvas.drawPath(mPath, mPaint);
+        }
+        //绘制指引线
+        if (mChoose.size() > 0) {
+            if (mLastPathX != 0 && mLastPathY != 0)
+                canvas.drawLine(mLastPathX, mLastPathY, mTmpTarget.x,
+                        mTmpTarget.y, mPaint);
+        }
+
+    }
+
+    /**
+     * 重置
+     */
+    private void reset() {
+        mChoose.clear();
+        mPath.reset();
+        for (LockGestureView lockGestureView : mLockGestureViews) {
+            lockGestureView.setMode(LockGestureView.MODE.NORMAL);
+        }
+    }
+
+    /**
+     * 检查当前坐标是否在child中
+     */
+    private boolean checkPositionInChild(View child, int x, int y) {
+        int padding = (int) (mLockGestureViewWidth * 0.15);
+        if (x >= child.getLeft() + padding && x <= child.getRight() - padding
+                && y >= child.getTop() + padding
+                && y <= child.getBottom() - padding) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 通过x,y定位LockGestureView
+     */
+    private LockGestureView getChildIdByPos(int x, int y) {
+        for (LockGestureView lockGestureView : mLockGestureViews) {
+            if (checkPositionInChild(lockGestureView, x, y)) {
+                return lockGestureView;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 改变已选LockGestureView模式
+    * */
+    private void changeItemMode(LockGestureView.MODE mode)
+    {
+        for (LockGestureView gestureLockView : mLockGestureViews)
+        {
+            if (mChoose.contains(gestureLockView.getId()))
+            {
+                gestureLockView.setMode(mode);
             }
         }
     }

@@ -21,19 +21,22 @@ public class LockGestureView extends View {
     private int circleColor;
     //选中圆环颜色(选中小圆点颜色)
     private int selectedColor;
+    //验证失败颜色
+    private int errorColor;
     private Paint circlePaint;
     private Paint ringPaint;
 
     enum MODE {
-        NORMAL, TOUCH_DOWN, TOUCH_UP
+        NORMAL, VERIFY, ERROR
     }
 
     private MODE currentMode = MODE.NORMAL;
 
-    public LockGestureView(Context context, int circleColor, int selectedColor) {
+    public LockGestureView(Context context, int circleColor, int selectedColor, int errorColor) {
         super(context);
         this.circleColor = circleColor;
         this.selectedColor = selectedColor;
+        this.errorColor = errorColor;
         init();
     }
 
@@ -89,9 +92,15 @@ public class LockGestureView extends View {
                 circlePaint.setColor(circleColor);
                 canvas.drawCircle(length / 2, length / 2, length * circleRadius, circlePaint);
                 break;
-            case TOUCH_UP:
-            case TOUCH_DOWN:
+            case VERIFY:
                 circlePaint.setColor(selectedColor);
+                ringPaint.setColor(selectedColor);
+                canvas.drawCircle(length / 2, length / 2, length * circleRadius, circlePaint);
+                canvas.drawCircle(length / 2, length / 2, length * ringRadius, ringPaint);
+                break;
+            case ERROR:
+                circlePaint.setColor(errorColor);
+                ringPaint.setColor(errorColor);
                 canvas.drawCircle(length / 2, length / 2, length * circleRadius, circlePaint);
                 canvas.drawCircle(length / 2, length / 2, length * ringRadius, ringPaint);
                 break;
