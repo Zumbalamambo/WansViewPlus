@@ -14,9 +14,9 @@ public class LockGestureView extends View {
     //边长
     private int length;
     //小圆点半径
-    private float circleRadius = 0.3F;
+    private float circleRadius = 0.1F;
     //选中圆环半径
-    private float ringRadius = 0.5F;
+    private float ringRadius = 0.3F;
     //小圆点颜色
     private int circleColor;
     //选中圆环颜色(选中小圆点颜色)
@@ -74,12 +74,11 @@ public class LockGestureView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int measureWidth = getSize(200, widthMeasureSpec);
-        int measureHeight = getSize(200, heightMeasureSpec);
+        int measureWidth = MeasureSpec.getSize(widthMeasureSpec);
+        int measureHeight = MeasureSpec.getSize(heightMeasureSpec);
 
         length = measureWidth > measureHeight ? measureHeight : measureWidth;
         setMeasuredDimension(length, length);
-
     }
 
     @Override
@@ -97,5 +96,10 @@ public class LockGestureView extends View {
                 canvas.drawCircle(length / 2, length / 2, length * ringRadius, ringPaint);
                 break;
         }
+    }
+
+    public void setMode(MODE mode) {
+        this.currentMode = mode;
+        invalidate();
     }
 }
