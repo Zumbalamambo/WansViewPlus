@@ -46,7 +46,6 @@
         <activity
             android:name=".main.welcome.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_splash"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme">
             <intent-filter>
@@ -55,6 +54,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".main.mine.security.ModifyGestureActivity"></activity>
     </application>
 
 </manifest>

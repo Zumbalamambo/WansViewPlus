@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
-
     <color name="black_overlay">#66000000</color>
+    <color name="light_gray">#555555</color>
+    <color name="gesture_select_blue">#cc66CCFF</color>
 </resources>

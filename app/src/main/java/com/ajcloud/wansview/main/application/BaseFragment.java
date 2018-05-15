@@ -22,6 +22,7 @@ import com.ajcloud.wansview.support.utils.DisplayUtil;
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
 
     private View rootView;
+    private View contentView;
     private LayoutInflater inflater;
     protected FrameLayout tittleView;
     protected LinearLayout leftView, rightView;
@@ -56,16 +57,18 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     }
 
     private void initParentView() {
-        View view = null;
         if (layoutResID() != 0) {
-            view = inflater.inflate(layoutResID(), null);
+            contentView = inflater.inflate(layoutResID(), null);
         }
         LinearLayout parentView = rootView.findViewById(R.id.ll_base_fragment);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
-        if (view != null) {
-            parentView.addView(view, layoutParams);
+        if (!hasTittle()){
+            parentView.removeAllViews();
+        }
+        if (contentView != null) {
+            parentView.addView(contentView, layoutParams);
         }
     }
 
@@ -80,11 +83,17 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
             } else {
                 statusBarHeight = DisplayUtil.dip2Pix(MainApplication.getApplication(), 20);
             }
-            tittleView.setPadding(0, statusBarHeight, 0, 0);
+            if (hasTittle()){
+                tittleView.setPadding(0, statusBarHeight, 0, 0);
+            }else {
+                contentView.setPadding(0, statusBarHeight, 0, 0);
+            }
         }
     }
 
     protected abstract int layoutResID();
+
+    protected abstract boolean hasTittle();
 
     protected abstract void initTittle();
 

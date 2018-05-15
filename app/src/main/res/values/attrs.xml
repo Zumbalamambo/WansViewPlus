@@ -9,4 +9,12 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="LockGestureView">
+        <attr name="rowNum" format="integer" />
+        <attr name="columnNum" format="integer" />
+        <attr name="circleRadius" format="dimension" />
+        <attr name="ringRadius" format="dimension" />
+        <attr name="circleColor" format="color" />
+        <attr name="selectedColor" format="color" />
+    </declare-styleable>
 </resources>

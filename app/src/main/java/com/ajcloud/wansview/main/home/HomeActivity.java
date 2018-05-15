@@ -1,23 +1,35 @@
 package com.ajcloud.wansview.main.home;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.ajcloud.wansview.R;
 import com.ajcloud.wansview.main.application.BaseActivity;
+import com.ajcloud.wansview.main.device.DeviceFragment;
+import com.ajcloud.wansview.main.message.MessageFragment;
+import com.ajcloud.wansview.main.mine.MineFragment;
 import com.ajcloud.wansview.support.utils.ToastUtil;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.google.firebase.analytics.FirebaseAnalytics;
+
+import com.ajcloud.wansview.main.application.BaseActivity;
+import com.ajcloud.wansview.support.utils.ToastUtil;
+
+import java.util.ArrayList;
 
 public class HomeActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
     private FirebaseAnalytics mFirebaseAnalytics;
     private BottomNavigationBar bottomNavigationBar;
     private FragmentManager fragmentManager;
-    private HomeFragment homeFragment;
+    private DeviceFragment deviceFragment;
+    private MessageFragment messageFragment;
+    private MineFragment mineFragment;
+    private ArrayList<Fragment> fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +40,10 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     protected void initView() {
-        homeFragment = new HomeFragment();
+        deviceFragment = new DeviceFragment();
+        messageFragment = new MessageFragment();
+        mineFragment = new MineFragment();
+        fragments = getFragments();
         fragmentManager = getSupportFragmentManager();
         bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
@@ -57,27 +72,39 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
         super.onClick(v);
         switch (v.getId()) {
             case R.id.img_left:
-                ToastUtil.single("哈哈哈哈");
                 break;
             case R.id.img_right:
-                ToastUtil.single("呵呵呵呵");
                 break;
             default:
                 break;
         }
     }
 
+    private int saveLastPosition = -1;
+
     @Override
     public void onTabSelected(int position) {
-        //test
-        if (position == 0) {
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            if (homeFragment.isAdded()) {
-                ft.show(homeFragment);
-            } else {
-                ft.add(R.id.content, homeFragment, "home");
+        if (fragments != null) {
+            if (position < fragments.size()) {
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                Fragment fragment = fragments.get(position);
+                if (fragment.isAdded()) {
+                    ft.show(fragment);
+                } else {
+                    String tag = fragment.getClass().getSimpleName();
+                    if (fragment == messageFragment) {
+                        tag = "message";
+                    } else if (fragment == mineFragment) {
+                        tag = "mine";
+                    }
+                    ft.add(R.id.content, fragment, tag);
+                }
+                if (saveLastPosition != -1 && saveLastPosition != position) {
+                    ft.hide(fragments.get(saveLastPosition));
+                }
+                saveLastPosition = position;
+                ft.commitAllowingStateLoss();
             }
-            ft.commitAllowingStateLoss();
         }
     }
 
@@ -96,8 +123,16 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
      */
     private void setDefaultFragment() {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.content, homeFragment, "home");
+        transaction.add(R.id.content, deviceFragment, "home");
         transaction.commit();
+    }
+
+    private ArrayList<Fragment> getFragments() {
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        fragments.add(deviceFragment);
+        fragments.add(messageFragment);
+        fragments.add(mineFragment);
+        return fragments;
     }
 
     private long saveLastBackPressTime;
