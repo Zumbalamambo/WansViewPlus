@@ -6,12 +6,16 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.ajcloud.wansview.R;
+import com.ajcloud.wansview.support.tools.WLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +56,22 @@ public class LockGestureLayout extends RelativeLayout {
     private List<Integer> mChoose = new ArrayList<>();
 
     private Paint mPaint;
-
     private Path mPath;
+    private static int RESET = 1000;
+    private Handler resetHander = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            reset();
+            invalidate();
+        }
+    };
 
+    private OnLockGestureResultListenner listenner;
+
+    public void setLockGestureResultListenner(OnLockGestureResultListenner listenner) {
+        this.listenner = listenner;
+    }
 
     public LockGestureLayout(Context context) {
         super(context);
@@ -147,6 +164,7 @@ public class LockGestureLayout extends RelativeLayout {
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+                resetHander.removeMessages(RESET);
                 reset();
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -157,9 +175,7 @@ public class LockGestureLayout extends RelativeLayout {
                     if (!mChoose.contains(cId)) {
                         mChoose.add(cId);
                         child.setMode(LockGestureView.MODE.VERIFY);
-//                        if (mOnLockGestureViewListener != null)
-//                            mOnLockGestureViewListener.onBlockSelected(cId);
-                        // 设置指引线的起点  
+                        // 设置指引线的起点
                         mLastPathX = child.getLeft() / 2 + child.getRight() / 2;
                         mLastPathY = child.getTop() / 2 + child.getBottom() / 2;
 
@@ -180,7 +196,19 @@ public class LockGestureLayout extends RelativeLayout {
                 mTmpTarget.x = mLastPathX;
                 mTmpTarget.y = mLastPathY;
 
-                changeItemMode(LockGestureView.MODE.ERROR);
+                if (checkPassword()) {
+                    if (listenner != null) {
+                        listenner.onSuccess();
+                    }
+                } else {
+                    mPaint.setColor(errorColor);
+                    changeItemMode(LockGestureView.MODE.ERROR);
+                    resetHander.removeMessages(RESET);
+                    resetHander.sendEmptyMessageDelayed(RESET, 500);
+                    if (listenner != null) {
+                        listenner.onFail();
+                    }
+                }
                 break;
 
         }
@@ -242,15 +270,28 @@ public class LockGestureLayout extends RelativeLayout {
 
     /**
      * 改变已选LockGestureView模式
-    * */
-    private void changeItemMode(LockGestureView.MODE mode)
-    {
-        for (LockGestureView gestureLockView : mLockGestureViews)
-        {
-            if (mChoose.contains(gestureLockView.getId()))
-            {
-                gestureLockView.setMode(mode);
+     */
+    private void changeItemMode(LockGestureView.MODE mode) {
+        for (LockGestureView LockGestureView : mLockGestureViews) {
+            if (mChoose.contains(LockGestureView.getId())) {
+                LockGestureView.setMode(mode);
             }
         }
+    }
+
+    private boolean checkPassword() {
+        //TODO
+        for (int key :mChoose) {
+            WLog.d("LockGestureLayout", key);
+        }
+        return false;
+    }
+
+    interface OnLockGestureResultListenner {
+        void onSuccess();
+
+        void onFail();
+
+        void onOverTime();
     }
 }
