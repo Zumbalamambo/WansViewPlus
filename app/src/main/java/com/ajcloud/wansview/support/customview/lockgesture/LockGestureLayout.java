@@ -55,9 +55,11 @@ public class LockGestureLayout extends RelativeLayout {
     //保存用户选中的LockGestureView的id
     private List<Integer> mChoose = new ArrayList<>();
 
+    //是否初次设置密码
+    private boolean isFirst;
     private Paint mPaint;
     private Path mPath;
-    private static int RESET = 1000;
+    private static final int RESET = 1000;
     private Handler resetHander = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
@@ -195,18 +197,24 @@ public class LockGestureLayout extends RelativeLayout {
                 // 将终点设置位置为起点，即取消指引线
                 mTmpTarget.x = mLastPathX;
                 mTmpTarget.y = mLastPathY;
-
-                if (checkPassword()) {
-                    if (listenner != null) {
-                        listenner.onSuccess();
-                    }
-                } else {
-                    mPaint.setColor(errorColor);
-                    changeItemMode(LockGestureView.MODE.ERROR);
+                if (isFirst){
+                    isFirst = false;
+                    //TODO 保存密码
                     resetHander.removeMessages(RESET);
                     resetHander.sendEmptyMessageDelayed(RESET, 500);
-                    if (listenner != null) {
-                        listenner.onFail();
+                }else {
+                    if (checkPassword()) {
+                        if (listenner != null) {
+                            listenner.onSuccess();
+                        }
+                    } else {
+                        mPaint.setColor(errorColor);
+                        changeItemMode(LockGestureView.MODE.ERROR);
+                        resetHander.removeMessages(RESET);
+                        resetHander.sendEmptyMessageDelayed(RESET, 500);
+                        if (listenner != null) {
+                            listenner.onFail();
+                        }
                     }
                 }
                 break;
@@ -279,12 +287,19 @@ public class LockGestureLayout extends RelativeLayout {
         }
     }
 
+    /**
+     * 验证密码是否正确
+     */
     private boolean checkPassword() {
         //TODO
         for (int key :mChoose) {
             WLog.d("LockGestureLayout", key);
         }
         return false;
+    }
+
+    public void setFirst(boolean first) {
+        isFirst = first;
     }
 
     interface OnLockGestureResultListenner {
