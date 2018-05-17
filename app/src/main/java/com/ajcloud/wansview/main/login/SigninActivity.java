@@ -21,12 +21,19 @@ public class SigninActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin, false);
+    }
 
+    @Override
+    protected void initView() {
         userName = findViewById(R.id.editText_userName);
         password = findViewById(R.id.editText_password);
         signUpTextView = findViewById(R.id.textView_sign_up);
         forgotTextView = findViewById(R.id.textView_forgot_password);
         signinButton = findViewById(R.id.button_signin);
+    }
+
+    @Override
+    protected void initListener() {
         signinButton.setOnClickListener(this);
     }
 
@@ -36,6 +43,7 @@ public class SigninActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.button_signin:
                 startActivity(new Intent(SigninActivity.this, HomeActivity.class));
+                finish();
                 break;
             default:
                 break;
