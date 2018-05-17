@@ -54,7 +54,7 @@ public class ReplayTimeAxisView extends View {
     //有回看部分的矩形框颜色
     private int recordRectColor;
     //选择下载部分的矩形框颜色
-    private int selecteRectColor;
+    private int selectedRectColor;
     //文字大小
     private int textSize;
     private float mLastX;
@@ -107,7 +107,7 @@ public class ReplayTimeAxisView extends View {
         midLineColor = a.getColor(R.styleable.ReplayTimeAxisView_midLineColor, getResources().getColor(R.color.colorPrimary));
         textColor = a.getColor(R.styleable.ReplayTimeAxisView_textColor, getResources().getColor(R.color.gesture_select_blue));
         recordRectColor = a.getColor(R.styleable.ReplayTimeAxisView_recordRectColor, 0xFF000000);
-        selecteRectColor = a.getColor(R.styleable.ReplayTimeAxisView_selecteRectColor, 0x55FFFFFF);
+        selectedRectColor = a.getColor(R.styleable.ReplayTimeAxisView_selectedRectColor, 0x55FFFFFF);
         spacing = a.getInteger(R.styleable.ReplayTimeAxisView_spacing, DisplayUtil.dip2Pix(context, 1));
         a.recycle();
 
@@ -253,7 +253,7 @@ public class ReplayTimeAxisView extends View {
             canvas.drawLine(selectedLeft, 0, selectedLeft, height, linePaint);
             canvas.drawLine(selectedRight, 0, selectedRight, height, linePaint);
             //画选择框
-            recordRectPaint.setColor(selecteRectColor);
+            recordRectPaint.setColor(selectedRectColor);
             selectedRect.set(selectedLeft, 0, selectedRight, height);
             canvas.drawRect(selectedRect, recordRectPaint);
         } else {
