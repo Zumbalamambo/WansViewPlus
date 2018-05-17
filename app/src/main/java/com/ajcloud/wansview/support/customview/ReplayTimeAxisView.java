@@ -29,6 +29,12 @@ public class ReplayTimeAxisView extends View {
 
     private int width;
     private int height;
+    //选择框左边坐标
+    private float selectedLeft;
+    //选择框右边坐标
+    private float selectedRight;
+    //默认选择框宽度
+    private static final int defaultSelectedDistance = 50;
     //当前中间刻度时间点
     private long currentMidTimeStamp;
     //画笔宽度
@@ -47,27 +53,36 @@ public class ReplayTimeAxisView extends View {
     private int textColor;
     //有回看部分的矩形框颜色
     private int recordRectColor;
+    //选择下载部分的矩形框颜色
+    private int selecteRectColor;
     //文字大小
     private int textSize;
-    private Paint linePaint;
-    private Paint textPaint;
-
-    //TODO 根据具体业务修改格式 回看列表   开始时间  结束时间
-    private List<Pair<Long, Long>> recordList;
-    private Paint recordRectPaint;
-    private RectF recordRect;
-
-    private Calendar calendar;
     private float mLastX;
+    //选择的开始时间，结束时间
+    private long startTime;
+    private long endTime;
+    private Mode currentMode;
     //最小化滑动距离
     private int minSlideScale;
     //是否滑动
     private boolean isSlide;
+    //是否选中选中框边界
+    boolean isSelectedLeft, isSelectedRight;
+    private Calendar calendar;
+    private RectF recordRect;
+    private RectF selectedRect;
+    private Paint linePaint;
+    private Paint textPaint;
+    private Paint recordRectPaint;
+    //TODO 根据具体业务修改格式 回看列表   开始时间  结束时间
+    private List<Pair<Long, Long>> recordList;
     //时间轴滑动监听
     private OnSlideListener listener;
 
     public interface OnSlideListener {
         void onSlide(long timeStamp);
+
+        void onSelected(long startTime, long endTime);
     }
 
     public void setOnSlideListener(OnSlideListener listener) {
@@ -87,11 +102,12 @@ public class ReplayTimeAxisView extends View {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ReplayTimeAxisView, defStyleAttr, 0);
         longScale = a.getInteger(R.styleable.ReplayTimeAxisView_longScale, 40);
         shortScale = a.getInteger(R.styleable.ReplayTimeAxisView_shortScale, 30);
+        textSize = a.getInteger(R.styleable.ReplayTimeAxisView_textSize, 40);
         lineColor = a.getColor(R.styleable.ReplayTimeAxisView_lineColor, getResources().getColor(R.color.gesture_select_blue));
         midLineColor = a.getColor(R.styleable.ReplayTimeAxisView_midLineColor, getResources().getColor(R.color.colorPrimary));
         textColor = a.getColor(R.styleable.ReplayTimeAxisView_textColor, getResources().getColor(R.color.gesture_select_blue));
         recordRectColor = a.getColor(R.styleable.ReplayTimeAxisView_recordRectColor, 0xFF000000);
-        textSize = a.getInteger(R.styleable.ReplayTimeAxisView_textSize, 40);
+        selecteRectColor = a.getColor(R.styleable.ReplayTimeAxisView_selecteRectColor, 0x55FFFFFF);
         spacing = a.getInteger(R.styleable.ReplayTimeAxisView_spacing, DisplayUtil.dip2Pix(context, 1));
         a.recycle();
 
@@ -101,6 +117,7 @@ public class ReplayTimeAxisView extends View {
     private void init(Context context) {
         recordList = new ArrayList<>();
         recordRect = new RectF();
+        selectedRect = new RectF();
         strokeWidth = DisplayUtil.dip2Pix(context, 1);
         calendar = Calendar.getInstance(Locale.getDefault());
         minSlideScale = ViewConfiguration.get(context)
@@ -130,6 +147,9 @@ public class ReplayTimeAxisView extends View {
 
         width = getSize(200, widthMeasureSpec);
         height = getSize(50, heightMeasureSpec);
+
+        selectedLeft = width / 2 - defaultSelectedDistance;
+        selectedRight = width / 2 + defaultSelectedDistance;
         setMeasuredDimension(width, height);
     }
 
@@ -167,6 +187,7 @@ public class ReplayTimeAxisView extends View {
         canvas.drawLine(0, 0, width, 0, linePaint);
         canvas.drawLine(0, height, width, height, linePaint);
         //画有回看部分
+        recordRectPaint.setColor(recordRectColor);
         if (recordList.size() > 0) {
             for (int i = 0; i < recordList.size(); i++) {
                 Pair<Long, Long> pair = recordList.get(i);
@@ -226,9 +247,20 @@ public class ReplayTimeAxisView extends View {
             currentTimeStamp += unitSeconds;
             currentOffset += (spacing + strokeWidth);
         }
-        //画中线
-        linePaint.setColor(midLineColor);
-        canvas.drawLine(width / 2, 0, width / 2, height, linePaint);
+        if (currentMode == Mode.DownLoad) {
+            //画边线
+            linePaint.setColor(midLineColor);
+            canvas.drawLine(selectedLeft, 0, selectedLeft, height, linePaint);
+            canvas.drawLine(selectedRight, 0, selectedRight, height, linePaint);
+            //画选择框
+            recordRectPaint.setColor(selecteRectColor);
+            selectedRect.set(selectedLeft, 0, selectedRight, height);
+            canvas.drawRect(selectedRect, recordRectPaint);
+        } else {
+            //画中线
+            linePaint.setColor(midLineColor);
+            canvas.drawLine(width / 2, 0, width / 2, height, linePaint);
+        }
     }
 
     @Override
@@ -237,12 +269,34 @@ public class ReplayTimeAxisView extends View {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 mLastX = eventX;
+                isSelectedLeft = false;
+                isSelectedRight = false;
+                if (Math.abs(eventX - selectedLeft) < 25) {
+                    isSelectedLeft = true;
+                } else if (Math.abs(eventX - selectedRight) < 25) {
+                    isSelectedRight = true;
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 if (isSlide) {
                     isSlide = false;
                     if (null != listener) {
-                        listener.onSlide(getMidTimeStamp());
+                        if (currentMode == Mode.DownLoad) {
+                            if (selectedLeft > width / 2) {
+                                startTime = currentMidTimeStamp + (int) (120 * ((selectedLeft - width / 2) / (spacing + strokeWidth)));
+                                endTime = currentMidTimeStamp + (int) (120 * ((selectedRight - width / 2) / (spacing + strokeWidth)));
+                            } else if (selectedRight < width / 2) {
+                                startTime = currentMidTimeStamp - (int) (120 * ((width / 2 - selectedLeft) / (spacing + strokeWidth)));
+                                endTime = currentMidTimeStamp - (int) (120 * ((width / 2 - selectedRight) / (spacing + strokeWidth)));
+                            } else {
+                                startTime = currentMidTimeStamp - (int) (120 * ((width / 2 - selectedLeft) / (spacing + strokeWidth)));
+                                endTime = currentMidTimeStamp + (int) (120 * ((selectedRight - width / 2) / (spacing + strokeWidth)));
+                            }
+                            listener.onSelected(getStartTime(), getEndTime());
+                        } else {
+                            listener.onSlide(getMidTimeStamp());
+                        }
+
                     }
                 }
                 break;
@@ -253,21 +307,30 @@ public class ReplayTimeAxisView extends View {
                         isSlide = isSlide(dx);
                     }
                     if (isSlide) {
-                        //滑动距离对应时长
-                        int timeStampOffset = (int) (120 * ((dx) / (spacing + strokeWidth)));
-
-                        currentMidTimeStamp = currentMidTimeStamp
-                                - currentMidTimeStamp % 60;
-
-                        long tempTimeStamp = (long) (60 * Math
-                                .round(timeStampOffset
-                                        / (float) 60));
-                        tempTimeStamp = currentMidTimeStamp - tempTimeStamp;
-                        if (tempTimeStamp != currentMidTimeStamp) {
-                            currentMidTimeStamp = tempTimeStamp;
-                            WLog.d("replayTest", "eventX:" + eventX + "  mLastX:" + mLastX);
-                            invalidate();
+                        if (currentMode == Mode.DownLoad) {
+                            if (isSelectedLeft) {
+                                selectedLeft = (selectedRight - (selectedLeft + dx)) <= defaultSelectedDistance ? selectedLeft : (selectedLeft + dx);
+                            } else if (isSelectedRight) {
+                                selectedRight = ((selectedRight + dx) - selectedLeft) <= defaultSelectedDistance ? selectedRight : (selectedRight + dx);
+                            }
                             mLastX = eventX;
+                            invalidate();
+                        } else {
+                            //滑动距离对应时长
+                            int timeStampOffset = (int) (120 * ((dx) / (spacing + strokeWidth)));
+                            currentMidTimeStamp = currentMidTimeStamp
+                                    - currentMidTimeStamp % 60;
+
+                            long tempTimeStamp = (long) (60 * Math
+                                    .round(timeStampOffset
+                                            / (float) 60));
+                            tempTimeStamp = currentMidTimeStamp - tempTimeStamp;
+                            if (tempTimeStamp != currentMidTimeStamp) {
+                                currentMidTimeStamp = tempTimeStamp;
+                                WLog.d("replayTest", "eventX:" + eventX + "  mLastX:" + mLastX);
+                                invalidate();
+                                mLastX = eventX;
+                            }
                         }
                     }
                 }
@@ -336,5 +399,37 @@ public class ReplayTimeAxisView extends View {
             recordList.addAll(list);
         }
         invalidate();
+    }
+
+    public enum Mode {
+        Play,
+        DownLoad
+    }
+
+    public Mode getCurrentMode() {
+        return currentMode;
+    }
+
+    /**
+     * 改变模式，播放or选择下载
+     */
+    public void setCurrentMode(Mode currentMode) {
+        this.currentMode = currentMode;
+        selectedLeft = width / 2 - defaultSelectedDistance;
+        selectedRight = width / 2 + defaultSelectedDistance;
+        if (currentMode == Mode.DownLoad) {
+            startTime = currentMidTimeStamp - (int) (120 * ((width / 2 - selectedLeft) / (spacing + strokeWidth)));
+            endTime = currentMidTimeStamp + (int) (120 * ((selectedRight - width / 2) / (spacing + strokeWidth)));
+            listener.onSelected(getStartTime(), getEndTime());
+        }
+        invalidate();
+    }
+
+    public long getStartTime() {
+        return startTime * 1000;
+    }
+
+    public long getEndTime() {
+        return endTime * 1000;
     }
 }

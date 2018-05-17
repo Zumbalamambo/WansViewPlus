@@ -24,5 +24,6 @@
         <attr name="textColor" format="color" />
         <attr name="midLineColor" format="color" />
         <attr name="recordRectColor" format="color" />
+        <attr name="selecteRectColor" format="color" />
     </declare-styleable>
 </resources>
