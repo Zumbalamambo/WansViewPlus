@@ -54,7 +54,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.mine.security.ModifyGestureActivity"></activity>
+        <activity android:name=".main.mine.security.ModifyGestureActivity" />
+        <activity android:name=".main.login.SigninActivity"></activity>
     </application>
 
 </manifest>

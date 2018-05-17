@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#2979FF</color>
+    <color name="colorPrimaryDark">#2979FF</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="black_overlay">#66000000</color>
-    <color name="light_gray">#555555</color>
+    <color name="light_gray">#5c5c5c</color>
     <color name="gesture_select_blue">#cc66CCFF</color>
+    <!--登录模块-->
+    <color name="gray_first">#263238</color>
+    <color name="gray_second">#61727A</color>
 </resources>

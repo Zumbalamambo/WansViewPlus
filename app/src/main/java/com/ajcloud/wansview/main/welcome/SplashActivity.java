@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import com.ajcloud.wansview.R;
 import com.ajcloud.wansview.main.application.MainApplication;
 import com.ajcloud.wansview.main.home.HomeActivity;
+import com.ajcloud.wansview.main.login.SigninActivity;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
     private Runnable startHomeTask = new Runnable() {
         @Override
         public void run() {
-            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+            startActivity(new Intent(SplashActivity.this, SigninActivity.class));
             finish();
         }
     };
@@ -41,7 +42,7 @@ public class SplashActivity extends AppCompatActivity {
                 if (activity.isDestroyed() || activity.isFinishing()) {
                     break;
                 } else {
-                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                    startActivity(new Intent(SplashActivity.this, SigninActivity.class));
                     finish();
                     return;
                 }
