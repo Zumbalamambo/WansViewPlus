@@ -14,7 +14,7 @@ import android.text.TextUtils;
 import com.ajcloud.wansview.R;
 import com.ajcloud.wansview.main.application.MainApplication;
 import com.ajcloud.wansview.main.home.HomeActivity;
-import com.ajcloud.wansview.main.login.SigninActivity;
+import com.ajcloud.wansview.main.account.SigninActivity;
 
 import java.util.List;
 

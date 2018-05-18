@@ -5,12 +5,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LayoutAnimationController;
+import android.widget.FrameLayout;
 
+import com.ajcloud.wansview.R;
 import com.ajcloud.wansview.support.customview.MyToolbar;
-import com.ajcloud.wansview.support.customview.ToolBarHelper;
 import com.ajcloud.wansview.support.tools.TimeLock;
 import com.ajcloud.wansview.support.utils.DisplayUtil;
 
@@ -20,32 +26,41 @@ import java.lang.reflect.Field;
  * Created by mamengchao on 2018/05/10.
  */
 
-public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
     protected final String TAG = this.getClass().getSimpleName();
+
+    private FrameLayout rootView;
+    private View toolbarView;
+    private View contentView;
+    private MyToolbar toolbar;
     protected MainApplication application = MainApplication.getApplication();
     private TimeLock timeLock = new TimeLock();
 
-    protected ToolBarHelper mToolBarHelper;
-    protected MyToolbar toolbar;
-
     @Override
+
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         application.pushActivity(this);
+        initRootView();
+        setContentView();
+
+        if (null != toolbar) {
+            toolbar.registerClickListener(this);
+        }
+        initView();
+        initListener();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        application.removeActivity(this);
+    private void initRootView() {
+        /*直接创建一个帧布局，作为视图容器的父容器*/
+        rootView = new FrameLayout(this);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        rootView.setLayoutParams(params);
     }
 
-    /**
-     * @param layoutResID 布局id
-     * @param hasTittle   是否带标题栏
-     */
-    protected void setContentView(int layoutResID, boolean hasTittle) {
+    public void setContentView() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             try {
                 Class decorViewClazz = Class.forName("com.android.internal.policy.DecorView");
@@ -78,37 +93,39 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                 getWindow().setStatusBarColor(Color.TRANSPARENT);
             }
         }
-        mToolBarHelper = new ToolBarHelper(this, layoutResID, statusBarHeight, hasTittle);
-        setContentView(mToolBarHelper.getContentView());
+        //添加toolbar
+        if (hasTittle()) {
+            toolbarView = LayoutInflater.from(this).inflate(R.layout.tool_bar, null);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, DisplayUtil.dip2Pix(this, 48));
+            params.topMargin = statusBarHeight;
+            rootView.addView(toolbarView, params);
+            toolbar = toolbarView.findViewById(R.id.toolbar);
+        }
+        //添加contentView
+        contentView = LayoutInflater.from(this).inflate(getLayoutId(), null);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        if (hasTittle()) {
+            params.topMargin = statusBarHeight + DisplayUtil.dip2Pix(this, 48);
+        } else {
+            params.topMargin = 0;
+        }
+        rootView.addView(contentView, 0, params);
+
+        setContentView(rootView);
     }
+
+    protected abstract int getLayoutId();
+
+    protected abstract boolean hasTittle();
+
+    protected abstract void initView();
+
+    protected abstract void initListener();
 
     @Override
-    public void setContentView(View view) {
-        super.setContentView(view);
-        toolbar = mToolBarHelper.getToolBar();
-        if (toolbar != null){
-            setSupportActionBar(toolbar);
-            toolbar.registerClickListener(this);
-            initTittle();
-        }
-        initView();
-        initData();
-        initListener();
-    }
-
-    /**
-     * 子类实现
-     */
-    protected void initTittle() {
-    }
-
-    protected void initView() {
-    }
-
-    protected void initData() {
-    }
-
-    protected void initListener() {
+    protected void onDestroy() {
+        super.onDestroy();
+        application.removeActivity(this);
     }
 
     @Override
@@ -117,5 +134,13 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
         timeLock.lock();
+    }
+
+    public View getContentView() {
+        return contentView;
+    }
+
+    public MyToolbar getToolbar() {
+        return hasTittle() ? toolbar : null;
     }
 }

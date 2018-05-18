@@ -4,10 +4,11 @@
     <dimen name="toolbar_text">16sp</dimen>
     <dimen name="toolbar_second_text">14sp</dimen>
     <!--登录模块-->
-    <dimen name="signIn_textSize_first">34sp</dimen>
-    <dimen name="signIn_textSize_second">20sp</dimen>
-    <dimen name="signIn_textSize_third">18sp</dimen>
-    <dimen name="signIn_textSize_forth">14sp</dimen>
+    <dimen name="signIn_textSize_34">34sp</dimen>
+    <dimen name="signIn_textSize_20">20sp</dimen>
+    <dimen name="signIn_textSize_18">18sp</dimen>
+    <dimen name="signIn_textSize_14">14sp</dimen>
+    <dimen name="signIn_textSize_12">12sp</dimen>
     <!--MaterialEditText-->
     <dimen name="default_padding_top">8dp</dimen>
     <dimen name="default_padding_bottom">8dp</dimen>

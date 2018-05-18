@@ -138,4 +138,11 @@ public class MyToolbar extends Toolbar {
         img_right.setVisibility(VISIBLE);
         img_right.setImageResource(resId);
     }
+
+    /**
+     * 设置tool背景色
+     */
+    public void setToolbarBg(int color) {
+        toolbar_content.setBackgroundColor(color);
+    }
 }

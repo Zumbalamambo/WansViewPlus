@@ -3,17 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/appbar"
+    android:background="@android:color/transparent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:elevation="0dp">
 
     <com.ajcloud.wansview.support.customview.MyToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         android:minHeight="@dimen/toolbar_height"
         app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp">
+        app:contentInsetStart="0dp"
+        app:elevation="0dp">
 
         <RelativeLayout
             android:id="@+id/toolbar_content"
@@ -41,7 +44,7 @@
                 android:background="@null"
                 android:ellipsize="end"
                 android:lines="1"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:visibility="gone" />
 
@@ -54,7 +57,7 @@
                 android:lines="1"
                 android:maxWidth="165dp"
                 android:minWidth="100dp"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="19sp"
                 android:visibility="gone"
                 tools:text="标题"
@@ -79,7 +82,7 @@
                 android:ellipsize="end"
                 android:gravity="center|end"
                 android:lines="1"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 android:visibility="gone" />
 

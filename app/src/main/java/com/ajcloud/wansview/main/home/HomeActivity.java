@@ -16,9 +16,6 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import com.ajcloud.wansview.main.application.BaseActivity;
-import com.ajcloud.wansview.support.utils.ToastUtil;
-
 import java.util.ArrayList;
 
 public class HomeActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
@@ -34,8 +31,17 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home, false);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_home;
+    }
+
+    @Override
+    protected boolean hasTittle() {
+        return false;
     }
 
     @Override

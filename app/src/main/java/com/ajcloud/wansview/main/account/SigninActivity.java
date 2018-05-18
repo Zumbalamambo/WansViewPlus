@@ -1,7 +1,6 @@
-package com.ajcloud.wansview.main.login;
+package com.ajcloud.wansview.main.account;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,9 +17,13 @@ public class SigninActivity extends BaseActivity {
     private Button signinButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin, false);
+    protected int getLayoutId() {
+        return R.layout.activity_signin;
+    }
+
+    @Override
+    protected boolean hasTittle() {
+        return false;
     }
 
     @Override
@@ -29,21 +32,29 @@ public class SigninActivity extends BaseActivity {
         password = findViewById(R.id.editText_password);
         signUpTextView = findViewById(R.id.textView_sign_up);
         forgotTextView = findViewById(R.id.textView_forgot_password);
-        signinButton = findViewById(R.id.button_signin);
+        signinButton = findViewById(R.id.btn_signin);
     }
 
     @Override
     protected void initListener() {
         signinButton.setOnClickListener(this);
+        signUpTextView.setOnClickListener(this);
+        forgotTextView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.button_signin:
+            case R.id.btn_signin:
                 startActivity(new Intent(SigninActivity.this, HomeActivity.class));
                 finish();
+                break;
+            case R.id.textView_sign_up:
+                startActivity(new Intent(SigninActivity.this, SignupActivity.class));
+                break;
+            case R.id.textView_forgot_password:
+                startActivity(new Intent(SigninActivity.this, ForgotPasswordActivity.class));
                 break;
             default:
                 break;
