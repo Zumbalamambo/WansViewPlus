@@ -102,7 +102,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         new Thread() {
             public void run() {
                 Looper.prepare();
-                ToastUtil.show(R.string.Stopwork_Prompt);
+                ToastUtil.show(R.string.stopwork_prompt);
                 Looper.loop();
             }
         }.start();

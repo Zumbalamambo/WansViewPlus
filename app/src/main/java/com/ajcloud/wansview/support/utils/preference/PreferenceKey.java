@@ -10,5 +10,6 @@ public interface PreferenceKey {
     }
 
     interface sp_key {
+        String DEVICE_ID = "DEVICE_ID";
     }
 }

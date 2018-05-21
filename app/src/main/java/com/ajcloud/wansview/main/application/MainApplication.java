@@ -1,20 +1,32 @@
 package com.ajcloud.wansview.main.application;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import com.ajcloud.wansview.BuildConfig;
-import com.ajcloud.wansview.support.okhttp.OkGo;
-import com.ajcloud.wansview.support.okhttp.cache.CacheEntity;
-import com.ajcloud.wansview.support.okhttp.cache.CacheMode;
-import com.ajcloud.wansview.support.okhttp.cookie.CookieJarImpl;
-import com.ajcloud.wansview.support.okhttp.cookie.store.SPCookieStore;
-import com.ajcloud.wansview.support.okhttp.interceptor.HttpLoggingInterceptor;
+import com.ajcloud.wansview.entity.LocalInfo;
+import com.ajcloud.wansview.support.core.okhttp.OkGo;
+import com.ajcloud.wansview.support.core.okhttp.cache.CacheEntity;
+import com.ajcloud.wansview.support.core.okhttp.cache.CacheMode;
+import com.ajcloud.wansview.support.core.okhttp.cookie.CookieJarImpl;
+import com.ajcloud.wansview.support.core.okhttp.cookie.store.SPCookieStore;
+import com.ajcloud.wansview.support.core.okhttp.interceptor.HttpLoggingInterceptor;
 import com.ajcloud.wansview.support.tools.CrashHandler;
+import com.ajcloud.wansview.support.utils.preference.PreferenceKey;
+import com.ajcloud.wansview.support.utils.preference.SPUtil;
 import com.crashlytics.android.Crashlytics;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -26,6 +38,8 @@ import okhttp3.OkHttpClient;
  */
 
 public class MainApplication extends Application {
+
+    private LocalInfo localInfo;
 
     private static MainApplication mInstance = null;
 
@@ -100,6 +114,43 @@ public class MainApplication extends Application {
                 .setRetryCount(1);                        //全局统一超时重连次数，默认为三次，那么最差的情况会请求4次(一次原始请求，三次重连请求)，不需要可以设置为0
 //                .addCommonHeaders(headers)                      //全局公共头
 //                .addCommonParams(params);
+    }
+
+    public LocalInfo getLocalInfo() {
+        return getLocalInfo(true);
+    }
+
+    public LocalInfo getLocalInfo(boolean readCache) {
+        if (localInfo == null || !readCache) {
+            localInfo = new LocalInfo();
+            //获取设备唯一标识
+            localInfo.deviceId = (String) SPUtil.getSPUtil(this, PreferenceKey.sp_name.account).get(PreferenceKey.sp_key.DEVICE_ID, "");
+            if (TextUtils.isEmpty(localInfo.deviceId)) {
+                if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.READ_PHONE_STATE)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    //在有权限的情况下，先尝试获取IMEI码
+                    TelephonyManager manager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                    localInfo.deviceId = manager.getDeviceId();
+                }
+                if (TextUtils.isEmpty(localInfo.deviceId)) {
+                    //尝试获取SERIAL码
+                    try {
+                        localInfo.deviceId = android.os.Build.class.getField("SERIAL").get(null).toString();
+                    } catch (Exception e) {
+                        //发生错误的情况下，使用随机生成的UUID
+                        localInfo.deviceId = UUID.randomUUID().toString();
+                        e.printStackTrace();
+                    }
+                }
+                SPUtil.getSPUtil(this, PreferenceKey.sp_name.account).put(PreferenceKey.sp_key.DEVICE_ID, localInfo.deviceId);
+            }
+            localInfo.deviceName = android.os.Build.MODEL;
+            localInfo.timeZone = TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT);
+            Locale locale = getResources().getConfiguration().locale;
+            localInfo.appLang = locale.getLanguage();
+        }
+        return localInfo;
     }
 
     public void pushActivity(Activity activity) {

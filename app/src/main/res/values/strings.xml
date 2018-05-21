@@ -1,20 +1,19 @@
 <resources>
     <string name="app_name">WansViewPlus</string>
-    <string name="Stopwork_Prompt">The program has stopped running</string>
+    <string name="stopwork_prompt">The program has stopped running</string>
     <string name="home">home</string>
     <string name="message">message</string>
     <string name="mine">mine</string>
 
     <!--FCM notification channel id-->
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <!-- http -->
+    <string name="Service_Error">Unable to connect to server, please check internet or try again later</string>
+    <string name="http_time_out">times out...</string>
 
-    <string name="Http_Time_Out">times out...</string>
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="exit_twotwice">Once again, exit the program</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

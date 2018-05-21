@@ -53,7 +53,7 @@ public class CustomProgressDialog extends Dialog {
         public void onDismiss(CustomProgressDialog progressDialog, int result) {
             if (-1 == result) {
                 try {
-                    ToastUtil.single(R.string.Http_Time_Out);
+                    ToastUtil.single(R.string.http_time_out);
                 } catch (Exception var4) {
                 }
 
