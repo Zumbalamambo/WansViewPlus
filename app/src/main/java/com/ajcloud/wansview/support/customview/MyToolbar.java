@@ -88,7 +88,7 @@ public class MyToolbar extends Toolbar {
     /**
      * 设置左边文字
      */
-    public void setLeftBtn(String text) {
+    public void setLeftText(String text) {
         btn_left.setVisibility(VISIBLE);
         img_left.setVisibility(GONE);
         btn_left.setText(text);
@@ -97,10 +97,17 @@ public class MyToolbar extends Toolbar {
     /**
      * 设置左边文字
      */
-    public void setLeftBtn(int resId) {
+    public void setLeftText(int resId) {
         btn_left.setVisibility(VISIBLE);
         img_left.setVisibility(GONE);
         btn_left.setText(resId);
+    }
+
+    /**
+     * 设置左边文字颜色
+     */
+    public void setLeftTextColor(int resId) {
+        btn_left.setTextColor(resId);
     }
 
     /**
@@ -115,7 +122,7 @@ public class MyToolbar extends Toolbar {
     /**
      * 设置右边文字
      */
-    public void setRightBtn(String text) {
+    public void setRightText(String text) {
         btn_right.setVisibility(VISIBLE);
         img_right.setVisibility(GONE);
         btn_right.setText(text);
@@ -124,10 +131,17 @@ public class MyToolbar extends Toolbar {
     /**
      * 设置右边文字
      */
-    public void setRightBtn(int resId) {
+    public void setRightText(int resId) {
         btn_right.setVisibility(VISIBLE);
         img_right.setVisibility(GONE);
         btn_right.setText(resId);
+    }
+
+    /**
+     * 设置右边文字颜色
+     */
+    public void setRightTextColor(int resId) {
+        btn_right.setTextColor(resId);
     }
 
     /**

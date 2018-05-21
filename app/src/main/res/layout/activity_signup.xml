@@ -107,13 +107,13 @@
         app:layout_constraintTop_toTopOf="@+id/cb_agree" />
 
     <Button
-        android:id="@+id/btn_signup"
-        android:layout_width="160dp"
-        android:layout_height="50dp"
+        android:id="@+id/btn_next"
+        android:layout_width="@dimen/signIn_btn_width"
+        android:layout_height="@dimen/signIn_btn_height"
         android:layout_marginStart="235dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/shape_signin_button"
-        android:text="Sign in"
+        android:text="Next"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/signIn_textSize_18"

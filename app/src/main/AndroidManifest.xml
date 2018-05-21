@@ -59,7 +59,9 @@
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity android:name=".main.mine.security.ModifyGestureActivity" />
         <activity android:name=".main.account.SignupActivity" />
-        <activity android:name=".main.account.ForgotPasswordActivity"></activity>
+        <activity android:name=".main.account.ForgotPasswordActivity" />
+        <activity android:name=".main.account.SignupVerifyActivity" />
+        <activity android:name=".main.account.TermsActivity"></activity>
     </application>
 
 </manifest>

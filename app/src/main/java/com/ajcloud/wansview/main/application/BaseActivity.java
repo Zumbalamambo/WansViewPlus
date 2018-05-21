@@ -10,9 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.LayoutAnimationController;
 import android.widget.FrameLayout;
 
 import com.ajcloud.wansview.R;
@@ -134,6 +131,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             return;
         }
         timeLock.lock();
+        if (v.getId() == R.id.btn_left || v.getId() == R.id.img_left) {
+            finish();
+        }
     }
 
     public View getContentView() {
