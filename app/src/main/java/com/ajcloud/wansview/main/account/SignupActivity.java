@@ -47,6 +47,11 @@ public class SignupActivity extends BaseActivity {
     }
 
     @Override
+    protected void initData() {
+
+    }
+
+    @Override
     protected void initListener() {
         nextButton.setOnClickListener(this);
         termTextView.setOnClickListener(this);

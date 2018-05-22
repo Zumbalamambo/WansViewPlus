@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/shape_signin_more"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/tv_gesture"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Gesture"
+        android:textColor="@color/gray_first"
+        android:textSize="@dimen/signIn_textSize_16" />
+
+    <TextView
+        android:id="@+id/tv_switch_account"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Switch account"
+        android:textColor="@color/gray_first"
+        android:textSize="@dimen/signIn_textSize_16" />
+
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Cancel"
+        android:textColor="@color/gray_second"
+        android:textSize="@dimen/signIn_textSize_16" />
+</LinearLayout>

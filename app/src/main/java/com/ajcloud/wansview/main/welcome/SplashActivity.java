@@ -2,7 +2,6 @@ package com.ajcloud.wansview.main.welcome;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,9 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.ajcloud.wansview.R;
+import com.ajcloud.wansview.main.account.SigninTwiceActivity;
 import com.ajcloud.wansview.main.application.MainApplication;
 import com.ajcloud.wansview.main.home.HomeActivity;
-import com.ajcloud.wansview.main.account.SigninActivity;
 
 import java.util.List;
 
@@ -27,7 +26,8 @@ public class SplashActivity extends AppCompatActivity {
     private Runnable startHomeTask = new Runnable() {
         @Override
         public void run() {
-            startActivity(new Intent(SplashActivity.this, SigninActivity.class));
+            SigninTwiceActivity.start(SplashActivity.this, "121321323@Gmail.com");
+//            startActivity(new Intent(SplashActivity.this, SigninActivity.class));
             finish();
         }
     };
@@ -42,7 +42,8 @@ public class SplashActivity extends AppCompatActivity {
                 if (activity.isDestroyed() || activity.isFinishing()) {
                     break;
                 } else {
-                    startActivity(new Intent(SplashActivity.this, SigninActivity.class));
+                    SigninTwiceActivity.start(SplashActivity.this, "121321323@Gmail.com");
+//                    startActivity(new Intent(SplashActivity.this, SigninActivity.class));
                     finish();
                     return;
                 }

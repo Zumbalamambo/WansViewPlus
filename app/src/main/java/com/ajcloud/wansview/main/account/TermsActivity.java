@@ -30,6 +30,11 @@ public class TermsActivity extends BaseActivity {
     }
 
     @Override
+    protected void initData() {
+
+    }
+
+    @Override
     protected void initListener() {
 
     }

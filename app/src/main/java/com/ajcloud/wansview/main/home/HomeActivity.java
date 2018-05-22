@@ -69,6 +69,11 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     }
 
     @Override
+    protected void initData() {
+
+    }
+
+    @Override
     protected void initListener() {
         bottomNavigationBar.setTabSelectedListener(this);
     }

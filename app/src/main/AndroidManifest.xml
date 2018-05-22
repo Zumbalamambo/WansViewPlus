@@ -61,7 +61,10 @@
         <activity android:name=".main.account.SignupActivity" />
         <activity android:name=".main.account.ForgotPasswordActivity" />
         <activity android:name=".main.account.SignupVerifyActivity" />
-        <activity android:name=".main.account.TermsActivity"></activity>
+        <activity android:name=".main.account.TermsActivity" />
+        <activity
+            android:name=".main.account.SigninTwiceActivity"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

@@ -59,7 +59,7 @@
                 android:maxWidth="165dp"
                 android:minWidth="100dp"
                 android:textColor="@color/black"
-                android:textSize="19sp"
+                android:textSize="@dimen/signIn_textSize_18"
                 android:visibility="gone"
                 tools:text="标题"
                 tools:visibility="visible" />

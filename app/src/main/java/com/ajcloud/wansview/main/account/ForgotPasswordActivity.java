@@ -35,10 +35,15 @@ public class ForgotPasswordActivity extends BaseActivity {
     }
 
     @Override
+    protected void initData() {
+
+    }
+
+    @Override
     protected void initListener() {
         MyToolbar toolbar = getToolbar();
         if (toolbar != null) {
-            toolbar.setTittle("Email verification");
+            toolbar.setTittle("Reset password");
             toolbar.setLeftImg(R.mipmap.icon_back);
         }
     }

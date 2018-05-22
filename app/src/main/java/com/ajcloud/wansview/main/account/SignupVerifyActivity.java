@@ -42,6 +42,11 @@ public class SignupVerifyActivity extends BaseActivity {
     }
 
     @Override
+    protected void initData() {
+
+    }
+
+    @Override
     protected void initListener() {
         sendAgainTextView.setOnClickListener(this);
         signinButton.setOnClickListener(this);

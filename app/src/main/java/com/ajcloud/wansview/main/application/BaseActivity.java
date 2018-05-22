@@ -26,7 +26,6 @@ import java.lang.reflect.Field;
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
     protected final String TAG = this.getClass().getSimpleName();
-
     private FrameLayout rootView;
     private View toolbarView;
     private View contentView;
@@ -46,6 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             toolbar.registerClickListener(this);
         }
         initView();
+        initData();
         initListener();
     }
 
@@ -117,6 +117,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     protected abstract void initView();
 
+    protected abstract void initData();
+
     protected abstract void initListener();
 
     @Override
@@ -142,5 +144,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     public MyToolbar getToolbar() {
         return hasTittle() ? toolbar : null;
+    }
+
+    public FrameLayout getRootView() {
+        return rootView;
     }
 }

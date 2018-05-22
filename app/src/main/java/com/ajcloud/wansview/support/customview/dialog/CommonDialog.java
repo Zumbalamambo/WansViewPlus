@@ -1,4 +1,4 @@
-package com.ajcloud.wansview.support.utils.dialog;
+package com.ajcloud.wansview.support.customview.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

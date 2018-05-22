@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.ajcloud.wansview.R;
 import com.ajcloud.wansview.main.application.BaseFragment;
-import com.ajcloud.wansview.support.utils.dialog.ProgressDialogManager;
+import com.ajcloud.wansview.support.customview.dialog.ProgressDialogManager;
 
 /**
  * Created by mamengchao on 2018/05/15.
