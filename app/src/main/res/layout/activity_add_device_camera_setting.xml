@@ -7,63 +7,63 @@
 
     <ImageView
         android:id="@+id/iv_camera"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher_round"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/ic_launcher_round" />
 
     <TextView
         android:id="@+id/tv_one"
-        android:layout_below="@id/iv_camera"
-        android:text="Check if the camera LED is flashing BLUE AND RED"
-        android:textColor="@color/gray_first"
-        android:textSize="@dimen/signIn_textSize_16"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_below="@id/iv_camera"
         android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="30dp"
         android:gravity="center"
-        android:layout_marginTop="30dp"/>
+        android:text="Check if the camera LED is flashing BLUE AND RED"
+        android:textColor="@color/gray_first"
+        android:textSize="@dimen/signIn_textSize_16" />
 
     <TextView
         android:id="@+id/tv_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/tv_one"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="Please confirm that the power is connected."
         android:textColor="@color/gray_second"
-        android:textSize="@dimen/signIn_textSize_12"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="20dp"/>
+        android:textSize="@dimen/signIn_textSize_12" />
 
     <Button
         android:id="@+id/btn_flash"
-        android:layout_below="@id/tv_two"
         android:layout_width="match_parent"
-        android:layout_marginStart="24dp"
+        android:layout_height="@dimen/signIn_btn_height"
+        android:layout_below="@id/tv_two"
         android:layout_marginEnd="24dp"
-        android:text="Flashing"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="100dp"
-        android:textSize="@dimen/signIn_textSize_18"
-        android:textColor="@color/colorPrimaryDark"
-        android:textAllCaps="false"
         android:background="@drawable/shape_signin_button"
-        android:layout_height="@dimen/signIn_btn_height" />
+        android:text="Flashing"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/signIn_textSize_18" />
 
     <TextView
         android:id="@+id/tv_no_flash"
-        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/btn_flash"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Not flashing"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/signIn_textSize_16"
+        android:ellipsize="end"
         android:padding="5dp"
         android:singleLine="true"
-        android:ellipsize="end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:text="Not flashing"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/signIn_textSize_16" />
 </RelativeLayout>

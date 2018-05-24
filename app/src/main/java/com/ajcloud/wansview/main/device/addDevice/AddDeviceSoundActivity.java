@@ -8,12 +8,15 @@ import android.widget.TextView;
 
 import com.ajcloud.wansview.R;
 import com.ajcloud.wansview.main.application.BaseActivity;
+import com.ajcloud.wansview.support.customview.dialog.CommonDialog;
+import com.ajcloud.wansview.support.utils.DisplayUtil;
 
 public class AddDeviceSoundActivity extends BaseActivity {
 
     private Button sendButton;
     private Button nextButton;
     private TextView errorTextView;
+    private CommonDialog noSoundDialog;
     private String type;
 
     public static void start(Context context, String type) {
@@ -56,8 +59,7 @@ public class AddDeviceSoundActivity extends BaseActivity {
     }
 
     @Override
-    public void onClick(View v) {
-        super.onClick(v);
+    public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.img_left:
                 finish();
@@ -68,9 +70,40 @@ public class AddDeviceSoundActivity extends BaseActivity {
                 startActivity(new Intent(AddDeviceSoundActivity.this, AddDeviceWaitingActivity.class));
                 break;
             case R.id.tv_error:
+                showDialog();
                 break;
             default:
                 break;
         }
     }
+
+    private void showDialog() {
+        if (noSoundDialog == null) {
+            noSoundDialog = new CommonDialog.Builder(this)
+                    .canceledOnTouchOutside(false)
+                    .view(R.layout.dialog_no_sound)
+                    .height(DisplayUtil.dip2Pix(this, 130))
+                    .width(DisplayUtil.dip2Pix(this, 100))
+                    .addViewOnclickListener(R.id.iv_close, dialogClickListener)
+                    .build();
+        }
+        if (!noSoundDialog.isShowing()) {
+            noSoundDialog.show();
+        }
+    }
+
+    private View.OnClickListener dialogClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.iv_close:
+                    if (noSoundDialog != null && noSoundDialog.isShowing()) {
+                        noSoundDialog.dismiss();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }

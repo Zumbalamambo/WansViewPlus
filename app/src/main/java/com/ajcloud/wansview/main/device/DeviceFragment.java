@@ -40,8 +40,7 @@ public class DeviceFragment extends BaseFragment {
     }
 
     @Override
-    public void onClick(View v) {
-        super.onClick(v);
+    public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.right_img:
                 startActivity(new Intent(getContext(), AddDeviceSelectActivity.class));

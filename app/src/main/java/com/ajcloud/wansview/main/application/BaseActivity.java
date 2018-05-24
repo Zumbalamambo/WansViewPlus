@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import com.ajcloud.wansview.R;
 import com.ajcloud.wansview.support.customview.MyToolbar;
 import com.ajcloud.wansview.support.tools.TimeLock;
+import com.ajcloud.wansview.support.tools.WLog;
 import com.ajcloud.wansview.support.utils.DisplayUtil;
 
 import java.lang.reflect.Field;
@@ -38,8 +39,11 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         application.pushActivity(this);
+        WLog.d(TAG, "-----step1------");
         initRootView();
+        WLog.d(TAG, "-----step2------");
         setContentView();
+        WLog.d(TAG, "-----step3------");
 
         if (null != toolbar) {
             toolbar.registerClickListener(this);
@@ -136,6 +140,11 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         if (v.getId() == R.id.btn_left || v.getId() == R.id.img_left) {
             finish();
         }
+        onClickView(v);
+    }
+
+    public void onClickView(View v) {//BaseActivity的子类复写此方法来处理点击事件，以便统一做防止重复点击处理
+
     }
 
     public View getContentView() {

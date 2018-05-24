@@ -53,8 +53,7 @@ public class SignupVerifyActivity extends BaseActivity {
     }
 
     @Override
-    public void onClick(View v) {
-        super.onClick(v);
+    public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.tv_send_again:
                 break;

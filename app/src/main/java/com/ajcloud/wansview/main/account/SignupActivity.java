@@ -58,8 +58,7 @@ public class SignupActivity extends BaseActivity {
     }
 
     @Override
-    public void onClick(View v) {
-        super.onClick(v);
+    public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.btn_next:
                 SignupVerifyActivity.start(this);

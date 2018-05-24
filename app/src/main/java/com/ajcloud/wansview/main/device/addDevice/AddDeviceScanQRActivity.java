@@ -53,8 +53,7 @@ public class AddDeviceScanQRActivity extends BaseActivity {
     }
 
     @Override
-    public void onClick(View v) {
-        super.onClick(v);
+    public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.img_left:
                 finish();

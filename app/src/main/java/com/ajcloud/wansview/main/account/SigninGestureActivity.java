@@ -67,8 +67,7 @@ public class SigninGestureActivity extends BaseActivity {
     }
 
     @Override
-    public void onClick(View v) {
-        super.onClick(v);
+    public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.tv_more:
                 if (!signinMoreDialog.isShowing()) {

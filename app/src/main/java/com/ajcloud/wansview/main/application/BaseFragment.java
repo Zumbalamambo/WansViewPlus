@@ -162,5 +162,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
             return;
         }
         timeLock.lock();
+        onClickView(v);
+    }
+
+    public void onClickView(View v) {//BaseActivity的子类复写此方法来处理点击事件，以便统一做防止重复点击处理
+
     }
 }
