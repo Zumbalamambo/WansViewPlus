@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -19,13 +20,14 @@ import com.ajcloud.wansview.R;
  */
 public class SigninMoreDialog extends Dialog implements View.OnClickListener {
     private Context context;
-    private TextView gestureTextView, switchAccountTextView, cancleTextView;
+    private TextView firstTextView, secondTextView, cancleTextView;
     private OnDialogClickListener listener;
+    private String firstText, secondText;
 
     public interface OnDialogClickListener {
-        void onGesture();
+        void onfirst();
 
-        void onSwitchAccount();
+        void onSecond();
     }
 
 
@@ -55,11 +57,17 @@ public class SigninMoreDialog extends Dialog implements View.OnClickListener {
         window.setAttributes(lp);
         setCanceledOnTouchOutside(true);// 点击Dialog外部消失
 
-        gestureTextView = findViewById(R.id.tv_gesture);
-        switchAccountTextView = findViewById(R.id.tv_switch_account);
+        firstTextView = findViewById(R.id.tv_first);
+        secondTextView = findViewById(R.id.tv_second);
         cancleTextView = findViewById(R.id.tv_cancel);
-        gestureTextView.setOnClickListener(this);
-        switchAccountTextView.setOnClickListener(this);
+        if (!TextUtils.isEmpty(firstText)) {
+            firstTextView.setText(firstText);
+        }
+        if (!TextUtils.isEmpty(secondText)) {
+            secondTextView.setText(secondText);
+        }
+        firstTextView.setOnClickListener(this);
+        secondTextView.setOnClickListener(this);
         cancleTextView.setOnClickListener(this);
     }
 
@@ -70,14 +78,22 @@ public class SigninMoreDialog extends Dialog implements View.OnClickListener {
             return;
         }
         switch (v.getId()) {
-            case R.id.tv_gesture:
-                listener.onGesture();
+            case R.id.tv_first:
+                listener.onfirst();
                 break;
-            case R.id.tv_switch_account:
-                listener.onSwitchAccount();
+            case R.id.tv_second:
+                listener.onSecond();
                 break;
             default:
                 break;
         }
+    }
+
+    public void setFirstText(String text) {
+        firstText = text;
+    }
+
+    public void setSecondText(String text) {
+        secondText = text;
     }
 }

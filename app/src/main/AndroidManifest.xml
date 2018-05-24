@@ -4,11 +4,13 @@
     package="com.ajcloud.wansview">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".main.application.MainApplication"
@@ -65,6 +67,19 @@
         <activity
             android:name=".main.account.SigninTwiceActivity"
             android:launchMode="singleTask" />
+        <activity android:name=".main.account.SigninGestureActivity" />
+        <activity
+            android:name=".support.tools.zxing.activity.CaptureActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/QRTheme" />
+        <activity android:name=".main.device.addDevice.AddDeviceSelectActivity" />
+        <activity android:name=".main.device.addDevice.AddDeviceModeActivity" />
+        <activity android:name=".main.device.addDevice.AddDeviceCameraSettingActivity" />
+        <activity android:name=".main.device.addDevice.AddDeviceWifiSettingActivity" />
+        <activity android:name=".main.device.addDevice.AddDeviceScanQRActivity" />
+        <activity android:name=".main.device.addDevice.AddDeviceWaitingActivity" />
+        <activity android:name=".main.device.addDevice.AddDeviceSuccessActivity" />
+        <activity android:name=".main.device.addDevice.AddDeviceSoundActivity"></activity>
     </application>
 
 </manifest>

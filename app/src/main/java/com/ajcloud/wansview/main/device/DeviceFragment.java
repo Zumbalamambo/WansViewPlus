@@ -1,10 +1,11 @@
 package com.ajcloud.wansview.main.device;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.ajcloud.wansview.R;
 import com.ajcloud.wansview.main.application.BaseFragment;
-import com.ajcloud.wansview.support.customview.dialog.ProgressDialogManager;
+import com.ajcloud.wansview.main.device.addDevice.AddDeviceSelectActivity;
 
 /**
  * Created by mamengchao on 2018/05/15.
@@ -19,20 +20,34 @@ public class DeviceFragment extends BaseFragment {
 
     @Override
     protected boolean hasTittle() {
-        return false;
+        return true;
     }
 
     @Override
     protected void initTittle() {
+        setTittle("Device");
+        setRightImg(R.drawable.ic_all);
     }
+
 
     @Override
     protected void initView(View rootView) {
-        rootView.findViewById(R.id.get).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ProgressDialogManager.getDialogManager().showDialog("test", getActivity(), 10000);
-            }
-        });
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.right_img:
+                startActivity(new Intent(getContext(), AddDeviceSelectActivity.class));
+                break;
+            default:
+                break;
+        }
     }
 }

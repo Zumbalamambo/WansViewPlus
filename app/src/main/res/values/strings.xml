@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">WansViewPlus</string>
-    <string name="stopwork_prompt">The program has stopped running</string>
     <string name="home">home</string>
     <string name="message">message</string>
     <string name="mine">mine</string>
@@ -10,7 +9,9 @@
     <!-- http -->
     <string name="Service_Error">Unable to connect to server, please check internet or try again later</string>
     <string name="http_time_out">times out...</string>
-
+    <!--app error-->
+    <string name="Permission_Denied">Authorization request is denied</string>
+    <string name="stopwork_prompt">The program has stopped running</string>
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>

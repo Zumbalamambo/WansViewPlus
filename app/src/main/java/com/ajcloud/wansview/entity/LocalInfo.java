@@ -7,5 +7,5 @@ public class LocalInfo {
     //设备名
     public String deviceName;
     public String appLang;
-    public String timeZone;
+    public int timeZone;
 }

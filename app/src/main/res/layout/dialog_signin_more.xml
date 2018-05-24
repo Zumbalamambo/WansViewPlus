@@ -6,9 +6,8 @@
     android:background="@drawable/shape_signin_more"
     android:orientation="vertical">
 
-
     <TextView
-        android:id="@+id/tv_gesture"
+        android:id="@+id/tv_first"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         android:gravity="center"
@@ -18,7 +17,7 @@
         android:textSize="@dimen/signIn_textSize_16" />
 
     <TextView
-        android:id="@+id/tv_switch_account"
+        android:id="@+id/tv_second"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         android:gravity="center"

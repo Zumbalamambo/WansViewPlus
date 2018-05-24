@@ -54,6 +54,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         initStatebar();
         initTittle();
         initView(rootView);
+        initData();
     }
 
     private void initParentView() {
@@ -64,7 +65,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
-        if (!hasTittle()){
+        if (!hasTittle()) {
             parentView.removeAllViews();
         }
         if (contentView != null) {
@@ -83,9 +84,9 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
             } else {
                 statusBarHeight = DisplayUtil.dip2Pix(MainApplication.getApplication(), 20);
             }
-            if (hasTittle()){
+            if (hasTittle()) {
                 tittleView.setPadding(0, statusBarHeight, 0, 0);
-            }else {
+            } else {
                 contentView.setPadding(0, statusBarHeight, 0, 0);
             }
         }
@@ -98,6 +99,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected abstract void initTittle();
 
     protected abstract void initView(View rootView);
+
+    protected abstract void initData();
 
     /*middle*/
     protected void setTittle(String tittle) {

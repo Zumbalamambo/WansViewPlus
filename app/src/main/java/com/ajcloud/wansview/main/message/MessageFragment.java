@@ -32,4 +32,9 @@ public class MessageFragment extends BaseFragment {
     protected void initView(View rootView) {
 
     }
+
+    @Override
+    protected void initData() {
+
+    }
 }

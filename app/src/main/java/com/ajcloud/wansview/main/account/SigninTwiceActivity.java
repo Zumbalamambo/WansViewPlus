@@ -3,6 +3,7 @@ package com.ajcloud.wansview.main.account;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -18,7 +19,6 @@ public class SigninTwiceActivity extends BaseActivity {
     private TextView userNameTextView, forgotTextView, moreTextView;
     private Button signinButton;
     private SigninMoreDialog signinMoreDialog;
-
     private String userName;
 
     public static void start(Context context, String userName) {
@@ -45,6 +45,11 @@ public class SigninTwiceActivity extends BaseActivity {
         forgotTextView = findViewById(R.id.textView_forgot_password);
         signinButton = findViewById(R.id.btn_signin);
         signinMoreDialog = new SigninMoreDialog(this);
+        signinMoreDialog.setFirstText("Gesture");
+        signinMoreDialog.setSecondText("Switch account");
+
+//        password.requestFocus();
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     @Override
@@ -60,6 +65,19 @@ public class SigninTwiceActivity extends BaseActivity {
         signinButton.setOnClickListener(this);
         moreTextView.setOnClickListener(this);
         forgotTextView.setOnClickListener(this);
+        signinMoreDialog.setDialogClickListener(new SigninMoreDialog.OnDialogClickListener() {
+            @Override
+            public void onfirst() {
+                SigninGestureActivity.start(SigninTwiceActivity.this, "121321323@Gmail.com");
+                finish();
+            }
+
+            @Override
+            public void onSecond() {
+                startActivity(new Intent(SigninTwiceActivity.this, SigninActivity.class));
+                finish();
+            }
+        });
     }
 
     @Override

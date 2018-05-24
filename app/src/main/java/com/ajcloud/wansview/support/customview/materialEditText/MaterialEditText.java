@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -34,12 +35,12 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.ajcloud.wansview.R;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.ajcloud.wansview.R;
 
 /**
  * EditText in Material Design
@@ -286,6 +287,14 @@ public class MaterialEditText extends AppCompatEditText {
      * Clear Button
      */
     private Bitmap[] clearButtonBitmaps;
+    /**
+     * browse open Button
+     */
+    private Bitmap[] browseOpenButtonBitmaps;
+    /**
+     * browse close Button
+     */
+    private Bitmap[] browseCloseButtonBitmaps;
 
     /**
      * Auto validate when focus lost.
@@ -293,6 +302,8 @@ public class MaterialEditText extends AppCompatEditText {
     private boolean validateOnFocusLost;
 
     private boolean showClearButton;
+    private boolean showPasswordEye;
+    private boolean eyeState;   //true:明文  false:密文
     private boolean firstShown;
     private int iconSize;
     private int iconOuterWidth;
@@ -408,7 +419,10 @@ public class MaterialEditText extends AppCompatEditText {
         iconLeftBitmaps = generateIconBitmaps(typedArray.getResourceId(R.styleable.MaterialEditText_met_iconLeft, -1));
         iconRightBitmaps = generateIconBitmaps(typedArray.getResourceId(R.styleable.MaterialEditText_met_iconRight, -1));
         showClearButton = typedArray.getBoolean(R.styleable.MaterialEditText_met_clearButton, false);
+        showPasswordEye = typedArray.getBoolean(R.styleable.MaterialEditText_met_passwordEye, false);
         clearButtonBitmaps = generateIconBitmaps(R.mipmap.icon_delete);
+        browseCloseButtonBitmaps = generateIconBitmaps(R.mipmap.browse_0);
+        browseOpenButtonBitmaps = generateIconBitmaps(R.mipmap.browse_1);
         iconPadding = typedArray.getDimensionPixelSize(R.styleable.MaterialEditText_met_iconPadding, getPixel(16));
         floatingLabelAlwaysShown = typedArray.getBoolean(R.styleable.MaterialEditText_met_floatingLabelAlwaysShown, false);
         helperTextAlwaysShown = typedArray.getBoolean(R.styleable.MaterialEditText_met_helperTextAlwaysShown, false);
@@ -533,6 +547,15 @@ public class MaterialEditText extends AppCompatEditText {
 
     public void setShowClearButton(boolean show) {
         showClearButton = show;
+        correctPaddings();
+    }
+
+    public boolean isShowPasswordEye() {
+        return showPasswordEye;
+    }
+
+    public void setShowPasswordEye(boolean show) {
+        showPasswordEye = show;
         correctPaddings();
     }
 
@@ -1301,8 +1324,8 @@ public class MaterialEditText extends AppCompatEditText {
             canvas.drawBitmap(icon, iconRight, iconTop, paint);
         }
 
-        // draw the clear button
-        if (hasFocus() && showClearButton && !TextUtils.isEmpty(getText()) && isEnabled()) {
+        // draw the clear button or password eye
+        if (isEnabled()) {
             paint.setAlpha(255);
             int buttonLeft;
             if (isRTL()) {
@@ -1310,10 +1333,23 @@ public class MaterialEditText extends AppCompatEditText {
             } else {
                 buttonLeft = endX - iconOuterWidth;
             }
-            Bitmap clearButtonBitmap = clearButtonBitmaps[0];
-            buttonLeft += (iconOuterWidth - clearButtonBitmap.getWidth()) / 2;
-            int iconTop = lineStartY + bottomSpacing - iconOuterHeight + (iconOuterHeight - clearButtonBitmap.getHeight()) / 2;
-            canvas.drawBitmap(clearButtonBitmap, buttonLeft, iconTop, paint);
+
+            if (hasFocus() && showClearButton && !TextUtils.isEmpty(getText())) {
+                Bitmap clearButtonBitmap = clearButtonBitmaps[0];
+                buttonLeft += (iconOuterWidth - clearButtonBitmap.getWidth()) / 2;
+                int iconTop = lineStartY + bottomSpacing - iconOuterHeight + (iconOuterHeight - clearButtonBitmap.getHeight()) / 2;
+                canvas.drawBitmap(clearButtonBitmap, buttonLeft, iconTop, paint);
+            } else if (showPasswordEye) {
+                Bitmap browseButtonBitmap;
+                if (eyeState) {
+                    browseButtonBitmap = browseOpenButtonBitmaps[0];
+                } else {
+                    browseButtonBitmap = browseCloseButtonBitmaps[0];
+                }
+                buttonLeft += (iconOuterWidth - browseButtonBitmap.getWidth()) / 2;
+                int iconTop = lineStartY + bottomSpacing - iconOuterHeight + (iconOuterHeight - browseButtonBitmap.getHeight()) / 2;
+                canvas.drawBitmap(browseButtonBitmap, buttonLeft, iconTop, paint);
+            }
         }
 
         // draw the underline
@@ -1476,39 +1512,78 @@ public class MaterialEditText extends AppCompatEditText {
             setSelection(0);
             return false;
         }
-        if (hasFocus() && showClearButton && isEnabled()) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    if (insideClearButton(event)) {
-                        clearButtonTouched = true;
-                        clearButtonClicking = true;
-                        return true;
-                    }
-                case MotionEvent.ACTION_MOVE:
-                    if (clearButtonClicking && !insideClearButton(event)) {
-                        clearButtonClicking = false;
-                    }
-                    if (clearButtonTouched) {
-                        return true;
-                    }
-                    break;
-                case MotionEvent.ACTION_UP:
-                    if (clearButtonClicking) {
-                        if (!TextUtils.isEmpty(getText())) {
-                            setText(null);
+        if (isEnabled()) {
+            if (hasFocus() && showClearButton &&!TextUtils.isEmpty(getText())) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (insideClearButton(event)) {
+                            clearButtonTouched = true;
+                            clearButtonClicking = true;
+                            return true;
                         }
-                        clearButtonClicking = false;
-                    }
-                    if (clearButtonTouched) {
+                    case MotionEvent.ACTION_MOVE:
+                        if (clearButtonClicking && !insideClearButton(event)) {
+                            clearButtonClicking = false;
+                        }
+                        if (clearButtonTouched) {
+                            return true;
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (clearButtonClicking) {
+                            if (!TextUtils.isEmpty(getText())) {
+                                setText(null);
+                            }
+                            clearButtonClicking = false;
+                        }
+                        if (clearButtonTouched) {
+                            clearButtonTouched = false;
+                            return true;
+                        }
                         clearButtonTouched = false;
-                        return true;
-                    }
-                    clearButtonTouched = false;
-                    break;
-                case MotionEvent.ACTION_CANCEL:
-                    clearButtonTouched = false;
-                    clearButtonClicking = false;
-                    break;
+                        break;
+                    case MotionEvent.ACTION_CANCEL:
+                        clearButtonTouched = false;
+                        clearButtonClicking = false;
+                        break;
+                }
+            } else if (showPasswordEye) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (insideClearButton(event)) {
+                            clearButtonTouched = true;
+                            clearButtonClicking = true;
+                            return true;
+                        }
+                    case MotionEvent.ACTION_MOVE:
+                        if (clearButtonClicking && !insideClearButton(event)) {
+                            clearButtonClicking = false;
+                        }
+                        if (clearButtonTouched) {
+                            return true;
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (clearButtonClicking) {
+                            eyeState = !eyeState;
+                            if (eyeState) {
+                                setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                            } else {
+                                setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            }
+                            clearButtonClicking = false;
+                        }
+                        if (clearButtonTouched) {
+                            clearButtonTouched = false;
+                            return true;
+                        }
+                        clearButtonTouched = false;
+                        break;
+                    case MotionEvent.ACTION_CANCEL:
+                        clearButtonTouched = false;
+                        clearButtonClicking = false;
+                        break;
+                }
             }
         }
         return super.onTouchEvent(event);

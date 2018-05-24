@@ -99,22 +99,46 @@ public class LockGestureLayout extends RelativeLayout {
         mPath = new Path();
     }
 
+    private int getSize(int defaultSize, int measureSpec) {
+        int finalSize = defaultSize;
+
+        int mode = MeasureSpec.getMode(measureSpec);
+        int size = MeasureSpec.getSize(measureSpec);
+
+        switch (mode) {
+            case MeasureSpec.UNSPECIFIED: {
+                finalSize = defaultSize;
+                break;
+            }
+            case MeasureSpec.AT_MOST: {
+                finalSize = Math.min(size, defaultSize);
+                break;
+            }
+            case MeasureSpec.EXACTLY: {
+                finalSize = size;
+                break;
+            }
+        }
+        return finalSize;
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        mWidth = MeasureSpec.getSize(widthMeasureSpec);
-        mHeight = MeasureSpec.getSize(heightMeasureSpec);
+        mWidth = getSize(350, widthMeasureSpec);
+        mHeight = getSize(350, heightMeasureSpec);
         //强制为矩形
         mHeight = mWidth = mWidth < mHeight ? mWidth : mHeight;
-        setMeasuredDimension(mWidth, mHeight);
         // 初始化mLockGestureViews
         if (mLockGestureViews == null) {
             mLockGestureViews = new LockGestureView[mCount * mCount];
             // 计算每个LockGestureView的边长
-            mLockGestureViewWidth = (int) (4 * mWidth * 1.0f / (5 * mCount + 1));
-            //计算每个LockGestureView的间距  
-            mMarginBetweenLockView = (int) (mLockGestureViewWidth * 0.25);
+//            mLockGestureViewWidth = (int) (4 * mWidth * 1.0f / (5 * mCount + 1));
+            mLockGestureViewWidth = (mWidth/mCount);
+            //计算每个LockGestureView的间距
+            mMarginBetweenLockView = 0;
+//            mMarginBetweenLockView = (int) (mLockGestureViewWidth * 0.25);
             mPaint.setStrokeWidth(mLockGestureViewWidth * 0.1f);
 
             for (int i = 0; i < mLockGestureViews.length; i++) {
@@ -156,6 +180,7 @@ public class LockGestureLayout extends RelativeLayout {
                 addView(mLockGestureViews[i], lockerParams);
             }
         }
+        setMeasuredDimension(mWidth, mHeight);
     }
 
     @Override
@@ -197,12 +222,12 @@ public class LockGestureLayout extends RelativeLayout {
                 // 将终点设置位置为起点，即取消指引线
                 mTmpTarget.x = mLastPathX;
                 mTmpTarget.y = mLastPathY;
-                if (isFirst){
+                if (isFirst) {
                     isFirst = false;
                     //TODO 保存密码
                     resetHander.removeMessages(RESET);
                     resetHander.sendEmptyMessageDelayed(RESET, 500);
-                }else {
+                } else {
                     if (checkPassword()) {
                         if (listenner != null) {
                             listenner.onSuccess();
@@ -292,7 +317,7 @@ public class LockGestureLayout extends RelativeLayout {
      */
     private boolean checkPassword() {
         //TODO
-        for (int key :mChoose) {
+        for (int key : mChoose) {
             WLog.d("LockGestureLayout", key);
         }
         return false;

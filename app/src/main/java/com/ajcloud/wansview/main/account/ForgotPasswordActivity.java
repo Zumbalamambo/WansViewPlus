@@ -8,11 +8,12 @@ import com.ajcloud.wansview.R;
 import com.ajcloud.wansview.main.application.BaseActivity;
 import com.ajcloud.wansview.support.customview.MyToolbar;
 import com.ajcloud.wansview.support.customview.materialEditText.MaterialEditText;
+import com.ajcloud.wansview.support.tools.RegularTool;
 
 public class ForgotPasswordActivity extends BaseActivity {
 
     private MaterialEditText userName, password;
-    private Button nextButton;
+    private Button resetButton;
 
     @Override
     protected int getLayoutId() {
@@ -26,12 +27,17 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        MyToolbar toolbar = getToolbar();
+        if (toolbar != null) {
+            toolbar.setTittle("Reset password");
+            toolbar.setLeftImg(R.mipmap.icon_back);
+        }
         userName = findViewById(R.id.editText_userName);
         password = findViewById(R.id.editText_password);
-        nextButton = findViewById(R.id.btn_next);
+        resetButton = findViewById(R.id.btn_reset);
 
-        userName.requestFocus();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+//        userName.requestFocus();
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     @Override
@@ -41,11 +47,7 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     @Override
     protected void initListener() {
-        MyToolbar toolbar = getToolbar();
-        if (toolbar != null) {
-            toolbar.setTittle("Reset password");
-            toolbar.setLeftImg(R.mipmap.icon_back);
-        }
+        resetButton.setOnClickListener(this);
     }
 
     @Override
@@ -54,6 +56,12 @@ public class ForgotPasswordActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.img_left:
                 finish();
+                break;
+            case R.id.btn_reset:
+                String mail = userName.getText().toString();
+                if (!RegularTool.isLegalEmailAddress(mail)) {
+                    userName.setError("Please enter the correct email");
+                }
                 break;
             default:
                 break;

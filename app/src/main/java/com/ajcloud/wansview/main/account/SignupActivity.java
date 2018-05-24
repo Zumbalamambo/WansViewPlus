@@ -42,8 +42,8 @@ public class SignupActivity extends BaseActivity {
         agreeCheckBox = findViewById(R.id.cb_agree);
         nextButton = findViewById(R.id.btn_next);
 
-        userName.requestFocus();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+//        userName.requestFocus();
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     @Override

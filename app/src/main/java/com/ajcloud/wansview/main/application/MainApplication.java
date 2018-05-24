@@ -11,6 +11,7 @@ import android.text.TextUtils;
 
 import com.ajcloud.wansview.BuildConfig;
 import com.ajcloud.wansview.entity.LocalInfo;
+import com.ajcloud.wansview.support.core.api.ApiConstant;
 import com.ajcloud.wansview.support.core.okhttp.OkGo;
 import com.ajcloud.wansview.support.core.okhttp.cache.CacheEntity;
 import com.ajcloud.wansview.support.core.okhttp.cache.CacheMode;
@@ -146,11 +147,18 @@ public class MainApplication extends Application {
                 SPUtil.getSPUtil(this, PreferenceKey.sp_name.account).put(PreferenceKey.sp_key.DEVICE_ID, localInfo.deviceId);
             }
             localInfo.deviceName = android.os.Build.MODEL;
-            localInfo.timeZone = TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT);
+            localInfo.timeZone = TimeZone.getDefault().getRawOffset();
             Locale locale = getResources().getConfiguration().locale;
             localInfo.appLang = locale.getLanguage();
         }
         return localInfo;
+    }
+
+    public void logout() {
+        SPUtil accountSP = SPUtil.getSPUtil(this, PreferenceKey.sp_name.account);
+        accountSP.put(PreferenceKey.sp_key.IS_LOGIN, false);
+        ApiConstant.setRefreshToken(this, "");
+        ApiConstant.setAccessToken(this, "");
     }
 
     public void pushActivity(Activity activity) {

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".main.device.addDevice.AddDeviceWifiSettingActivity">
+
+
+    <com.ajcloud.wansview.support.customview.materialEditText.MaterialEditText
+        android:id="@+id/et_wifi_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:hint="Network"
+        android:inputType="text"
+        android:maxLines="1"
+        android:textSize="18sp"
+        app:met_clearButton="true"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelTextColor="@color/colorPrimary"
+        app:met_primaryColor="@color/colorPrimary"
+        app:met_singleLineEllipsis="true"
+        app:met_textColor="@color/gray_first"
+        app:met_textColorHint="@color/gray_second" />
+
+    <com.ajcloud.wansview.support.customview.materialEditText.MaterialEditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_wifi_name"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="18dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:textSize="18sp"
+        app:met_clearButton="true"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelTextColor="@color/colorPrimary"
+        app:met_passwordEye="true"
+        app:met_primaryColor="@color/colorPrimary"
+        app:met_singleLineEllipsis="true"
+        app:met_textColor="@color/gray_first"
+        app:met_textColorHint="@color/gray_second" />
+
+    <TextView
+        android:id="@+id/tv_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_password"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:text="The 5G band and enterprise level Wi-Fi are not supported for the time being."
+        android:textColor="@color/gray_third"
+        android:textSize="@dimen/signIn_textSize_12" />
+
+    <Button
+        android:id="@+id/btn_join"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/signIn_btn_height"
+        android:layout_below="@id/tv_hint"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/shape_signin_button"
+        android:text="Join"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/signIn_textSize_18" />
+</RelativeLayout>

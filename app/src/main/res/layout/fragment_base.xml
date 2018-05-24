@@ -4,7 +4,6 @@
     android:id="@+id/ll_base_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical">
 
 
@@ -12,7 +11,7 @@
         android:id="@+id/base_fragment_tittle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         android:minHeight="@dimen/toolbar_height">
 
         <RelativeLayout
@@ -45,11 +44,11 @@
                 <TextView
                     android:id="@+id/left_text"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/toolbar_height"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/toolbar_second_text"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/signIn_textSize_18"
                     android:visibility="gone"
                     tools:text="左"
                     tools:visibility="visible" />
@@ -59,13 +58,13 @@
             <TextView
                 android:id="@+id/middle_text"
                 android:layout_width="175dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/toolbar_height"
                 android:layout_centerInParent="true"
                 android:ellipsize="end"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:singleLine="true"
-                android:textColor="@color/white"
-                android:textSize="@dimen/toolbar_text"
+                android:textColor="@color/black"
+                android:textSize="@dimen/signIn_textSize_18"
                 android:visibility="gone"
                 tools:text="标题"
                 tools:visibility="visible" />
@@ -103,9 +102,10 @@
                 <TextView
                     android:id="@+id/right_text"
                     android:layout_width="wrap_content"
-                    android:layout_height="48dp"
+                    android:layout_height="@dimen/toolbar_height"
                     android:gravity="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/signIn_textSize_18"
                     android:visibility="gone"
                     tools:text="右"
                     tools:visibility="visible" />
