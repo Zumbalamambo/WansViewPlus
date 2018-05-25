@@ -71,7 +71,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="@+id/textView3" />
 
-    <com.ajcloud.wansview.support.customview.materialEditText.MaterialEditText
+    <net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText
         android:id="@+id/editText_userName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
         app:met_textColor="@color/gray_first"
         app:met_textColorHint="@color/gray_second" />
 
-    <com.ajcloud.wansview.support.customview.materialEditText.MaterialEditText
+    <net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText
         android:id="@+id/editText_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

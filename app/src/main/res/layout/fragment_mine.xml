@@ -7,12 +7,12 @@
     android:background="@color/white"
     tools:context=".main.mine.MineFragment">
 
-    <com.ajcloud.wansview.support.customview.lockgesture.LockGestureLayout
+    <net.ajcloud.wansview.support.customview.lockgesture.LockGestureLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:mCount="3"></com.ajcloud.wansview.support.customview.lockgesture.LockGestureLayout>
+        app:mCount="3"></net.ajcloud.wansview.support.customview.lockgesture.LockGestureLayout>
 
-    <com.ajcloud.wansview.support.customview.ReplayTimeAxisView
+    <net.ajcloud.wansview.support.customview.ReplayTimeAxisView
         android:id="@+id/test"
         android:layout_width="match_parent"
         android:layout_height="80dp"

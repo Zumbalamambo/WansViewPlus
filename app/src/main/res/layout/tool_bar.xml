@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     app:elevation="0dp">
 
-    <com.ajcloud.wansview.support.customview.MyToolbar
+    <net.ajcloud.wansview.support.customview.MyToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -100,5 +100,5 @@
                 android:visibility="gone" />
 
         </RelativeLayout>
-    </com.ajcloud.wansview.support.customview.MyToolbar>
+    </net.ajcloud.wansview.support.customview.MyToolbar>
 </android.support.design.widget.AppBarLayout>
