@@ -8,10 +8,10 @@
 
     <ImageView
         android:id="@+id/iv_success"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="48dp"
         android:src="@mipmap/ic_launcher_round" />
 
     <net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText
@@ -21,7 +21,7 @@
         android:layout_below="@id/iv_success"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:hint="Name the camera"
         android:inputType="text"
         android:maxLines="1"
@@ -41,7 +41,7 @@
         android:layout_below="@id/et_name"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/shape_signin_button"
         android:text="OK"
         android:textAllCaps="false"

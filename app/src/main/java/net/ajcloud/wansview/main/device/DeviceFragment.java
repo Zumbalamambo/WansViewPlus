@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.device.addDevice.AddDeviceSelectActivity;
@@ -22,6 +23,7 @@ import net.ajcloud.wansview.main.device.addDevice.AddDeviceSelectActivity;
 public class DeviceFragment extends Fragment implements View.OnClickListener {
     private CollapsingToolbarLayout toolbarLayout;
     private Toolbar toolbar;
+    private ImageView addDeviceImageView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,12 +42,14 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
         toolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
         toolbarLayout.setCollapsedTitleGravity(Gravity.CENTER);
 
+        addDeviceImageView = view.findViewById(R.id.iv_add_device);
+        addDeviceImageView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.right_img:
+            case R.id.iv_add_device:
                 startActivity(new Intent(getContext(), AddDeviceSelectActivity.class));
                 break;
             default:

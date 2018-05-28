@@ -62,8 +62,6 @@ import java.lang.reflect.Field;
 public final class CaptureActivity extends Activity implements SurfaceHolder.Callback, ICaptureActivity {
 
     private static final String TAG = CaptureActivity.class.getSimpleName();
-    private static final String PERMISSION_CAMERA = Manifest.permission.CAMERA;
-    private static final int PERMISSION_CAMERA_REQUEST_CODE = 1;
 
     private CameraManager cameraManager;
     private CaptureActivityHandler handler;
@@ -98,56 +96,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         setContentView(R.layout.activity_capture);
 
         init();
-        checkPermission();
-    }
-
-    private void checkPermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                PERMISSION_CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, PERMISSION_CAMERA)) {
-
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{PERMISSION_CAMERA},
-                        PERMISSION_CAMERA_REQUEST_CODE);
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{PERMISSION_CAMERA},
-                        PERMISSION_CAMERA_REQUEST_CODE);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        } else {
-            hasCameraPermission = true;
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == PERMISSION_CAMERA_REQUEST_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                hasCameraPermission = true;
-//                startWork();
-            } else {
-                // Permission Denied
-                Toast.makeText(this, R.string.Permission_Denied, Toast.LENGTH_SHORT).show();
-                finish();
-            }
-            return;
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        hasCameraPermission = true;
     }
 
     private void init() {

@@ -7,10 +7,10 @@
 
     <ImageView
         android:id="@+id/iv_wait"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="48dp"
         android:src="@mipmap/ic_launcher_round" />
 
     <TextView
@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:gravity="center"
         android:text="Please wait 1-2 minutes"
         android:textColor="@color/gray_first"
@@ -35,7 +35,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="12dp"
         android:gravity="center"
         android:text="After connection,you will be able to view the camera with your phone."
         android:textColor="@color/gray_second"

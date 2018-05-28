@@ -28,7 +28,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="2">
 
             <TextView
@@ -56,7 +59,8 @@
                 android:layout_width="@dimen/device_btn_width"
                 android:layout_height="@dimen/device_btn_height"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
+                android:layout_below="@id/tv_wifi"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/shape_signin_button"
                 android:text="Select"
                 android:textAllCaps="false"
@@ -87,7 +91,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="2">
 
             <TextView
@@ -115,7 +122,8 @@
                 android:layout_width="@dimen/device_btn_width"
                 android:layout_height="@dimen/device_btn_height"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
+                android:layout_below="@id/tv_cable"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/shape_signin_button"
                 android:text="Select"
                 android:textAllCaps="false"
@@ -126,5 +134,5 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="50dp" />
 </LinearLayout>

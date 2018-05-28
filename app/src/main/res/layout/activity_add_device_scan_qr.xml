@@ -7,10 +7,10 @@
 
     <ImageView
         android:id="@+id/iv_qr_code"
-        android:layout_width="260dp"
-        android:layout_height="260dp"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:src="@color/gray_first" />
 
     <TextView
@@ -20,7 +20,7 @@
         android:layout_below="@id/iv_qr_code"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:gravity="center"
         android:text="Place the QR code 10 to 20 centimeters in front of the camera."
         android:textColor="@color/gray_first"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_hint"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:src="@mipmap/ic_launcher_round" />
 
     <Button
@@ -42,7 +42,7 @@
         android:layout_below="@id/iv_hint"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/shape_signin_button"
         android:text="Voice prompt has been heard"
         android:textAllCaps="false"
@@ -57,7 +57,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:padding="5dp"
         android:text="Try Sound configuration"
         android:textColor="@color/colorPrimary"
