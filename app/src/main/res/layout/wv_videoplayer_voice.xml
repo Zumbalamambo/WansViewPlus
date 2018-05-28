@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#77000000" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0.0dip"
+            android:layout_weight="1.0"
+            android:gravity="center">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/voice_rcd_hint_anim_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/voice_rcd_hint_bg"
+                    android:gravity="center_horizontal"
+                    android:minWidth="160.0dip"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/imageView1"
+                            android:layout_width="80.0dip"
+                            android:layout_height="120.0dip"
+                            android:src="@mipmap/voice_rcd_hint" />
+
+                        <ImageView
+                            android:id="@+id/voice_rcd_hint_anim"
+                            android:layout_width="80.0dip"
+                            android:layout_height="120.0dip"
+                            android:src="@drawable/videoplayer_sound_level" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="160.0dip"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:minHeight="40.0dip"
+                        android:text="@string/wv_chatfooter_cancel_rcd"
+                        android:textColor="@color/white"
+                        android:textSize="15.0dip" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/voice_rcd_hint_cancel_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/voice_rcd_hint_bg"
+                    android:gravity="center_horizontal"
+                    android:minWidth="160.0dip"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/voice_rcd_hint_cancel_icon"
+                        android:layout_width="160.0dip"
+                        android:layout_height="120.0dip"
+                        android:src="@mipmap/rcd_cancel_icon" />
+
+                    <TextView
+                        android:layout_width="160.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/voice_rcd_hint_cancel_icon"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/rcd_cancel_bg"
+                        android:gravity="center"
+                        android:minHeight="40.0dip"
+                        android:text="@string/wv_favorite_release_cancel"
+                        android:textColor="@color/white"
+                        android:textSize="15.0dip" />
+                </RelativeLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/voice_rcd_hint_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="160.0dip"
+                    android:layout_height="120.0dip"
+                    android:src="@mipmap/voice_to_short" />
+
+                <TextView
+                    android:layout_width="160.0dip"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:minHeight="40.0dip"
+                    android:text="@string/wv_chatfooter_too_short"
+                    android:textColor="@color/white"
+                    android:textSize="15.0dip" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

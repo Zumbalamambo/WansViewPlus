@@ -97,7 +97,7 @@ public class UserApiUnit {
                     @Override
                     public void onError(Response<ResponseBean<ChallengeBean>> response) {
                         super.onError(response);
-                        listener.onFail(-1, context.getString(net.ajcloud.wansview.R.string.Service_Error));
+                        listener.onFail(-1, context.getString(R.string.Service_Error));
                     }
                 });
     }
@@ -141,7 +141,7 @@ public class UserApiUnit {
                             @Override
                             public void onError(Response<ResponseBean<Object>> response) {
                                 super.onError(response);
-                                listener.onFail(-1, context.getString(net.ajcloud.wansview.R.string.Service_Error));
+                                listener.onFail(-1, context.getString(R.string.Service_Error));
                             }
                         });
             }
@@ -199,7 +199,7 @@ public class UserApiUnit {
                             @Override
                             public void onError(Response<ResponseBean<SigninBean>> response) {
                                 super.onError(response);
-                                listener.onFail(-1, context.getString(net.ajcloud.wansview.R.string.Service_Error));
+                                listener.onFail(-1, context.getString(R.string.Service_Error));
                             }
                         });
             }
@@ -255,7 +255,7 @@ public class UserApiUnit {
                             @Override
                             public void onError(Response<ResponseBean<SigninBean>> response) {
                                 super.onError(response);
-                                listener.onFail(-1, context.getString(net.ajcloud.wansview.R.string.Service_Error));
+                                listener.onFail(-1, context.getString(R.string.Service_Error));
                             }
                         });
             }
@@ -297,7 +297,7 @@ public class UserApiUnit {
                     @Override
                     public void onError(Response<ResponseBean<Object>> response) {
                         super.onError(response);
-                        listener.onFail(-1, context.getString(net.ajcloud.wansview.R.string.Service_Error));
+                        listener.onFail(-1, context.getString(R.string.Service_Error));
                     }
                 });
     }

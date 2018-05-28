@@ -2,6 +2,7 @@ package net.ajcloud.wansview.support.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -23,6 +24,29 @@ public class SizeUtil {
 		manager.getDefaultDisplay().getMetrics(dm);
 		return dm;
 	}
+
+	/**
+	 * @param context used to get system services
+	 * @return screenWidth in pixels
+	 */
+	public static int getScreenWidth(Context context) {
+		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		Point size = new Point();
+		wm.getDefaultDisplay().getSize(size);
+		return size.x;
+	}
+
+	/**
+	 * @param context used to get system services
+	 * @return screenHeigth in pixels
+	 */
+	public static int getScreenHeigth(Context context) {
+		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		Point size = new Point();
+		wm.getDefaultDisplay().getSize(size);
+		return size.y;
+	}
+
 
 	/**
 	 * 获取状态栏高度

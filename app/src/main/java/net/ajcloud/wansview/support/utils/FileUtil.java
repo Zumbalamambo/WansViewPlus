@@ -1,5 +1,6 @@
 package net.ajcloud.wansview.support.utils;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Environment;
 
@@ -743,6 +744,32 @@ public class FileUtil {
             zfile.close();
         }
         return 0;
+    }
+
+    /***
+     * 获取默认数据
+     * */
+    public static String readRawFile(int rawFile) {
+        String content = "{}";
+        Resources resources = MainApplication.getApplication().getResources();
+        InputStream is = null;
+        try {
+            is = resources.openRawResource(rawFile);
+            byte buffer[] = new byte[is.available()];
+            is.read(buffer);
+            content = new String(buffer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return content;
     }
 
 }

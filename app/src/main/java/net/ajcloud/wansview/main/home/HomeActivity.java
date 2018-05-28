@@ -4,22 +4,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
+import android.widget.FrameLayout;
+
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.application.BaseActivity;
 import net.ajcloud.wansview.main.device.DeviceFragment;
 import net.ajcloud.wansview.main.message.MessageFragment;
 import net.ajcloud.wansview.main.mine.MineFragment;
-import net.ajcloud.wansview.support.utils.ToastUtil;
-import com.ashokvarma.bottomnavigation.BottomNavigationBar;
-import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.google.firebase.analytics.FirebaseAnalytics;
-
-import net.ajcloud.wansview.main.application.BaseActivity;
-import net.ajcloud.wansview.main.device.DeviceFragment;
-import net.ajcloud.wansview.main.message.MessageFragment;
-import net.ajcloud.wansview.main.mine.MineFragment;
+import net.ajcloud.wansview.support.tools.WLog;
 import net.ajcloud.wansview.support.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -33,6 +29,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     private MessageFragment messageFragment;
     private MineFragment mineFragment;
     private ArrayList<Fragment> fragments;
+    private FrameLayout content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +39,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     protected int getLayoutId() {
-        return net.ajcloud.wansview.R.layout.activity_home;
+        return R.layout.activity_home;
     }
 
     @Override
@@ -52,20 +49,21 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     protected void initView() {
+        content = findViewById(R.id.content);
         deviceFragment = new DeviceFragment();
         messageFragment = new MessageFragment();
         mineFragment = new MineFragment();
         fragments = getFragments();
         fragmentManager = getSupportFragmentManager();
-        bottomNavigationBar = findViewById(net.ajcloud.wansview.R.id.bottom_navigation_bar);
+        bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         int currentSelectedPosition = bottomNavigationBar.getCurrentSelectedPosition();
         bottomNavigationBar.clearAll();
-        bottomNavigationBar.addItem(new BottomNavigationItem(net.ajcloud.wansview.R.drawable.ic_music, getString(net.ajcloud.wansview.R.string.home)).setInactiveIconResource(net.ajcloud.wansview.R.drawable.ic_music))
-                .addItem(new BottomNavigationItem(net.ajcloud.wansview.R.drawable.ic_music, getString(net.ajcloud.wansview.R.string.message)).setInactiveIconResource(net.ajcloud.wansview.R.drawable.ic_music))
-                .addItem(new BottomNavigationItem(net.ajcloud.wansview.R.drawable.ic_music, getString(net.ajcloud.wansview.R.string.mine)).setInactiveIconResource(net.ajcloud.wansview.R.drawable.ic_music))
-                .setActiveColor(net.ajcloud.wansview.R.color.colorPrimary)
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.ic_music, getString(R.string.home)).setInactiveIconResource(R.drawable.ic_music))
+                .addItem(new BottomNavigationItem(R.drawable.ic_music, getString(R.string.message)).setInactiveIconResource(R.drawable.ic_music))
+                .addItem(new BottomNavigationItem(R.drawable.ic_music, getString(R.string.mine)).setInactiveIconResource(R.drawable.ic_music))
+                .setActiveColor(R.color.colorPrimary)
                 .setFirstSelectedPosition(0)
                 .initialise();
         if (currentSelectedPosition > 0) {
@@ -82,19 +80,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     @Override
     protected void initListener() {
         bottomNavigationBar.setTabSelectedListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()) {
-            case net.ajcloud.wansview.R.id.img_left:
-                break;
-            case net.ajcloud.wansview.R.id.img_right:
-                break;
-            default:
-                break;
-        }
     }
 
     private int saveLastPosition = -1;
@@ -114,7 +99,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
                     } else if (fragment == mineFragment) {
                         tag = "mine";
                     }
-                    ft.add(net.ajcloud.wansview.R.id.content, fragment, tag);
+                    ft.add(R.id.content, fragment, tag);
                 }
                 if (saveLastPosition != -1 && saveLastPosition != position) {
                     ft.hide(fragments.get(saveLastPosition));
@@ -140,8 +125,8 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
      */
     private void setDefaultFragment() {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(net.ajcloud.wansview.R.id.content, deviceFragment, "home");
-        transaction.commit();
+        transaction.add(R.id.content, deviceFragment, "home");
+        transaction.commitAllowingStateLoss();
     }
 
     private ArrayList<Fragment> getFragments() {
@@ -161,7 +146,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
         long currentTime = System.currentTimeMillis();
         if (currentTime - saveLastBackPressTime > BackPressTimeGap) {
             saveLastBackPressTime = currentTime;
-            ToastUtil.show(net.ajcloud.wansview.R.string.exit_twotwice);
+            ToastUtil.show(R.string.exit_twotwice);
             return;
         }
         this.moveTaskToBack(true);

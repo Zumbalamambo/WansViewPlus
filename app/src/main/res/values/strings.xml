@@ -4,6 +4,12 @@
     <string name="message">message</string>
     <string name="mine">mine</string>
 
+    <string name="cancel">取消</string>
+    <string name="select_all">全选</string>
+    <string name="add">添加</string>
+    <string name="today">今天</string>
+    <string name="retry">重试</string>
+
     <!--FCM notification channel id-->
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <!-- http -->
@@ -17,4 +23,83 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="exit_twotwice">Once again, exit the program</string>
+
+    <string name="chroma_format_default" translatable="false">RV16</string>
+
+    <string name="wv_view_refeshing">刷新</string>
+    <string name="wv_chatfooter_cancel_rcd">手指上滑，取消发送</string>
+    <string name="wv_favorite_release_cancel">松开手指，取消录音</string>
+    <string name="wv_chatfooter_too_short">录音时间太短</string>
+    <string name="wv_open_motion_tracking">开启移动追踪</string>
+    <string name="wv_view_not_define">视角未定义</string>
+    <string name="wv_stop_auto_trace">自动追踪将停止。</string>
+    <string name="wv_no_angles">视角位置还是空的，返回云台点击</string>
+    <string name="wv_not_select_angles">请选择要删除的视角.</string>
+    <string name="wv_device_offline">设备不在线，无法操作</string>
+    <string name="wv_no_content">今天什么都没有留下</string>
+    <string name="wv_camera_upgrade_success">固件升级成功</string>
+    <string name="wv_camera_upgrade_failture">固件升级失败,请检查摄像机网络或重启摄像机</string>
+    <string name="wv_get_latest_realtime_image">正在获取最新动态...</string>
+    <string name="wv_get_network_fail_please_check">网络不佳，刷新失败，请检查网络</string>
+    <string name="wv_current_network_not_well">当前网络不佳，请稍候重试</string>
+    <string name="wv_camera_angle_tip">当前视角保存成功</string>
+    <string name="wv_main_sleep_mode_toast_tip">摄像机处于休眠状态,开启后才能正常使用</string>
+    <string name="wv_playing_video_not_use">直播中，请观看直播视频内容获取最新动态</string>
+    <string name="wv_get_verify_quick_error">当前操作太过频繁，请稍后再试</string>
+    <string name="wv_video_hasnot_play">请先播放视频</string>
+    <string name="wv_video_snapshot_fail">截图失败，请重试</string>
+    <string name="wv_have_save_to_photo">已保存到相册</string>
+    <string name="wv_error_network_please_record_again">网络中断，请重新录制</string>
+    <string name="wv_video_already_recording">该视频已在录制中</string>
+    <string name="wv_video_cannot_record">该视频不可录制</string>
+    <string name="wv_opening_video_and_wait_to_change">正在打开视频…</string>
+
+    <string name="wv_videoplayer_menu_quality_low">流畅</string>
+    <string name="wv_videoplayer_menu_quality_normal">标清</string>
+    <string name="wv_videoplayer_menu_quality_high">高清</string>
+    <string name="wv_videoplayer_menu_quality_best">超清</string>
+    <string name="wv_angle_view_full">视角已达到设置上限</string>
+    <string name="wv_trying_hard_to_play_and_wait">努力加载中…</string>
+    <string name="wv_device_updating_not_operate">设备正在升级，无法操作</string>
+    <string name="wv_goto_net_check">去进行网络诊断</string>
+    <string name="wv_getting_pic_waitting">正在获取图片，请稍候</string>
+    <string name="wv_cannot_play_video">视频无法播放，请重试</string>
+    <string name="wv_lan">Lan</string>
+    <string name="wv_upnp">Upnp</string>
+    <string name="wv_share">分享</string>
+    <string name="wv_proxy">Proxy</string>
+    <string name="wv_p2px">P2PX</string>
+    <string name="wv_rtmp_relay">RTMP</string>
+    <string name="wv_trying_hard_to_ply">努力播放中</string>
+    <string name="wv_opening_video">建立连接中</string>
+    <string name="wv_buffering_video">正在缓冲</string>
+    <string name="wv_playing_video">正在播放</string>
+    <string name="wv_video_paused">暂停了</string>
+    <string name="wv_video_stoped">停止了</string>
+    <string name="wv_video_ended">结束了</string>
+    <string name="wv_video_error">出错了</string>
+    <string name="wv_loading_and_wait">加载中，请稍候…</string>
+    <string name="wv_videoplayer_network_buffer_tips">当前网络状况不佳</string>
+    <string name="wv_playing_video_and_wait">正在播放视频，请稍等…</string>
+    <string name="wv_videoplayer_network_open_tips">当前网络状况不佳</string>
+    <string name="wv_opening_video_and_wait">正在打开视频…</string>
+    <string name="wv_error_network">网络不可用，请检查网络连接状态。</string>
+    <string name="wv_video_net_week">视频播放差，建议进行网络诊断</string>
+    <string name="wv_right_on">立即开启</string>
+    <string name="wv_device_sleep">摄像机正在休眠</string>
+    <string name="wv_go_help_center">去帮助中心看看~</string>
+    <string name="wv_device_not_online">设备不在线</string>
+    <string name="wv_camera_ptz">云台</string>
+    <string name="wv_camera_dynamic">动态</string>
+    <string name="wv_camera_angle">视角</string>
+    <string name="wv_my_photo">相册</string>
+    <string name="wv_high_middle_quality">高清</string>
+    <string name="wv_move_trace_on">移动追踪已开启</string>
+    <string name="wv_videoplayer_not_wifi_info">正在使用2G/3G/4G网络，播放已暂停</string>
+    <string name="wv_consume_data">正在使用2G/3G/4G流量，可能会产生流量费用</string>
+    <string name="wv_camera_upgrading">正在升级中,请稍后...</string>
+    <string name="wv_camera_cruise">摄像机巡航</string>
+    <string name="wv_cruise_vertical">上下巡航</string>
+    <string name="wv_cruise_horizontal">左右巡航</string>
+    <string name="wv_camera_stop_cruise">停止巡航</string>
 </resources>

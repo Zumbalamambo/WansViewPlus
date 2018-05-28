@@ -1,14 +1,18 @@
 package net.ajcloud.wansview.main.mine;
 
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.util.Pair;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import net.ajcloud.wansview.R;
-import net.ajcloud.wansview.main.application.BaseFragment;
-import net.ajcloud.wansview.support.customview.ReplayTimeAxisView;
-import net.ajcloud.wansview.support.tools.WLog;
-
-import net.ajcloud.wansview.main.application.BaseFragment;
 import net.ajcloud.wansview.support.customview.ReplayTimeAxisView;
 import net.ajcloud.wansview.support.tools.WLog;
 
@@ -21,26 +25,30 @@ import java.util.List;
  * Created by mamengchao on 2018/05/15.
  * 我的
  */
-public class MineFragment extends BaseFragment {
+public class MineFragment extends Fragment {
+
+    private CollapsingToolbarLayout toolbarLayout;
+    private Toolbar toolbar;
 
     @Override
-    protected int layoutResID() {
-        return net.ajcloud.wansview.R.layout.fragment_mine;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_mine, null);
     }
 
     @Override
-    protected boolean hasTittle() {
-        return false;
-    }
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        toolbar = view.findViewById(R.id.toolbar);
+        toolbarLayout = view.findViewById(R.id.toolbar_layout);
+        toolbar.setOverflowIcon(null);
+        toolbarLayout.setTitle("Me");
+        toolbarLayout.setExpandedTitleColor(Color.BLACK);
+        toolbarLayout.setExpandedTitleGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+        toolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
+        toolbarLayout.setCollapsedTitleGravity(Gravity.CENTER);
 
-    @Override
-    protected void initTittle() {
 
-    }
-
-    @Override
-    protected void initView(View rootView) {
-        final ReplayTimeAxisView test = rootView.findViewById(net.ajcloud.wansview.R.id.test);
+        final ReplayTimeAxisView test = view.findViewById(net.ajcloud.wansview.R.id.test);
         test.setOnSlideListener(new ReplayTimeAxisView.OnSlideListener() {
             @Override
             public void onSlide(long timeStamp) {
@@ -69,7 +77,7 @@ public class MineFragment extends BaseFragment {
         test.setRecordList(list);
 
 
-        rootView.findViewById(net.ajcloud.wansview.R.id.button2).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(net.ajcloud.wansview.R.id.button2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (test.getCurrentMode() == ReplayTimeAxisView.Mode.DownLoad) {
@@ -81,8 +89,4 @@ public class MineFragment extends BaseFragment {
         });
     }
 
-    @Override
-    protected void initData() {
-
-    }
 }

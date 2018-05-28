@@ -23,7 +23,7 @@ android {
             // 显示Log
             buildConfigField "boolean", "LOG_DEBUG", "true"
             buildConfigField "boolean", "LOG_OKGO", "true"
-            buildConfigField "String", "BASE_URL", "\"xxxxxxx\""
+            buildConfigField "String", "BASE_URL", "\"https://uac.ajyun.com.cn\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -75,6 +75,7 @@ dependencies {
     implementation files('libs/jnacl.jar')
     implementation files('libs/zxing-3.2.1.jar')
     implementation 'com.google.firebase:firebase-crash:11.8.0'
+    implementation files('libs/glide-3.7.0.jar')
 }
 
 apply plugin: 'com.google.gms.google-services'

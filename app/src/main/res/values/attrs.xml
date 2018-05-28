@@ -27,6 +27,21 @@
         <attr name="selectedRectColor" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="ScaleFrameLayout">
+        <!--缩放效果开关-->
+        <attr name="scaleable" format="boolean" />
+        <!--最小缩放比-->
+        <attr name="minScale" format="float" />
+        <!--最大缩放比-->
+        <attr name="maxScale" format="float" />
+        <!--拖拽效果开关-->
+        <attr name="dragable" format="boolean" />
+        <!--拖拽滑动效果开关-->
+        <attr name="dragSlideable" format="boolean" />
+        <!--子控件在拖拽动作松手后，继续滑动的水平距离-->
+        <attr name="dragSlideRangeX" format="integer"/>
+    </declare-styleable>
+
     <!--MaterialEditText-->
     <declare-styleable name="MaterialEditText">
         <!-- The base color of the line and the texts. Default is black. -->
@@ -98,5 +113,30 @@
         <!-- Whether check the characters count at the beginning it's shown. True by default. -->
         <attr name="met_checkCharactersCountAtBeginning" format="boolean" />
 
+    </declare-styleable>
+
+    <!-- Individual drawer attributes -->
+    <declare-styleable name="Drawer">
+        <!-- Orientation of drawer -->
+        <attr name="type">
+            <enum name="left" value="1" />
+            <enum name="right" value="2" />
+            <enum name="top" value="3" />
+            <enum name="bottom" value="4" />
+        </attr>
+        <!--Drawer shadow drawable -->
+        <attr name="shadow" format="reference"/>
+        <!-- handle view id -->
+        <attr name="handleId" format="reference"/>
+        <!-- Content view id -->
+        <attr name="contentId" format="reference"/>
+        <!-- Detect edge drags -->
+        <attr name="edgeDraggable" format="boolean"/>
+    </declare-styleable>
+
+    <!-- Drawer layout attributes -->
+    <declare-styleable name="DrawerLayout">
+        <!--Color to shade the background when drawers are open -->
+        <attr name="scrim_color" format="color"/>
     </declare-styleable>
 </resources>

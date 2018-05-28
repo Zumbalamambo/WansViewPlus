@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingBottom="10dp">
+
+    <ImageView
+        android:id="@+id/iv_device_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:scaleType="center"
+        android:src="@mipmap/ic_launcher_round" />
+
+    <TextView
+        android:id="@+id/tv_device_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iv_device_icon"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@id/iv_device_icon"
+        android:textColor="@color/gray_first"
+        android:textSize="@dimen/signIn_textSize_20"
+        tools:text="Wansview K3" />
+
+    <TextView
+        android:id="@+id/tv_device_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/tv_device_name"
+        android:layout_below="@id/tv_device_name"
+        android:layout_marginEnd="10dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/gray_second"
+        android:textSize="@dimen/signIn_textSize_14"
+        tools:text="ID:12832473847874707700 8707" />
+
+    <Button
+        android:id="@+id/btn_select"
+        android:layout_width="@dimen/discovery_device_btn_width"
+        android:layout_height="@dimen/discovery_device_btn_height"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/tv_device_id"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_signin_button"
+        android:text="Select"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/signIn_textSize_16" />
+</RelativeLayout>

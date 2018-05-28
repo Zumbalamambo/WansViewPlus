@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/quality_FD"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:text="@string/wv_videoplayer_menu_quality_best"
+            android:textColor="@color/white"
+            android:textSize="@dimen/wv_base_sizeText_3"></TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/quality_HD"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:text="@string/wv_videoplayer_menu_quality_high"
+            android:textColor="@color/white"
+            android:textSize="@dimen/wv_base_sizeText_3"></TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/quality_SD"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:text="@string/wv_videoplayer_menu_quality_normal"
+            android:textColor="@color/white"
+            android:textSize="@dimen/wv_base_sizeText_3"></TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/quality_Low"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:text="@string/wv_videoplayer_menu_quality_low"
+            android:textColor="@color/white"
+            android:textSize="@dimen/wv_base_sizeText_3"></TextView>
+    </LinearLayout>
+
+</LinearLayout>

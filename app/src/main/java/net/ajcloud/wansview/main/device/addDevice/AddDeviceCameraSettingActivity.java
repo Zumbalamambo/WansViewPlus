@@ -31,7 +31,7 @@ public class AddDeviceCameraSettingActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return net.ajcloud.wansview.R.layout.activity_add_device_camera_setting;
+        return R.layout.activity_add_device_camera_setting;
     }
 
     @Override
@@ -58,6 +58,12 @@ public class AddDeviceCameraSettingActivity extends BaseActivity {
     protected void initListener() {
         flashButton.setOnClickListener(this);
         noFlashTextView.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        notFlashDialog = null;
     }
 
     @Override

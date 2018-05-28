@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/dismiss_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/pack_up" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/wv_line_divider_normal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/wv_open_motion_tracking"
+            android:textColor="@color/wv_second_bg" />
+
+        <ToggleButton
+            android:id="@+id/mobile_tracker"
+            style="@style/toggleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/mv_line_divider_normal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/wv_camera_cruise"
+            android:textColor="@color/mv_second_bg" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_divider_normal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/up_down_navigation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="20dp"
+            android:drawableTop="@drawable/up_down_navigation_state"
+            android:gravity="center"
+            android:text="@string/wv_cruise_vertical"
+            android:textColor="@color/tab_select_state" />
+
+        <TextView
+            android:id="@+id/left_right_navigation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="20dp"
+            android:drawableTop="@drawable/left_right_navigation_state"
+            android:gravity="center"
+            android:text="@string/wv_cruise_horizontal"
+            android:textColor="@color/tab_select_state" />
+
+        <TextView
+            android:id="@+id/stop_navigation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="20dp"
+            android:drawableTop="@drawable/stop_navigation_state"
+            android:gravity="center"
+            android:text="@string/wv_camera_stop_cruise"
+            android:textColor="@color/tab_select_state" />
+    </LinearLayout>
+
+</LinearLayout>

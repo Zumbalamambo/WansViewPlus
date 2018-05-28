@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ztesoft.homecare.Directionkey.CloudDirectionLayout
+        android:id="@+id/ptz_direction_control"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_vertical">
+
+        <com.ztesoft.homecare.Directionkey.CirlView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+    </com.ztesoft.homecare.Directionkey.CloudDirectionLayout>
+
+    <ImageView
+        android:id="@+id/add_angle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/add_angle_state" />
+
+    <ImageView
+        android:id="@+id/navigation"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/add_angle"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/navigation_state" />
+
+</RelativeLayout>

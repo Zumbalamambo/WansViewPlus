@@ -9,16 +9,17 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="customProgressDialog" parent="@android:style/Theme.Dialog">
+    <!-- 设备主界面主题 theme. -->
+    <style name="HomeDeviceTheme" parent="AppTheme">
         <item name="android:windowIsTranslucent">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">#000000</item>
     </style>
 
     <style name="FullscreenTheme" parent="@style/Theme.AppCompat.Light">
@@ -43,9 +44,58 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="customProgressDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+
     <style name="BottomInOutAnim">
         <item name="android:windowEnterAnimation">@anim/pop_in</item>
         <item name="android:windowExitAnimation">@anim/pop_out</item>
+    </style>
+
+    <style name="Wans_view_Progress_circle">
+        <item name="android:indeterminateDrawable">@drawable/ws_view_reflash</item>
+        <item name="android:minWidth">25dp</item>
+        <item name="android:minHeight">25dp</item>
+        <item name="android:maxWidth">60dp</item>
+        <item name="android:maxHeight">60dp</item>
+    </style>
+
+
+    <style name="toggleBtn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@drawable/switch_base_togglebutton</item>
+        <item name="android:checked">false</item>
+        <item name="android:text"></item>
+        <item name="android:textOff"></item>
+        <item name="android:textOn"></item>
+        <item name="android:minWidth">40dp</item>
+        <item name="android:minHeight">24dp</item>
+    </style>
+
+
+    <style name="AlertDialogCustom" parent="@android:style/Theme.DeviceDefault.Light">
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <color name="style_actionbar_actionbar_background_color">#00aaee</color>
+
+    <style name="Main_Progress_circle">
+        <item name="android:indeterminateDrawable">@drawable/main_reflash</item>
+        <item name="android:minWidth">25dp</item>
+        <item name="android:minHeight">25dp</item>
+        <item name="android:maxWidth">60dp</item>
+        <item name="android:maxHeight">60dp</item>
     </style>
 
 </resources>

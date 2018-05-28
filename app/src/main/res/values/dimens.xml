@@ -25,4 +25,21 @@
     <dimen name="add_device_margin">50dp</dimen>
     <dimen name="device_btn_width">150dp</dimen>
     <dimen name="device_btn_height">48dp</dimen>
+    <dimen name="discovery_device_btn_width">120dp</dimen>
+    <dimen name="discovery_device_btn_height">48dp</dimen>
+
+
+    <!-- Minimum fling velocity for drawers (dp/second)-->
+    <integer name="drawer_min_fling_velocity">200</integer>
+
+    <!--导航、按钮-->
+    <dimen name="wv_base_sizeText_1">18dp</dimen>
+    <!--侧滑栏标题-->
+    <dimen name="wv_base_sizeText_2">16dp</dimen>
+    <!--正文\输入框-->
+    <dimen name="wv_base_sizeText_3">14dp</dimen>
+    <!--辅助说明-->
+    <dimen name="wv_base_sizeText_4">12dp</dimen>
+    <!--提示文字-->
+    <dimen name="wv_base_sizeText_5">10dp</dimen>
 </resources>

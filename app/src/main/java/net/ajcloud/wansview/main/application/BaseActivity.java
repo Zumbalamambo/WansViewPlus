@@ -15,12 +15,6 @@ import android.widget.FrameLayout;
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.support.customview.MyToolbar;
 import net.ajcloud.wansview.support.tools.TimeLock;
-import net.ajcloud.wansview.support.tools.WLog;
-import net.ajcloud.wansview.support.utils.DisplayUtil;
-
-import net.ajcloud.wansview.support.customview.MyToolbar;
-import net.ajcloud.wansview.support.tools.TimeLock;
-import net.ajcloud.wansview.support.tools.WLog;
 import net.ajcloud.wansview.support.utils.DisplayUtil;
 
 import java.lang.reflect.Field;
@@ -44,12 +38,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         application.pushActivity(this);
-        WLog.d(TAG, "-----step1------");
         initRootView();
-        WLog.d(TAG, "-----step2------");
         setContentView();
-        WLog.d(TAG, "-----step3------");
-
         if (null != toolbar) {
             toolbar.registerClickListener(this);
         }
@@ -101,20 +91,24 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         }
         //添加toolbar
         if (hasTittle()) {
-            toolbarView = LayoutInflater.from(this).inflate(net.ajcloud.wansview.R.layout.tool_bar, null);
+            toolbarView = LayoutInflater.from(this).inflate(R.layout.tool_bar, null);
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, DisplayUtil.dip2Pix(this, 48));
             params.topMargin = statusBarHeight;
             rootView.addView(toolbarView, params);
-            toolbar = toolbarView.findViewById(net.ajcloud.wansview.R.id.toolbar);
+            toolbar = toolbarView.findViewById(R.id.toolbar);
         }
         //添加contentView
         contentView = LayoutInflater.from(this).inflate(getLayoutId(), null);
+        contentView.setBackgroundColor(Color.WHITE);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         if (hasTittle()) {
-            params.topMargin = statusBarHeight + DisplayUtil.dip2Pix(this, 48);
-        } else {
-            params.topMargin = 0;
+            params.topMargin = DisplayUtil.dip2Pix(this, 48);
         }
+
+        if (hasStateBar()) {
+            params.topMargin += statusBarHeight;
+        }
+
         rootView.addView(contentView, 0, params);
 
         setContentView(rootView);
@@ -130,6 +124,10 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     protected abstract void initListener();
 
+    protected boolean hasStateBar() {
+        return true;
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -142,7 +140,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             return;
         }
         timeLock.lock();
-        if (v.getId() == net.ajcloud.wansview.R.id.btn_left || v.getId() == net.ajcloud.wansview.R.id.img_left) {
+        if (v.getId() == R.id.btn_left || v.getId() == R.id.img_left) {
             finish();
         }
         onClickView(v);

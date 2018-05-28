@@ -1,0 +1,646 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cameraView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#2b2b2b"
+        android:orientation="vertical">
+
+        <net.ajcloud.wansview.support.customview.MyStateBar
+            android:id="@+id/status_bar"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/grident_toolbar" />
+
+        <net.ajcloud.wansview.support.customview.camera.VideoPlayArea4To3
+            android:id="@+id/Video_Area_FrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black">
+
+            <FrameLayout
+                android:id="@+id/content_part"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@color/black"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <net.ajcloud.wansview.support.customview.camera.ScaleFrameLayout
+                    android:id="@+id/player_surface_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:foregroundGravity="clip_horizontal|clip_vertical">
+
+                    <SurfaceView
+                        android:id="@+id/player_surface"
+                        android:layout_width="1dp"
+                        android:layout_height="1dp" />
+
+                    <LinearLayout
+                        android:id="@+id/full_screen_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/fullscreen_play"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center"
+                            android:layout_margin="10dp"
+                            android:src="@mipmap/play_h"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/fullscreen_stop"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center"
+                            android:layout_margin="10dp"
+                            android:src="@mipmap/pause_h"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/fullscreen_recordvideo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center"
+                            android:layout_margin="10dp"
+                            android:src="@mipmap/video_h"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/fullscreen_snapshot"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/fullscreen_snapshot_state"
+                            android:visibility="visible" />
+
+                        <FrameLayout
+                            android:id="@+id/fullscreen_quality_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|center"
+                                android:layout_margin="10dp"
+                                android:src="@mipmap/gq"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/fullscreen_quality"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="10dp"
+                                android:text="@string/wv_high_middle_quality"
+                                android:textColor="@color/white"
+                                android:visibility="visible" />
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                </net.ajcloud.wansview.support.customview.camera.ScaleFrameLayout>
+
+                <net.ajcloud.wansview.support.customview.camera.CloudDirectionLayout
+                    android:id="@+id/cloud_directionview"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center_vertical"
+                    android:visibility="gone">
+
+                    <net.ajcloud.wansview.support.customview.camera.CirlView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center" />
+                </net.ajcloud.wansview.support.customview.camera.CloudDirectionLayout>
+
+                <LinearLayout
+                    android:id="@+id/in_move_trace_LinearLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="45dp"
+                    android:background="@drawable/shape_baclground"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/move_trace_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/in_move_trace"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="3dp"
+                        android:text="@string/wv_move_trace_on"
+                        android:textColor="@color/white"
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/record_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/record_video_backgroud"
+                        android:drawableLeft="@mipmap/icon_recording"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="14dp"
+                        android:paddingTop="8dp"
+                        android:text="00:00"
+                        android:textColor="@color/white"
+                        android:visibility="visible" />
+
+                    <ImageView
+                        android:id="@+id/sound_press_effect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/record_video_backgroud"
+                        android:padding="15dp"
+                        android:src="@drawable/sound_press_effect"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="@style/Widget.AppCompat.ProgressBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:indeterminate="true"
+                        android:indeterminateOnly="true"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/videoplayer_no_wifi_notify"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/black_26"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/videoplayer_no_wifi_play"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@mipmap/play_white" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:text="@string/wv_videoplayer_not_wifi_info"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/RealTimeImage_Layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/black_26"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:id="@+id/RealTimeImage_FrameLayout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="visible">
+
+                        <ImageView
+                            android:id="@+id/RealTimeImage_ImageView"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:scaleType="centerCrop" />
+
+                        <RelativeLayout
+                            android:id="@+id/RealTimeImage_Play_RelativeLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/RealTimeImage_Play"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_centerInParent="true"
+                                android:src="@mipmap/play_white" />
+
+                            <TextView
+                                android:id="@+id/RealTimeImage_No_Wifi_Tip"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/RealTimeImage_Play"
+                                android:layout_marginTop="50dp"
+                                android:background="#7f000000"
+                                android:padding="5dp"
+                                android:text="@string/wv_consume_data"
+                                android:textColor="@color/white"
+                                android:visibility="gone" />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:id="@+id/Offline_LinearLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="10dp"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/offline_img"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center"
+                                android:src="@mipmap/camera_offline" />
+
+                            <TextView
+                                android:id="@+id/offline_tip"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="6dp"
+                                android:text="@string/wv_device_not_online"
+                                android:textColor="@color/white"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/offline_help"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="6dp"
+                                android:background="@drawable/bg_rounded_rectangle_blue"
+                                android:gravity="center"
+                                android:minWidth="150dp"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp"
+                                android:text="@string/wv_go_help_center"
+                                android:textColor="@color/white"
+                                android:textSize="16dp" />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                    <ProgressBar
+                        android:id="@+id/RealTimeImage_ProgressBar"
+                        style="@style/Main_Progress_circle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:indeterminateDuration="700"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/RealTimeImage_tip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/wv_base_sizeText_3" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/player_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|top"
+                    android:padding="10dp"
+                    android:text=""
+                    android:textColor="@color/review_green" />
+
+                <TextView
+                    android:id="@+id/realtime_rate"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="right|bottom"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="4dp"
+                    android:background="@mipmap/flow_home"
+                    android:clickable="false"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="8dp"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <include
+                android:id="@+id/voice_content"
+                layout="@layout/wv_videoplayer_voice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/full_screen"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="top|right"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="42dp"
+                android:padding="6dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/full"
+                android:visibility="visible" />
+
+            <include layout="@layout/redide_actionbar_view" />
+
+            <TextView
+                android:id="@+id/video_quality"
+                android:layout_width="58dp"
+                android:layout_height="26dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/video_quality_backgroud"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/Update_LinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="46dp"
+                android:background="@color/transparent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/upgrade_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="#7A00FFFF"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/update_progress_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#80000000"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <ProgressBar
+                        android:id="@+id/Update_ProgressBar"
+                        style="@style/Main_Progress_circle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminateDuration="700" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/wv_camera_upgrading"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/realtime_image_show_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#80000000"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:id="@+id/realtime_image_show_content_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true">
+
+                    <ImageView
+                        android:id="@+id/realtime_imageview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/realtime_picture" />
+
+                    <ImageView
+                        android:id="@+id/realtime_image_cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@mipmap/st_close" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </net.ajcloud.wansview.support.customview.camera.VideoPlayArea4To3>
+
+        <LinearLayout
+            android:id="@+id/DownBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#2b2b2b"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <ImageView
+                android:id="@+id/RealTimeImage"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:src="@drawable/time_diagram_state" />
+
+            <ImageView
+                android:id="@+id/VoiceSwitch"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:src="@drawable/volume_on_state" />
+
+            <ImageView
+                android:id="@+id/press_speak"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:src="@drawable/microphone_state" />
+
+            <ImageView
+                android:id="@+id/take_video"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:src="@drawable/videotape_state" />
+
+            <ImageView
+                android:id="@+id/snapshot"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:src="@drawable/screenshot_state" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/FunctionBar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#F0EFF5"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/select_view_layout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#D3D3D3" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:padding="4dp"
+                android:background="#F5F5F6"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/choose_view_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#F5F5F6"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/PTZ"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/ptz_state"
+                        android:gravity="center"
+                        android:text="@string/wv_camera_ptz"
+                        android:textColor="@color/tab_select_state"
+                        android:textSize="@dimen/wv_base_sizeText_4" />
+
+                    <TextView
+                        android:id="@+id/angle"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/angle_state"
+                        android:gravity="center"
+                        android:text="@string/wv_camera_angle_tip"
+                        android:textColor="@color/tab_select_state"
+                        android:textSize="@dimen/wv_base_sizeText_4" />
+
+                    <TextView
+                        android:id="@+id/dynamic"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/dynamic_state"
+                        android:gravity="center"
+                        android:text="@string/wv_camera_dynamic"
+                        android:textColor="@color/tab_select_state"
+                        android:textSize="@dimen/wv_base_sizeText_4" />
+
+                    <TextView
+                        android:id="@+id/album"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/album_state"
+                        android:gravity="center"
+                        android:text="@string/wv_my_photo"
+                        android:textColor="@color/tab_select_state"
+                        android:textSize="@dimen/wv_base_sizeText_4" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/delete_angleview_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/delete_h" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

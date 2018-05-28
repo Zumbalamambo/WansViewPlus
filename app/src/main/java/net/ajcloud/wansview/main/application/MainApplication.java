@@ -11,6 +11,8 @@ import android.text.TextUtils;
 
 import net.ajcloud.wansview.BuildConfig;
 import net.ajcloud.wansview.entity.LocalInfo;
+import net.ajcloud.wansview.main.framework.FileIO;
+import net.ajcloud.wansview.main.framework.impl.AndroidFileIO;
 import net.ajcloud.wansview.support.core.api.ApiConstant;
 import net.ajcloud.wansview.support.core.okhttp.OkGo;
 import net.ajcloud.wansview.support.core.okhttp.cache.CacheEntity;
@@ -58,6 +60,8 @@ public class MainApplication extends Application {
     private static MainApplication mInstance = null;
 
     private List<Activity> activities = new ArrayList<>();
+    public static FileIO fileIO;
+
 
     public static synchronized MainApplication getApplication() {
         return mInstance;
@@ -74,6 +78,8 @@ public class MainApplication extends Application {
             CrashHandler crashHandler = CrashHandler.getInstance();
             crashHandler.init(this);
         }
+        fileIO = new AndroidFileIO(getAssets());
+
 
         //初始化OkGo
         OkGo.getInstance().init(this);

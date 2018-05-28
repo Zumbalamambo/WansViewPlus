@@ -3,16 +3,11 @@ package net.ajcloud.wansview.main.account;
 import android.content.Intent;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.application.BaseActivity;
-import net.ajcloud.wansview.support.customview.MyToolbar;
-import net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText;
-
-import net.ajcloud.wansview.main.application.BaseActivity;
+import net.ajcloud.wansview.support.core.api.UserApiUnit;
 import net.ajcloud.wansview.support.customview.MyToolbar;
 import net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText;
 
@@ -65,7 +60,8 @@ public class SignupActivity extends BaseActivity {
     public void onClickView(View v) {
         switch (v.getId()) {
             case net.ajcloud.wansview.R.id.btn_next:
-                SignupVerifyActivity.start(this);
+//                SignupVerifyActivity.start(this);
+//                register();
                 break;
             case net.ajcloud.wansview.R.id.tv_terms:
                 startActivity(new Intent(SignupActivity.this, TermsActivity.class));
@@ -73,5 +69,20 @@ public class SignupActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    private void register() {
+        UserApiUnit userApiUnit = new UserApiUnit(this);
+        userApiUnit.register(userName.getText().toString(), password.getText().toString(), new UserApiUnit.UserApiCommonListener<Object>() {
+            @Override
+            public void onSuccess(Object bean) {
+
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+
+            }
+        });
     }
 }

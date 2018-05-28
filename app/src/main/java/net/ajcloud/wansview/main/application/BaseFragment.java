@@ -13,9 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.ajcloud.wansview.R;
-import net.ajcloud.wansview.support.tools.TimeLock;
-import net.ajcloud.wansview.support.utils.DisplayUtil;
-
+import net.ajcloud.wansview.main.application.MainApplication;
 import net.ajcloud.wansview.support.tools.TimeLock;
 import net.ajcloud.wansview.support.utils.DisplayUtil;
 
@@ -36,22 +34,22 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
-        rootView = inflater.inflate(net.ajcloud.wansview.R.layout.fragment_base, null);
+        rootView = inflater.inflate(R.layout.fragment_base, null);
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tittleView = view.findViewById(net.ajcloud.wansview.R.id.base_fragment_tittle);
-        leftView = view.findViewById(net.ajcloud.wansview.R.id.ll_left);
-        rightView = view.findViewById(net.ajcloud.wansview.R.id.ll_right);
-        leftImg = view.findViewById(net.ajcloud.wansview.R.id.left_img);
-        middleImg = view.findViewById(net.ajcloud.wansview.R.id.middle_img);
-        rightImg = view.findViewById(net.ajcloud.wansview.R.id.right_img);
-        leftText = view.findViewById(net.ajcloud.wansview.R.id.left_text);
-        middleText = view.findViewById(net.ajcloud.wansview.R.id.middle_text);
-        rightText = view.findViewById(net.ajcloud.wansview.R.id.right_text);
+        tittleView = view.findViewById(R.id.base_fragment_tittle);
+        leftView = view.findViewById(R.id.ll_left);
+        rightView = view.findViewById(R.id.ll_right);
+        leftImg = view.findViewById(R.id.left_img);
+        middleImg = view.findViewById(R.id.middle_img);
+        rightImg = view.findViewById(R.id.right_img);
+        leftText = view.findViewById(R.id.left_text);
+        middleText = view.findViewById(R.id.middle_text);
+        rightText = view.findViewById(R.id.right_text);
 
         initParentView();
         initStatebar();
@@ -64,7 +62,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         if (layoutResID() != 0) {
             contentView = inflater.inflate(layoutResID(), null);
         }
-        LinearLayout parentView = rootView.findViewById(net.ajcloud.wansview.R.id.ll_base_fragment);
+        LinearLayout parentView = rootView.findViewById(R.id.ll_base_fragment);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
@@ -80,17 +78,19 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             int statusBarHeight = 0;
             //获取status_bar_height资源的ID
-            int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-            if (resourceId > 0) {
-                //根据资源ID获取响应的尺寸值
-                statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-            } else {
-                statusBarHeight = DisplayUtil.dip2Pix(MainApplication.getApplication(), 20);
-            }
-            if (hasTittle()) {
-                tittleView.setPadding(0, statusBarHeight, 0, 0);
-            } else {
-                contentView.setPadding(0, statusBarHeight, 0, 0);
+            if (hasStatusBar()) {
+                int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+                if (resourceId > 0) {
+                    //根据资源ID获取响应的尺寸值
+                    statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+                } else {
+                    statusBarHeight = DisplayUtil.dip2Pix(MainApplication.getApplication(), 20);
+                }
+                if (hasTittle()) {
+                    tittleView.setPadding(0, statusBarHeight, 0, 0);
+                } else {
+                    contentView.setPadding(0, statusBarHeight, 0, 0);
+                }
             }
         }
     }
@@ -104,6 +104,10 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected abstract void initView(View rootView);
 
     protected abstract void initData();
+
+    protected boolean hasStatusBar() {
+        return true;
+    }
 
     /*middle*/
     protected void setTittle(String tittle) {
@@ -170,5 +174,9 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     public void onClickView(View v) {//BaseActivity的子类复写此方法来处理点击事件，以便统一做防止重复点击处理
 
+    }
+
+    public boolean canBackPressed() {
+        return false;
     }
 }

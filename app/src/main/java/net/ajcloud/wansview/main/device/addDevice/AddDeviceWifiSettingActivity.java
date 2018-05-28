@@ -5,10 +5,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 
-import net.ajcloud.wansview.R;
-import net.ajcloud.wansview.main.application.BaseActivity;
-import net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText;
-
 import net.ajcloud.wansview.main.application.BaseActivity;
 import net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText;
 

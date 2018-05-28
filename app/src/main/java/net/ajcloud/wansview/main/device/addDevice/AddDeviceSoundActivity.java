@@ -63,6 +63,12 @@ public class AddDeviceSoundActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        noSoundDialog = null;
+    }
+
+    @Override
     public void onClickView(View v) {
         switch (v.getId()) {
             case net.ajcloud.wansview.R.id.img_left:

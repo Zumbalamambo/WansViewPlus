@@ -3,11 +3,8 @@ package net.ajcloud.wansview.main.device.addDevice;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.application.BaseActivity;
-import net.ajcloud.wansview.support.utils.ConstantsUtil;
-
-import net.ajcloud.wansview.main.application.BaseActivity;
+import net.ajcloud.wansview.support.tools.WLog;
 import net.ajcloud.wansview.support.utils.ConstantsUtil;
 
 public class AddDeviceSelectActivity extends BaseActivity {

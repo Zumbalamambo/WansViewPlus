@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".main.account.SigninTwiceActivity">
 
     <ImageView
@@ -45,6 +44,9 @@
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="20dp"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:singleLine="true"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/signIn_textSize_20"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,9 +71,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_userName"
         app:met_clearButton="true"
-        app:met_passwordEye="true"
         app:met_floatingLabel="highlight"
         app:met_floatingLabelTextColor="@color/colorPrimary"
+        app:met_passwordEye="true"
         app:met_primaryColor="@color/colorPrimary"
         app:met_singleLineEllipsis="true"
         app:met_textColor="@color/gray_first"

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
     tools:context=".main.account.SignupActivity">
 
     <net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText
@@ -60,7 +59,6 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
         android:text="Your password must include 8 or more characters long and containat least one capital letter."
         android:textColor="@color/gray_third"
         android:textSize="@dimen/signIn_textSize_12"

@@ -86,7 +86,7 @@ public class LockGestureLayout extends RelativeLayout {
     public LockGestureLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LockGestureLayout, defStyleAttr, 0);
-        circleColor = a.getColor(R.styleable.LockGestureLayout_circleColor, getResources().getColor(R.color.light_gray));
+        circleColor = a.getColor(R.styleable.LockGestureLayout_circleColor, getResources().getColor(R.color.gray_line));
         selectedColor = a.getColor(R.styleable.LockGestureLayout_selectedColor, getResources().getColor(R.color.gesture_select_blue));
         mCount = a.getInteger(R.styleable.LockGestureLayout_mCount, 3);
         a.recycle();
