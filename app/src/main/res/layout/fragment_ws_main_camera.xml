@@ -14,7 +14,7 @@
             android:id="@+id/status_bar"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@drawable/grident_toolbar" />
+            android:background="@color/colorPrimaryDark" />
 
         <net.ajcloud.wansview.support.customview.camera.VideoPlayArea4To3
             android:id="@+id/Video_Area_FrameLayout"

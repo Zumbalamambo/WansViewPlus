@@ -8,9 +8,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import net.ajcloud.wansview.main.application.BaseActivity;
 import net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText;
+import net.ajcloud.wansview.support.utils.ToastUtil;
 
 public class AddDeviceWifiSettingActivity extends BaseActivity {
 
@@ -79,7 +81,11 @@ public class AddDeviceWifiSettingActivity extends BaseActivity {
                 finish();
                 break;
             case net.ajcloud.wansview.R.id.btn_join:
-                AddDeviceScanQRActivity.start(AddDeviceWifiSettingActivity.this, type);
+                if (TextUtils.isEmpty(wifiNameEditText.getText().toString()) || TextUtils.isEmpty(passwordEditText.getText().toString())){
+                    ToastUtil.single("please input name and password");
+                }else {
+                    AddDeviceScanQRActivity.start(AddDeviceWifiSettingActivity.this, type, wifiNameEditText.getText().toString(), passwordEditText.getText().toString());
+                }
                 break;
             default:
                 break;

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    android:orientation="vertical">
+    <net.ajcloud.wansview.support.customview.MyStateBar
+        android:id="@+id/status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/grident_toolbar" />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_actionbar_portrait"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="?attr/colorPrimary"
+        android:gravity="center"
+        android:minHeight="@dimen/toolbar_height"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark">
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:background="@drawable/video_download_select_bg"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/downloaded"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/wv_video_download_downloaded" />
+
+            <TextView
+                android:id="@+id/downloading"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/wv_video_download_downloading" />
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <ListView
+        android:id="@+id/video_download_listview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"></ListView>
+
+    <LinearLayout
+        android:id="@+id/ly_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_select_all"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/white_text_button"
+            android:gravity="center"
+            android:text="@string/select_all"
+            android:textColor="#00ACE5"
+            android:textSize="@dimen/wv_base_sizeText_1" />
+
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/white_text_button"
+            android:gravity="center"
+            android:text="@string/delete"
+            android:textColor="#00ACE5"
+            android:textSize="@dimen/wv_base_sizeText_1" />
+
+    </LinearLayout>
+
+</LinearLayout>

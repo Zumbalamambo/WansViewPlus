@@ -2,11 +2,15 @@ package net.ajcloud.wansview.support.core.Cipher;
 
 import android.util.Base64;
 
-import com.neilalexander.jnacl.NaCl;
+import net.ajcloud.wansview.support.jnacl.NaCl;
+import net.ajcloud.wansview.support.tools.WLog;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
-import static com.neilalexander.jnacl.crypto.curve25519xsalsa20poly1305.crypto_secretbox_NONCEBYTES;
+import static net.ajcloud.wansview.support.jnacl.curve25519xsalsa20poly1305.crypto_secretbox_NONCEBYTES;
 
 /**
  * Created by mamengchao on 2018/05/23.
@@ -31,9 +35,14 @@ public class CipherUtil {
         try {
             byte[] encryptPrivateKey = Base64.decode(privateKey, Base64.NO_WRAP);
             byte[] encryptPublicKey = Base64.decode(publicKey, Base64.NO_WRAP);
-            NaCl naCl = new NaCl(encryptPrivateKey, encryptPublicKey);
-            byte[] encryptValue = naCl.encrypt(text.getBytes(), nonce);
-            encodeMsgContent = new String(Base64.encode(encryptValue, Base64.NO_WRAP), "UTF-8");
+            byte[] ciphertext = NaCl.encrypt(text.getBytes(), nonce, encryptPublicKey, encryptPrivateKey);
+            WLog.d("UserApiUnit", "text-string:" + text);
+            WLog.d("UserApiUnit", "text-byte:" + Arrays.toString(text.getBytes()));
+            WLog.d("UserApiUnit", "text-nacl-1:" + Arrays.toString(ciphertext));
+            ciphertext = clearZero(ciphertext);
+            WLog.d("UserApiUnit", "text-nacl-2:" + Arrays.toString(ciphertext));
+            encodeMsgContent = new String(Base64.encode(ciphertext, Base64.NO_WRAP), "UTF-8");
+            WLog.d("UserApiUnit", "text-nacl-base64:" + encodeMsgContent);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -41,18 +50,40 @@ public class CipherUtil {
         }
     }
 
+    private static byte[] clearZero(byte[] oldArr) {
+        List<Byte> list = new ArrayList<>();
+        boolean isBefore = true;
+        for (int i = 0; i < oldArr.length; i++) {
+            if (i == 0) {
+                isBefore = oldArr[i] == 0;
+            }
+            if (isBefore){
+                if (oldArr[i] != 0) {
+                    list.add(oldArr[i]);
+                    isBefore = false;
+                }
+            }else {
+                list.add(oldArr[i]);
+            }
+        }
+        byte newArr[] = new byte[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            newArr[i] = list.get(i);
+        }
+        return newArr;
+    }
+
     public static String decode(String text, String privateKey, String publicKey, byte[] nonce) {
-        String decodeeMsgContent = null;
+        String decodeMsgContent = null;
         try {
             byte[] decryptPrivateKey = Base64.decode(privateKey, Base64.NO_WRAP);
             byte[] decryptPublicKey = Base64.decode(publicKey, Base64.NO_WRAP);
-            NaCl naCl = new NaCl(decryptPrivateKey, decryptPublicKey);
             byte[] decryptValue = Base64.decode(text, Base64.NO_WRAP);
-            decodeeMsgContent = new String(naCl.decrypt(decryptValue, nonce), "UTF-8");
+            decodeMsgContent = new String(NaCl.decrypt(decryptValue, nonce, decryptPublicKey, decryptPrivateKey), "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            return decodeeMsgContent;
+            return decodeMsgContent;
         }
     }
 }

@@ -14,12 +14,14 @@
         <item name="android:windowIsTranslucent">false</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:textColor">#000000</item>
+    <style name="TittleTextAppearanceExpand" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">@color/gray_first</item>
+        <item name="android:textSize">@dimen/expand_tittle_text</item>
     </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:textColor">#000000</item>
+    <style name="TittleTextAppearanceCollapse" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">@color/gray_first</item>
+        <item name="android:textSize">@dimen/collapse_tittle_text</item>
     </style>
 
     <style name="FullscreenTheme" parent="@style/Theme.AppCompat.Light">
@@ -97,5 +99,41 @@
         <item name="android:maxWidth">60dp</item>
         <item name="android:maxHeight">60dp</item>
     </style>
+
+    <style name="accessdevice_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowBackground">@color/transparent</item>
+        <!-- 背景透明 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 模糊 -->
+    </style>
+
+    <style name="BlueBtn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@drawable/blue_button</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="WhiteBtn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@drawable/white_button</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_style</item>
+    </style>
+
 
 </resources>

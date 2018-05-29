@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<RelativeLayout   
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/dialog_layout"
+	android:layout_width="fill_parent"  
+	android:layout_height="wrap_content"
+	android:gravity="center_horizontal"
+	android:orientation="vertical">  
+	<LinearLayout   
+		android:id="@+id/pop_layout"  
+		android:layout_width="fill_parent"  
+		android:layout_height="wrap_content"
+		android:gravity="center_horizontal"  
+		android:orientation="vertical"  
+		android:background="#ffffff"
+		android:paddingLeft="20dp"
+		android:paddingRight="20dp"
+		android:layout_alignParentBottom="true" >
+    
+		<TextView
+			android:textSize="18dp"
+			android:layout_width="match_parent"
+			android:layout_height="fill_parent"
+			android:layout_gravity="center"
+			android:gravity="center"
+			android:linksClickable="true"
+			android:layout_marginTop="28dp"
+			android:text="@string/wv_history_delete_tips"
+			android:textColor="#ff404040"
+			android:id="@+id/pop_title" />
+
+		<TextView
+			android:visibility="invisible"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/wv_history_delete_notify_tips"
+			android:id="@+id/pop_tips"
+			android:layout_gravity="center"
+			android:layout_marginTop="10dp"
+			android:gravity="center"
+			android:textSize="14dp"
+			android:textColor="@color/wv_colorTextSecondary"
+			android:layout_marginLeft="30dp"
+			android:layout_marginRight="30dp" />
+
+		<Button
+	        android:id="@+id/history_pop_delete"
+			style="@style/BlueBtn"
+	        android:layout_marginTop="20dp"
+	        android:text="@string/delete"
+	        android:textColor="#ffffff"/>  
+	        
+	    <Button  
+			android:id="@+id/history_pop_cancel"
+			style="@style/WhiteBtn"
+			android:layout_marginTop="13dp"
+			android:layout_marginBottom="15dp"
+			android:text="@string/cancel" />
+	</LinearLayout>
+</RelativeLayout>  

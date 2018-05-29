@@ -9,15 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/fragment_tittle_height"
         android:background="@color/white"
-        android:theme="@style/AppTheme.AppBarOverlay"
         app:elevation="0dp">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="#FFFFFF"
-            app:expandedTitleMarginStart="24dp"
+            app:collapsedTitleTextAppearance="@style/TittleTextAppearanceCollapse"
+            app:contentScrim="@color/white"
+            app:expandedTitleMarginStart="16dp"
+            app:expandedTitleTextAppearance="@style/TittleTextAppearanceExpand"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
@@ -27,15 +28,14 @@
                 android:layout_height="48dp"
                 app:contentInsetLeft="0dp"
                 app:contentInsetStart="0dp"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                app:layout_collapseMode="pin" />
 
             <ImageView
                 android:id="@+id/iv_add_device"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="16dp"
                 android:minHeight="48dp"
                 android:scaleType="center"
                 android:src="@drawable/ic_add_device"
@@ -44,23 +44,29 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:background="@color/white">
 
-            <TextView
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ssssssssssssssssss\n\n\n\n\n\n\n\n\n\\n\n\n\n\n\n\n\n\n\n\n\n\nsssssssssssssssssssssssssssssssss\n\n\n\n\n\n\n\n\n\n\n\n\nssssssssssssssssss"
-                android:textSize="20sp" />
-        </LinearLayout>
+                android:descendantFocusability="blocksDescendants">
 
-    </android.support.v4.widget.NestedScrollView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_device_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:scrollbars="none"/>
+            </FrameLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.design.widget.CoordinatorLayout>

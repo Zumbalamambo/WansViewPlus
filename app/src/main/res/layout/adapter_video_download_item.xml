@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@color/white">
+
+    <com.daimajia.swipe.SwipeLayout
+        android:id="@+id/video_download_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:clickToClose="true">
+
+        <LinearLayout
+            android:id="@+id/video_download_delete_layout"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="#F76363"
+            android:tag="right">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/delete"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/video_download_item_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="120dp"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/video_download_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="4dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/realtime_picture" />
+
+                <ImageView
+                    android:id="@+id/video_download_fail_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/pause_photo" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/video_download_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:singleLine="true"
+                        android:text="@string/wv_video_download_item_name"
+                        android:textColor="#404040"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/video_download_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:singleLine="true"
+                        android:text="2016-07-28 12:39:90" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp">
+
+                        <TextView
+                            android:id="@+id/video_download_duration"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:singleLine="true"
+                            android:text="2分20秒"
+                            android:visibility="gone" />
+
+                        <ProgressBar
+                            android:id="@+id/video_download_progress"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginTop="7dp"
+                            android:max="100"
+                            android:progressDrawable="@drawable/progress_upload_bg" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/video_download_source"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:textColor="@color/second_gray_bg" />
+            </RelativeLayout>
+        </LinearLayout>
+    </com.daimajia.swipe.SwipeLayout>
+
+    <RelativeLayout
+        android:id="@+id/video_download_check_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/transparent"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/video_download_cb"
+            style="@style/CustomCheckboxTheme"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:clickable="false"
+            android:focusableInTouchMode="false" />
+    </RelativeLayout>
+
+</RelativeLayout>

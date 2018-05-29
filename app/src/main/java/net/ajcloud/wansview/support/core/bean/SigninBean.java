@@ -7,7 +7,7 @@ package net.ajcloud.wansview.support.core.bean;
 public class SigninBean {
     public String accessToken;
     public String refreshToken;
-    public String scope;
-    public String tokenType;
-    public String expiresIn;
+    public String scope;     //请求范围
+    public String tokenType; //token类型
+    public String expiresIn; //有效期
 }

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginTop="20dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/realtime_picture" />
+
+    <TextView
+        android:id="@+id/tv_device_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_thumbnail"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/gray_first"
+        android:textSize="@dimen/signIn_textSize_20"
+        tools:text="Front Door" />
+
+    <LinearLayout
+        android:id="@+id/ll_cloud_storage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_device_name"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_cloud_storage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="Cloud Storage"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/signIn_textSize_14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text=" not subscribed"
+            android:textColor="@color/gray_second"
+            android:textSize="@dimen/signIn_textSize_14" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_camera_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_device_name"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="Off line,"
+            android:textColor="@color/gray_second"
+            android:textSize="@dimen/signIn_textSize_14" />
+
+        <TextView
+            android:id="@+id/tv_connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="Connect"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/signIn_textSize_14" />
+    </LinearLayout>
+</RelativeLayout>

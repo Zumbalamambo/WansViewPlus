@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 
 import net.ajcloud.wansview.main.application.BaseActivity;
-import net.ajcloud.wansview.main.application.*;
+import net.ajcloud.wansview.main.application.BaseFragment;
 
 public class DeviceHomeActivity extends BaseActivity {
     BaseFragment baseFragment;

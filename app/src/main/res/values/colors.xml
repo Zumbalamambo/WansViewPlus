@@ -31,4 +31,28 @@
     <color name="line_divider_normal">#ebebeb</color>
     <color name="steerview_inner_circle">#EFEFF4</color>
 
+    <!--文字1 正文-->
+    <color name="wv_colorTextPrimary">#404040</color>
+
+    <!--文字2 辅助说明-->
+    <color name="wv_colorTextSecondary">#959595</color>
+
+    <!--文字3 提示、失效-->
+    <color name="wv_colorTextLight">#e7e7e7</color>
+
+    <!--文字4 标题、导航-->
+    <color name="wv_colorTextTitle">#ffffff</color>
+
+    <!--文字5 强调、警示-->
+    <color name="wv_colorTextAccent">#ff0000</color>
+
+    <color name="button_disable_blue">#4c00aaee</color>
+    <color name="button_pressed_blue">#009adc</color>
+    <color name="button_normal_blue">#00aaee</color>
+    <color name="button_normal_white">#ffffffff</color>
+    <color name="button_disable_white">#D3D3D3</color>
+    <color name="button_pressed_white">#eeeeee</color>
+    <color name="stroke_color">#ffe5e5ef</color>
+
+
 </resources>

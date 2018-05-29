@@ -166,7 +166,7 @@ public class MainApplication extends Application {
                 SPUtil.getSPUtil(this, PreferenceKey.sp_name.account).put(PreferenceKey.sp_key.DEVICE_ID, localInfo.deviceId);
             }
             localInfo.deviceName = android.os.Build.MODEL;
-            localInfo.timeZone = TimeZone.getDefault().getRawOffset();
+            localInfo.timeZone = TimeZone.getDefault().getRawOffset()/1000;
             Locale locale = getResources().getConfiguration().locale;
             localInfo.appLang = locale.getLanguage();
         }

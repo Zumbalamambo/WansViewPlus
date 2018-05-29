@@ -2,30 +2,40 @@ package net.ajcloud.wansview.main.device.addDevice;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.application.BaseActivity;
+import net.ajcloud.wansview.support.tools.zxing.encoding.EncodingUtils;
 
-import net.ajcloud.wansview.main.application.BaseActivity;
+import java.io.ByteArrayOutputStream;
 
 public class AddDeviceScanQRActivity extends BaseActivity {
 
+    private ImageView qrcodeImageView;
     private Button waitButton;
     private TextView soundTextView;
     private String type;
+    private String ssid;
+    private String pwd;
 
-    public static void start(Context context, String type) {
+    public static void start(Context context, String type, String ssid, String pwd) {
         Intent intent = new Intent(context, AddDeviceScanQRActivity.class);
         intent.putExtra("type", type);
+        intent.putExtra("ssid", ssid);
+        intent.putExtra("pwd", pwd);
         context.startActivity(intent);
     }
 
     @Override
     protected int getLayoutId() {
-        return net.ajcloud.wansview.R.layout.activity_add_device_scan_qr;
+        return R.layout.activity_add_device_scan_qr;
     }
 
     @Override
@@ -36,15 +46,18 @@ public class AddDeviceScanQRActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Connect to network");
-        getToolbar().setLeftImg(net.ajcloud.wansview.R.mipmap.icon_back);
-        waitButton = findViewById(net.ajcloud.wansview.R.id.btn_sure);
-        soundTextView = findViewById(net.ajcloud.wansview.R.id.tv_sound);
+        getToolbar().setLeftImg(R.mipmap.icon_back);
+        qrcodeImageView = findViewById(R.id.iv_qr_code);
+        waitButton = findViewById(R.id.btn_sure);
+        soundTextView = findViewById(R.id.tv_sound);
     }
 
     @Override
     protected void initData() {
         if (getIntent() != null) {
             type = getIntent().getStringExtra("type");
+            ssid = getIntent().getStringExtra("ssid");
+            pwd = getIntent().getStringExtra("pwd");
         }
     }
 
@@ -57,17 +70,42 @@ public class AddDeviceScanQRActivity extends BaseActivity {
     @Override
     public void onClickView(View v) {
         switch (v.getId()) {
-            case net.ajcloud.wansview.R.id.img_left:
+            case R.id.img_left:
                 finish();
                 break;
-            case net.ajcloud.wansview.R.id.btn_sure:
+            case R.id.btn_sure:
                 startActivity(new Intent(AddDeviceScanQRActivity.this, AddDeviceWaitingActivity.class));
                 break;
-            case net.ajcloud.wansview.R.id.tv_sound:
-                AddDeviceSoundActivity.start(AddDeviceScanQRActivity.this, type);
+            case R.id.tv_sound:
+                AddDeviceSoundActivity.start(AddDeviceScanQRActivity.this, type, ssid, pwd);
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            showQRImage();
+        }
+    }
+
+    private void showQRImage() {
+        if (ssid == null || pwd == null) {
+            return;
+        }
+        int width = qrcodeImageView.getMeasuredWidth();
+        int height = qrcodeImageView.getMeasuredHeight();
+        //TODO
+        String content = "{" + ssid + "/" + pwd + "}";
+        Bitmap bitmap = EncodingUtils.createQRCode(content, width, height, null);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] bytes=baos.toByteArray();
+        Glide.with(AddDeviceScanQRActivity.this)
+                .load(bytes)
+                .into(qrcodeImageView);
     }
 }

@@ -16,15 +16,6 @@ import net.ajcloud.wansview.support.core.okhttp.model.Response;
 import net.ajcloud.wansview.support.utils.preference.PreferenceKey;
 import net.ajcloud.wansview.support.utils.preference.SPUtil;
 
-import net.ajcloud.wansview.support.core.Cipher.CipherUtil;
-import net.ajcloud.wansview.support.core.bean.ChallengeBean;
-import net.ajcloud.wansview.support.core.bean.ResponseBean;
-import net.ajcloud.wansview.support.core.callback.JsonCallback;
-import net.ajcloud.wansview.support.core.okhttp.OkGo;
-import net.ajcloud.wansview.support.core.okhttp.model.Response;
-import net.ajcloud.wansview.support.utils.preference.PreferenceKey;
-import net.ajcloud.wansview.support.utils.preference.SPUtil;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,7 +24,7 @@ import org.json.JSONObject;
  * 账号信息相关
  */
 public class UserApiUnit {
-
+    private static final String TAG = "UserApiUnit";
     private Context context;
     private LocalInfo localInfo;
 
@@ -141,7 +132,7 @@ public class UserApiUnit {
                             @Override
                             public void onError(Response<ResponseBean<Object>> response) {
                                 super.onError(response);
-                                listener.onFail(-1, context.getString(R.string.Service_Error));
+                                listener.onFail(-1, response.getException().getMessage());
                             }
                         });
             }
@@ -176,7 +167,7 @@ public class UserApiUnit {
 //                    dataJson.put("clientId", "android");
 //                    dataJson.put("clientSecret", "android");
                     dataJson.put("grantType", "password");
-//                    dataJson.put("scope", "password");
+                    dataJson.put("scope", "all");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -189,6 +180,7 @@ public class UserApiUnit {
                                 ResponseBean responseBean = response.body();
                                 SigninBean bean = (SigninBean) responseBean.result;
                                 if (responseBean.isSuccess()) {
+                                    SPUtil.getSPUtil(context, PreferenceKey.sp_name.account).put(PreferenceKey.sp_key.CURRENT_ACCOUNT, mail);
                                     saveAccount(bean);
                                     listener.onSuccess(bean);
                                 } else {

@@ -11,8 +11,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import net.ajcloud.wansview.R;
+import net.ajcloud.wansview.support.core.api.UserApiUnit;
+import net.ajcloud.wansview.support.core.bean.SigninBean;
 import net.ajcloud.wansview.support.customview.ReplayTimeAxisView;
 import net.ajcloud.wansview.support.tools.WLog;
 
@@ -48,43 +51,38 @@ public class MineFragment extends Fragment {
         toolbarLayout.setCollapsedTitleGravity(Gravity.CENTER);
 
 
-        final ReplayTimeAxisView test = view.findViewById(net.ajcloud.wansview.R.id.test);
-        test.setOnSlideListener(new ReplayTimeAxisView.OnSlideListener() {
-            @Override
-            public void onSlide(long timeStamp) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//这个是你要转成后的时间的格式
-                String sd = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp))));   // 时间戳转换成时间
-                WLog.d("timeStamp", sd);
-            }
-
-            @Override
-            public void onSelected(long startTime, long endTime) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//这个是你要转成后的时间的格式
-                String start = sdf.format(new Date(Long.parseLong(String.valueOf(startTime))));   // 时间戳转换成时间
-                String end = sdf.format(new Date(Long.parseLong(String.valueOf(endTime))));   // 时间戳转换成时间
-                WLog.d("timeStamp", "start: " + start + "      end: " + end);
-            }
-        });
-        long currentTime = System.currentTimeMillis() / 1000;
-        test.setMidTimeStamp(System.currentTimeMillis());
-        List<Pair<Long, Long>> list = new ArrayList<>();
-        Pair<Long, Long> pair1 = new Pair<>(currentTime - 3600, currentTime + 3600);
-        Pair<Long, Long> pair2 = new Pair<>(currentTime - 7200, currentTime - 4000);
-        Pair<Long, Long> pair3 = new Pair<>(currentTime + 4000, currentTime + 7200);
-        list.add(pair1);
-        list.add(pair2);
-        list.add(pair3);
-        test.setRecordList(list);
-
-
-        view.findViewById(net.ajcloud.wansview.R.id.button2).setOnClickListener(new View.OnClickListener() {
+        final EditText oldPwd = view.findViewById(R.id.oldPwd);
+        final EditText newPwd = view.findViewById(R.id.newPwd);
+        view.findViewById(net.ajcloud.wansview.R.id.change).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (test.getCurrentMode() == ReplayTimeAxisView.Mode.DownLoad) {
-                    test.setCurrentMode(ReplayTimeAxisView.Mode.Play);
-                } else {
-                    test.setCurrentMode(ReplayTimeAxisView.Mode.DownLoad);
-                }
+               new UserApiUnit(getActivity()).changePassword("805901025@qq.com", oldPwd.getText().toString(), newPwd.getText().toString(), new UserApiUnit.UserApiCommonListener<SigninBean>() {
+                   @Override
+                   public void onSuccess(SigninBean bean) {
+
+                   }
+
+                   @Override
+                   public void onFail(int code, String msg) {
+
+                   }
+               });
+            }
+        });
+        view.findViewById(net.ajcloud.wansview.R.id.logout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new UserApiUnit(getActivity()).signout(new UserApiUnit.UserApiCommonListener<Object>() {
+                    @Override
+                    public void onSuccess(Object bean) {
+
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+
+                    }
+                });
             }
         });
     }

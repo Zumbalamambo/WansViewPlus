@@ -45,7 +45,8 @@ public class TermsActivity extends BaseActivity {
     @Override
     public void onClickView(View v) {
         switch (v.getId()) {
-            case net.ajcloud.wansview.R.id.btn_right:
+            case R.id.btn_right:
+                setResult(RESULT_OK);
                 finish();
                 break;
             default:

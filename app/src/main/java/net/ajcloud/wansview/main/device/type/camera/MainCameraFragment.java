@@ -531,7 +531,7 @@ public class MainCameraFragment extends BaseFragment
     private Runnable setRefreshScrollRunnable = new Runnable() {
         @Override
         public void run() {
-           // myRefreshScroll.setMode(PullToRefreshBase.Mode.DISABLED);
+            // myRefreshScroll.setMode(PullToRefreshBase.Mode.DISABLED);
         }
     };
 
@@ -1656,13 +1656,13 @@ public class MainCameraFragment extends BaseFragment
                     .setCancelable(false)
                     .setTitle(net.ajcloud.wansview.R.string.wv_cannot_play_video)
                     .setPositiveButton(net.ajcloud.wansview.R.string.retry, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    videoPlay();
-                    dialog.dismiss();
-                    hideProgress();
-                }
-            }).setNegativeButton(net.ajcloud.wansview.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            videoPlay();
+                            dialog.dismiss();
+                            hideProgress();
+                        }
+                    }).setNegativeButton(net.ajcloud.wansview.R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     stopVideoPlay();
@@ -1874,7 +1874,7 @@ public class MainCameraFragment extends BaseFragment
                 }
 
                 if (isGetRealTimeImage)
-                isFromRealTimeImageButton = true;
+                    isFromRealTimeImageButton = true;
                 getSnapshot(10, true);
             }
         });
@@ -1921,10 +1921,7 @@ public class MainCameraFragment extends BaseFragment
                 hHideControl.postDelayed(HideControlRunnalbe, HideRelayTime);
                 controlDirection(false);
                 if (Orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-                    /*修改系统状态栏 todo
-                    if (getActivity() instanceof HomecareActivity) {
-                        ((HomecareActivity) getActivity()).setmTintColor(R.color.transparent);
-                    }*/
+
                     Orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
                     getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                     isFullScreen(true);
@@ -1941,11 +1938,11 @@ public class MainCameraFragment extends BaseFragment
                     }
 
                     //if (Utils.isSupportControlDirection(getCamera().getCapAbility())) {
-                        if (mMediaPlayer.getPlayerState() == Media.State.Playing) {
-                            controlDirection(true);
-                        } else {
-                            controlDirection(false);
-                        }
+                    if (mMediaPlayer.getPlayerState() == Media.State.Playing) {
+                        controlDirection(true);
+                    } else {
+                        controlDirection(false);
+                    }
                     //}
 
                     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(Utils.dp2px(getActivity(), 40),
@@ -1955,10 +1952,6 @@ public class MainCameraFragment extends BaseFragment
                     params.rightMargin = Utils.dp2px(getActivity(), 16);
                     realtime_rate.setLayoutParams(params);
                 } else {
-                    /* 修改稿状态栏 todo
-                    if (getActivity() instanceof HomecareActivity) {
-                        ((HomecareActivity) getActivity()).setmTintColor(R.color.black);
-                    }*/
                     Orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
                     isFullScreen(false);
                     getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -1966,7 +1959,15 @@ public class MainCameraFragment extends BaseFragment
                     full_screen.setImageResource(net.ajcloud.wansview.R.mipmap.full);
                     fullScreenLayout.setVisibility(View.GONE);
                     videoQuality.setVisibility(View.VISIBLE);
-                    if (!mMediaPlayer.isPlaying()) {
+
+                    /*if (!mMediaPlayer.isPlaying()) {
+                        refreshView();
+                    } else {
+                        realTimeImagePlay.setVisibility(View.GONE);
+                        controlDirection(false);
+                    }*/
+
+                    if (!isPlaying) {
                         refreshView();
                     } else {
                         realTimeImagePlay.setVisibility(View.GONE);
@@ -2098,6 +2099,8 @@ public class MainCameraFragment extends BaseFragment
         isSupportDirectionControl = CameraUtil.isSupportControlDirection(getCamera().getCapAbility());
     }
 
+    private boolean isPlaying = false;
+
     private void videoPlay() {
         setSurfaceViewSize(virtualCamera.mQuality);
         mPlayerFrame.setMarginLeft(Integer.MAX_VALUE);
@@ -2142,6 +2145,7 @@ public class MainCameraFragment extends BaseFragment
         mPlayerFrame.setVisibility(View.VISIBLE);
 
         hPlayVlcAudioHandler.postDelayed(PlayVlcAudioRunnable, 500);
+        isPlaying = true;
     }
 
     public void stopVideoPlay() {
@@ -2149,6 +2153,7 @@ public class MainCameraFragment extends BaseFragment
     }
 
     public void stopVideoPlay(boolean isShotPic) {
+        isPlaying = false;
         isSensorEnable = false;
         lastX = 0;
         hideSpeedRate();
@@ -2764,7 +2769,7 @@ public class MainCameraFragment extends BaseFragment
         } else if (getCamera().getCameraState().isAnylock() || isSleepMode) {
             isCanOperate = true;
             ToastUtil.show(net.ajcloud.wansview.R.string.wv_main_sleep_mode_toast_tip);
-        } else if (mMediaPlayer.getPlayerState() == Media.State.Playing) {
+        } else if (isPlaying/*mMediaPlayer.getPlayerState() == Media.State.Playing*/) {
             isCanOperate = true;
             ToastUtil.show(net.ajcloud.wansview.R.string.wv_playing_video_not_use);
         } else if (!isAllowedContinueClick && System.currentTimeMillis() - lastClickTime < interval) {
@@ -3517,7 +3522,7 @@ public class MainCameraFragment extends BaseFragment
     private void resetNetworkReflash(boolean bReset) {
         if (bReset) {
             //if (!GuideView.isShowing()) {
-               // myRefreshScroll.setState(PullToRefreshBase.State.RESET);
+            // myRefreshScroll.setState(PullToRefreshBase.State.RESET);
             //}
         }
         //AppApplication.RefreshByNetworkConfig = false;

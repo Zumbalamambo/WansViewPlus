@@ -60,9 +60,9 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         int currentSelectedPosition = bottomNavigationBar.getCurrentSelectedPosition();
         bottomNavigationBar.clearAll();
-        bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.ic_music, getString(R.string.home)).setInactiveIconResource(R.drawable.ic_music))
-                .addItem(new BottomNavigationItem(R.drawable.ic_music, getString(R.string.message)).setInactiveIconResource(R.drawable.ic_music))
-                .addItem(new BottomNavigationItem(R.drawable.ic_music, getString(R.string.mine)).setInactiveIconResource(R.drawable.ic_music))
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.ic_music, getString(R.string.devices)).setInactiveIconResource(R.drawable.ic_music))
+                .addItem(new BottomNavigationItem(R.drawable.ic_music, getString(R.string.inbox)).setInactiveIconResource(R.drawable.ic_music))
+                .addItem(new BottomNavigationItem(R.drawable.ic_music, getString(R.string.me)).setInactiveIconResource(R.drawable.ic_music))
                 .setActiveColor(R.color.colorPrimary)
                 .setFirstSelectedPosition(0)
                 .initialise();
@@ -95,9 +95,9 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
                 } else {
                     String tag = fragment.getClass().getSimpleName();
                     if (fragment == messageFragment) {
-                        tag = "message";
+                        tag = "inbox";
                     } else if (fragment == mineFragment) {
-                        tag = "mine";
+                        tag = "me";
                     }
                     ft.add(R.id.content, fragment, tag);
                 }
@@ -125,7 +125,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
      */
     private void setDefaultFragment() {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.content, deviceFragment, "home");
+        transaction.replace(R.id.content, deviceFragment, "devices");
         transaction.commitAllowingStateLoss();
     }
 

@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.support.customview.MyToolbar;
+import net.ajcloud.wansview.support.customview.dialog.ProgressDialogManager;
 import net.ajcloud.wansview.support.tools.TimeLock;
 import net.ajcloud.wansview.support.utils.DisplayUtil;
 
@@ -31,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     private View contentView;
     private MyToolbar toolbar;
     protected MainApplication application = MainApplication.getApplication();
+    protected ProgressDialogManager progressDialogManager = ProgressDialogManager.getDialogManager();
     private TimeLock timeLock = new TimeLock();
 
     @Override
@@ -112,6 +114,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         rootView.addView(contentView, 0, params);
 
         setContentView(rootView);
+//        setSupportActionBar(toolbar);
     }
 
     protected abstract int getLayoutId();

@@ -1,14 +1,17 @@
 <resources>
     <string name="app_name">WansViewPlus</string>
-    <string name="home">home</string>
-    <string name="message">message</string>
-    <string name="mine">mine</string>
+    <string name="devices">Devices</string>
+    <string name="inbox">Inbox</string>
+    <string name="me">Me</string>
 
     <string name="cancel">取消</string>
+    <string name="edit">编辑</string>
     <string name="select_all">全选</string>
     <string name="add">添加</string>
     <string name="today">今天</string>
     <string name="retry">重试</string>
+    <string name="delete">删除</string>
+
 
     <!--FCM notification channel id-->
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
@@ -102,4 +105,19 @@
     <string name="wv_cruise_vertical">上下巡航</string>
     <string name="wv_cruise_horizontal">左右巡航</string>
     <string name="wv_camera_stop_cruise">停止巡航</string>
+
+    <string name="wv_history_delete_tips">确定要删除吗？</string>
+    <string name="wv_history_delete_notify_tips">删除后数据将无法恢复</string>
+    <string name="wv_choose_delete_video">请选择要删除的视频</string>
+    <string name="wv_video_download_item_name">摄像机</string>
+    <string name="wv_video_download_downloaded">已下载</string>
+    <string name="wv_video_download_downloading">正在下载</string>
+
+    <string name="wv_video_download_item_download_from_cloud">来自云存储</string>
+    <string name="wv_video_download_item_download_from_tfcard">来自TF卡</string>
+    <string name="wv_video_download_item_download_from_nas">来自NAS设备</string>
+    <string name="wv_video_download_player_file_empty">该视频已被删除</string>
+    <string name="wv_video_download_item_download_notfound">下载失败，该文件已过期</string>
+    <string name="wv_video_download_item_download_wait">等待中...</string>
+    <string name="wv_video_download_item_download_fail">下载失败，点击重新下载</string>
 </resources>

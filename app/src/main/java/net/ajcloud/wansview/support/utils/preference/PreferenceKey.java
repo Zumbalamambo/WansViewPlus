@@ -18,5 +18,7 @@ public interface PreferenceKey {
         String REFRESH_TOKEN = "REFRESH_TOKEN";
         //登录状态
         String IS_LOGIN = "IS_LOGIN";
+        //当前登录账号
+        String CURRENT_ACCOUNT = "CURRENT_ACCOUNT";
     }
 }

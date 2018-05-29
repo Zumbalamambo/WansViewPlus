@@ -37,7 +37,7 @@ public class DiscoveryDeviceListAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = layoutInflater.inflate(R.layout.item_discovery_device, parent, false);
+        View itemView = layoutInflater.inflate(R.layout.item_discovery_device_list, parent, false);
         return new DeviceListHolder(itemView);
     }
 
