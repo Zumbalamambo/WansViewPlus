@@ -26,7 +26,7 @@
             android:singleLine="true"
             android:text="TF card storage"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/item_storage_switch"
@@ -65,7 +65,7 @@
             android:singleLine="true"
             android:text="Detection time"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <ImageView
             android:id="@+id/item_time_arrow"
@@ -88,7 +88,7 @@
             android:singleLine="true"
             android:text="24-hour"
             android:textColor="@color/gray_second"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
 
     <View
@@ -117,7 +117,7 @@
             android:singleLine="true"
             android:text="Video quality"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <ImageView
             android:id="@+id/item_quality_arrow"
@@ -140,7 +140,7 @@
             android:singleLine="true"
             android:text="FHD"
             android:textColor="@color/gray_second"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
 
     <View
@@ -177,7 +177,7 @@
             android:singleLine="true"
             android:text="Record when image changes"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/item_record_switch"

@@ -26,7 +26,7 @@
             android:singleLine="true"
             android:text="Placement"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <ImageView
             android:id="@+id/item_placement_arrow"
@@ -49,7 +49,7 @@
             android:singleLine="true"
             android:text="Upright"
             android:textColor="@color/gray_second"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
 
     <View
@@ -78,7 +78,7 @@
             android:singleLine="true"
             android:text="Auto Night vision"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/item_night_switch"
@@ -117,7 +117,7 @@
             android:singleLine="true"
             android:text="Camera microphone"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/item_microphone_switch"
@@ -164,7 +164,7 @@
             android:singleLine="true"
             android:text="Camera speaking volume"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
 
         <TextView
@@ -179,7 +179,7 @@
             android:singleLine="true"
             android:text="Normal"
             android:textColor="@color/gray_second"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <android.support.v7.widget.AppCompatSeekBar
             android:id="@+id/item_volume_seekbar"
@@ -234,7 +234,7 @@
             android:singleLine="true"
             android:text="LED light"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/item_light_switch"

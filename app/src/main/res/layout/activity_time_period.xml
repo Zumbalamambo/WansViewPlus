@@ -24,7 +24,7 @@
             android:singleLine="true"
             android:text="Time period 1"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/item_switch_switch"
@@ -71,7 +71,7 @@
             android:singleLine="true"
             android:text="Start time"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <ImageView
             android:id="@+id/item_start_arrow"
@@ -94,7 +94,7 @@
             android:singleLine="true"
             android:text="12:00"
             android:textColor="@color/gray_second"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
 
     <View
@@ -123,7 +123,7 @@
             android:singleLine="true"
             android:text="End time"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <ImageView
             android:id="@+id/item_end_arrow"
@@ -146,7 +146,7 @@
             android:singleLine="true"
             android:text="24:00"
             android:textColor="@color/gray_second"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
 
     <View

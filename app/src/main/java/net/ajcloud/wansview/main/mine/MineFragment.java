@@ -14,6 +14,9 @@ import android.widget.EditText;
 
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.application.MainApplication;
+import net.ajcloud.wansview.support.core.api.UserApiUnit;
+import net.ajcloud.wansview.support.core.bean.AppConfigBean;
+import net.ajcloud.wansview.support.tools.WLog;
 
 /**
  * Created by mamengchao on 2018/05/15.
@@ -47,17 +50,19 @@ public class MineFragment extends Fragment {
         view.findViewById(net.ajcloud.wansview.R.id.change).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//               new UserApiUnit(getActivity()).changePassword("805901025@qq.com", oldPwd.getText().toString(), newPwd.getText().toString(), new UserApiUnit.UserApiCommonListener<SigninBean>() {
-//                   @Override
-//                   public void onSuccess(SigninBean bean) {
-//
-//                   }
-//
-//                   @Override
-//                   public void onFail(int code, String msg) {
-//
-//                   }
-//               });
+               new UserApiUnit(getActivity()).getAppConfig(new UserApiUnit.UserApiCommonListener<AppConfigBean>() {
+                   @Override
+                   public void onSuccess(AppConfigBean bean) {
+                       WLog.d("url_test", bean.uacUrl);
+                       WLog.d("url_test", bean.emcUrl);
+                       WLog.d("url_test", bean.cloudStorUrl);
+                   }
+
+                   @Override
+                   public void onFail(int code, String msg) {
+
+                   }
+               });
             }
         });
         view.findViewById(net.ajcloud.wansview.R.id.logout).setOnClickListener(new View.OnClickListener() {

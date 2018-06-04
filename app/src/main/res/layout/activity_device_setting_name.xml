@@ -16,7 +16,7 @@
         android:inputType="text"
         android:maxLines="1"
         android:hint="Camera name"
-        android:textSize="@dimen/signIn_textSize_16"
+        android:textSize="@dimen/device_setting_text_size_16"
         app:met_clearButton="true"
         app:met_floatingLabel="highlight"
         app:met_floatingLabelTextColor="@color/colorPrimary"

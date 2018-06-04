@@ -25,7 +25,7 @@
             android:singleLine="true"
             android:text="Camera ID"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <TextView
             android:id="@+id/item_id_id"
@@ -39,7 +39,7 @@
             android:singleLine="true"
             android:text="LoungeHGFDHH2783"
             android:textColor="@color/gray_second"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
 
     <View
@@ -68,7 +68,7 @@
             android:singleLine="true"
             android:text="Firmware Version"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <ImageView
             android:id="@+id/item_firmware_update"
@@ -91,7 +91,7 @@
             android:singleLine="true"
             android:text="V1.0.6"
             android:textColor="@color/gray_second"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
 
     <View
@@ -120,7 +120,7 @@
             android:singleLine="true"
             android:text="IP Address"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <TextView
             android:id="@+id/item_ip_ip"
@@ -134,7 +134,7 @@
             android:singleLine="true"
             android:text="192.168.1.150"
             android:textColor="@color/gray_second"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
 
     <View
@@ -163,7 +163,7 @@
             android:singleLine="true"
             android:text="Wi-Fi MAC"
             android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
 
         <TextView
             android:id="@+id/item_mac_mac"
@@ -177,7 +177,7 @@
             android:singleLine="true"
             android:text="30:99:35:f2:81:7b"
             android:textColor="@color/gray_second"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
 
     <View

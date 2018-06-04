@@ -37,7 +37,7 @@
                     android:singleLine="true"
                     android:text="Cloud storage"
                     android:textColor="@color/gray_first"
-                    android:textSize="@dimen/signIn_textSize_14" />
+                    android:textSize="@dimen/device_setting_text_size_14" />
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/item_storage_switch"
@@ -76,7 +76,7 @@
                     android:singleLine="true"
                     android:text="Detection time"
                     android:textColor="@color/gray_first"
-                    android:textSize="@dimen/signIn_textSize_14" />
+                    android:textSize="@dimen/device_setting_text_size_14" />
 
                 <ImageView
                     android:id="@+id/item_time_arrow"
@@ -99,7 +99,7 @@
                     android:singleLine="true"
                     android:text="24-hour"
                     android:textColor="@color/gray_second"
-                    android:textSize="@dimen/signIn_textSize_14" />
+                    android:textSize="@dimen/device_setting_text_size_14" />
             </RelativeLayout>
 
             <View
@@ -128,7 +128,7 @@
                     android:singleLine="true"
                     android:text="Video quality"
                     android:textColor="@color/gray_first"
-                    android:textSize="@dimen/signIn_textSize_14" />
+                    android:textSize="@dimen/device_setting_text_size_14" />
 
                 <ImageView
                     android:id="@+id/item_quality_arrow"
@@ -151,7 +151,7 @@
                     android:singleLine="true"
                     android:text="FHD"
                     android:textColor="@color/gray_second"
-                    android:textSize="@dimen/signIn_textSize_14" />
+                    android:textSize="@dimen/device_setting_text_size_14" />
             </RelativeLayout>
 
             <View
@@ -181,7 +181,7 @@
                     android:singleLine="true"
                     android:text="Record plan"
                     android:textColor="@color/gray_first"
-                    android:textSize="@dimen/signIn_textSize_14" />
+                    android:textSize="@dimen/device_setting_text_size_14" />
 
                 <ImageView
                     android:id="@+id/item_plan_one_arrow"
@@ -204,7 +204,7 @@
                     android:singleLine="true"
                     android:text="7-day cloud sorage"
                     android:textColor="@color/gray_second"
-                    android:textSize="@dimen/signIn_textSize_14" />
+                    android:textSize="@dimen/device_setting_text_size_14" />
             </RelativeLayout>
 
             <View
@@ -233,7 +233,7 @@
                     android:singleLine="true"
                     android:text="Validity period"
                     android:textColor="@color/gray_first"
-                    android:textSize="@dimen/signIn_textSize_14" />
+                    android:textSize="@dimen/device_setting_text_size_14" />
 
                 <TextView
                     android:id="@+id/item_one_time_time"
@@ -247,7 +247,7 @@
                     android:singleLine="true"
                     android:text="2018.05.11-2019.05.12"
                     android:textColor="@color/gray_second"
-                    android:textSize="@dimen/signIn_textSize_14" />
+                    android:textSize="@dimen/device_setting_text_size_14" />
             </RelativeLayout>
 
             <View
@@ -277,7 +277,7 @@
                     android:singleLine="true"
                     android:text="Record plan 2"
                     android:textColor="@color/gray_first"
-                    android:textSize="@dimen/signIn_textSize_14" />
+                    android:textSize="@dimen/device_setting_text_size_14" />
 
                 <ImageView
                     android:id="@+id/item_plan_two_arrow"
@@ -300,7 +300,7 @@
                     android:singleLine="true"
                     android:text="如果有第二个未生效订单"
                     android:textColor="@color/gray_second"
-                    android:textSize="@dimen/signIn_textSize_14" />
+                    android:textSize="@dimen/device_setting_text_size_14" />
             </RelativeLayout>
 
             <View
@@ -329,7 +329,7 @@
                     android:singleLine="true"
                     android:text="Validity period"
                     android:textColor="@color/gray_first"
-                    android:textSize="@dimen/signIn_textSize_14" />
+                    android:textSize="@dimen/device_setting_text_size_14" />
 
                 <TextView
                     android:id="@+id/item_two_time_time"
@@ -343,7 +343,7 @@
                     android:singleLine="true"
                     android:text="2018.05.11-2019.05.12"
                     android:textColor="@color/gray_second"
-                    android:textSize="@dimen/signIn_textSize_14" />
+                    android:textSize="@dimen/device_setting_text_size_14" />
             </RelativeLayout>
 
             <View

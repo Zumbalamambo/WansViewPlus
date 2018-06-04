@@ -29,7 +29,7 @@
                 android:singleLine="true"
                 android:text="Camera name"
                 android:textColor="@color/gray_first"
-                android:textSize="@dimen/signIn_textSize_14" />
+                android:textSize="@dimen/device_setting_text_size_14" />
 
             <ImageView
                 android:id="@+id/item_name_arrow"
@@ -51,7 +51,7 @@
                 android:gravity="end|center_vertical"
                 android:singleLine="true"
                 android:textColor="@color/gray_second"
-                android:textSize="@dimen/signIn_textSize_14"
+                android:textSize="@dimen/device_setting_text_size_14"
                 android:text="Front Door" />
         </RelativeLayout>
 
@@ -81,7 +81,7 @@
                 android:singleLine="true"
                 android:text="Device information"
                 android:textColor="@color/gray_first"
-                android:textSize="@dimen/signIn_textSize_14" />
+                android:textSize="@dimen/device_setting_text_size_14" />
 
             <ImageView
                 android:id="@+id/item_info_arrow"
@@ -118,7 +118,7 @@
                 android:singleLine="true"
                 android:text="Network"
                 android:textColor="@color/gray_first"
-                android:textSize="@dimen/signIn_textSize_14" />
+                android:textSize="@dimen/device_setting_text_size_14" />
 
             <ImageView
                 android:id="@+id/item_network_arrow"
@@ -140,7 +140,7 @@
                 android:gravity="end|center_vertical"
                 android:singleLine="true"
                 android:textColor="@color/gray_second"
-                android:textSize="@dimen/signIn_textSize_14"
+                android:textSize="@dimen/device_setting_text_size_14"
                 tools:text="Ajcloud -2.4G" />
         </RelativeLayout>
 
@@ -178,7 +178,7 @@
                 android:singleLine="true"
                 android:text="Home alert"
                 android:textColor="@color/gray_first"
-                android:textSize="@dimen/signIn_textSize_14" />
+                android:textSize="@dimen/device_setting_text_size_14" />
 
             <ImageView
                 android:id="@+id/item_alert_arrow"
@@ -215,7 +215,7 @@
                 android:singleLine="true"
                 android:text="Image and audio"
                 android:textColor="@color/gray_first"
-                android:textSize="@dimen/signIn_textSize_14" />
+                android:textSize="@dimen/device_setting_text_size_14" />
 
             <ImageView
                 android:id="@+id/item_image_arrow"
@@ -252,7 +252,7 @@
                 android:singleLine="true"
                 android:text="Camera time zone"
                 android:textColor="@color/gray_first"
-                android:textSize="@dimen/signIn_textSize_14" />
+                android:textSize="@dimen/device_setting_text_size_14" />
 
             <ImageView
                 android:id="@+id/item_timezone_arrow"
@@ -274,7 +274,7 @@
                 android:gravity="end|center_vertical"
                 android:singleLine="true"
                 android:textColor="@color/gray_second"
-                android:textSize="@dimen/signIn_textSize_14"
+                android:textSize="@dimen/device_setting_text_size_14"
                 tools:text="Beijing" />
         </RelativeLayout>
 
@@ -312,7 +312,7 @@
                 android:singleLine="true"
                 android:text="TFcard storage"
                 android:textColor="@color/gray_first"
-                android:textSize="@dimen/signIn_textSize_14" />
+                android:textSize="@dimen/device_setting_text_size_14" />
 
             <ImageView
                 android:id="@+id/item_tf_storage_arrow"
@@ -349,7 +349,7 @@
                 android:singleLine="true"
                 android:text="Cloud storage"
                 android:textColor="@color/gray_first"
-                android:textSize="@dimen/signIn_textSize_14" />
+                android:textSize="@dimen/device_setting_text_size_14" />
 
             <ImageView
                 android:id="@+id/item_cloud_storage_arrow"
@@ -394,7 +394,7 @@
                 android:singleLine="true"
                 android:text="Device maintenance"
                 android:textColor="@color/gray_first"
-                android:textSize="@dimen/signIn_textSize_14" />
+                android:textSize="@dimen/device_setting_text_size_14" />
 
             <ImageView
                 android:id="@+id/item_maintenance_arrow"
