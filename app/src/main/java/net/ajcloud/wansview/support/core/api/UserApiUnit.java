@@ -8,6 +8,7 @@ import net.ajcloud.wansview.entity.LocalInfo;
 import net.ajcloud.wansview.main.account.SigninAccountManager;
 import net.ajcloud.wansview.main.application.MainApplication;
 import net.ajcloud.wansview.support.core.Cipher.CipherUtil;
+import net.ajcloud.wansview.support.core.bean.AppConfigBean;
 import net.ajcloud.wansview.support.core.bean.ChallengeBean;
 import net.ajcloud.wansview.support.core.bean.ResponseBean;
 import net.ajcloud.wansview.support.core.bean.SigninBean;
@@ -55,6 +56,36 @@ public class UserApiUnit {
             return null;
         }
     }
+
+    /**
+     * App启动时需要的公共参数
+     */
+    public void getAppConfig(final UserApiCommonListener<AppConfigBean> listener) {
+        JSONObject jsonObject = new JSONObject();
+        OkGo.<ResponseBean<AppConfigBean>>post(ApiConstant.URL_GET_APP_CONFIG)
+                .tag(this)
+                .upJson(jsonObject)
+                .execute(new JsonCallback<ResponseBean<AppConfigBean>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<AppConfigBean>> response) {
+                        ResponseBean responseBean = response.body();
+                        AppConfigBean bean = (AppConfigBean) responseBean.result;
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(bean);
+                            ApiConstant.setBaseUrl(bean);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<AppConfigBean>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, context.getString(R.string.Service_Error));
+                    }
+                });
+    }
+
 
     /**
      * 获取秘钥接口，账号相关操作每次必须先调用此接口
