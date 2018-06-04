@@ -6,8 +6,12 @@
     <dimen name="expand_tittle_text">34sp</dimen>
     <dimen name="collapse_tittle_text">18sp</dimen>
     <dimen name="fragment_tittle_height">80dp</dimen>
+    <dimen name="default_margin_left">24dp</dimen>
+    <dimen name="default_editText_height">48dp</dimen>
+    <dimen name="default_divider_Height">0.1dp</dimen>
     <!--登录模块-->
     <dimen name="signIn_textSize_34">34sp</dimen>
+    <dimen name="signIn_textSize_32">32sp</dimen>
     <dimen name="signIn_textSize_20">20sp</dimen>
     <dimen name="signIn_textSize_18">18sp</dimen>
     <dimen name="signIn_textSize_16">16sp</dimen>
@@ -30,6 +34,11 @@
     <dimen name="device_btn_height">48dp</dimen>
     <dimen name="discovery_device_btn_width">120dp</dimen>
     <dimen name="discovery_device_btn_height">48dp</dimen>
+    <!--Device-Setting-->
+    <dimen name="device_setting_item_height">56dp</dimen>
+    <dimen name="device_setting_item_height_large">96dp</dimen>
+    <dimen name="device_setting_margin_first">24dp</dimen>
+    <dimen name="device_setting_margin_second">14dp</dimen>
 
 
     <!-- Minimum fling velocity for drawers (dp/second)-->

@@ -25,23 +25,4 @@ public class ApiConstant {
     public static String URL_USER_USER_ACTIVE = BASE_URL_API + "/user-active";
     public static String URL_USER_CHANGE_PASSWORD = BASE_URL_API + "/change-password";
 
-    public static void setAccessToken(Context context, String token) {
-        SPUtil accountSP = SPUtil.getSPUtil(context, PreferenceKey.sp_name.account);
-        accountSP.put(PreferenceKey.sp_key.ACCESS_TOKEN, token);
-    }
-
-    public static String getAccessToken(Context context) {
-        SPUtil accountSP = SPUtil.getSPUtil(context, PreferenceKey.sp_name.account);
-        return (String) accountSP.get(PreferenceKey.sp_key.ACCESS_TOKEN, "");
-    }
-
-    public static void setRefreshToken(Context context, String token) {
-        SPUtil accountSP = SPUtil.getSPUtil(context, PreferenceKey.sp_name.account);
-        accountSP.put(PreferenceKey.sp_key.REFRESH_TOKEN, token);
-    }
-
-    public static String getRefreshToken(Context context) {
-        SPUtil accountSP = SPUtil.getSPUtil(context, PreferenceKey.sp_name.account);
-        return (String) accountSP.get(PreferenceKey.sp_key.REFRESH_TOKEN, "");
-    }
 }

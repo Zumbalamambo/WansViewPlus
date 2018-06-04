@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -59,6 +60,15 @@ public class AddDeviceScanQRActivity extends BaseActivity {
             ssid = getIntent().getStringExtra("ssid");
             pwd = getIntent().getStringExtra("pwd");
         }
+        final ViewTreeObserver viewTreeObserver = qrcodeImageView.getViewTreeObserver();
+        viewTreeObserver.addOnWindowFocusChangeListener(new ViewTreeObserver.OnWindowFocusChangeListener() {
+            @Override
+            public void onWindowFocusChanged(final boolean hasFocus) {
+                if (hasFocus) {
+                    showQRImage();
+                }
+            }
+        });
     }
 
     @Override
@@ -70,9 +80,6 @@ public class AddDeviceScanQRActivity extends BaseActivity {
     @Override
     public void onClickView(View v) {
         switch (v.getId()) {
-            case R.id.img_left:
-                finish();
-                break;
             case R.id.btn_sure:
                 startActivity(new Intent(AddDeviceScanQRActivity.this, AddDeviceWaitingActivity.class));
                 break;
@@ -81,14 +88,6 @@ public class AddDeviceScanQRActivity extends BaseActivity {
                 break;
             default:
                 break;
-        }
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            showQRImage();
         }
     }
 
@@ -103,7 +102,7 @@ public class AddDeviceScanQRActivity extends BaseActivity {
         Bitmap bitmap = EncodingUtils.createQRCode(content, width, height, null);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] bytes=baos.toByteArray();
+        byte[] bytes = baos.toByteArray();
         Glide.with(AddDeviceScanQRActivity.this)
                 .load(bytes)
                 .into(qrcodeImageView);

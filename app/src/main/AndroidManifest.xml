@@ -50,7 +50,7 @@
             android:name=".main.welcome.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@style/FullscreenTheme">
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -73,7 +73,9 @@
         <activity
             android:name=".main.account.SigninTwiceActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".main.account.SigninGestureActivity" />
+        <activity
+            android:name=".main.account.SigninGestureActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".support.tools.zxing.activity.CaptureActivity"
             android:screenOrientation="portrait"
@@ -93,9 +95,20 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".main.device.type.DeviceHomeActivity"
-            android:theme="@style/HomeDeviceTheme"
             android:configChanges="orientation|screenSize|locale|layoutDirection"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeDeviceTheme" />
+        <activity android:name=".main.device.setting.DeviceSettingActivity" />
+        <activity android:name=".main.device.setting.DeviceSettingNameActivity" />
+        <activity android:name=".main.device.setting.DeviceSettingInfoActivity" />
+        <activity android:name=".main.device.setting.DeviceSettingAlertActivity" />
+        <activity android:name=".main.device.setting.DetectionTimeActivity" />
+        <activity android:name=".main.device.setting.TimePeriodActivity" />
+        <activity android:name=".main.device.setting.ImageAndAudioActivity" />
+        <activity android:name=".main.device.setting.TFCardActivity" />
+        <activity android:name=".main.device.setting.CloudStorageActivity" />
+        <activity android:name=".main.device.setting.MaintenanceActivity" />
+        <activity android:name=".main.device.setting.TimeZoneActivity"></activity>
     </application>
 
 </manifest>

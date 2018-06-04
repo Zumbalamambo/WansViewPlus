@@ -1,5 +1,7 @@
 package net.ajcloud.wansview.main.application;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,9 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
 import net.ajcloud.wansview.R;
+import net.ajcloud.wansview.main.device.addDevice.AddDeviceSelectActivity;
+import net.ajcloud.wansview.main.device.setting.DeviceSettingActivity;
+import net.ajcloud.wansview.main.device.setting.DeviceSettingAlertActivity;
+import net.ajcloud.wansview.main.device.setting.DeviceSettingInfoActivity;
+import net.ajcloud.wansview.main.device.setting.DeviceSettingNameActivity;
 import net.ajcloud.wansview.support.customview.MyToolbar;
 import net.ajcloud.wansview.support.customview.dialog.ProgressDialogManager;
 import net.ajcloud.wansview.support.tools.TimeLock;
@@ -31,15 +39,16 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     private View toolbarView;
     private View contentView;
     private MyToolbar toolbar;
+    private LayoutInflater mInflater;
     protected MainApplication application = MainApplication.getApplication();
     protected ProgressDialogManager progressDialogManager = ProgressDialogManager.getDialogManager();
     private TimeLock timeLock = new TimeLock();
 
     @Override
-
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         application.pushActivity(this);
+        mInflater = LayoutInflater.from(this);
         initRootView();
         setContentView();
         if (null != toolbar) {
@@ -93,14 +102,14 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         }
         //添加toolbar
         if (hasTittle()) {
-            toolbarView = LayoutInflater.from(this).inflate(R.layout.tool_bar, null);
+            toolbarView = mInflater.inflate(R.layout.tool_bar, null);
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, DisplayUtil.dip2Pix(this, 48));
             params.topMargin = statusBarHeight;
             rootView.addView(toolbarView, params);
             toolbar = toolbarView.findViewById(R.id.toolbar);
         }
         //添加contentView
-        contentView = LayoutInflater.from(this).inflate(getLayoutId(), null);
+        contentView = mInflater.inflate(getLayoutId(), null);
         contentView.setBackgroundColor(Color.WHITE);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
         if (hasTittle()) {
@@ -121,11 +130,17 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     protected abstract boolean hasTittle();
 
-    protected abstract void initView();
+    protected void initView(){
 
-    protected abstract void initData();
+    }
 
-    protected abstract void initListener();
+    protected void initData(){
+
+    }
+
+    protected void initListener(){
+
+    }
 
     protected boolean hasStateBar() {
         return true;
@@ -143,8 +158,14 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             return;
         }
         timeLock.lock();
-        if (v.getId() == R.id.btn_left || v.getId() == R.id.img_left) {
-            finish();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        switch (v.getId()) {
+            case R.id.img_left:
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0); //强制隐藏键盘
+                onBackPressed();
+                break;
+            default:
+                break;
         }
         onClickView(v);
     }

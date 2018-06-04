@@ -12,13 +12,7 @@ public interface PreferenceKey {
     interface sp_key {
         //设备唯一标识
         String DEVICE_ID = "DEVICE_ID";
-        //access_token
-        String ACCESS_TOKEN = "ACCESS_TOKEN";
-        //refresh_token
-        String REFRESH_TOKEN = "REFRESH_TOKEN";
         //登录状态
         String IS_LOGIN = "IS_LOGIN";
-        //当前登录账号
-        String CURRENT_ACCOUNT = "CURRENT_ACCOUNT";
     }
 }

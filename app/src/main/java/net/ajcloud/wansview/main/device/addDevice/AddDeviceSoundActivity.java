@@ -97,9 +97,6 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
     @Override
     public void onClickView(View v) {
         switch (v.getId()) {
-            case R.id.img_left:
-                finish();
-                break;
             case R.id.btn_send:
                 //configure Wi-Fi of the device by Smartlink technology
                 byte[] bytsWifi = ssid.getBytes();
@@ -111,10 +108,11 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
                 for (int i = 0; i < 2; i++) {
                     seat_api.SEAT_Start(handleAudioT[0]);
 //                    int nMode = getCipherType(ssid);
-                    int nWrite = seat_api.SEAT_WriteSSIDWiFi2(handleAudioT[0], 2, bytsWifi, bytsWifi.length,
-                            bytsPwd, bytsPwd.length,
-                            SEAT_API.WIFI_SECURITY_MODE_UNKNOWN, null, //WIFI_SECURITY_MODE_WPAPSK_TKIP, nMode value by getCipherType(MainActivity.this, strCurWiFiSSID);
-                            null, 0);
+//                    int nWrite = seat_api.SEAT_WriteSSIDWiFi2(handleAudioT[0], 2, bytsWifi, bytsWifi.length,
+//                            bytsPwd, bytsPwd.length,
+//                            SEAT_API.WIFI_SECURITY_MODE_UNKNOWN, null, //WIFI_SECURITY_MODE_WPAPSK_TKIP, nMode value by getCipherType(MainActivity.this, strCurWiFiSSID);
+//                            null, 0);
+                    int nWrite = seat_api.SEAT_WriteByte(handleAudioT[0], bytsWifi, bytsWifi.length);
                     WLog.d(TAG, "voice]  SEAT_WriteSSIDWiFi2(.)=" + nWrite);
                     seat_api.SEAT_Stop(handleAudioT[0]);
 

@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import net.ajcloud.wansview.R;
+import net.ajcloud.wansview.main.account.SigninAccountManager;
 import net.ajcloud.wansview.main.account.SigninActivity;
+import net.ajcloud.wansview.main.account.SigninTwiceActivity;
 import net.ajcloud.wansview.main.application.MainApplication;
 import net.ajcloud.wansview.main.home.HomeActivity;
 
@@ -16,14 +18,13 @@ import java.util.List;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private SigninAccountManager signinAccountManager;
+
     private Handler handler = new Handler();
     private Runnable startHomeTask = new Runnable() {
         @Override
         public void run() {
-//            SigninTwiceActivity.start(SplashActivity.this, "121321323@Gmail.com");
-            Intent intent = new Intent(SplashActivity.this, SigninActivity.class);
-            startActivity(intent);
-            finish();
+            signin();
         }
     };
 
@@ -43,10 +44,26 @@ public class SplashActivity extends AppCompatActivity {
             }
         }
         setContentView(R.layout.activity_splash);
+
         startApp();
     }
 
     private void startApp() {
         handler.postDelayed(startHomeTask, 1000);
     }
+
+    private void signin() {
+        signinAccountManager = new SigninAccountManager(SplashActivity.this);
+        if (signinAccountManager.isAutoSignin()) {
+            startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+        } else {
+            if (TextUtils.isEmpty(signinAccountManager.getCurrentAccountMail())) {
+                startActivity(new Intent(SplashActivity.this, SigninActivity.class));
+            } else {
+                SigninTwiceActivity.start(SplashActivity.this, signinAccountManager.getCurrentAccountMail());
+            }
+        }
+        finish();
+    }
+
 }

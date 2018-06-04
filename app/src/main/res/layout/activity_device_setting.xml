@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".main.device.setting.DeviceSettingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/item_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/device_setting_item_height"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first">
+
+            <TextView
+                android:id="@+id/item_name_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:gravity="start|center_vertical"
+                android:maxWidth="200dp"
+                android:singleLine="true"
+                android:text="Camera name"
+                android:textColor="@color/gray_first"
+                android:textSize="@dimen/signIn_textSize_14" />
+
+            <ImageView
+                android:id="@+id/item_name_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow" />
+
+            <TextView
+                android:id="@+id/item_name_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/device_setting_margin_second"
+                android:layout_toEndOf="@id/item_name_tips"
+                android:layout_toStartOf="@id/item_name_arrow"
+                android:ellipsize="end"
+                android:gravity="end|center_vertical"
+                android:singleLine="true"
+                android:textColor="@color/gray_second"
+                android:textSize="@dimen/signIn_textSize_14"
+                android:text="Front Door" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
+
+        <RelativeLayout
+            android:id="@+id/item_info"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/device_setting_item_height"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first">
+
+            <TextView
+                android:id="@+id/item_info_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:gravity="start|center_vertical"
+                android:maxWidth="200dp"
+                android:singleLine="true"
+                android:text="Device information"
+                android:textColor="@color/gray_first"
+                android:textSize="@dimen/signIn_textSize_14" />
+
+            <ImageView
+                android:id="@+id/item_info_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
+
+        <RelativeLayout
+            android:id="@+id/item_network"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/device_setting_item_height"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first">
+
+            <TextView
+                android:id="@+id/item_network_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:gravity="start|center_vertical"
+                android:maxWidth="200dp"
+                android:singleLine="true"
+                android:text="Network"
+                android:textColor="@color/gray_first"
+                android:textSize="@dimen/signIn_textSize_14" />
+
+            <ImageView
+                android:id="@+id/item_network_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow" />
+
+            <TextView
+                android:id="@+id/item_network_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/device_setting_margin_second"
+                android:layout_toEndOf="@id/item_network_tips"
+                android:layout_toStartOf="@id/item_network_arrow"
+                android:ellipsize="end"
+                android:gravity="end|center_vertical"
+                android:singleLine="true"
+                android:textColor="@color/gray_second"
+                android:textSize="@dimen/signIn_textSize_14"
+                tools:text="Ajcloud -2.4G" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:layout_marginTop="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
+
+        <RelativeLayout
+            android:id="@+id/item_alert"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/device_setting_item_height"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first">
+
+            <TextView
+                android:id="@+id/item_alert_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:gravity="start|center_vertical"
+                android:maxWidth="200dp"
+                android:singleLine="true"
+                android:text="Home alert"
+                android:textColor="@color/gray_first"
+                android:textSize="@dimen/signIn_textSize_14" />
+
+            <ImageView
+                android:id="@+id/item_alert_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
+
+        <RelativeLayout
+            android:id="@+id/item_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/device_setting_item_height"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first">
+
+            <TextView
+                android:id="@+id/item_image_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:gravity="start|center_vertical"
+                android:maxWidth="200dp"
+                android:singleLine="true"
+                android:text="Image and audio"
+                android:textColor="@color/gray_first"
+                android:textSize="@dimen/signIn_textSize_14" />
+
+            <ImageView
+                android:id="@+id/item_image_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
+
+        <RelativeLayout
+            android:id="@+id/item_timezone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/device_setting_item_height"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first">
+
+            <TextView
+                android:id="@+id/item_timezone_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:gravity="start|center_vertical"
+                android:maxWidth="200dp"
+                android:singleLine="true"
+                android:text="Camera time zone"
+                android:textColor="@color/gray_first"
+                android:textSize="@dimen/signIn_textSize_14" />
+
+            <ImageView
+                android:id="@+id/item_timezone_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow" />
+
+            <TextView
+                android:id="@+id/item_timezone_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/device_setting_margin_second"
+                android:layout_toEndOf="@id/item_timezone_tips"
+                android:layout_toStartOf="@id/item_timezone_arrow"
+                android:ellipsize="end"
+                android:gravity="end|center_vertical"
+                android:singleLine="true"
+                android:textColor="@color/gray_second"
+                android:textSize="@dimen/signIn_textSize_14"
+                tools:text="Beijing" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:layout_marginTop="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
+
+        <RelativeLayout
+            android:id="@+id/item_tf_storage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/device_setting_item_height"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first">
+
+            <TextView
+                android:id="@+id/item_tf_storage_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:gravity="start|center_vertical"
+                android:maxWidth="200dp"
+                android:singleLine="true"
+                android:text="TFcard storage"
+                android:textColor="@color/gray_first"
+                android:textSize="@dimen/signIn_textSize_14" />
+
+            <ImageView
+                android:id="@+id/item_tf_storage_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
+
+        <RelativeLayout
+            android:id="@+id/item_cloud_storage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/device_setting_item_height"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first">
+
+            <TextView
+                android:id="@+id/item_cloud_storage_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:gravity="start|center_vertical"
+                android:maxWidth="200dp"
+                android:singleLine="true"
+                android:text="Cloud storage"
+                android:textColor="@color/gray_first"
+                android:textSize="@dimen/signIn_textSize_14" />
+
+            <ImageView
+                android:id="@+id/item_cloud_storage_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:layout_marginTop="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
+
+        <RelativeLayout
+            android:id="@+id/item_maintenance"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/device_setting_item_height"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first">
+
+            <TextView
+                android:id="@+id/item_maintenance_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:gravity="start|center_vertical"
+                android:maxWidth="200dp"
+                android:singleLine="true"
+                android:text="Device maintenance"
+                android:textColor="@color/gray_first"
+                android:textSize="@dimen/signIn_textSize_14" />
+
+            <ImageView
+                android:id="@+id/item_maintenance_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginTop="@dimen/device_setting_margin_first" />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

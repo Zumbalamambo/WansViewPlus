@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/device_setting_item_height"
+        android:layout_marginStart="@dimen/default_margin_left"
+        android:ellipsize="end"
+        android:gravity="center_vertical|start"
+        android:singleLine="true"
+        android:textColor="@color/gray_first"
+        android:textSize="@dimen/signIn_textSize_14"
+        tools:text="Africa/Abidjan" />
+
+    <TextView
+        android:id="@+id/tv_offset_time"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/device_setting_item_height"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="48dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical|start"
+        android:singleLine="true"
+        android:textColor="@color/gray_second"
+        android:textSize="@dimen/signIn_textSize_14"
+        tools:text="+0:00" />
+
+    <ImageView
+        android:id="@+id/iv_selected"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/default_margin_left"
+        android:src="@drawable/ic_all"
+        android:visibility="invisible" />
+</RelativeLayout>

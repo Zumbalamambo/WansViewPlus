@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -16,8 +15,6 @@ import net.ajcloud.wansview.support.customview.MyToolbar;
 import net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText;
 import net.ajcloud.wansview.support.tools.RegularTool;
 import net.ajcloud.wansview.support.utils.ToastUtil;
-import net.ajcloud.wansview.support.utils.preference.PreferenceKey;
-import net.ajcloud.wansview.support.utils.preference.SPUtil;
 
 public class SignupActivity extends BaseActivity {
 
@@ -50,11 +47,6 @@ public class SignupActivity extends BaseActivity {
         agreeCheckBox = findViewById(net.ajcloud.wansview.R.id.cb_agree);
         nextButton = findViewById(net.ajcloud.wansview.R.id.btn_next);
         nextButton.setEnabled(false);
-    }
-
-    @Override
-    protected void initData() {
-
     }
 
     @Override
@@ -91,11 +83,14 @@ public class SignupActivity extends BaseActivity {
 
         final String mail = userName.getText().toString();
         final String pwd = password.getText().toString();
-        if (TextUtils.isEmpty(mail) || TextUtils.isEmpty(pwd)) {
-            ToastUtil.single("cant be empty");
+        if (TextUtils.isEmpty(mail)) {
+            userName.setError("cant be empty");
+            return;
+        } else if (TextUtils.isEmpty(pwd)) {
+            password.setError("cant be empty");
             return;
         } else if (!RegularTool.isLegalEmailAddress(mail)) {
-            ToastUtil.single("E-mail format is incorrect");
+            password.setError("E-mail format is incorrect");
             return;
         }
 

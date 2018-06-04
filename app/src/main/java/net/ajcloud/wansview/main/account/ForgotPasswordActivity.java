@@ -7,7 +7,6 @@ import android.widget.Button;
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.application.BaseActivity;
 import net.ajcloud.wansview.support.core.api.UserApiUnit;
-import net.ajcloud.wansview.support.core.bean.SigninBean;
 import net.ajcloud.wansview.support.customview.MyToolbar;
 import net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText;
 import net.ajcloud.wansview.support.tools.RegularTool;
@@ -57,9 +56,6 @@ public class ForgotPasswordActivity extends BaseActivity {
     @Override
     public void onClickView(View v) {
         switch (v.getId()) {
-            case R.id.img_left:
-                finish();
-                break;
             case R.id.btn_reset:
                 doForgot();
                 break;
@@ -71,11 +67,14 @@ public class ForgotPasswordActivity extends BaseActivity {
     private void doForgot() {
         final String mail = userName.getText().toString();
         final String pwd = password.getText().toString();
-        if (TextUtils.isEmpty(mail) || TextUtils.isEmpty(pwd)) {
-            ToastUtil.single("cant be empty");
+        if (TextUtils.isEmpty(mail)) {
+            userName.setError("cant be empty");
+            return;
+        } else if (TextUtils.isEmpty(pwd)) {
+            password.setError("cant be empty");
             return;
         } else if (!RegularTool.isLegalEmailAddress(mail)) {
-            ToastUtil.single("E-mail format is incorrect");
+            password.setError("E-mail format is incorrect");
             return;
         }
 

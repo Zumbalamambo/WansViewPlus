@@ -10,10 +10,12 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import net.ajcloud.wansview.BuildConfig;
+import net.ajcloud.wansview.entity.DaoMaster;
+import net.ajcloud.wansview.entity.DaoSession;
 import net.ajcloud.wansview.entity.LocalInfo;
+import net.ajcloud.wansview.main.account.SigninAccountManager;
 import net.ajcloud.wansview.main.framework.FileIO;
 import net.ajcloud.wansview.main.framework.impl.AndroidFileIO;
-import net.ajcloud.wansview.support.core.api.ApiConstant;
 import net.ajcloud.wansview.support.core.okhttp.OkGo;
 import net.ajcloud.wansview.support.core.okhttp.cache.CacheEntity;
 import net.ajcloud.wansview.support.core.okhttp.cache.CacheMode;
@@ -25,18 +27,7 @@ import net.ajcloud.wansview.support.utils.preference.PreferenceKey;
 import net.ajcloud.wansview.support.utils.preference.SPUtil;
 import com.crashlytics.android.Crashlytics;
 
-import net.ajcloud.wansview.BuildConfig;
-import net.ajcloud.wansview.entity.LocalInfo;
-import net.ajcloud.wansview.support.core.api.ApiConstant;
-import net.ajcloud.wansview.support.core.okhttp.OkGo;
-import net.ajcloud.wansview.support.core.okhttp.cache.CacheEntity;
-import net.ajcloud.wansview.support.core.okhttp.cache.CacheMode;
-import net.ajcloud.wansview.support.core.okhttp.cookie.CookieJarImpl;
-import net.ajcloud.wansview.support.core.okhttp.cookie.store.SPCookieStore;
-import net.ajcloud.wansview.support.core.okhttp.interceptor.HttpLoggingInterceptor;
-import net.ajcloud.wansview.support.tools.CrashHandler;
-import net.ajcloud.wansview.support.utils.preference.PreferenceKey;
-import net.ajcloud.wansview.support.utils.preference.SPUtil;
+import org.greenrobot.greendao.database.Database;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,9 +48,16 @@ public class MainApplication extends Application {
 
     private LocalInfo localInfo;
 
+    private DaoSession daoSession;
+
+    public DaoSession getDaoSession() {
+        return daoSession;
+    }
+
     private static MainApplication mInstance = null;
 
     private List<Activity> activities = new ArrayList<>();
+
     public static FileIO fileIO;
 
 
@@ -134,6 +132,11 @@ public class MainApplication extends Application {
                 .setRetryCount(1);                        //全局统一超时重连次数，默认为三次，那么最差的情况会请求4次(一次原始请求，三次重连请求)，不需要可以设置为0
 //                .addCommonHeaders(headers)                      //全局公共头
 //                .addCommonParams(params);
+
+        // GreenDao 初始化/////////////////////////////////////////////
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "wansview-plus-db");
+        final Database db = helper.getWritableDb();
+        daoSession = new DaoMaster(db).newSession();
     }
 
     public LocalInfo getLocalInfo() {
@@ -174,10 +177,8 @@ public class MainApplication extends Application {
     }
 
     public void logout() {
-        SPUtil accountSP = SPUtil.getSPUtil(this, PreferenceKey.sp_name.account);
-        accountSP.put(PreferenceKey.sp_key.IS_LOGIN, false);
-        ApiConstant.setRefreshToken(this, "");
-        ApiConstant.setAccessToken(this, "");
+        SigninAccountManager manager = new SigninAccountManager(this);
+        manager.clearAccountSigninInfo();
     }
 
     public void pushActivity(Activity activity) {

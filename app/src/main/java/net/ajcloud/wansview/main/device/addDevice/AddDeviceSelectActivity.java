@@ -3,8 +3,8 @@ package net.ajcloud.wansview.main.device.addDevice;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.application.BaseActivity;
-import net.ajcloud.wansview.support.tools.WLog;
 import net.ajcloud.wansview.support.utils.ConstantsUtil;
 
 public class AddDeviceSelectActivity extends BaseActivity {
@@ -15,7 +15,7 @@ public class AddDeviceSelectActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return net.ajcloud.wansview.R.layout.activity_add_device_select;
+        return R.layout.activity_add_device_select;
     }
 
     @Override
@@ -26,11 +26,11 @@ public class AddDeviceSelectActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Selection of device type");
-        getToolbar().setLeftImg(net.ajcloud.wansview.R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.icon_back);
 
-        k3Layout = findViewById(net.ajcloud.wansview.R.id.rl_k3);
-        q3Layout = findViewById(net.ajcloud.wansview.R.id.rl_q3);
-        w2Layout = findViewById(net.ajcloud.wansview.R.id.rl_w2);
+        k3Layout = findViewById(R.id.rl_k3);
+        q3Layout = findViewById(R.id.rl_q3);
+        w2Layout = findViewById(R.id.rl_w2);
     }
 
     @Override
@@ -48,16 +48,13 @@ public class AddDeviceSelectActivity extends BaseActivity {
     @Override
     public void onClickView(View v) {
         switch (v.getId()) {
-            case net.ajcloud.wansview.R.id.img_left:
-                finish();
-                break;
-            case net.ajcloud.wansview.R.id.rl_k3:
+            case R.id.rl_k3:
                 AddDeviceModeActivity.start(AddDeviceSelectActivity.this, ConstantsUtil.DEVICE_TYPE_K3);
                 break;
-            case net.ajcloud.wansview.R.id.rl_q3:
+            case R.id.rl_q3:
                 AddDeviceModeActivity.start(AddDeviceSelectActivity.this, ConstantsUtil.DEVICE_TYPE_Q3);
                 break;
-            case net.ajcloud.wansview.R.id.rl_w2:
+            case R.id.rl_w2:
                 AddDeviceModeActivity.start(AddDeviceSelectActivity.this, ConstantsUtil.DEVICE_TYPE_W2);
                 break;
             default:

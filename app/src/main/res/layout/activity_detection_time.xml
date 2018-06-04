@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".main.device.setting.DetectionTimeActivity">
+
+    <RelativeLayout
+        android:id="@+id/item_all_time"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/device_setting_item_height"
+        android:layout_marginEnd="@dimen/device_setting_margin_first"
+        android:layout_marginStart="@dimen/device_setting_margin_first">
+
+        <TextView
+            android:id="@+id/item_all_time_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:text="24-hour Alarm"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/signIn_textSize_14" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/item_all_time_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:checked="true"
+            android:theme="@style/CustomSwitch"
+            app:switchMinWidth="37dp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/device_setting_margin_first"
+        android:layout_marginStart="@dimen/device_setting_margin_first"
+        android:background="@color/gray_line" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/device_setting_margin_first"
+        android:layout_marginStart="@dimen/device_setting_margin_first"
+        android:layout_marginTop="@dimen/device_setting_margin_first"
+        android:background="@color/gray_line" />
+
+    <RelativeLayout
+        android:id="@+id/item_period_one"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/device_setting_item_height"
+        android:layout_marginEnd="@dimen/device_setting_margin_first"
+        android:layout_marginStart="@dimen/device_setting_margin_first">
+
+        <TextView
+            android:id="@+id/item_period_one_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:text="Time period 1"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/signIn_textSize_14" />
+
+        <ImageView
+            android:id="@+id/item_period_one_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow" />
+
+        <TextView
+            android:id="@+id/item_period_one_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/device_setting_margin_second"
+            android:layout_toEndOf="@id/item_period_one_tips"
+            android:layout_toStartOf="@id/item_period_one_arrow"
+            android:ellipsize="end"
+            android:gravity="end|center_vertical"
+            android:singleLine="true"
+            android:text="off"
+            android:textColor="@color/gray_second"
+            android:textSize="@dimen/signIn_textSize_14" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/device_setting_margin_first"
+        android:layout_marginStart="@dimen/device_setting_margin_first"
+        android:background="@color/gray_line" />
+
+    <RelativeLayout
+        android:id="@+id/item_period_two"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/device_setting_item_height"
+        android:layout_marginEnd="@dimen/device_setting_margin_first"
+        android:layout_marginStart="@dimen/device_setting_margin_first">
+
+        <TextView
+            android:id="@+id/item_period_two_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:text="Time period 2"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/signIn_textSize_14" />
+
+        <ImageView
+            android:id="@+id/item_period_two_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow" />
+
+        <TextView
+            android:id="@+id/item_period_two_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/device_setting_margin_second"
+            android:layout_toEndOf="@id/item_period_two_tips"
+            android:layout_toStartOf="@id/item_period_two_arrow"
+            android:ellipsize="end"
+            android:gravity="end|center_vertical"
+            android:singleLine="true"
+            android:text="12:00-24:00"
+            android:textColor="@color/gray_second"
+            android:textSize="@dimen/signIn_textSize_14" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/device_setting_margin_first"
+        android:layout_marginStart="@dimen/device_setting_margin_first"
+        android:background="@color/gray_line" />
+</LinearLayout>

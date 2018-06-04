@@ -58,10 +58,6 @@ android {
 greendao {
     //数据库版本号  需要更新时加1
     schemaVersion 1
-    //设置DaoMaster、DaoSession、Dao包名，也就是要放置这些类的包的全路径。
-    daoPackage 'net.ajcloud.wansview.support.dao'
-    //设置DaoMaster、DaoSession、Dao目录
-    targetGenDir 'src/main/java'
 }
 
 dependencies {

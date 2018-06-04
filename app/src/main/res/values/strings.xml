@@ -11,6 +11,8 @@
     <string name="today">今天</string>
     <string name="retry">重试</string>
     <string name="delete">删除</string>
+    <string name="ok">确定</string>
+
 
 
     <!--FCM notification channel id-->
@@ -120,4 +122,12 @@
     <string name="wv_video_download_item_download_notfound">下载失败，该文件已过期</string>
     <string name="wv_video_download_item_download_wait">等待中...</string>
     <string name="wv_video_download_item_download_fail">下载失败，点击重新下载</string>
+
+    <string name="videoplayer_network_open_tips">当前网络状况不佳</string>
+    <string name="play_fast_rate">快</string>
+    <string name="play_slow_rate">慢</string>
+    <string name="videoActivity_network_slow">当前网络状况不佳,请重试</string>
+    <string name="play_buffing">正在缓冲中...</string>
+    <string name="hardware_acceleration_error_title">硬件加速失败</string>
+    <string name="hardware_acceleration_error_message">硬件加速失败，请重试</string>
 </resources>

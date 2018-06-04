@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/appbar"
-    android:background="@android:color/transparent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
     app:elevation="0dp">
 
     <net.ajcloud.wansview.support.customview.MyToolbar
@@ -25,15 +25,18 @@
 
             <ImageView
                 android:id="@+id/img_left"
-                android:layout_width="@dimen/toolbar_height"
-                android:layout_height="@dimen/toolbar_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="@dimen/default_margin_left"
                 android:clickable="true"
+                android:maxHeight="@dimen/toolbar_height"
+                android:maxWidth="@dimen/toolbar_height"
                 android:scaleType="center"
                 android:src="@mipmap/icon_back"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <Button
                 android:id="@+id/btn_left"
@@ -41,13 +44,17 @@
                 android:layout_height="@dimen/toolbar_height"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/default_margin_left"
                 android:background="@null"
                 android:ellipsize="end"
+                android:gravity="start|center_vertical"
                 android:lines="1"
+                android:text="test"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/signIn_textSize_18"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/tv_tittle"
@@ -78,26 +85,32 @@
                 android:layout_height="@dimen/toolbar_height"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="@dimen/default_margin_left"
                 android:background="@null"
                 android:ellipsize="end"
                 android:gravity="center|end"
                 android:lines="1"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/signIn_textSize_18"
-                android:visibility="gone" />
+                android:visibility="gone"
+                tools:text="text"
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/img_right"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/toolbar_height"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="@dimen/default_margin_left"
                 android:clickable="true"
+                android:maxHeight="@dimen/toolbar_height"
+                android:maxWidth="@dimen/toolbar_height"
                 android:scaleType="center"
-                android:visibility="gone" />
+                android:src="@mipmap/icon_back"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
         </RelativeLayout>
     </net.ajcloud.wansview.support.customview.MyToolbar>

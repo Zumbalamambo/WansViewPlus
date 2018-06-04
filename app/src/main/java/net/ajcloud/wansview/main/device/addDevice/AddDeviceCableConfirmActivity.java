@@ -41,9 +41,6 @@ public class AddDeviceCableConfirmActivity extends BaseActivity {
     @Override
     public void onClickView(View v) {
         switch (v.getId()) {
-            case R.id.img_left:
-                finish();
-                break;
             case R.id.btn_next:
                 startActivity(new Intent(AddDeviceCableConfirmActivity.this, AddDeviceDiscoveryActivity.class));
                 break;

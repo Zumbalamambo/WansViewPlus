@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".main.device.setting.MaintenanceActivity">
+
+    <RelativeLayout
+        android:id="@+id/item_restart"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/device_setting_item_height"
+        android:layout_marginEnd="@dimen/device_setting_margin_first"
+        android:layout_marginStart="@dimen/device_setting_margin_first">
+
+        <TextView
+            android:id="@+id/item_restart_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:text="Restart camera"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/signIn_textSize_14" />
+
+        <ImageView
+            android:id="@+id/item_restart_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/device_setting_margin_first"
+        android:layout_marginStart="@dimen/device_setting_margin_first"
+        android:background="@color/gray_line" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/device_setting_margin_first"
+        android:layout_marginStart="@dimen/device_setting_margin_first"
+        android:layout_marginTop="@dimen/device_setting_margin_first"
+        android:background="@color/gray_line" />
+
+    <RelativeLayout
+        android:id="@+id/item_restore"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/device_setting_item_height"
+        android:layout_marginEnd="@dimen/device_setting_margin_first"
+        android:layout_marginStart="@dimen/device_setting_margin_first">
+
+        <TextView
+            android:id="@+id/item_restore_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:text="Restart camera"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/signIn_textSize_14" />
+
+        <ImageView
+            android:id="@+id/item_restore_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/device_setting_margin_first"
+        android:layout_marginStart="@dimen/device_setting_margin_first"
+        android:background="@color/gray_line" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/device_setting_margin_first"
+        android:layout_marginStart="@dimen/device_setting_margin_first"
+        android:layout_marginTop="@dimen/device_setting_margin_first"
+        android:background="@color/gray_line" />
+
+    <RelativeLayout
+        android:id="@+id/item_delete"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/device_setting_item_height"
+        android:layout_marginEnd="@dimen/device_setting_margin_first"
+        android:layout_marginStart="@dimen/device_setting_margin_first">
+
+        <TextView
+            android:id="@+id/item_delete_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:text="Restart camera"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/signIn_textSize_14" />
+
+        <ImageView
+            android:id="@+id/item_delete_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/device_setting_margin_first"
+        android:layout_marginStart="@dimen/device_setting_margin_first"
+        android:background="@color/gray_line" />
+</LinearLayout>

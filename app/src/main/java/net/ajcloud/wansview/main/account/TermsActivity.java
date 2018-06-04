@@ -33,16 +33,6 @@ public class TermsActivity extends BaseActivity {
     }
 
     @Override
-    protected void initData() {
-
-    }
-
-    @Override
-    protected void initListener() {
-
-    }
-
-    @Override
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.btn_right:

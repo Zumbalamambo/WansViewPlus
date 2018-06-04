@@ -2,23 +2,23 @@ package net.ajcloud.wansview.main.account;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.application.BaseActivity;
 import net.ajcloud.wansview.main.home.HomeActivity;
+import net.ajcloud.wansview.support.core.api.UserApiUnit;
+import net.ajcloud.wansview.support.core.bean.SigninBean;
 import net.ajcloud.wansview.support.customview.dialog.SigninMoreDialog;
 import net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText;
-
-import net.ajcloud.wansview.main.application.BaseActivity;
-import net.ajcloud.wansview.support.customview.dialog.SigninMoreDialog;
-import net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText;
+import net.ajcloud.wansview.support.utils.ToastUtil;
 
 public class SigninTwiceActivity extends BaseActivity {
 
+    private static final String SIGNIN = "SIGNIN";
     private MaterialEditText password;
     private TextView userNameTextView, forgotTextView, moreTextView;
     private Button signinButton;
@@ -88,8 +88,7 @@ public class SigninTwiceActivity extends BaseActivity {
     public void onClickView(View v) {
         switch (v.getId()) {
             case net.ajcloud.wansview.R.id.btn_signin:
-                startActivity(new Intent(SigninTwiceActivity.this, HomeActivity.class));
-                finish();
+                doSignin();
                 break;
             case net.ajcloud.wansview.R.id.tv_more:
                 if (!signinMoreDialog.isShowing()) {
@@ -102,5 +101,31 @@ public class SigninTwiceActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    private void doSignin() {
+        final String mail = userName;
+        final String pwd = password.getText().toString();
+        if (TextUtils.isEmpty(pwd)) {
+            password.setError("cant be empty");
+            return;
+        }
+
+        progressDialogManager.showDialog(SIGNIN, this, getResources().getInteger(R.integer.http_timeout));
+        new UserApiUnit(this).signin(mail, pwd, new UserApiUnit.UserApiCommonListener<SigninBean>() {
+            @Override
+            public void onSuccess(SigninBean bean) {
+                progressDialogManager.dimissDialog(SIGNIN, 0);
+                Intent intent = new Intent(SigninTwiceActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                progressDialogManager.dimissDialog(SIGNIN, 0);
+                ToastUtil.single(msg);
+            }
+        });
     }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.FrameLayout;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -29,7 +28,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     private MessageFragment messageFragment;
     private MineFragment mineFragment;
     private ArrayList<Fragment> fragments;
-    private FrameLayout content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +47,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     protected void initView() {
-        content = findViewById(R.id.content);
         deviceFragment = new DeviceFragment();
         messageFragment = new MessageFragment();
         mineFragment = new MineFragment();
@@ -70,11 +67,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
             bottomNavigationBar.selectTab(currentSelectedPosition, false);
         }
         setDefaultFragment();
-    }
-
-    @Override
-    protected void initData() {
-
     }
 
     @Override

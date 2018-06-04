@@ -5,6 +5,7 @@ import android.util.Base64;
 
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.entity.LocalInfo;
+import net.ajcloud.wansview.main.account.SigninAccountManager;
 import net.ajcloud.wansview.main.application.MainApplication;
 import net.ajcloud.wansview.support.core.Cipher.CipherUtil;
 import net.ajcloud.wansview.support.core.bean.ChallengeBean;
@@ -13,8 +14,6 @@ import net.ajcloud.wansview.support.core.bean.SigninBean;
 import net.ajcloud.wansview.support.core.callback.JsonCallback;
 import net.ajcloud.wansview.support.core.okhttp.OkGo;
 import net.ajcloud.wansview.support.core.okhttp.model.Response;
-import net.ajcloud.wansview.support.utils.preference.PreferenceKey;
-import net.ajcloud.wansview.support.utils.preference.SPUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +26,7 @@ public class UserApiUnit {
     private static final String TAG = "UserApiUnit";
     private Context context;
     private LocalInfo localInfo;
+    private SigninAccountManager accountManager;
 
     public interface UserApiCommonListener<T> {
         void onSuccess(T bean);
@@ -37,6 +37,7 @@ public class UserApiUnit {
     public UserApiUnit(Context context) {
         this.context = context;
         localInfo = ((MainApplication) context.getApplicationContext()).getLocalInfo();
+        accountManager = new SigninAccountManager(context);
     }
 
     private JSONObject getReqBody(JSONObject data) {
@@ -180,8 +181,7 @@ public class UserApiUnit {
                                 ResponseBean responseBean = response.body();
                                 SigninBean bean = (SigninBean) responseBean.result;
                                 if (responseBean.isSuccess()) {
-                                    SPUtil.getSPUtil(context, PreferenceKey.sp_name.account).put(PreferenceKey.sp_key.CURRENT_ACCOUNT, mail);
-                                    saveAccount(bean);
+                                    saveAccount(mail, bean);
                                     listener.onSuccess(bean);
                                 } else {
                                     listener.onFail(responseBean.getResultCode(), responseBean.message);
@@ -225,7 +225,7 @@ public class UserApiUnit {
                     dataJson.put("agentName", localInfo.deviceName);
                     dataJson.put("agentToken", localInfo.deviceId);
                     dataJson.put("osName", "android");
-                    dataJson.put("refreshToken", ApiConstant.getRefreshToken(context));
+                    dataJson.put("refreshToken", accountManager.getCurrentAccountRefreshToken());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -268,7 +268,7 @@ public class UserApiUnit {
             dataJson.put("agentName", localInfo.deviceName);
             dataJson.put("agentToken", localInfo.deviceId);
             dataJson.put("osName", "android");
-            dataJson.put("access_token", ApiConstant.getAccessToken(context));
+            dataJson.put("access_token", accountManager.getCurrentAccountAccessToken());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -281,6 +281,7 @@ public class UserApiUnit {
                         ResponseBean responseBean = response.body();
                         if (responseBean.isSuccess()) {
                             listener.onSuccess(responseBean);
+                            MainApplication.getApplication().logout();
                         } else {
                             listener.onFail(responseBean.getResultCode(), responseBean.message);
                         }
@@ -297,10 +298,8 @@ public class UserApiUnit {
     /**
      * 登陆成功后的操作
      */
-    private void saveAccount(SigninBean bean) {
-        SPUtil accountSP = SPUtil.getSPUtil(context, PreferenceKey.sp_name.account);
-        accountSP.put(PreferenceKey.sp_key.IS_LOGIN, true);
-        ApiConstant.setAccessToken(context, bean.accessToken);
-        ApiConstant.setRefreshToken(context, bean.refreshToken);
+    private void saveAccount(String mail, SigninBean bean) {
+        SigninAccountManager manager = new SigninAccountManager(context);
+        manager.saveCurrentAccount(mail, bean);
     }
 }

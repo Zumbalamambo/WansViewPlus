@@ -86,4 +86,5 @@ public class SPUtil {
     public void clear() {
         mPreferences.edit().clear().apply();
     }
+
 }

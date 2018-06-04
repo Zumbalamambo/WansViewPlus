@@ -44,12 +44,12 @@ public class DeviceSearchUnit {
             public void run() {
                 HashMap<String, DeviceSearchBean> deviceSearchBeanHashMap = new HashMap<>();
                 try {
-                    multicastSocket = new MulticastSocket(1111);
+                    multicastSocket = new MulticastSocket(9713);
                     multicastSocket.setSoTimeout(socketTimeout);
                     InetAddress group = InetAddress.getByName("1.1.1.1");
                     multicastSocket.joinGroup(group);
                     byte[] buf = new byte[1024];
-                    DatagramPacket sendDP = new DatagramPacket(keyArray, keyArray.length, group, 1111);
+                    DatagramPacket sendDP = new DatagramPacket(keyArray, keyArray.length, group, 9713);
                     multicastSocket.send(sendDP);
 
                     while (true) {

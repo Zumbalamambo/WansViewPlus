@@ -14,8 +14,6 @@ import net.ajcloud.wansview.support.core.bean.SigninBean;
 import net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText;
 import net.ajcloud.wansview.support.tools.RegularTool;
 import net.ajcloud.wansview.support.utils.ToastUtil;
-import net.ajcloud.wansview.support.utils.preference.PreferenceKey;
-import net.ajcloud.wansview.support.utils.preference.SPUtil;
 
 public class SigninActivity extends BaseActivity {
 
@@ -23,6 +21,7 @@ public class SigninActivity extends BaseActivity {
     private MaterialEditText userName, password;
     private TextView signUpTextView, forgotTextView;
     private Button signinButton;
+    private SigninAccountManager signinAccountManager;
 
     @Override
     protected int getLayoutId() {
@@ -45,7 +44,8 @@ public class SigninActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        String account = (String) SPUtil.getSPUtil(this, PreferenceKey.sp_name.account).get(PreferenceKey.sp_key.CURRENT_ACCOUNT, "");
+        signinAccountManager = new SigninAccountManager(this);
+        String account = signinAccountManager.getCurrentAccountMail();
         if (!TextUtils.isEmpty(account)) {
             userName.setText(account);
         }
@@ -78,11 +78,14 @@ public class SigninActivity extends BaseActivity {
     private void doSignin() {
         final String mail = userName.getText().toString();
         final String pwd = password.getText().toString();
-        if (TextUtils.isEmpty(mail) || TextUtils.isEmpty(pwd)) {
-            ToastUtil.single("cant be empty");
+        if (TextUtils.isEmpty(mail)) {
+            userName.setError("cant be empty");
+            return;
+        } else if (TextUtils.isEmpty(pwd)) {
+            password.setError("cant be empty");
             return;
         } else if (!RegularTool.isLegalEmailAddress(mail)) {
-            ToastUtil.single("E-mail format is incorrect");
+            userName.setError("E-mail format is incorrect");
             return;
         }
 
@@ -91,7 +94,8 @@ public class SigninActivity extends BaseActivity {
             @Override
             public void onSuccess(SigninBean bean) {
                 progressDialogManager.dimissDialog(SIGNIN, 0);
-                startActivity(new Intent(SigninActivity.this, HomeActivity.class));
+                Intent intent = new Intent(SigninActivity.this, HomeActivity.class);
+                startActivity(intent);
                 finish();
             }
 

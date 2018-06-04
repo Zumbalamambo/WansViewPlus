@@ -1,9 +1,11 @@
 package net.ajcloud.wansview.support.utils;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Environment;
 
+import net.ajcloud.wansview.entity.TimezoneInfo;
 import net.ajcloud.wansview.main.application.MainApplication;
 
 import java.io.BufferedInputStream;
@@ -19,9 +21,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -772,4 +776,36 @@ public class FileUtil {
         return content;
     }
 
+    /**
+     * 获取时区信息
+     */
+    public static ArrayList<TimezoneInfo> getTimeZoneDataFromJson(Context context) {
+        ArrayList<TimezoneInfo> list = new ArrayList<>();
+        try {
+            InputStreamReader isr = new InputStreamReader(context.getAssets().open("TimeZone.json"), "UTF-8");
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            StringBuilder builder = new StringBuilder();
+            while ((line = br.readLine()) != null) {
+                builder.append(line);
+            }
+            br.close();
+            isr.close();
+            org.json.JSONObject jsonObject = new org.json.JSONObject(builder.toString());//builder读取了JSON中的数据。
+            //直接传入JSONObject来构造一个实例
+            org.json.JSONArray array = jsonObject.getJSONArray("zone");         //从JSONObject中取出数组对象
+            for (int i = 0; i < array.length(); i++) {
+                TimezoneInfo bean = new TimezoneInfo();
+                org.json.JSONObject jsonObject1 = array.getJSONObject(i);    //取出数组中的对象
+                bean.cn = jsonObject1.getString("cn");
+                bean.en = jsonObject1.getString("en");
+                bean.timeZone = jsonObject1.getString("timeZone");
+                list.add(i, bean);
+            }//
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

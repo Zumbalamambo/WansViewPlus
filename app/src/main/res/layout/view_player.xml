@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#2a2a2a"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <!--
+     the double FrameLayout is necessary here to do cropping on the bottom right
+     (which requires the surface not be centered), while keeping the result centered
+    -->
+    <FrameLayout
+        android:background="#2a2a2a"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <net.ajcloud.wansview.support.customview.camera.ScaleFrameLayout
+            android:id="@+id/player_surface_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:foregroundGravity="clip_horizontal|clip_vertical" >
+
+            <SurfaceView
+                android:id="@+id/player_surface"
+                android:layout_width="1dp"
+                android:layout_height="1dp" />
+
+        </net.ajcloud.wansview.support.customview.camera.ScaleFrameLayout>
+
+    </FrameLayout>
+
+</RelativeLayout>
