@@ -22,6 +22,9 @@ public class ApiConstant {
     public static String URL_USER_SIGNOUT = BASE_UAC_URL + "/signout";
     public static String URL_USER_USER_ACTIVE = BASE_UAC_URL + "/user-active";
     public static String URL_USER_CHANGE_PASSWORD = BASE_UAC_URL + "/change-password";
+    //设备相关
+    public static String URL_DEVICE_PREBIND = BASE_UAC_URL + "/req-bind";
+    public static String URL_DEVICE_GET_BIND_STATUS = BASE_UAC_URL + "/bind-status";
 
     public static void setBaseUrl(AppConfigBean bean) {
         isApply = true;
