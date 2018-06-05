@@ -35,7 +35,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Please confirm that the power is connected."
+        android:text="Your phone must be connected to Wifi in the same network environment as the camera"
         android:textColor="@color/gray_second"
         android:textSize="@dimen/signIn_textSize_12" />
 

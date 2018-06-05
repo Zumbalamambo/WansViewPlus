@@ -68,7 +68,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Restart camera"
+            android:text="Restore factory setting"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -113,7 +113,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Restart camera"
+            android:text="Delete camera"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 

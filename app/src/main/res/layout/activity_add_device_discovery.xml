@@ -5,90 +5,103 @@
     android:layout_height="match_parent"
     tools:context=".main.device.addDevice.AddDeviceDiscoveryActivity">
 
-    <TextView
-        android:id="@+id/tv_wifi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="Your Wi-Fi"
-        android:textColor="@color/gray_first"
-        android:textSize="@dimen/signIn_textSize_14" />
-
-    <TextView
-        android:id="@+id/tv_wifi_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="20dp"
-        android:text="AJcloud520"
-        android:textColor="@color/gray_second"
-        android:textSize="@dimen/signIn_textSize_14" />
-
-    <View
-        android:id="@+id/view_line"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_below="@id/tv_wifi"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/gray_line" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_device_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view_line"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="Found 2 devices"
-        android:textColor="@color/gray_third"
-        android:textSize="@dimen/signIn_textSize_14" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_device_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/tv_device_num"
-        android:layout_margin="20dp"
-        android:background="@color/gray_line"
-        android:scrollbars="none"
-        tools:visibility="gone" />
+            <TextView
+                android:id="@+id/tv_wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Your Wi-Fi"
+                android:textColor="@color/gray_first"
+                android:textSize="@dimen/signIn_textSize_14" />
 
-    <LinearLayout
-        android:id="@+id/ll_no_device"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:layout_below="@id/tv_device_num"
-        android:layout_margin="20dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_wifi_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp"
+                android:text="AJcloud520"
+                android:textColor="@color/gray_second"
+                android:textSize="@dimen/signIn_textSize_14" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:src="@mipmap/ic_launcher_round" />
+            <View
+                android:id="@+id/view_line"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_below="@id/tv_wifi"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/gray_line" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="Please connect the device with cable"
-            android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_16" />
+            <TextView
+                android:id="@+id/tv_device_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view_line"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Found 0 devices"
+                android:textColor="@color/gray_third"
+                android:textSize="@dimen/signIn_textSize_14" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="Your phone must be connected to Wifi in the same network environment as the camera."
-            android:textColor="@color/gray_third"
-            android:textSize="@dimen/signIn_textSize_16" />
-    </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_device_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/tv_device_num"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:scrollbars="none"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/ll_no_device"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/tv_device_num"
+                android:layout_margin="20dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:src="@mipmap/ic_launcher_round" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="Please connect the device with cable"
+                    android:textColor="@color/gray_first"
+                    android:textSize="@dimen/signIn_textSize_16" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="Your phone must be connected to Wifi in the same network environment as the camera."
+                    android:textColor="@color/gray_third"
+                    android:textSize="@dimen/signIn_textSize_16" />
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

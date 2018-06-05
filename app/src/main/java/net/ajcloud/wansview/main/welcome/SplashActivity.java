@@ -13,6 +13,8 @@ import net.ajcloud.wansview.main.account.SigninActivity;
 import net.ajcloud.wansview.main.account.SigninTwiceActivity;
 import net.ajcloud.wansview.main.application.MainApplication;
 import net.ajcloud.wansview.main.home.HomeActivity;
+import net.ajcloud.wansview.support.core.api.UserApiUnit;
+import net.ajcloud.wansview.support.core.bean.AppConfigBean;
 
 import java.util.List;
 
@@ -24,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
     private Runnable startHomeTask = new Runnable() {
         @Override
         public void run() {
-            signin();
+            getAppConfig();
         }
     };
 
@@ -50,6 +52,20 @@ public class SplashActivity extends AppCompatActivity {
 
     private void startApp() {
         handler.postDelayed(startHomeTask, 1000);
+    }
+
+    private void getAppConfig() {
+        new UserApiUnit(this).getAppConfig(new UserApiUnit.UserApiCommonListener<AppConfigBean>() {
+            @Override
+            public void onSuccess(AppConfigBean bean) {
+                signin();
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                startActivity(new Intent(SplashActivity.this, SigninActivity.class));
+            }
+        });
     }
 
     private void signin() {

@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:paddingBottom="10dp">
 
     <ImageView
@@ -12,6 +11,10 @@
         android:layout_height="100dp"
         android:layout_centerVertical="true"
         android:layout_margin="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
         android:scaleType="center"
         android:src="@mipmap/ic_launcher_round" />
 
@@ -20,11 +23,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/iv_device_icon"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@id/iv_device_icon"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/signIn_textSize_20"
+        android:textStyle="bold"
         tools:text="Wansview K3" />
 
     <TextView
@@ -33,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@id/tv_device_name"
         android:layout_below="@id/tv_device_name"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="24dp"
         android:ellipsize="end"
         android:maxLines="2"
         android:textColor="@color/gray_second"
@@ -46,7 +50,7 @@
         android:layout_height="@dimen/discovery_device_btn_height"
         android:layout_alignParentEnd="true"
         android:layout_below="@id/tv_device_id"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_signin_button"
         android:text="Select"

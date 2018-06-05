@@ -3,18 +3,19 @@ package net.ajcloud.wansview.support.core.api;
 import android.content.Context;
 import android.util.Base64;
 
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
+
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.entity.LocalInfo;
 import net.ajcloud.wansview.main.account.SigninAccountManager;
 import net.ajcloud.wansview.main.application.MainApplication;
-import net.ajcloud.wansview.support.core.Cipher.CipherUtil;
 import net.ajcloud.wansview.support.core.bean.AppConfigBean;
 import net.ajcloud.wansview.support.core.bean.ChallengeBean;
 import net.ajcloud.wansview.support.core.bean.ResponseBean;
 import net.ajcloud.wansview.support.core.bean.SigninBean;
 import net.ajcloud.wansview.support.core.callback.JsonCallback;
-import net.ajcloud.wansview.support.core.okhttp.OkGo;
-import net.ajcloud.wansview.support.core.okhttp.model.Response;
+import net.ajcloud.wansview.support.core.cipher.CipherUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,8 +72,8 @@ public class UserApiUnit {
                         ResponseBean responseBean = response.body();
                         AppConfigBean bean = (AppConfigBean) responseBean.result;
                         if (responseBean.isSuccess()) {
-                            listener.onSuccess(bean);
                             ApiConstant.setBaseUrl(bean);
+                            listener.onSuccess(bean);
                         } else {
                             listener.onFail(responseBean.getResultCode(), responseBean.message);
                         }
@@ -94,7 +95,7 @@ public class UserApiUnit {
      * @param action   具体操作
      */
     private void challenge(String username, String action, final UserApiCommonListener<ChallengeBean> listener) {
-        JSONObject dataJson = new JSONObject();
+        final JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("username", username);
             dataJson.put("action", action);
@@ -103,26 +104,60 @@ public class UserApiUnit {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        OkGo.<ResponseBean<ChallengeBean>>post(ApiConstant.URL_USER_CHALLENGE)
-                .tag(this)
-                .upJson(getReqBody(dataJson))
-                .execute(new JsonCallback<ResponseBean<ChallengeBean>>() {
-                    @Override
-                    public void onSuccess(Response<ResponseBean<ChallengeBean>> response) {
-                        ResponseBean responseBean = response.body();
-                        if (responseBean.isSuccess()) {
-                            listener.onSuccess((ChallengeBean) responseBean.result);
-                        } else {
-                            listener.onFail(responseBean.getResultCode(), responseBean.message);
-                        }
-                    }
 
-                    @Override
-                    public void onError(Response<ResponseBean<ChallengeBean>> response) {
-                        super.onError(response);
-                        listener.onFail(-1, context.getString(R.string.Service_Error));
-                    }
-                });
+        if (ApiConstant.isApply) {
+            OkGo.<ResponseBean<ChallengeBean>>post(ApiConstant.URL_USER_CHALLENGE)
+                    .tag(this)
+                    .upJson(getReqBody(dataJson))
+                    .execute(new JsonCallback<ResponseBean<ChallengeBean>>() {
+                        @Override
+                        public void onSuccess(Response<ResponseBean<ChallengeBean>> response) {
+                            ResponseBean responseBean = response.body();
+                            if (responseBean.isSuccess()) {
+                                listener.onSuccess((ChallengeBean) responseBean.result);
+                            } else {
+                                listener.onFail(responseBean.getResultCode(), responseBean.message);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Response<ResponseBean<ChallengeBean>> response) {
+                            super.onError(response);
+                            listener.onFail(-1, context.getString(R.string.Service_Error));
+                        }
+                    });
+        } else {
+            getAppConfig(new UserApiCommonListener<AppConfigBean>() {
+                @Override
+                public void onSuccess(AppConfigBean bean) {
+                    OkGo.<ResponseBean<ChallengeBean>>post(ApiConstant.URL_USER_CHALLENGE)
+                            .tag(this)
+                            .upJson(getReqBody(dataJson))
+                            .execute(new JsonCallback<ResponseBean<ChallengeBean>>() {
+                                @Override
+                                public void onSuccess(Response<ResponseBean<ChallengeBean>> response) {
+                                    ResponseBean responseBean = response.body();
+                                    if (responseBean.isSuccess()) {
+                                        listener.onSuccess((ChallengeBean) responseBean.result);
+                                    } else {
+                                        listener.onFail(responseBean.getResultCode(), responseBean.message);
+                                    }
+                                }
+
+                                @Override
+                                public void onError(Response<ResponseBean<ChallengeBean>> response) {
+                                    super.onError(response);
+                                    listener.onFail(-1, context.getString(R.string.Service_Error));
+                                }
+                            });
+                }
+
+                @Override
+                public void onFail(int code, String msg) {
+                    listener.onFail(code, msg);
+                }
+            });
+        }
     }
 
     /**

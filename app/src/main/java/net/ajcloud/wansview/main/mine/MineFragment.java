@@ -14,9 +14,7 @@ import android.widget.EditText;
 
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.application.MainApplication;
-import net.ajcloud.wansview.support.core.api.UserApiUnit;
-import net.ajcloud.wansview.support.core.bean.AppConfigBean;
-import net.ajcloud.wansview.support.tools.WLog;
+import net.ajcloud.wansview.support.core.socket.CableConnectionUnit;
 
 /**
  * Created by mamengchao on 2018/05/15.
@@ -50,36 +48,16 @@ public class MineFragment extends Fragment {
         view.findViewById(net.ajcloud.wansview.R.id.change).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               new UserApiUnit(getActivity()).getAppConfig(new UserApiUnit.UserApiCommonListener<AppConfigBean>() {
-                   @Override
-                   public void onSuccess(AppConfigBean bean) {
-                       WLog.d("url_test", bean.uacUrl);
-                       WLog.d("url_test", bean.emcUrl);
-                       WLog.d("url_test", bean.cloudStorUrl);
-                   }
-
-                   @Override
-                   public void onFail(int code, String msg) {
-
-                   }
-               });
+//                byte[] b = new byte[]{
+//                  1,9,2,46,1,6,8,46,1,46,1,32,32,32
+//                };
+//                newPwd.setText(DigitalUtils.bytetoString(b));
             }
         });
         view.findViewById(net.ajcloud.wansview.R.id.logout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainApplication.getApplication().logout();
-//                new UserApiUnit(getActivity()).signout(new UserApiUnit.UserApiCommonListener<Object>() {
-//                    @Override
-//                    public void onSuccess(Object bean) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onFail(int code, String msg) {
-//
-//                    }
-//                });
             }
         });
     }

@@ -9,6 +9,14 @@ import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import com.crashlytics.android.Crashlytics;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheEntity;
+import com.lzy.okgo.cache.CacheMode;
+import com.lzy.okgo.cookie.CookieJarImpl;
+import com.lzy.okgo.cookie.store.SPCookieStore;
+import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
+
 import net.ajcloud.wansview.BuildConfig;
 import net.ajcloud.wansview.entity.DaoMaster;
 import net.ajcloud.wansview.entity.DaoSession;
@@ -16,16 +24,10 @@ import net.ajcloud.wansview.entity.LocalInfo;
 import net.ajcloud.wansview.main.account.SigninAccountManager;
 import net.ajcloud.wansview.main.framework.FileIO;
 import net.ajcloud.wansview.main.framework.impl.AndroidFileIO;
-import net.ajcloud.wansview.support.core.okhttp.OkGo;
-import net.ajcloud.wansview.support.core.okhttp.cache.CacheEntity;
-import net.ajcloud.wansview.support.core.okhttp.cache.CacheMode;
-import net.ajcloud.wansview.support.core.okhttp.cookie.CookieJarImpl;
-import net.ajcloud.wansview.support.core.okhttp.cookie.store.SPCookieStore;
-import net.ajcloud.wansview.support.core.okhttp.interceptor.HttpLoggingInterceptor;
+import net.ajcloud.wansview.support.core.device.DeviceCache;
 import net.ajcloud.wansview.support.tools.CrashHandler;
 import net.ajcloud.wansview.support.utils.preference.PreferenceKey;
 import net.ajcloud.wansview.support.utils.preference.SPUtil;
-import com.crashlytics.android.Crashlytics;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -60,6 +62,7 @@ public class MainApplication extends Application {
 
     public static FileIO fileIO;
 
+    private DeviceCache deviceCache;
 
     public static synchronized MainApplication getApplication() {
         return mInstance;
@@ -137,6 +140,8 @@ public class MainApplication extends Application {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "wansview-plus-db");
         final Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
+
+        deviceCache = new DeviceCache();
     }
 
     public LocalInfo getLocalInfo() {
@@ -169,7 +174,7 @@ public class MainApplication extends Application {
                 SPUtil.getSPUtil(this, PreferenceKey.sp_name.account).put(PreferenceKey.sp_key.DEVICE_ID, localInfo.deviceId);
             }
             localInfo.deviceName = android.os.Build.MODEL;
-            localInfo.timeZone = TimeZone.getDefault().getRawOffset()/1000;
+            localInfo.timeZone = TimeZone.getDefault().getRawOffset() / 1000;
             Locale locale = getResources().getConfiguration().locale;
             localInfo.appLang = locale.getLanguage();
         }
@@ -179,6 +184,10 @@ public class MainApplication extends Application {
     public void logout() {
         SigninAccountManager manager = new SigninAccountManager(this);
         manager.clearAccountSigninInfo();
+    }
+
+    public DeviceCache getDeviceCache() {
+        return deviceCache;
     }
 
     public void pushActivity(Activity activity) {

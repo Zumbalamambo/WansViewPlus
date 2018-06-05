@@ -1,9 +1,9 @@
 package net.ajcloud.wansview.support.core.callback;
 
 import net.ajcloud.wansview.support.core.bean.ResponseBean;
-import net.ajcloud.wansview.support.core.okhttp.callback.AbsCallback;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import com.lzy.okgo.callback.AbsCallback;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

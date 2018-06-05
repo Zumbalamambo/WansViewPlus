@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.ajcloud.wansview.R;
+import net.ajcloud.wansview.entity.camera.EventMessage;
 
 import java.util.List;
 
@@ -16,12 +17,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoHolder> {
     }
 
     private Context mCtx;
-    private List<Integer> mList;
+    private List<EventMessage> mList;
     private OnClickItemListener mListener;
 
     private int checkedPos;
 
-    public VideoAdapter(Context ctx, List<Integer> list, OnClickItemListener listener) {
+    public VideoAdapter(Context ctx, List<EventMessage> list, OnClickItemListener listener) {
         this.mCtx = ctx;
         this.mList = list;
         this.mListener = listener;

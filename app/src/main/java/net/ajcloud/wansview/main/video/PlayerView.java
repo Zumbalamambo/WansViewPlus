@@ -2,7 +2,6 @@ package net.ajcloud.wansview.main.video;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
@@ -32,7 +31,7 @@ public class PlayerView extends FrameLayout
         IVLCVout.OnNewVideoLayoutListener,
         ScaleFrameLayout.OnScaleListener {
 
-    private static final String TAG = "PlayerView";
+    private static final String TAG = PlayerView.class.getSimpleName();
     private static final int HW_ERROR = 1000;
     private Context  mContext;
 
@@ -103,6 +102,13 @@ public class PlayerView extends FrameLayout
     public void initPlayer(String url) {
         if (VLCUtil.validateLocation(url)) {
             this.uri = Uri.parse(url);
+            getMediaPlayer().getVLCVout().setVideoSurface(mSurfaceHolder.getSurface(), mSurfaceHolder);
+            mMediaPlayer.getVLCVout().attachViews();
+
+            final Media media = new Media(VLCInstance.get(), uri);
+            media.setHWDecoderEnabled(false, false);
+            mMediaPlayer.setMedia(media);
+            media.release();
         }
     }
 
@@ -132,8 +138,8 @@ public class PlayerView extends FrameLayout
         mSurface.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mContext instanceof PlayerActivity) {
-                    ((PlayerActivity)mContext).showControl();
+                if (mContext instanceof CautionActivity) {
+                    ((CautionActivity)mContext).showControl();
                 }
             }
         });

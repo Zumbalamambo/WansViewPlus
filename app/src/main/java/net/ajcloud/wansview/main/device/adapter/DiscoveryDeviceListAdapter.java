@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.ajcloud.wansview.R;
-import net.ajcloud.wansview.entity.DiscoveryDeviceInfo;
-import net.ajcloud.wansview.support.utils.ToastUtil;
+import net.ajcloud.wansview.main.device.addDevice.AddDeviceWaitingActivity;
+import net.ajcloud.wansview.support.core.bean.DeviceSearchBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,15 +22,17 @@ import java.util.List;
  */
 public class DiscoveryDeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private Context context;
     private LayoutInflater layoutInflater;
-    private List<DiscoveryDeviceInfo> mData;
+    private List<DeviceSearchBean> mData;
 
     public DiscoveryDeviceListAdapter(Context context) {
+        this.context = context;
         layoutInflater = LayoutInflater.from(context);
         this.mData = new ArrayList<>();
     }
 
-    public void setData(List<DiscoveryDeviceInfo> mData) {
+    public void setData(List<DeviceSearchBean> mData) {
         this.mData = mData;
         notifyDataSetChanged();
     }
@@ -43,13 +45,13 @@ public class DiscoveryDeviceListAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((DeviceListHolder) holder).deviceName.setText(mData.get(position).deviceName);
-        ((DeviceListHolder) holder).deviceId.setText(mData.get(position).deviceId);
+        ((DeviceListHolder) holder).deviceName.setText(mData.get(position).szDevName);
+        ((DeviceListHolder) holder).deviceId.setText(String.format(context.getResources().getString(R.string.device_discovery_id), mData.get(position).getDeviceID()));
         final int finalPosition = position;
         ((DeviceListHolder) holder).selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.show("click:" + finalPosition);
+                AddDeviceWaitingActivity.startBind(context, mData.get(finalPosition));
             }
         });
     }

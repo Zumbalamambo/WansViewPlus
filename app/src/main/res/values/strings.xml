@@ -12,7 +12,8 @@
     <string name="retry">重试</string>
     <string name="delete">删除</string>
     <string name="ok">确定</string>
-
+    <string name="device_discovery_id">ID:%1$s</string>
+    <string name="device_discovery_num">Found %1$s devices</string>
 
 
     <!--FCM notification channel id-->
@@ -130,4 +131,10 @@
     <string name="play_buffing">正在缓冲中...</string>
     <string name="hardware_acceleration_error_title">硬件加速失败</string>
     <string name="hardware_acceleration_error_message">硬件加速失败，请重试</string>
+
+    <string name="camera_default_name_k3">k3</string>
+    <string name="camera_default_name_q3">q3</string>
+    <string name="camera_default_name_w2">w2</string>
+    <string name="camera_unknow">Unknown Device</string>
+    <string name="wv_first_select_video">请先选一个视频</string>
 </resources>

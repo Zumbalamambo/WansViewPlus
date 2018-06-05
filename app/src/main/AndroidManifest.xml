@@ -98,6 +98,10 @@
             android:configChanges="orientation|screenSize|locale|layoutDirection"
             android:screenOrientation="portrait"
             android:theme="@style/HomeDeviceTheme" />
+        <activity
+            android:name=".main.video.CautionActivity"
+            android:configChanges="orientation|screenSize|locale|layoutDirection"
+            tools:node="replace" />
         <activity android:name=".main.device.setting.DeviceSettingActivity" />
         <activity android:name=".main.device.setting.DeviceSettingNameActivity" />
         <activity android:name=".main.device.setting.DeviceSettingInfoActivity" />
@@ -108,7 +112,8 @@
         <activity android:name=".main.device.setting.TFCardActivity" />
         <activity android:name=".main.device.setting.CloudStorageActivity" />
         <activity android:name=".main.device.setting.MaintenanceActivity" />
-        <activity android:name=".main.device.setting.TimeZoneActivity"></activity>
+        <activity android:name=".main.device.setting.TimeZoneActivity" />
+        <activity android:name=".main.device.addDevice.AddDeviceFailActivity"></activity>
     </application>
 
 </manifest>

@@ -1,27 +1,40 @@
 package net.ajcloud.wansview.main.device.addDevice;
 
-import android.graphics.Rect;
+import android.content.Context;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LayoutAnimationController;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.ajcloud.wansview.R;
-import net.ajcloud.wansview.entity.DiscoveryDeviceInfo;
 import net.ajcloud.wansview.main.application.BaseActivity;
 import net.ajcloud.wansview.main.device.adapter.DiscoveryDeviceListAdapter;
+import net.ajcloud.wansview.main.device.adapter.TimezoneDecoration;
+import net.ajcloud.wansview.support.core.bean.DeviceSearchBean;
+import net.ajcloud.wansview.support.core.socket.CableConnectionUnit;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class AddDeviceDiscoveryActivity extends BaseActivity {
+public class AddDeviceDiscoveryActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
+    private SwipeRefreshLayout refreshLayout;
     private TextView wifiNameTextView;
     private TextView deviceNumTextView;
     private RecyclerView deviceListView;
     private LinearLayout noDeviceLayout;
+
+    private WifiManager wifiManager;
     private DiscoveryDeviceListAdapter adapter;
+    private CableConnectionUnit unit;
+    private Handler handler = new Handler();
 
     @Override
     protected int getLayoutId() {
@@ -37,54 +50,71 @@ public class AddDeviceDiscoveryActivity extends BaseActivity {
     protected void initView() {
         getToolbar().setTittle("Discovering device");
         getToolbar().setLeftImg(R.mipmap.icon_back);
+        refreshLayout = findViewById(R.id.refresh_layout);
         wifiNameTextView = findViewById(R.id.tv_wifi_name);
         deviceNumTextView = findViewById(R.id.tv_device_num);
         deviceListView = findViewById(R.id.rv_device_list);
         noDeviceLayout = findViewById(R.id.ll_no_device);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+
+        adapter = new DiscoveryDeviceListAdapter(this);
+        deviceListView.setLayoutManager(new LinearLayoutManager(this));
+        deviceListView.addItemDecoration(new TimezoneDecoration(this));
+        deviceListView.setAdapter(adapter);
+        Animation animation = new AlphaAnimation(0f, 1f);
+        animation.setDuration(200);
+        LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation, 0.5F);
+        layoutAnimationController.setOrder(LayoutAnimationController.ORDER_NORMAL);
+        deviceListView.setLayoutAnimation(layoutAnimationController);
+
+        refreshLayout.setRefreshing(true);
     }
 
     @Override
     protected void initData() {
-        adapter = new DiscoveryDeviceListAdapter(this);
-        deviceListView.setLayoutManager(new LinearLayoutManager(this));
-        deviceListView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                super.getItemOffsets(outRect, view, parent, state);
-                outRect.set(0, 0, 0, 1);
+        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wifiManager.isWifiEnabled()) {
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            if (wifiInfo != null) {
+                wifiNameTextView.setText(wifiInfo.getSSID().replace("\"", ""));
             }
-        });
-        deviceListView.setAdapter(adapter);
-        DiscoveryDeviceInfo info1 = new DiscoveryDeviceInfo();
-        info1.deviceName = "钢铁侠";
-        info1.deviceId = "1001sadsadasdasdasdasddsdasdas";
-        DiscoveryDeviceInfo info2 = new DiscoveryDeviceInfo();
-        info2.deviceName = "蜘蛛侠";
-        info2.deviceId = "100eqwe1234213213123213231231232";
-        DiscoveryDeviceInfo info3 = new DiscoveryDeviceInfo();
-        info3.deviceName = "雷神";
-        info3.deviceId = "10321321312321312321312303";
-        DiscoveryDeviceInfo info4 = new DiscoveryDeviceInfo();
-        info4.deviceName = "绿巨人";
-        info4.deviceId = "10032312312321312312314";
-        DiscoveryDeviceInfo info5 = new DiscoveryDeviceInfo();
-        info5.deviceName = "奇异博士";
-        info5.deviceId = "100wedasdasdasdasdasd5";
-        DiscoveryDeviceInfo info6 = new DiscoveryDeviceInfo();
-        info6.deviceName = "死侍";
-        info6.deviceId = "100321326";
-        List<DiscoveryDeviceInfo> list = new ArrayList<>();
-        list.add(info1);
-        list.add(info2);
-        list.add(info3);
-        list.add(info4);
-        list.add(info5);
-        list.add(info6);
-        adapter.setData(list);
+        }
+        doRefresh();
     }
 
     @Override
     protected void initListener() {
+        refreshLayout.setOnRefreshListener(this);
+    }
 
+    @Override
+    public void onRefresh() {
+        doRefresh();
+    }
+
+    private void doRefresh() {
+        if (unit == null) {
+            unit = new CableConnectionUnit();
+        }
+        unit.startSearch(new CableConnectionUnit.SearchDeviceCallback() {
+            @Override
+            public void result(final List<DeviceSearchBean> list) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.setRefreshing(false);
+                        deviceNumTextView.setText(String.format(getResources().getString(R.string.device_discovery_num), list.size() + ""));
+                        if (list.size() == 0) {
+                            noDeviceLayout.setVisibility(View.VISIBLE);
+                            deviceListView.setVisibility(View.GONE);
+                        } else {
+                            noDeviceLayout.setVisibility(View.GONE);
+                            deviceListView.setVisibility(View.VISIBLE);
+                            adapter.setData(list);
+                        }
+                    }
+                });
+            }
+        });
     }
 }
