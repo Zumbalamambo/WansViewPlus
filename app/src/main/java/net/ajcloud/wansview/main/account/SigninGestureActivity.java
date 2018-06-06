@@ -8,14 +8,15 @@ import android.widget.TextView;
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.application.BaseActivity;
 import net.ajcloud.wansview.support.customview.dialog.SigninMoreDialog;
-
-import net.ajcloud.wansview.main.application.BaseActivity;
-import net.ajcloud.wansview.support.customview.dialog.SigninMoreDialog;
+import net.ajcloud.wansview.support.customview.lockgesture.LockGestureLayout;
+import net.ajcloud.wansview.support.utils.ToastUtil;
 
 public class SigninGestureActivity extends BaseActivity {
 
     private TextView userNameTextView, moreTextView;
     private SigninMoreDialog signinMoreDialog;
+    private LockGestureLayout lockGestureView;
+    private TextView hintTextView;
     private String userName;
 
     public static void start(Context context, String userName) {
@@ -38,9 +39,13 @@ public class SigninGestureActivity extends BaseActivity {
     protected void initView() {
         userNameTextView = findViewById(net.ajcloud.wansview.R.id.tv_userName);
         moreTextView = findViewById(net.ajcloud.wansview.R.id.tv_more);
+        lockGestureView = findViewById(R.id.lockGestureLayout);
+        hintTextView = findViewById(R.id.tv_hint);
         signinMoreDialog = new SigninMoreDialog(this);
         signinMoreDialog.setFirstText("Password sign in");
         signinMoreDialog.setSecondText("Switch account");
+        lockGestureView.setmAnswer("12369");
+        lockGestureView.setTimes(5);
     }
 
     @Override
@@ -54,10 +59,27 @@ public class SigninGestureActivity extends BaseActivity {
     @Override
     protected void initListener() {
         moreTextView.setOnClickListener(this);
+        lockGestureView.setLockGestureResultListenner(new LockGestureLayout.OnLockGestureResultListenner() {
+            @Override
+            public void onSuccess() {
+                ToastUtil.single("success");
+            }
+
+            @Override
+            public void onFail(int restTimes) {
+                hintTextView.setText(String.format(getResources().getString(R.string.signin_gesture_error_hint), restTimes + ""));
+            }
+
+            @Override
+            public void onOverTime() {
+                startActivity(new Intent(SigninGestureActivity.this, SigninActivity.class));
+                finish();
+            }
+        });
         signinMoreDialog.setDialogClickListener(new SigninMoreDialog.OnDialogClickListener() {
             @Override
             public void onfirst() {
-                SigninTwiceActivity.start(SigninGestureActivity.this, "121321323@Gmail.com");
+                SigninTwiceActivity.start(SigninGestureActivity.this, userName);
                 finish();
             }
 

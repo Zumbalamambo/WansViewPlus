@@ -11,7 +11,10 @@
 
     <declare-styleable name="LockGestureLayout">
         <attr name="circleColor" format="color" />
-        <attr name="selectedColor" format="color" />
+        <attr name="selectedInnerColor" format="color" />
+        <attr name="selectedOuterColor" format="color" />
+        <attr name="errorInnerColor" format="color" />
+        <attr name="errorOuterColor" format="color" />
         <attr name="mCount" format="integer" />
     </declare-styleable>
 

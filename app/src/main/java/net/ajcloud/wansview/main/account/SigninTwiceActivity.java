@@ -73,7 +73,7 @@ public class SigninTwiceActivity extends BaseActivity {
         signinMoreDialog.setDialogClickListener(new SigninMoreDialog.OnDialogClickListener() {
             @Override
             public void onfirst() {
-                SigninGestureActivity.start(SigninTwiceActivity.this, "121321323@Gmail.com");
+                SigninGestureActivity.start(SigninTwiceActivity.this, userName);
                 finish();
             }
 

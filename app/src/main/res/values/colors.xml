@@ -9,11 +9,13 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="black_overlay">#66000000</color>
-    <color name="gesture_select_blue">#cc66CCFF</color>
+    <color name="gesture_select_outer_blue">#28C0D7FF</color>
     <color name="gray_first">#263238</color>
     <color name="gray_second">#61727A</color>
     <color name="gray_third">#95A5AD</color>
     <color name="gray_line">#CFD8DC</color>
+    <color name="gesture_error_inner_red">#FF5252</color>
+    <color name="gesture_error_outer_red">#28FFE3E3</color>
 
 
     <color name="wv_direction_paint1">#00aaee</color>

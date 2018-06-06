@@ -9,13 +9,14 @@ import android.graphics.Point;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import net.ajcloud.wansview.R;
-import net.ajcloud.wansview.support.tools.WLog;
+import net.ajcloud.wansview.support.utils.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +27,12 @@ import java.util.List;
  */
 public class LockGestureLayout extends RelativeLayout {
 
+    private Context context;
     private int mWidth;
-
     private int mHeight;
-
     private LockGestureView[] mLockGestureViews;
-
+    //可重试次数
+    private int times = 5;
     //每个边上的LockGestureView的个数
     private int mCount = 3;
     //LockGestureView间距：mLockGestureViewWidth * 25%
@@ -40,10 +41,14 @@ public class LockGestureLayout extends RelativeLayout {
     private int mLockGestureViewWidth;
     //LockGestureView无手指触摸的状态下内圆的颜色
     private int circleColor = 0xCC555555;
-    //LockGestureView手指触摸的状态下内圆和外圆的颜色
-    private int selectedColor = 0xCC66CCFF;
+    //LockGestureView手指触摸的状态下内圆的颜色
+    private int selectedInnerColor = 0x2979FF;
+    //LockGestureView手指触摸的状态下外圆的颜色
+    private int selectedOuterColor = 0x28C0D7FF;
     //LockGestureView验证失败颜色
-    private int errorColor = 0xCCFF0000;
+    private int errorInnerColor = 0xFF5252;
+    //LockGestureView验证失败颜色
+    private int errorOuterColor = 0x28FFE3E3;
     //指引线的开始位置x
     private int mLastPathX;
     //指引线的开始位置y
@@ -51,12 +56,9 @@ public class LockGestureLayout extends RelativeLayout {
     //指引下的结束位置
     private Point mTmpTarget = new Point();
     //存储密码
-    private int[] mAnswer = {};
+    private String mAnswer;
     //保存用户选中的LockGestureView的id
     private List<Integer> mChoose = new ArrayList<>();
-
-    //是否初次设置密码
-    private boolean isFirst;
     private Paint mPaint;
     private Path mPath;
     private static final int RESET = 1000;
@@ -85,9 +87,13 @@ public class LockGestureLayout extends RelativeLayout {
 
     public LockGestureLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context = context;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LockGestureLayout, defStyleAttr, 0);
         circleColor = a.getColor(R.styleable.LockGestureLayout_circleColor, getResources().getColor(R.color.gray_line));
-        selectedColor = a.getColor(R.styleable.LockGestureLayout_selectedColor, getResources().getColor(R.color.gesture_select_blue));
+        selectedInnerColor = a.getColor(R.styleable.LockGestureLayout_selectedInnerColor, getResources().getColor(R.color.colorPrimary));
+        selectedOuterColor = a.getColor(R.styleable.LockGestureLayout_selectedOuterColor, getResources().getColor(R.color.gesture_select_outer_blue));
+        errorInnerColor = a.getColor(R.styleable.LockGestureLayout_errorInnerColor, getResources().getColor(R.color.gesture_error_inner_red));
+        errorOuterColor = a.getColor(R.styleable.LockGestureLayout_errorOuterColor, getResources().getColor(R.color.gesture_error_outer_red));
         mCount = a.getInteger(R.styleable.LockGestureLayout_mCount, 3);
         a.recycle();
 
@@ -135,16 +141,16 @@ public class LockGestureLayout extends RelativeLayout {
             mLockGestureViews = new LockGestureView[mCount * mCount];
             // 计算每个LockGestureView的边长
 //            mLockGestureViewWidth = (int) (4 * mWidth * 1.0f / (5 * mCount + 1));
-            mLockGestureViewWidth = (mWidth/mCount);
+            mLockGestureViewWidth = (mWidth / mCount);
             //计算每个LockGestureView的间距
             mMarginBetweenLockView = 0;
 //            mMarginBetweenLockView = (int) (mLockGestureViewWidth * 0.25);
-            mPaint.setStrokeWidth(mLockGestureViewWidth * 0.1f);
+            mPaint.setStrokeWidth(DisplayUtil.dip2Pix(context, 1));
 
             for (int i = 0; i < mLockGestureViews.length; i++) {
                 //初始化每个LockGestureView  
                 mLockGestureViews[i] = new LockGestureView(getContext(),
-                        circleColor, selectedColor, errorColor);
+                        circleColor, selectedInnerColor, selectedOuterColor, errorInnerColor, errorOuterColor);
                 mLockGestureViews[i].setId(i + 1);
                 //设置参数，主要是定位LockGestureView间的位置  
                 RelativeLayout.LayoutParams lockerParams = new RelativeLayout.LayoutParams(
@@ -195,7 +201,7 @@ public class LockGestureLayout extends RelativeLayout {
                 reset();
                 break;
             case MotionEvent.ACTION_MOVE:
-                mPaint.setColor(selectedColor);
+                mPaint.setColor(selectedInnerColor);
                 LockGestureView child = getChildIdByPos(x, y);
                 if (child != null) {
                     int cId = child.getId();
@@ -222,23 +228,23 @@ public class LockGestureLayout extends RelativeLayout {
                 // 将终点设置位置为起点，即取消指引线
                 mTmpTarget.x = mLastPathX;
                 mTmpTarget.y = mLastPathY;
-                if (isFirst) {
-                    isFirst = false;
-                    //TODO 保存密码
-                    resetHander.removeMessages(RESET);
-                    resetHander.sendEmptyMessageDelayed(RESET, 500);
+                if (times < 2) {
+                    if (listenner != null) {
+                        listenner.onOverTime();
+                    }
                 } else {
                     if (checkPassword()) {
                         if (listenner != null) {
                             listenner.onSuccess();
                         }
                     } else {
-                        mPaint.setColor(errorColor);
+                        times--;
+                        mPaint.setColor(errorInnerColor);
                         changeItemMode(LockGestureView.MODE.ERROR);
                         resetHander.removeMessages(RESET);
                         resetHander.sendEmptyMessageDelayed(RESET, 500);
                         if (listenner != null) {
-                            listenner.onFail();
+                            listenner.onFail(times);
                         }
                     }
                 }
@@ -316,21 +322,33 @@ public class LockGestureLayout extends RelativeLayout {
      * 验证密码是否正确
      */
     private boolean checkPassword() {
-        //TODO
+        StringBuilder choose = new StringBuilder();
         for (int key : mChoose) {
-            WLog.d("LockGestureLayout", key);
+            choose.append(key);
         }
-        return false;
+        return TextUtils.equals(getmAnswer(), choose.toString());
     }
 
-    public void setFirst(boolean first) {
-        isFirst = first;
+    public int getTimes() {
+        return times;
     }
 
-    interface OnLockGestureResultListenner {
+    public void setTimes(int times) {
+        this.times = times;
+    }
+
+    public String getmAnswer() {
+        return mAnswer;
+    }
+
+    public void setmAnswer(String mAnswer) {
+        this.mAnswer = mAnswer;
+    }
+
+    public interface OnLockGestureResultListenner {
         void onSuccess();
 
-        void onFail();
+        void onFail(int restTimes);
 
         void onOverTime();
     }

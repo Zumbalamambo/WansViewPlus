@@ -19,10 +19,14 @@ public class LockGestureView extends View {
     private float ringRadius = 0.3F;
     //小圆点颜色
     private int circleColor;
-    //选中圆环颜色(选中小圆点颜色)
-    private int selectedColor;
-    //验证失败颜色
-    private int errorColor;
+    //选中小圆点颜色
+    private int selectedInnerColor;
+    //选中圆环颜色
+    private int selectedOuterColor;
+    //验证失败小圆点颜色
+    private int errorInnerColor;
+    //验证失败圆环颜色
+    private int errorOuterColor;
     private Paint circlePaint;
     private Paint ringPaint;
 
@@ -32,11 +36,13 @@ public class LockGestureView extends View {
 
     private MODE currentMode = MODE.NORMAL;
 
-    public LockGestureView(Context context, int circleColor, int selectedColor, int errorColor) {
+    public LockGestureView(Context context, int circleColor, int selectedInnerColor, int selectedOuterColor, int errorInnerColor, int errorOuterColor) {
         super(context);
         this.circleColor = circleColor;
-        this.selectedColor = selectedColor;
-        this.errorColor = errorColor;
+        this.selectedInnerColor = selectedInnerColor;
+        this.selectedOuterColor = selectedOuterColor;
+        this.errorInnerColor = errorInnerColor;
+        this.errorOuterColor = errorOuterColor;
         init();
     }
 
@@ -46,8 +52,8 @@ public class LockGestureView extends View {
         circlePaint.setStyle(Paint.Style.FILL);
 
         ringPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
-        ringPaint.setColor(selectedColor);
-        ringPaint.setStyle(Paint.Style.STROKE);
+        ringPaint.setColor(selectedOuterColor);
+        ringPaint.setStyle(Paint.Style.FILL);
         ringPaint.setStrokeWidth(1);
     }
 
@@ -93,14 +99,14 @@ public class LockGestureView extends View {
                 canvas.drawCircle(length / 2, length / 2, length * circleRadius, circlePaint);
                 break;
             case VERIFY:
-                circlePaint.setColor(selectedColor);
-                ringPaint.setColor(selectedColor);
+                circlePaint.setColor(selectedInnerColor);
+                ringPaint.setColor(selectedOuterColor);
                 canvas.drawCircle(length / 2, length / 2, length * circleRadius, circlePaint);
                 canvas.drawCircle(length / 2, length / 2, length * ringRadius, ringPaint);
                 break;
             case ERROR:
-                circlePaint.setColor(errorColor);
-                ringPaint.setColor(errorColor);
+                circlePaint.setColor(errorInnerColor);
+                ringPaint.setColor(errorOuterColor);
                 canvas.drawCircle(length / 2, length / 2, length * circleRadius, circlePaint);
                 canvas.drawCircle(length / 2, length / 2, length * ringRadius, ringPaint);
                 break;

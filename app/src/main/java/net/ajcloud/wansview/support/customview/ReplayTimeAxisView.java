@@ -103,9 +103,9 @@ public class ReplayTimeAxisView extends View {
         longScale = a.getInteger(R.styleable.ReplayTimeAxisView_longScale, 40);
         shortScale = a.getInteger(R.styleable.ReplayTimeAxisView_shortScale, 30);
         textSize = a.getInteger(R.styleable.ReplayTimeAxisView_textSize, 40);
-        lineColor = a.getColor(R.styleable.ReplayTimeAxisView_lineColor, getResources().getColor(R.color.gesture_select_blue));
+        lineColor = a.getColor(R.styleable.ReplayTimeAxisView_lineColor, getResources().getColor(R.color.colorPrimary));
         midLineColor = a.getColor(R.styleable.ReplayTimeAxisView_midLineColor, getResources().getColor(R.color.colorPrimary));
-        textColor = a.getColor(R.styleable.ReplayTimeAxisView_textColor, getResources().getColor(R.color.gesture_select_blue));
+        textColor = a.getColor(R.styleable.ReplayTimeAxisView_textColor, getResources().getColor(R.color.colorPrimary));
         recordRectColor = a.getColor(R.styleable.ReplayTimeAxisView_recordRectColor, 0xFF000000);
         selectedRectColor = a.getColor(R.styleable.ReplayTimeAxisView_selectedRectColor, 0x55FFFFFF);
         spacing = a.getInteger(R.styleable.ReplayTimeAxisView_spacing, DisplayUtil.dip2Pix(context, 1));
