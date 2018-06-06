@@ -31,12 +31,6 @@ public class DeviceApiUnit {
         localInfo = ((MainApplication) context.getApplicationContext()).getLocalInfo();
     }
 
-    public interface DeviceApiCommonListener<T> {
-        void onSuccess(T bean);
-
-        void onFail(int code, String msg);
-    }
-
     private JSONObject getReqBody(JSONObject data) {
         try {
             JSONObject metaJson = new JSONObject();
@@ -53,7 +47,12 @@ public class DeviceApiUnit {
         }
     }
 
-    public void preBind(String deviceId, final DeviceApiCommonListener<PreBindBean> listener) {
+    /**
+     * 请求绑定接口，获取authCode
+     *
+     * @param deviceId 设备Id
+     */
+    public void preBind(String deviceId, final OkgoCommonListener<PreBindBean> listener) {
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("deviceId", deviceId);
@@ -84,7 +83,12 @@ public class DeviceApiUnit {
                 });
     }
 
-    public void getBindStatus(String deviceId, final DeviceApiCommonListener<BindStatusBean> listener) {
+    /**
+     * 获取绑定信息接口
+     *
+     * @param deviceId 设备Id
+     */
+    public void getBindStatus(String deviceId, final OkgoCommonListener<BindStatusBean> listener) {
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("deviceId", deviceId);
@@ -115,7 +119,13 @@ public class DeviceApiUnit {
                 });
     }
 
-    public void getDeviceInfo(String url, String deviceId, final DeviceApiCommonListener<DeviceConfigBean> listener) {
+    /**
+     * 获取设备信息
+     *
+     * @param url      设备ip
+     * @param deviceId 设备Id
+     */
+    public void getDeviceInfo(String url, String deviceId, final OkgoCommonListener<DeviceConfigBean> listener) {
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("deviceId", deviceId);
@@ -147,7 +157,13 @@ public class DeviceApiUnit {
                 });
     }
 
-    public void setName(String url, String deviceId, String aliasName, final DeviceApiCommonListener<Object> listener) {
+    /**
+     * 设置设备昵称
+     *
+     * @param url      设备ip
+     * @param deviceId 设备Id
+     */
+    public void setName(String url, String deviceId, String aliasName, final OkgoCommonListener<Object> listener) {
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("deviceId", deviceId);

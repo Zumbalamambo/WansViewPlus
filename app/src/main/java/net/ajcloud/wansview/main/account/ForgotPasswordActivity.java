@@ -6,6 +6,7 @@ import android.widget.Button;
 
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.application.BaseActivity;
+import net.ajcloud.wansview.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansview.support.core.api.UserApiUnit;
 import net.ajcloud.wansview.support.customview.MyToolbar;
 import net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText;
@@ -79,7 +80,7 @@ public class ForgotPasswordActivity extends BaseActivity {
         }
 
         progressDialogManager.showDialog(FORGOT, this, getResources().getInteger(R.integer.http_timeout));
-        new UserApiUnit(this).register(mail, pwd, new UserApiUnit.UserApiCommonListener<Object>() {
+        new UserApiUnit(this).register(mail, pwd, new OkgoCommonListener<Object>() {
             @Override
             public void onSuccess(Object object) {
                 progressDialogManager.dimissDialog(FORGOT, 0);

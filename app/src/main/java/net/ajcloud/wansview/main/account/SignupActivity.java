@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.application.BaseActivity;
+import net.ajcloud.wansview.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansview.support.core.api.UserApiUnit;
 import net.ajcloud.wansview.support.customview.MyToolbar;
 import net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText;
@@ -96,7 +97,7 @@ public class SignupActivity extends BaseActivity {
 
         progressDialogManager.showDialog(SIGNUP, this, getResources().getInteger(R.integer.http_timeout));
         UserApiUnit userApiUnit = new UserApiUnit(this);
-        userApiUnit.register(mail, pwd, new UserApiUnit.UserApiCommonListener<Object>() {
+        userApiUnit.register(mail, pwd, new OkgoCommonListener<Object>() {
             @Override
             public void onSuccess(Object bean) {
                 progressDialogManager.dimissDialog(SIGNUP, 0);

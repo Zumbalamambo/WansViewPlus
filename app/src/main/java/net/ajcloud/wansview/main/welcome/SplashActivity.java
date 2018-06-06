@@ -13,6 +13,7 @@ import net.ajcloud.wansview.main.account.SigninActivity;
 import net.ajcloud.wansview.main.account.SigninTwiceActivity;
 import net.ajcloud.wansview.main.application.MainApplication;
 import net.ajcloud.wansview.main.home.HomeActivity;
+import net.ajcloud.wansview.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansview.support.core.api.UserApiUnit;
 import net.ajcloud.wansview.support.core.bean.AppConfigBean;
 
@@ -55,7 +56,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void getAppConfig() {
-        new UserApiUnit(this).getAppConfig(new UserApiUnit.UserApiCommonListener<AppConfigBean>() {
+        new UserApiUnit(this).getAppConfig(new OkgoCommonListener<AppConfigBean>() {
             @Override
             public void onSuccess(AppConfigBean bean) {
                 signin();

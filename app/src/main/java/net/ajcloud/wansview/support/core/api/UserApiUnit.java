@@ -30,12 +30,6 @@ public class UserApiUnit {
     private LocalInfo localInfo;
     private SigninAccountManager accountManager;
 
-    public interface UserApiCommonListener<T> {
-        void onSuccess(T bean);
-
-        void onFail(int code, String msg);
-    }
-
     public UserApiUnit(Context context) {
         this.context = context;
         localInfo = ((MainApplication) context.getApplicationContext()).getLocalInfo();
@@ -61,7 +55,7 @@ public class UserApiUnit {
     /**
      * App启动时需要的公共参数
      */
-    public void getAppConfig(final UserApiCommonListener<AppConfigBean> listener) {
+    public void getAppConfig(final OkgoCommonListener<AppConfigBean> listener) {
         JSONObject jsonObject = new JSONObject();
         OkGo.<ResponseBean<AppConfigBean>>post(ApiConstant.URL_GET_APP_CONFIG)
                 .tag(this)
@@ -94,7 +88,7 @@ public class UserApiUnit {
      * @param username 用户名
      * @param action   具体操作
      */
-    private void challenge(String username, String action, final UserApiCommonListener<ChallengeBean> listener) {
+    private void challenge(String username, String action, final OkgoCommonListener<ChallengeBean> listener) {
         final JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("username", username);
@@ -127,7 +121,7 @@ public class UserApiUnit {
                         }
                     });
         } else {
-            getAppConfig(new UserApiCommonListener<AppConfigBean>() {
+            getAppConfig(new OkgoCommonListener<AppConfigBean>() {
                 @Override
                 public void onSuccess(AppConfigBean bean) {
                     OkGo.<ResponseBean<ChallengeBean>>post(ApiConstant.URL_USER_CHALLENGE)
@@ -166,8 +160,8 @@ public class UserApiUnit {
      * @param mail     邮箱
      * @param password 密码
      */
-    public void register(final String mail, final String password, final UserApiCommonListener<Object> listener) {
-        challenge(mail, "signup", new UserApiCommonListener<ChallengeBean>() {
+    public void register(final String mail, final String password, final OkgoCommonListener<Object> listener) {
+        challenge(mail, "signup", new OkgoCommonListener<ChallengeBean>() {
             @Override
             public void onSuccess(ChallengeBean bean) {
                 JSONObject dataJson = new JSONObject();
@@ -217,8 +211,8 @@ public class UserApiUnit {
      * @param mail     邮箱
      * @param password 密码
      */
-    public void signin(final String mail, final String password, final UserApiCommonListener<SigninBean> listener) {
-        challenge(mail, "signin", new UserApiCommonListener<ChallengeBean>() {
+    public void signin(final String mail, final String password, final OkgoCommonListener<SigninBean> listener) {
+        challenge(mail, "signin", new OkgoCommonListener<ChallengeBean>() {
             @Override
             public void onSuccess(ChallengeBean bean) {
                 JSONObject dataJson = new JSONObject();
@@ -276,8 +270,8 @@ public class UserApiUnit {
      * @param oldPassword 旧密码
      * @param newPassword 新密码
      */
-    public void changePassword(final String mail, final String oldPassword, final String newPassword, final UserApiCommonListener<SigninBean> listener) {
-        challenge(mail, "changepassword", new UserApiCommonListener<ChallengeBean>() {
+    public void changePassword(final String mail, final String oldPassword, final String newPassword, final OkgoCommonListener<SigninBean> listener) {
+        challenge(mail, "changepassword", new OkgoCommonListener<ChallengeBean>() {
             @Override
             public void onSuccess(ChallengeBean bean) {
                 JSONObject dataJson = new JSONObject();
@@ -328,7 +322,7 @@ public class UserApiUnit {
     /**
      * 登出
      */
-    public void signout(final UserApiCommonListener<Object> listener) {
+    public void signout(final OkgoCommonListener<Object> listener) {
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("agentName", localInfo.deviceName);

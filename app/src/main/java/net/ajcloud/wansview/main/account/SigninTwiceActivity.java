@@ -10,6 +10,7 @@ import android.widget.TextView;
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.application.BaseActivity;
 import net.ajcloud.wansview.main.home.HomeActivity;
+import net.ajcloud.wansview.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansview.support.core.api.UserApiUnit;
 import net.ajcloud.wansview.support.core.bean.SigninBean;
 import net.ajcloud.wansview.support.customview.dialog.SigninMoreDialog;
@@ -112,7 +113,7 @@ public class SigninTwiceActivity extends BaseActivity {
         }
 
         progressDialogManager.showDialog(SIGNIN, this, getResources().getInteger(R.integer.http_timeout));
-        new UserApiUnit(this).signin(mail, pwd, new UserApiUnit.UserApiCommonListener<SigninBean>() {
+        new UserApiUnit(this).signin(mail, pwd, new OkgoCommonListener<SigninBean>() {
             @Override
             public void onSuccess(SigninBean bean) {
                 progressDialogManager.dimissDialog(SIGNIN, 0);
