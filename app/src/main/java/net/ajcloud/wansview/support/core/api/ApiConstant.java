@@ -25,6 +25,8 @@ public class ApiConstant {
     //设备相关
     public static String URL_DEVICE_PREBIND = BASE_UAC_URL + "/req-bind";
     public static String URL_DEVICE_GET_BIND_STATUS = BASE_UAC_URL + "/bind-status";
+    public static String URL_DEVICE_GET_DEVICE_INFO = "%1$/cmd/fetch-info";
+    public static String URL_DEVICE_SET_DEVICE_NAME = "%1$/cmd/alias-name";
 
     public static void setBaseUrl(AppConfigBean bean) {
         isApply = true;
@@ -44,5 +46,8 @@ public class ApiConstant {
         URL_USER_SIGNOUT = BASE_UAC_URL + "/signout";
         URL_USER_USER_ACTIVE = BASE_UAC_URL + "/user-active";
         URL_USER_CHANGE_PASSWORD = BASE_UAC_URL + "/change-password";
+        //设备相关
+        URL_DEVICE_PREBIND = BASE_UAC_URL + "/req-bind";
+        URL_DEVICE_GET_BIND_STATUS = BASE_UAC_URL + "/bind-status";
     }
 }

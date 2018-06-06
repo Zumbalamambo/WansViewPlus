@@ -8,6 +8,7 @@ import com.lzy.okgo.model.Response;
 import net.ajcloud.wansview.entity.LocalInfo;
 import net.ajcloud.wansview.main.application.MainApplication;
 import net.ajcloud.wansview.support.core.bean.BindStatusBean;
+import net.ajcloud.wansview.support.core.bean.DeviceConfigBean;
 import net.ajcloud.wansview.support.core.bean.PreBindBean;
 import net.ajcloud.wansview.support.core.bean.ResponseBean;
 import net.ajcloud.wansview.support.core.callback.JsonCallback;
@@ -108,6 +109,71 @@ public class DeviceApiUnit {
 
                     @Override
                     public void onError(Response<ResponseBean<BindStatusBean>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    public void getDeviceInfo(String url, String deviceId, final DeviceApiCommonListener<DeviceConfigBean> listener) {
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("deviceId", deviceId);
+            dataJson.put("agentName", localInfo.deviceName);
+            dataJson.put("agentToken", localInfo.deviceId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String reqUrl = String.format(ApiConstant.URL_DEVICE_GET_DEVICE_INFO, url);
+        OkGo.<ResponseBean<DeviceConfigBean>>post(reqUrl)
+                .tag(this)
+                .upJson(getReqBody(dataJson))
+                .execute(new JsonCallback<ResponseBean<DeviceConfigBean>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<DeviceConfigBean>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess((DeviceConfigBean) responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<DeviceConfigBean>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    public void setName(String url, String deviceId, String aliasName, final DeviceApiCommonListener<Object> listener) {
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("deviceId", deviceId);
+            dataJson.put("aliasName", aliasName);
+            dataJson.put("agentName", localInfo.deviceName);
+            dataJson.put("agentToken", localInfo.deviceId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String reqUrl = String.format(ApiConstant.URL_DEVICE_SET_DEVICE_NAME, url);
+        OkGo.<ResponseBean<Object>>post(reqUrl)
+                .tag(this)
+                .upJson(getReqBody(dataJson))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
                         super.onError(response);
                         listener.onFail(-1, response.getException().getMessage());
                     }

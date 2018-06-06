@@ -10,9 +10,5 @@ public class AppConfigBean {
     public String uacUrl;
     public String emcUrl;
     public String cloudStorUrl;
-//    public List<StunServer> stunServers;
-//
-//    public static class StunServer {
-//        public String udp;
-//    }
+    public List<String> stunServers;
 }
