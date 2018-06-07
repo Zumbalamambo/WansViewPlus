@@ -62,9 +62,11 @@ public class SigninMoreDialog extends Dialog implements View.OnClickListener {
         cancleTextView = findViewById(R.id.tv_cancel);
         if (!TextUtils.isEmpty(firstText)) {
             firstTextView.setText(firstText);
+            firstTextView.setVisibility(View.VISIBLE);
         }
         if (!TextUtils.isEmpty(secondText)) {
             secondTextView.setText(secondText);
+            secondTextView.setVisibility(View.VISIBLE);
         }
         firstTextView.setOnClickListener(this);
         secondTextView.setOnClickListener(this);

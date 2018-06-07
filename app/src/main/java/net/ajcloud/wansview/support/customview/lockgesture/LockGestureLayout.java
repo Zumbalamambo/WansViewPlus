@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import net.ajcloud.wansview.R;
+import net.ajcloud.wansview.main.account.SigninAccountManager;
+import net.ajcloud.wansview.support.core.cipher.CipherUtil;
 import net.ajcloud.wansview.support.utils.DisplayUtil;
 
 import java.util.ArrayList;
@@ -55,13 +57,14 @@ public class LockGestureLayout extends RelativeLayout {
     private int mLastPathY;
     //指引下的结束位置
     private Point mTmpTarget = new Point();
-    //存储密码
-    private String mAnswer;
+    //isFirst
+    private boolean isFirst;
     //保存用户选中的LockGestureView的id
     private List<Integer> mChoose = new ArrayList<>();
     private Paint mPaint;
     private Path mPath;
     private static final int RESET = 1000;
+    private SigninAccountManager signinAccountManager;
     private Handler resetHander = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
@@ -103,6 +106,8 @@ public class LockGestureLayout extends RelativeLayout {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPath = new Path();
+
+        signinAccountManager = new SigninAccountManager(context);
     }
 
     private int getSize(int defaultSize, int measureSpec) {
@@ -228,12 +233,14 @@ public class LockGestureLayout extends RelativeLayout {
                 // 将终点设置位置为起点，即取消指引线
                 mTmpTarget.x = mLastPathX;
                 mTmpTarget.y = mLastPathY;
-                if (times < 2) {
+                if (times < 1) {
                     if (listenner != null) {
                         listenner.onOverTime();
                     }
                 } else {
                     if (checkPassword()) {
+                        resetHander.removeMessages(RESET);
+                        resetHander.sendEmptyMessageDelayed(RESET, 500);
                         if (listenner != null) {
                             listenner.onSuccess();
                         }
@@ -244,7 +251,11 @@ public class LockGestureLayout extends RelativeLayout {
                         resetHander.removeMessages(RESET);
                         resetHander.sendEmptyMessageDelayed(RESET, 500);
                         if (listenner != null) {
-                            listenner.onFail(times);
+                            if (times == 0) {
+                                listenner.onOverTime();
+                            } else {
+                                listenner.onFail(times);
+                            }
                         }
                     }
                 }
@@ -322,11 +333,15 @@ public class LockGestureLayout extends RelativeLayout {
      * 验证密码是否正确
      */
     private boolean checkPassword() {
+        if (isFirst) {
+            return true;
+        }
+
         StringBuilder choose = new StringBuilder();
         for (int key : mChoose) {
             choose.append(key);
         }
-        return TextUtils.equals(getmAnswer(), choose.toString());
+        return TextUtils.equals(choose.toString(), signinAccountManager.getCurrentAccountGesture());
     }
 
     public int getTimes() {
@@ -337,12 +352,12 @@ public class LockGestureLayout extends RelativeLayout {
         this.times = times;
     }
 
-    public String getmAnswer() {
-        return mAnswer;
+    public boolean isFirst() {
+        return isFirst;
     }
 
-    public void setmAnswer(String mAnswer) {
-        this.mAnswer = mAnswer;
+    public void setFirst(boolean first) {
+        isFirst = first;
     }
 
     public interface OnLockGestureResultListenner {

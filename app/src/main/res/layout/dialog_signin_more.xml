@@ -14,7 +14,8 @@
         android:padding="10dp"
         android:text="Gesture"
         android:textColor="@color/gray_first"
-        android:textSize="@dimen/signIn_textSize_16" />
+        android:textSize="@dimen/signIn_textSize_16"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_second"
@@ -24,7 +25,8 @@
         android:padding="10dp"
         android:text="Switch account"
         android:textColor="@color/gray_first"
-        android:textSize="@dimen/signIn_textSize_16" />
+        android:textSize="@dimen/signIn_textSize_16"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_cancel"

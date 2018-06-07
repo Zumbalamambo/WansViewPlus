@@ -7,6 +7,7 @@ import net.ajcloud.wansview.entity.SigninAccountInfo;
 import net.ajcloud.wansview.entity.SigninAccountInfoDao;
 import net.ajcloud.wansview.main.application.MainApplication;
 import net.ajcloud.wansview.support.core.bean.SigninBean;
+import net.ajcloud.wansview.support.core.cipher.CipherUtil;
 
 /**
  * Created by mamengchao on 2018/05/30.
@@ -29,7 +30,8 @@ public class SigninAccountManager {
     /**
      * 保存当前登录账号
      */
-    public void saveCurrentAccount(String mail, SigninBean bean) {
+    public void saveCurrentAccount(String mail, String password, SigninBean bean) {
+        //清除最近登陆账号信息
         SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
                 .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
                 .unique();
@@ -46,16 +48,29 @@ public class SigninAccountManager {
         SigninAccountInfo info = signinAccountInfoDao.queryBuilder()
                 .where(SigninAccountInfoDao.Properties.Mail.eq(mail))
                 .unique();
+
         if (info == null) {
-            info = new SigninAccountInfo(mail, bean);
+            String salt = CipherUtil.getRandomSalt();
+            String encodePwd = CipherUtil.naclEncodeLocal(password, salt);
+            String encodeAccess = CipherUtil.naclEncodeLocal(bean.accessToken, salt);
+            String encodeRefresh = CipherUtil.naclEncodeLocal(bean.refreshToken, salt);
+            bean.accessToken = encodeAccess;
+            bean.refreshToken = encodeRefresh;
+            info = new SigninAccountInfo(mail, encodePwd, salt, bean);
             signinAccountInfoDao.insert(info);
         } else {
+            String salt = info.getSalt();
+            String encodePwd = CipherUtil.naclEncodeLocal(password, salt);
+            String encodeAccess = CipherUtil.naclEncodeLocal(bean.accessToken, salt);
+            String encodeRefresh = CipherUtil.naclEncodeLocal(bean.refreshToken, salt);
             info.setIsRecent(true);
-            info.setAccessToken(bean.accessToken);
-            info.setRefreshToken(bean.refreshToken);
+            info.setAccessToken(encodeAccess);
+            info.setRefreshToken(encodeRefresh);
             info.setExpiresIn(bean.expiresIn);
             info.setTokenType(bean.tokenType);
             info.setScope(bean.tokenType);
+            info.setPassword(encodePwd);
+            info.setSalt(salt);
             signinAccountInfoDao.update(info);
         }
     }
@@ -71,14 +86,45 @@ public class SigninAccountManager {
         SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
                 .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
                 .unique();
-        return recentLoginAccount == null ? null : recentLoginAccount.getAccessToken();
+        return recentLoginAccount == null ? null : CipherUtil.naclDecodeLocal(recentLoginAccount.getAccessToken(), recentLoginAccount.getSalt());
     }
 
     public String getCurrentAccountRefreshToken() {
         SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
                 .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
                 .unique();
-        return recentLoginAccount == null ? null : recentLoginAccount.getRefreshToken();
+        return recentLoginAccount == null ? null : CipherUtil.naclDecodeLocal(recentLoginAccount.getRefreshToken(), recentLoginAccount.getSalt());
+    }
+
+    public String getCurrentAccountSalt() {
+        SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
+                .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
+                .unique();
+        return recentLoginAccount == null ? null : recentLoginAccount.getSalt();
+    }
+
+    public String getCurrentAccountPassword() {
+        SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
+                .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
+                .unique();
+        return recentLoginAccount == null ? null : CipherUtil.naclDecodeLocal(recentLoginAccount.getPassword(), recentLoginAccount.getSalt());
+    }
+
+    public String getCurrentAccountGesture() {
+        SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
+                .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
+                .unique();
+        return recentLoginAccount == null ? null : CipherUtil.naclDecodeLocal(recentLoginAccount.getGesture(), recentLoginAccount.getSalt());
+    }
+
+    public void setCurrentAccountGesture(String gesture) {
+        SigninAccountInfo currentAccount = signinAccountInfoDao.queryBuilder()
+                .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
+                .unique();
+        String salt = currentAccount.getSalt();
+        String gesturePwd = CipherUtil.naclEncodeLocal(gesture, salt);
+        currentAccount.setGesture(gesturePwd);
+        signinAccountInfoDao.update(currentAccount);
     }
 
     /**

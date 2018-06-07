@@ -25,22 +25,27 @@ public class SigninAccountInfo {
     private String tokenType; //token类型
     private String expiresIn; //有效期
     private boolean isRecent;
+    private String password;
+    private String gesture;
+    private String salt;
 
-    public SigninAccountInfo(@NotNull String mail, SigninBean bean) {
+    public SigninAccountInfo(@NotNull String mail, String password, String salt, SigninBean bean) {
         this.mail = mail;
         this.accessToken = bean.accessToken;
         this.refreshToken = bean.refreshToken;
         this.scope = bean.scope;
         this.tokenType = bean.tokenType;
         this.expiresIn = bean.expiresIn;
+        this.password = password;
+        this.salt = salt;
         this.isRecent = true;
     }
 
 
-    @Generated(hash = 1115568709)
-    public SigninAccountInfo(Long id, @NotNull String mail, String accessToken,
-                             String refreshToken, String scope, String tokenType, String expiresIn,
-                             boolean isRecent) {
+    @Generated(hash = 1949917024)
+    public SigninAccountInfo(Long id, @NotNull String mail, String accessToken, String refreshToken,
+                             String scope, String tokenType, String expiresIn, boolean isRecent, String password,
+                             String gesture, String salt) {
         this.id = id;
         this.mail = mail;
         this.accessToken = accessToken;
@@ -49,6 +54,9 @@ public class SigninAccountInfo {
         this.tokenType = tokenType;
         this.expiresIn = expiresIn;
         this.isRecent = isRecent;
+        this.password = password;
+        this.gesture = gesture;
+        this.salt = salt;
     }
 
 
@@ -119,5 +127,35 @@ public class SigninAccountInfo {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+
+    public String getPassword() {
+        return this.password;
+    }
+
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
+    public String getGesture() {
+        return this.gesture;
+    }
+
+
+    public void setGesture(String gesture) {
+        this.gesture = gesture;
+    }
+
+
+    public String getSalt() {
+        return this.salt;
+    }
+
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }

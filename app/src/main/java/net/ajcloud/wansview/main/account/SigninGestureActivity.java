@@ -7,17 +7,23 @@ import android.widget.TextView;
 
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.application.BaseActivity;
+import net.ajcloud.wansview.main.home.HomeActivity;
+import net.ajcloud.wansview.support.core.api.OkgoCommonListener;
+import net.ajcloud.wansview.support.core.api.UserApiUnit;
+import net.ajcloud.wansview.support.core.bean.SigninBean;
 import net.ajcloud.wansview.support.customview.dialog.SigninMoreDialog;
 import net.ajcloud.wansview.support.customview.lockgesture.LockGestureLayout;
 import net.ajcloud.wansview.support.utils.ToastUtil;
 
 public class SigninGestureActivity extends BaseActivity {
 
+    private static final String SIGNIN = "SIGNIN";
     private TextView userNameTextView, moreTextView;
     private SigninMoreDialog signinMoreDialog;
     private LockGestureLayout lockGestureView;
     private TextView hintTextView;
     private String userName;
+    private SigninAccountManager signinAccountManager;
 
     public static void start(Context context, String userName) {
         Intent intent = new Intent(context, SigninGestureActivity.class);
@@ -44,8 +50,8 @@ public class SigninGestureActivity extends BaseActivity {
         signinMoreDialog = new SigninMoreDialog(this);
         signinMoreDialog.setFirstText("Password sign in");
         signinMoreDialog.setSecondText("Switch account");
-        lockGestureView.setmAnswer("12369");
         lockGestureView.setTimes(5);
+        lockGestureView.setFirst(false);
     }
 
     @Override
@@ -54,6 +60,7 @@ public class SigninGestureActivity extends BaseActivity {
             userName = getIntent().getStringExtra("userName");
             userNameTextView.setText(userName);
         }
+        signinAccountManager = new SigninAccountManager(this);
     }
 
     @Override
@@ -62,7 +69,7 @@ public class SigninGestureActivity extends BaseActivity {
         lockGestureView.setLockGestureResultListenner(new LockGestureLayout.OnLockGestureResultListenner() {
             @Override
             public void onSuccess() {
-                ToastUtil.single("success");
+                doSignin();
             }
 
             @Override
@@ -102,5 +109,27 @@ public class SigninGestureActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    private void doSignin() {
+        final String mail = userName;
+        final String pwd = signinAccountManager.getCurrentAccountPassword();
+
+        progressDialogManager.showDialog(SIGNIN, this, getResources().getInteger(R.integer.http_timeout));
+        new UserApiUnit(this).signin(mail, pwd, new OkgoCommonListener<SigninBean>() {
+            @Override
+            public void onSuccess(SigninBean bean) {
+                progressDialogManager.dimissDialog(SIGNIN, 0);
+                Intent intent = new Intent(SigninGestureActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                progressDialogManager.dimissDialog(SIGNIN, 0);
+                ToastUtil.single(msg);
+            }
+        });
     }
 }

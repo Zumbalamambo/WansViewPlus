@@ -13,8 +13,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import net.ajcloud.wansview.R;
-import net.ajcloud.wansview.main.application.MainApplication;
-import net.ajcloud.wansview.support.core.socket.CableConnectionUnit;
+import net.ajcloud.wansview.main.account.SigninAccountManager;
+import net.ajcloud.wansview.main.account.SigninTwiceActivity;
+import net.ajcloud.wansview.support.core.api.OkgoCommonListener;
+import net.ajcloud.wansview.support.core.api.UserApiUnit;
+import net.ajcloud.wansview.support.core.cipher.CipherUtil;
+import net.ajcloud.wansview.support.tools.WLog;
 
 /**
  * Created by mamengchao on 2018/05/15.
@@ -45,19 +49,36 @@ public class MineFragment extends Fragment {
 
         final EditText oldPwd = view.findViewById(R.id.oldPwd);
         final EditText newPwd = view.findViewById(R.id.newPwd);
+        String text = "805901025@qq.com";
+        final String salt = CipherUtil.getRandomSalt();
+        final String password = CipherUtil.naclEncodeLocal(text, salt);
+        WLog.d("localnacl", "salt:" + salt);
+        WLog.d("localnacl", "password:" + password);
+        oldPwd.setText(password);
         view.findViewById(net.ajcloud.wansview.R.id.change).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                byte[] b = new byte[]{
-//                  1,9,2,46,1,6,8,46,1,46,1,32,32,32
-//                };
-//                newPwd.setText(DigitalUtils.bytetoString(b));
+                newPwd.setText(CipherUtil.naclDecodeLocal(password, CipherUtil.getRandomSalt()));
+                SigninAccountManager signinAccountManager = new SigninAccountManager(getActivity());
+                signinAccountManager.setCurrentAccountGesture("1236987");
             }
         });
         view.findViewById(net.ajcloud.wansview.R.id.logout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainApplication.getApplication().logout();
+                new UserApiUnit(getActivity()).signout(new OkgoCommonListener<Object>() {
+                    @Override
+                    public void onSuccess(Object bean) {
+                        SigninAccountManager signinAccountManager = new SigninAccountManager(getActivity());
+                        SigninTwiceActivity.start(getContext(), signinAccountManager.getCurrentAccountMail());
+                        getActivity().finish();
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+
+                    }
+                });
             }
         });
     }

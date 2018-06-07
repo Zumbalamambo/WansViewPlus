@@ -25,6 +25,7 @@ public class SigninTwiceActivity extends BaseActivity {
     private Button signinButton;
     private SigninMoreDialog signinMoreDialog;
     private String userName;
+    private SigninAccountManager signinAccountManager;
 
     public static void start(Context context, String userName) {
         Intent intent = new Intent(context, SigninTwiceActivity.class);
@@ -50,7 +51,10 @@ public class SigninTwiceActivity extends BaseActivity {
         forgotTextView = findViewById(net.ajcloud.wansview.R.id.textView_forgot_password);
         signinButton = findViewById(net.ajcloud.wansview.R.id.btn_signin);
         signinMoreDialog = new SigninMoreDialog(this);
-        signinMoreDialog.setFirstText("Gesture");
+        signinAccountManager = new SigninAccountManager(this);
+        if (signinAccountManager.getCurrentAccountGesture() != null) {
+            signinMoreDialog.setFirstText("Gesture");
+        }
         signinMoreDialog.setSecondText("Switch account");
 
 //        password.requestFocus();

@@ -167,7 +167,7 @@ public class UserApiUnit {
                 JSONObject dataJson = new JSONObject();
                 try {
                     byte[] nonce = CipherUtil.getNonce();
-                    String encodePassword = CipherUtil.encode(password, bean.clientSecretKey, bean.serverPubKey, nonce);
+                    String encodePassword = CipherUtil.naclEncode(password, bean.clientSecretKey, bean.serverPubKey, nonce);
                     dataJson.put("username", mail);
                     dataJson.put("password", encodePassword);
                     dataJson.put("nonce", new String(Base64.encode(nonce, Base64.NO_WRAP), "UTF-8"));
@@ -218,7 +218,7 @@ public class UserApiUnit {
                 JSONObject dataJson = new JSONObject();
                 try {
                     byte[] nonce = CipherUtil.getNonce();
-                    String encodePassword = CipherUtil.encode(password, bean.clientSecretKey, bean.serverPubKey, nonce);
+                    String encodePassword = CipherUtil.naclEncode(password, bean.clientSecretKey, bean.serverPubKey, nonce);
                     dataJson.put("username", mail);
                     dataJson.put("password", encodePassword);
                     dataJson.put("nonce", new String(Base64.encode(nonce, Base64.NO_WRAP), "UTF-8"));
@@ -241,7 +241,7 @@ public class UserApiUnit {
                                 ResponseBean responseBean = response.body();
                                 SigninBean bean = (SigninBean) responseBean.result;
                                 if (responseBean.isSuccess()) {
-                                    saveAccount(mail, bean);
+                                    saveAccount(mail, password, bean);
                                     listener.onSuccess(bean);
                                 } else {
                                     listener.onFail(responseBean.getResultCode(), responseBean.message);
@@ -277,8 +277,8 @@ public class UserApiUnit {
                 JSONObject dataJson = new JSONObject();
                 try {
                     byte[] nonce = CipherUtil.getNonce();
-                    String encodeOldPassword = CipherUtil.encode(oldPassword, bean.clientSecretKey, bean.serverPubKey, nonce);
-                    String encodeNewPassword = CipherUtil.encode(newPassword, bean.clientSecretKey, bean.serverPubKey, nonce);
+                    String encodeOldPassword = CipherUtil.naclEncode(oldPassword, bean.clientSecretKey, bean.serverPubKey, nonce);
+                    String encodeNewPassword = CipherUtil.naclEncode(newPassword, bean.clientSecretKey, bean.serverPubKey, nonce);
                     dataJson.put("password", encodeOldPassword);
                     dataJson.put("newPassword", encodeNewPassword);
                     dataJson.put("nonce", new String(Base64.encode(nonce, Base64.NO_WRAP), "UTF-8"));
@@ -358,8 +358,8 @@ public class UserApiUnit {
     /**
      * 登陆成功后的操作
      */
-    private void saveAccount(String mail, SigninBean bean) {
+    private void saveAccount(String mail, String password, SigninBean bean) {
         SigninAccountManager manager = new SigninAccountManager(context);
-        manager.saveCurrentAccount(mail, bean);
+        manager.saveCurrentAccount(mail, password, bean);
     }
 }
