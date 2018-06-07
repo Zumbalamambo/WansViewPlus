@@ -1,6 +1,7 @@
 package net.ajcloud.wansview.support.core.device;
 
 import net.ajcloud.wansview.R;
+import net.ajcloud.wansview.main.application.MainApplication;
 
 import java.util.HashMap;
 
@@ -55,6 +56,18 @@ public class DeviceInfoDictionary {
             return R.string.camera_unknow;
         }
         return bean.nameRes;
+    }
+
+    public static String getNameByDevice(Camera camera) {
+        if (camera == null) {
+            return MainApplication.getApplication().getResources().getString(R.string.camera_unknow);
+        } else {
+            String deviceName = camera.aliasName;
+            if (deviceName == null) {
+                deviceName = MainApplication.getApplication().getResources().getString(getDefaultNameByType(camera.deviceMode));
+            }
+            return deviceName;
+        }
     }
 
     private static class DeviceInfoDataBean {

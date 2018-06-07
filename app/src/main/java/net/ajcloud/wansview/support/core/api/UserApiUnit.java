@@ -356,6 +356,42 @@ public class UserApiUnit {
     }
 
     /**
+     * 刷新token
+     */
+    public void refreshToken(final OkgoCommonListener<SigninBean> listener) {
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("agentName", localInfo.deviceName);
+            dataJson.put("agentToken", localInfo.deviceId);
+            dataJson.put("osName", "android");
+            dataJson.put("refreshToken", accountManager.getCurrentAccountRefreshToken());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<SigninBean>>post(ApiConstant.URL_USER_REFRESH_TOKEN)
+                .tag(this)
+                .upJson(getReqBody(dataJson))
+                .execute(new JsonCallback<ResponseBean<SigninBean>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<SigninBean>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess((SigninBean) responseBean.result);
+                            MainApplication.getApplication().logout();
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<SigninBean>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, context.getString(R.string.Service_Error));
+                    }
+                });
+    }
+
+    /**
      * 登陆成功后的操作
      */
     private void saveAccount(String mail, String password, SigninBean bean) {

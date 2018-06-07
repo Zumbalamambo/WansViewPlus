@@ -14,6 +14,8 @@ public class ApiConstant {
 
     //App启动时需要的公共参数
     public static String URL_GET_APP_CONFIG = "https://sdc.ajyun.com.cn/api/v1/cmd/app-config";
+    //设备接入地址信息
+    public static String URL_GET_DEVICE_URL_INFO = "https://sdc.ajyun.com.cn/api/v1/cmd/cam-config";
 
     // uac账号相关
     public static String URL_USER_CHALLENGE = BASE_UAC_URL + "/challenge";
@@ -22,6 +24,7 @@ public class ApiConstant {
     public static String URL_USER_SIGNOUT = BASE_UAC_URL + "/signout";
     public static String URL_USER_USER_ACTIVE = BASE_UAC_URL + "/user-active";
     public static String URL_USER_CHANGE_PASSWORD = BASE_UAC_URL + "/change-password";
+    public static String URL_USER_REFRESH_TOKEN = BASE_UAC_URL + "/refresh-token";
     //设备相关
     public static String URL_DEVICE_PREBIND = BASE_UAC_URL + "/req-bind";
     public static String URL_DEVICE_GET_BIND_STATUS = BASE_UAC_URL + "/bind-status";

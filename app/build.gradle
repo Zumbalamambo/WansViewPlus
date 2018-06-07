@@ -80,6 +80,7 @@ dependencies {
     implementation files('libs/glide-3.7.0.jar')
     implementation files('libs/httpclient-4.2.5.jar')
     implementation(name: 'swipeLayout', ext: 'aar')
+    implementation files('libs/pinyin4j-2.5.0.jar')
 }
 
 apply plugin: 'com.google.gms.google-services'
