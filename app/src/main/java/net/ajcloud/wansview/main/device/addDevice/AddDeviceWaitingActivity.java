@@ -22,20 +22,25 @@ import net.ajcloud.wansview.support.core.bean.DeviceUrlBean;
 import net.ajcloud.wansview.support.core.bean.PreBindBean;
 import net.ajcloud.wansview.support.core.device.Camera;
 import net.ajcloud.wansview.support.core.socket.CableConnectionUnit;
+import net.ajcloud.wansview.support.tools.WLog;
 import net.ajcloud.wansview.support.utils.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class AddDeviceWaitingActivity extends BaseActivity {
 
-    private static int MSG_CHECK_STATUS = 100;
+    private static int MSG_CHECK = 100;
+    private static int SOCKET_TIMEOUT = 5000;
     private TextView secondTextView;
     private TimeCount timeCount;
     private DeviceSearchBean deviceSearchBean;
     private CableConnectionUnit cableConnectionUnit;
     private DeviceApiUnit deviceApiUnit;
-    private Handler handler = new Handler(Looper.getMainLooper()) {
+    private Handler checkHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -72,7 +77,7 @@ public class AddDeviceWaitingActivity extends BaseActivity {
         }
         deviceApiUnit = new DeviceApiUnit(this);
         cableConnectionUnit = new CableConnectionUnit();
-        cableConnectionUnit.setSocketTimeout(3000);
+        cableConnectionUnit.setSocketTimeout(SOCKET_TIMEOUT);
         if (deviceSearchBean != null) {
             startBind();
         }
@@ -82,6 +87,7 @@ public class AddDeviceWaitingActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         timeCount.cancel();
+        checkHandler.removeMessages(MSG_CHECK);
     }
 
     @Override
@@ -118,13 +124,13 @@ public class AddDeviceWaitingActivity extends BaseActivity {
     }
 
     private void bind(String authCode) {
+        WLog.d(TAG, "ip:" + deviceSearchBean.getSzIpAddr() + "\tdeviceId:" + deviceSearchBean.getDeviceID() + "\ttoken:" + Arrays.toString(authCode.getBytes()));
         cableConnectionUnit.startBind(deviceSearchBean.getSzIpAddr(), deviceSearchBean.getDeviceIDBytes(), authCode.getBytes(), new CableConnectionUnit.BindDeviceCallback() {
             @Override
             public void success(DeviceBindBean bean) {
-                handler.removeMessages(MSG_CHECK_STATUS);
                 if (bean == null) {
-                    Intent intent = new Intent(AddDeviceWaitingActivity.this, AddDeviceFailActivity.class);
-                    startActivity(intent);
+                    checkHandler.removeMessages(MSG_CHECK);
+                    checkHandler.sendEmptyMessage(MSG_CHECK);
                 } else {
                     if (TextUtils.equals("0", bean.nErrorCode)) {
                         //success
@@ -133,11 +139,17 @@ public class AddDeviceWaitingActivity extends BaseActivity {
                     } else {
                         Intent intent = new Intent(AddDeviceWaitingActivity.this, AddDeviceFailActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 }
             }
+
+            @Override
+            public void overTime() {
+                checkHandler.removeMessages(MSG_CHECK);
+                checkHandler.sendEmptyMessage(MSG_CHECK);
+            }
         });
-        handler.sendEmptyMessageDelayed(MSG_CHECK_STATUS, 3000);
     }
 
     private void checkStatus() {
@@ -146,7 +158,8 @@ public class AddDeviceWaitingActivity extends BaseActivity {
             public void onSuccess(BindStatusBean bean) {
                 if (bean != null) {
                     if (bean.status == 0) {
-                        handler.sendEmptyMessageDelayed(MSG_CHECK_STATUS, 5000);
+                        checkHandler.removeMessages(MSG_CHECK);
+                        checkHandler.sendEmptyMessageDelayed(MSG_CHECK, 5000);
                     } else if (bean.status == 1) {
                         // success
                         MainApplication.getApplication().getDeviceCache().add(new Camera(deviceSearchBean.getDeviceID()));
@@ -155,6 +168,7 @@ public class AddDeviceWaitingActivity extends BaseActivity {
                         // fail
                         Intent intent = new Intent(AddDeviceWaitingActivity.this, AddDeviceFailActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 }
             }
@@ -192,6 +206,9 @@ public class AddDeviceWaitingActivity extends BaseActivity {
         @Override
         public void onTick(long millisUntilFinished) {
             secondTextView.setText(String.valueOf(millisUntilFinished / 1000));
+//            if (millisUntilFinished/1000 == 118){
+//                AddDeviceSuccessActivity.start(AddDeviceWaitingActivity.this, deviceSearchBean.getDeviceID());
+//            }
         }
 
         @Override

@@ -8,6 +8,9 @@ import net.ajcloud.wansview.entity.SigninAccountInfoDao;
 import net.ajcloud.wansview.main.application.MainApplication;
 import net.ajcloud.wansview.support.core.bean.SigninBean;
 import net.ajcloud.wansview.support.core.cipher.CipherUtil;
+import net.ajcloud.wansview.support.event.RefreshTokenEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by mamengchao on 2018/05/30.
@@ -39,7 +42,7 @@ public class SigninAccountManager {
             recentLoginAccount.setIsRecent(false);
             recentLoginAccount.setAccessToken(null);
             recentLoginAccount.setRefreshToken(null);
-            recentLoginAccount.setExpiresIn(null);
+            recentLoginAccount.setExpiresIn(0);
             recentLoginAccount.setTokenType(null);
             recentLoginAccount.setScope(null);
             signinAccountInfoDao.update(recentLoginAccount);
@@ -75,6 +78,31 @@ public class SigninAccountManager {
         }
     }
 
+    /**
+     * 保存当前登录账号
+     */
+    public void refreshCurrentAccount(SigninBean bean) {
+        SigninAccountInfo info = getCurrentAccount();
+        if (info != null) {
+            String salt = info.getSalt();
+            String encodeAccess = CipherUtil.naclEncodeLocal(bean.accessToken, salt);
+            String encodeRefresh = CipherUtil.naclEncodeLocal(bean.refreshToken, salt);
+            info.setAccessToken(encodeAccess);
+            info.setRefreshToken(encodeRefresh);
+            info.setExpiresIn(bean.expiresIn);
+            info.setTokenType(bean.tokenType);
+            info.setScope(bean.tokenType);
+            signinAccountInfoDao.update(info);
+        }
+    }
+
+    public SigninAccountInfo getCurrentAccount() {
+        SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
+                .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
+                .unique();
+        return recentLoginAccount;
+    }
+
     public String getCurrentAccountMail() {
         SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
                 .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
@@ -86,35 +114,74 @@ public class SigninAccountManager {
         SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
                 .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
                 .unique();
-        return recentLoginAccount == null ? null : CipherUtil.naclDecodeLocal(recentLoginAccount.getAccessToken(), recentLoginAccount.getSalt());
+        if (recentLoginAccount == null) {
+            return null;
+        }
+        String accessToken = recentLoginAccount.getAccessToken();
+        String salt = recentLoginAccount.getSalt();
+        if (TextUtils.isEmpty(accessToken) || TextUtils.isEmpty(salt)) {
+            return null;
+        }
+        return CipherUtil.naclDecodeLocal(accessToken, salt);
     }
 
     public String getCurrentAccountRefreshToken() {
         SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
                 .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
                 .unique();
-        return recentLoginAccount == null ? null : CipherUtil.naclDecodeLocal(recentLoginAccount.getRefreshToken(), recentLoginAccount.getSalt());
+        if (recentLoginAccount == null) {
+            return null;
+        }
+        String refreshToken = recentLoginAccount.getRefreshToken();
+        String salt = recentLoginAccount.getSalt();
+        if (TextUtils.isEmpty(refreshToken) || TextUtils.isEmpty(salt)) {
+            return null;
+        }
+        return CipherUtil.naclDecodeLocal(refreshToken, salt);
     }
 
     public String getCurrentAccountSalt() {
         SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
                 .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
                 .unique();
-        return recentLoginAccount == null ? null : recentLoginAccount.getSalt();
+        if (recentLoginAccount == null) {
+            return null;
+        }
+        String salt = recentLoginAccount.getSalt();
+        if (TextUtils.isEmpty(salt)) {
+            return null;
+        }
+        return recentLoginAccount.getSalt();
     }
 
     public String getCurrentAccountPassword() {
         SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
                 .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
                 .unique();
-        return recentLoginAccount == null ? null : CipherUtil.naclDecodeLocal(recentLoginAccount.getPassword(), recentLoginAccount.getSalt());
+        if (recentLoginAccount == null) {
+            return null;
+        }
+        String password = recentLoginAccount.getPassword();
+        String salt = recentLoginAccount.getSalt();
+        if (TextUtils.isEmpty(password) || TextUtils.isEmpty(salt)) {
+            return null;
+        }
+        return CipherUtil.naclDecodeLocal(password, salt);
     }
 
     public String getCurrentAccountGesture() {
         SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
                 .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
                 .unique();
-        return recentLoginAccount == null ? null : CipherUtil.naclDecodeLocal(recentLoginAccount.getGesture(), recentLoginAccount.getSalt());
+        if (recentLoginAccount == null) {
+            return null;
+        }
+        String gesture = recentLoginAccount.getGesture();
+        String salt = recentLoginAccount.getSalt();
+        if (TextUtils.isEmpty(gesture) || TextUtils.isEmpty(salt)) {
+            return null;
+        }
+        return CipherUtil.naclDecodeLocal(gesture, salt);
     }
 
     public void setCurrentAccountGesture(String gesture) {
@@ -137,7 +204,7 @@ public class SigninAccountManager {
         if (recentLoginAccount != null) {
             recentLoginAccount.setAccessToken(null);
             recentLoginAccount.setRefreshToken(null);
-            recentLoginAccount.setExpiresIn(null);
+            recentLoginAccount.setExpiresIn(0);
             recentLoginAccount.setTokenType(null);
             recentLoginAccount.setScope(null);
             signinAccountInfoDao.update(recentLoginAccount);
@@ -157,7 +224,15 @@ public class SigninAccountManager {
             if (TextUtils.isEmpty(recentLoginAccount.getAccessToken())) {
                 return false;
             } else {
-                return true;
+//                long expiresIn = recentLoginAccount.getExpiresIn();
+//                if (System.currentTimeMillis() > expiresIn) {
+//                    return false;
+//                } else {
+//                    if ((System.currentTimeMillis() + 48 * 3600) > expiresIn) {
+//                        EventBus.getDefault().post(new RefreshTokenEvent());
+//                    }
+                    return true;
+//                }
             }
         }
     }

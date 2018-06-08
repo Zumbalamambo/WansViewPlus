@@ -14,8 +14,14 @@ import net.ajcloud.wansview.main.application.BaseActivity;
 import net.ajcloud.wansview.main.device.DeviceFragment;
 import net.ajcloud.wansview.main.message.MessageFragment;
 import net.ajcloud.wansview.main.mine.MineFragment;
-import net.ajcloud.wansview.support.tools.WLog;
+import net.ajcloud.wansview.support.core.api.OkgoCommonListener;
+import net.ajcloud.wansview.support.core.api.UserApiUnit;
+import net.ajcloud.wansview.support.core.bean.SigninBean;
+import net.ajcloud.wansview.support.event.RefreshTokenEvent;
 import net.ajcloud.wansview.support.utils.ToastUtil;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -28,6 +34,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     private MessageFragment messageFragment;
     private MineFragment mineFragment;
     private ArrayList<Fragment> fragments;
+    private UserApiUnit userApiUnit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     protected void initView() {
+        userApiUnit = new UserApiUnit(this);
         deviceFragment = new DeviceFragment();
         messageFragment = new MessageFragment();
         mineFragment = new MineFragment();
@@ -142,5 +150,20 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
             return;
         }
         this.moveTaskToBack(true);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(RefreshTokenEvent event) {
+        userApiUnit.refreshToken(new OkgoCommonListener<SigninBean>() {
+            @Override
+            public void onSuccess(SigninBean bean) {
+
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+
+            }
+        });
     }
 }

@@ -11,9 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.ajcloud.wansview.R;
-import net.ajcloud.wansview.entity.camera.Camera;
 import net.ajcloud.wansview.main.device.type.DeviceHomeActivity;
 import net.ajcloud.wansview.main.device.type.camera.MainCameraFragment;
+import net.ajcloud.wansview.support.core.device.Camera;
+import net.ajcloud.wansview.support.core.device.DeviceInfoDictionary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((DeviceListHolder) holder).deviceName.setText(mData.get(position).getName());
+        ((DeviceListHolder) holder).deviceName.setText(DeviceInfoDictionary.getNameByDevice(mData.get(position)));
         ((DeviceListHolder) holder).cloudLayout.setVisibility(View.VISIBLE);
         ((DeviceListHolder) holder).stateLayout.setVisibility(View.GONE);
 

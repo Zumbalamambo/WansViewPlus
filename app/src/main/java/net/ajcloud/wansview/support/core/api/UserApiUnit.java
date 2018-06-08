@@ -1,6 +1,7 @@
 package net.ajcloud.wansview.support.core.api;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Base64;
 
 import com.lzy.okgo.OkGo;
@@ -41,7 +42,10 @@ public class UserApiUnit {
             JSONObject metaJson = new JSONObject();
             metaJson.put("locale", localInfo.appLang);
             metaJson.put("localtz", localInfo.timeZone);
-
+            String accessToken = accountManager.getCurrentAccountAccessToken();
+            if (!TextUtils.isEmpty(accessToken)) {
+                metaJson.put("accessToken", accessToken);
+            }
             JSONObject body = new JSONObject();
             body.put("meta", metaJson);
             body.put("data", data);
@@ -364,6 +368,7 @@ public class UserApiUnit {
             dataJson.put("agentName", localInfo.deviceName);
             dataJson.put("agentToken", localInfo.deviceId);
             dataJson.put("osName", "android");
+            dataJson.put("accessToken", accountManager.getCurrentAccountAccessToken());
             dataJson.put("refreshToken", accountManager.getCurrentAccountRefreshToken());
         } catch (Exception e) {
             e.printStackTrace();
@@ -376,8 +381,9 @@ public class UserApiUnit {
                     public void onSuccess(Response<ResponseBean<SigninBean>> response) {
                         ResponseBean responseBean = response.body();
                         if (responseBean.isSuccess()) {
-                            listener.onSuccess((SigninBean) responseBean.result);
-                            MainApplication.getApplication().logout();
+                            SigninBean bean = (SigninBean) responseBean.result;
+                            accountManager.refreshCurrentAccount(bean);
+                            listener.onSuccess(bean);
                         } else {
                             listener.onFail(responseBean.getResultCode(), responseBean.message);
                         }
@@ -395,7 +401,6 @@ public class UserApiUnit {
      * 登陆成功后的操作
      */
     private void saveAccount(String mail, String password, SigninBean bean) {
-        SigninAccountManager manager = new SigninAccountManager(context);
-        manager.saveCurrentAccount(mail, password, bean);
+        accountManager.saveCurrentAccount(mail, password, bean);
     }
 }

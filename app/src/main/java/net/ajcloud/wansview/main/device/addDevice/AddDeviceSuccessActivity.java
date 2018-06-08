@@ -9,6 +9,7 @@ import android.widget.Button;
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.application.BaseActivity;
 import net.ajcloud.wansview.main.application.MainApplication;
+import net.ajcloud.wansview.main.home.HomeActivity;
 import net.ajcloud.wansview.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansview.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansview.support.core.device.Camera;
@@ -44,7 +45,6 @@ public class AddDeviceSuccessActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Successfully added device");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
         nameEditText = findViewById(R.id.et_name);
         okButton = findViewById(R.id.btn_ok);
     }
@@ -52,7 +52,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
     @Override
     protected void initData() {
         if (getIntent() != null) {
-            deviceId = getIntent().getParcelableExtra("deviceId");
+            deviceId = getIntent().getStringExtra("deviceId");
             camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
         }
         deviceApiUnit = new DeviceApiUnit(this);
@@ -88,6 +88,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
             @Override
             public void onSuccess(Object bean) {
                 ToastUtil.single("success");
+                startActivity(new Intent(AddDeviceSuccessActivity.this, HomeActivity.class));
             }
 
             @Override
@@ -95,5 +96,9 @@ public class AddDeviceSuccessActivity extends BaseActivity {
                 ToastUtil.single("setName error");
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }

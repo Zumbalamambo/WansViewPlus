@@ -46,7 +46,7 @@ public class DiscoveryDeviceListAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((DeviceListHolder) holder).deviceName.setText(mData.get(position).szDevName);
-        ((DeviceListHolder) holder).deviceId.setText(String.format(context.getResources().getString(R.string.device_discovery_id), mData.get(position).getDeviceID()));
+        ((DeviceListHolder) holder).deviceId.setText(String.format(context.getResources().getString(R.string.device_discovery_id), mData.get(position).getSzIpAddr()));
         final int finalPosition = position;
         ((DeviceListHolder) holder).selectButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -113,7 +113,8 @@
         <activity android:name=".main.device.setting.CloudStorageActivity" />
         <activity android:name=".main.device.setting.MaintenanceActivity" />
         <activity android:name=".main.device.setting.TimeZoneActivity" />
-        <activity android:name=".main.device.addDevice.AddDeviceFailActivity"></activity>
+        <activity android:name=".main.device.addDevice.AddDeviceFailActivity" />
+        <activity android:name=".main.test.TestActivity"></activity>
     </application>
 
 </manifest>

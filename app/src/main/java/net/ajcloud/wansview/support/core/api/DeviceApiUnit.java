@@ -1,15 +1,18 @@
 package net.ajcloud.wansview.support.core.api;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.entity.LocalInfo;
+import net.ajcloud.wansview.main.account.SigninAccountManager;
 import net.ajcloud.wansview.main.application.MainApplication;
 import net.ajcloud.wansview.support.core.bean.BindStatusBean;
 import net.ajcloud.wansview.support.core.bean.DeviceConfigBean;
+import net.ajcloud.wansview.support.core.bean.DeviceListBean;
 import net.ajcloud.wansview.support.core.bean.DeviceUrlBean;
 import net.ajcloud.wansview.support.core.bean.PreBindBean;
 import net.ajcloud.wansview.support.core.bean.ResponseBean;
@@ -31,10 +34,12 @@ public class DeviceApiUnit {
     private static final String TAG = "DeviceApiUnit";
     private Context context;
     private LocalInfo localInfo;
+    private SigninAccountManager accountManager;
 
     public DeviceApiUnit(Context context) {
         this.context = context;
         localInfo = ((MainApplication) context.getApplicationContext()).getLocalInfo();
+        accountManager = new SigninAccountManager(context);
     }
 
     private JSONObject getReqBody(JSONObject data) {
@@ -42,6 +47,10 @@ public class DeviceApiUnit {
             JSONObject metaJson = new JSONObject();
             metaJson.put("locale", localInfo.appLang);
             metaJson.put("localtz", localInfo.timeZone);
+            String accessToken = accountManager.getCurrentAccountAccessToken();
+            if (!TextUtils.isEmpty(accessToken)){
+                metaJson.put("accessToken", accessToken);
+            }
 
             JSONObject body = new JSONObject();
             body.put("meta", metaJson);
@@ -54,7 +63,7 @@ public class DeviceApiUnit {
     }
 
     /**
-     * App启动时需要的公共参数
+     * 获取设备url
      */
     public void getDeviceUrlInfo(List<String> devices, final OkgoCommonListener<List<DeviceUrlBean.UrlInfo>> listener) {
         if (devices == null || devices.size() == 0) {
@@ -179,6 +188,42 @@ public class DeviceApiUnit {
     }
 
     /**
+     * 获取设备列表
+     */
+    public void getDeviceList(final OkgoCommonListener<DeviceListBean> listener) {
+        JSONObject dataJson = new JSONObject();
+        OkGo.<ResponseBean<DeviceListBean>>post(ApiConstant.URL_DEVICE_GET_DEVICE_LIST)
+                .tag(this)
+                .upJson(getReqBody(dataJson))
+                .execute(new JsonCallback<ResponseBean<DeviceListBean>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<DeviceListBean>> response) {
+                        ResponseBean responseBean = response.body();
+                        DeviceListBean deviceListBean = (DeviceListBean) responseBean.result;
+                        if (responseBean.isSuccess()) {
+                            List<String> devices = deviceListBean.cameras;
+                            if (devices != null && devices.size() > 0) {
+                                for (String deviceId : devices
+                                        ) {
+                                    MainApplication.getApplication().getDeviceCache().add(new Camera(deviceId));
+                                }
+                            }
+                            listener.onSuccess(deviceListBean);
+                            //getDeviceInfo
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<DeviceListBean>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
      * 获取设备信息
      *
      * @param url      设备ip
@@ -221,6 +266,7 @@ public class DeviceApiUnit {
      *
      * @param url      设备ip
      * @param deviceId 设备Id
+     * @param aliasName 设备Id
      */
     public void setName(String url, String deviceId, String aliasName, final OkgoCommonListener<Object> listener) {
         JSONObject dataJson = new JSONObject();
@@ -234,6 +280,44 @@ public class DeviceApiUnit {
         }
         String reqUrl = String.format(ApiConstant.URL_DEVICE_SET_DEVICE_NAME, url);
         OkGo.<ResponseBean<Object>>post(reqUrl)
+                .tag(this)
+                .upJson(getReqBody(dataJson))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 设置设备昵称
+     *
+     * @param deviceId 设备Id
+     * @param name     设备别名
+     */
+    public void setNameUac(String deviceId, String name, final OkgoCommonListener<Object> listener) {
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("deviceId", deviceId);
+            dataJson.put("name", name);
+            dataJson.put("agentName", localInfo.deviceName);
+            dataJson.put("agentToken", localInfo.deviceId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<Object>>post(ApiConstant.URL_DEVICE_SET_DEVICE_NAME_UAC)
                 .tag(this)
                 .upJson(getReqBody(dataJson))
                 .execute(new JsonCallback<ResponseBean<Object>>() {

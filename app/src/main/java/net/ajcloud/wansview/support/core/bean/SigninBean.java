@@ -9,5 +9,5 @@ public class SigninBean {
     public String refreshToken;
     public String scope;     //请求范围
     public String tokenType; //token类型
-    public String expiresIn; //有效期
+    public long expiresIn; //有效期
 }

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +41,8 @@ public class CableConnectionUnit {
 
     public interface BindDeviceCallback {
         void success(DeviceBindBean bean);
+
+        void overTime();
     }
 
     public void setSocketTimeout(int socketTimeout) {
@@ -110,11 +113,14 @@ public class CableConnectionUnit {
                         byte[] message = new byte[datagramPacket.getLength()];
                         System.arraycopy(buf, 0, message, 0, datagramPacket.getLength());
                         bean = parseBindData(message);
+                        callback.success(bean);
                     }
+                } catch (SocketTimeoutException e) {
+                    e.printStackTrace();
+                    callback.overTime();
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
-                    callback.success(bean);
                     if (datagramSocket != null && datagramSocket.isConnected()) {
                         datagramSocket.close();
                     }
