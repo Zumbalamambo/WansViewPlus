@@ -17,7 +17,7 @@ import net.ajcloud.wansview.main.application.BaseActivity;
 import net.ajcloud.wansview.main.download.VideoDownloadManager;
 import net.ajcloud.wansview.main.download.adapter.VideoDownloadAdapter;
 import net.ajcloud.wansview.support.customview.dialog.AlignBottomDialog;
-import net.ajcloud.wansview.support.eventbus.DelVideoMessage;
+import net.ajcloud.wansview.support.event.DelVideoMessage;
 import net.ajcloud.wansview.support.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;

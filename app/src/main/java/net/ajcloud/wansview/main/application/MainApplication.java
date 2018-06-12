@@ -202,6 +202,10 @@ public class MainApplication extends Application {
         return activities;
     }
 
+    public Activity getLastestActivity() {
+        return activities.get(activities.size() - 1);
+    }
+
     public void finshActivitys() {
         for (int i = (activities.size() - 1); i > 0; i--) {
             activities.get(i).finish();

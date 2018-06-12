@@ -15,8 +15,8 @@ public class SoundMonitorBean {
         private int no;
         private int enable;
         private int respondMode;
-        private long startTime;
-        private long endTime;
+        private String startTime;
+        private String endTime;
         private List<Integer> weekDays;
     }
 }

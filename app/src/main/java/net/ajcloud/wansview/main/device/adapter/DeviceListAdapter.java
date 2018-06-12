@@ -3,6 +3,7 @@ package net.ajcloud.wansview.main.device.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.ajcloud.wansview.R;
+import net.ajcloud.wansview.main.application.MainApplication;
 import net.ajcloud.wansview.main.device.type.DeviceHomeActivity;
 import net.ajcloud.wansview.main.device.type.camera.MainCameraFragment;
 import net.ajcloud.wansview.support.core.device.Camera;
@@ -39,6 +41,20 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyDataSetChanged();
     }
 
+    public void add(Camera camera) {
+        mData.add(camera);
+        notifyItemInserted(mData.size());
+    }
+
+    public void update(Camera camera) {
+        for (int i = 0; i < mData.size(); i++) {
+            if (TextUtils.equals(camera.deviceId, mData.get(i).deviceId)) {
+                mData.set(i, camera);
+                notifyItemChanged(i);
+            }
+        }
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = layoutInflater.inflate(R.layout.item_device_list, parent, false);
@@ -54,6 +70,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         ((DeviceListHolder) holder).thumbnailImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                List<Camera> cameras = new ArrayList<>(MainApplication.getApplication().getDeviceCache().getDevices());
                 Intent intent = new Intent(context, DeviceHomeActivity.class);
                 intent.putExtra("class", MainCameraFragment.class);
                 context.startActivity(intent);

@@ -15,10 +15,12 @@ import android.widget.EditText;
 import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.main.account.SigninAccountManager;
 import net.ajcloud.wansview.main.account.SigninTwiceActivity;
+import net.ajcloud.wansview.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansview.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansview.support.core.api.UserApiUnit;
 import net.ajcloud.wansview.support.core.cipher.CipherUtil;
 import net.ajcloud.wansview.support.tools.WLog;
+import net.ajcloud.wansview.support.utils.ToastUtil;
 
 /**
  * Created by mamengchao on 2018/05/15.
@@ -58,9 +60,43 @@ public class MineFragment extends Fragment {
         view.findViewById(net.ajcloud.wansview.R.id.change).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newPwd.setText(CipherUtil.naclDecodeLocal(password, CipherUtil.getRandomSalt()));
                 SigninAccountManager signinAccountManager = new SigninAccountManager(getActivity());
                 signinAccountManager.setCurrentAccountGesture("1236987");
+
+
+                new DeviceApiUnit(getActivity()).unBind("K03868WPCGRPFDX4",  new OkgoCommonListener<Object>() {
+                    @Override
+                    public void onSuccess(Object bean) {
+                        ToastUtil.single("ok");
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+                        ToastUtil.single(msg);
+                    }
+                });
+                new DeviceApiUnit(getActivity()).unBind("K03868KVLJNASXNC",  new OkgoCommonListener<Object>() {
+                    @Override
+                    public void onSuccess(Object bean) {
+                        ToastUtil.single("ok");
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+                        ToastUtil.single(msg);
+                    }
+                });
+                new DeviceApiUnit(getActivity()).unBind("K038682CY5NV1PI9",  new OkgoCommonListener<Object>() {
+                    @Override
+                    public void onSuccess(Object bean) {
+                        ToastUtil.single("ok");
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+                        ToastUtil.single(msg);
+                    }
+                });
             }
         });
         view.findViewById(net.ajcloud.wansview.R.id.logout).setOnClickListener(new View.OnClickListener() {

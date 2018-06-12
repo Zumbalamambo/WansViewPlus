@@ -18,11 +18,14 @@ import net.ajcloud.wansview.support.core.bean.PreBindBean;
 import net.ajcloud.wansview.support.core.bean.ResponseBean;
 import net.ajcloud.wansview.support.core.callback.JsonCallback;
 import net.ajcloud.wansview.support.core.device.Camera;
+import net.ajcloud.wansview.support.event.DeviceRefreshEvent;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,7 +51,7 @@ public class DeviceApiUnit {
             metaJson.put("locale", localInfo.appLang);
             metaJson.put("localtz", localInfo.timeZone);
             String accessToken = accountManager.getCurrentAccountAccessToken();
-            if (!TextUtils.isEmpty(accessToken)){
+            if (!TextUtils.isEmpty(accessToken)) {
                 metaJson.put("accessToken", accessToken);
             }
 
@@ -60,59 +63,6 @@ public class DeviceApiUnit {
             e.printStackTrace();
             return null;
         }
-    }
-
-    /**
-     * 获取设备url
-     */
-    public void getDeviceUrlInfo(List<String> devices, final OkgoCommonListener<List<DeviceUrlBean.UrlInfo>> listener) {
-        if (devices == null || devices.size() == 0) {
-            return;
-        }
-        JSONObject jsonObject = new JSONObject();
-        try {
-            JSONArray jsonArray = new JSONArray();
-            for (String deviceId : devices) {
-                JSONObject data = new JSONObject();
-                data.put("deviceId", deviceId);
-                jsonArray.put(data);
-            }
-            jsonObject.put("devices", jsonArray);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        OkGo.<ResponseBean<DeviceUrlBean>>post(ApiConstant.URL_GET_APP_CONFIG)
-                .tag(this)
-                .upJson(getReqBody(jsonObject))
-                .execute(new JsonCallback<ResponseBean<DeviceUrlBean>>() {
-                    @Override
-                    public void onSuccess(Response<ResponseBean<DeviceUrlBean>> response) {
-                        ResponseBean responseBean = response.body();
-                        DeviceUrlBean bean = (DeviceUrlBean) responseBean.result;
-                        if (responseBean.isSuccess()) {
-                            if (bean.devices != null && bean.devices.size() != 0) {
-                                for (DeviceUrlBean.UrlInfo info : bean.devices) {
-                                    Camera camera = MainApplication.getApplication().getDeviceCache().get(info.deviceId);
-                                    if (camera != null) {
-                                        camera.setGatewayUrl(info.gatewayUrl);
-                                        camera.setTunnelUrl(info.tunnelUrl);
-                                        camera.setCloudStorUrl(info.cloudStorUrl);
-                                        camera.setEmcUrl(info.emcUrl);
-                                    }
-                                }
-                            }
-                            listener.onSuccess(bean.devices);
-                        } else {
-                            listener.onFail(responseBean.getResultCode(), responseBean.message);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<ResponseBean<DeviceUrlBean>> response) {
-                        super.onError(response);
-                        listener.onFail(-1, context.getString(R.string.Service_Error));
-                    }
-                });
     }
 
     /**
@@ -190,7 +140,7 @@ public class DeviceApiUnit {
     /**
      * 获取设备列表
      */
-    public void getDeviceList(final OkgoCommonListener<DeviceListBean> listener) {
+    public void getDeviceList(final OkgoCommonListener<List<Camera>> listener) {
         JSONObject dataJson = new JSONObject();
         OkGo.<ResponseBean<DeviceListBean>>post(ApiConstant.URL_DEVICE_GET_DEVICE_LIST)
                 .tag(this)
@@ -198,18 +148,13 @@ public class DeviceApiUnit {
                 .execute(new JsonCallback<ResponseBean<DeviceListBean>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<DeviceListBean>> response) {
-                        ResponseBean responseBean = response.body();
-                        DeviceListBean deviceListBean = (DeviceListBean) responseBean.result;
+                        ResponseBean<DeviceListBean> responseBean = response.body();
+                        DeviceListBean deviceListBean = responseBean.result;
                         if (responseBean.isSuccess()) {
-                            List<String> devices = deviceListBean.cameras;
-                            if (devices != null && devices.size() > 0) {
-                                for (String deviceId : devices
-                                        ) {
-                                    MainApplication.getApplication().getDeviceCache().add(new Camera(deviceId));
-                                }
-                            }
-                            listener.onSuccess(deviceListBean);
-                            //getDeviceInfo
+                            List<DeviceListBean.Device> devices = deviceListBean.cameras;
+                            MainApplication.getApplication().getDeviceCache().upDate(devices);
+                            doGetDeviceList(devices);
+                            listener.onSuccess(new ArrayList<>(MainApplication.getApplication().getDeviceCache().getDevices()));
                         } else {
                             listener.onFail(responseBean.getResultCode(), responseBean.message);
                         }
@@ -219,6 +164,59 @@ public class DeviceApiUnit {
                     public void onError(Response<ResponseBean<DeviceListBean>> response) {
                         super.onError(response);
                         listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 获取设备url
+     */
+    public void getDeviceUrlInfo(List<String> devices, final OkgoCommonListener<List<DeviceUrlBean.UrlInfo>> listener) {
+        if (devices == null || devices.size() == 0) {
+            return;
+        }
+        JSONObject jsonObject = new JSONObject();
+        try {
+            JSONArray jsonArray = new JSONArray();
+            for (String deviceId : devices) {
+                JSONObject data = new JSONObject();
+                data.put("deviceId", deviceId);
+                jsonArray.put(data);
+            }
+            jsonObject.put("devices", jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<DeviceUrlBean>>post(ApiConstant.URL_GET_DEVICE_URL_INFO)
+                .tag(this)
+                .upJson(getReqBody(jsonObject))
+                .execute(new JsonCallback<ResponseBean<DeviceUrlBean>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<DeviceUrlBean>> response) {
+                        ResponseBean responseBean = response.body();
+                        DeviceUrlBean bean = (DeviceUrlBean) responseBean.result;
+                        if (responseBean.isSuccess()) {
+                            if (bean.devices != null && bean.devices.size() != 0) {
+                                for (DeviceUrlBean.UrlInfo info : bean.devices) {
+                                    Camera camera = MainApplication.getApplication().getDeviceCache().get(info.deviceId);
+                                    if (camera != null) {
+                                        camera.setGatewayUrl(info.gatewayUrl);
+                                        camera.setTunnelUrl(info.tunnelUrl);
+                                        camera.setCloudStorUrl(info.cloudStorUrl);
+                                        camera.setEmcUrl(info.emcUrl);
+                                    }
+                                }
+                            }
+                            listener.onSuccess(bean.devices);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<DeviceUrlBean>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, context.getString(R.string.Service_Error));
                     }
                 });
     }
@@ -238,16 +236,18 @@ public class DeviceApiUnit {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String reqUrl = String.format(ApiConstant.URL_DEVICE_GET_DEVICE_INFO, url);
-        OkGo.<ResponseBean<DeviceConfigBean>>post(reqUrl)
+        OkGo.<ResponseBean<DeviceConfigBean>>post(url + ApiConstant.URL_DEVICE_GET_DEVICE_INFO)
                 .tag(this)
                 .upJson(getReqBody(dataJson))
                 .execute(new JsonCallback<ResponseBean<DeviceConfigBean>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<DeviceConfigBean>> response) {
-                        ResponseBean responseBean = response.body();
+                        ResponseBean<DeviceConfigBean> responseBean = response.body();
                         if (responseBean.isSuccess()) {
-                            listener.onSuccess((DeviceConfigBean) responseBean.result);
+                            if (responseBean.result != null) {
+                                MainApplication.getApplication().getDeviceCache().add(responseBean.result);
+                            }
+                            listener.onSuccess(responseBean.result);
                         } else {
                             listener.onFail(responseBean.getResultCode(), responseBean.message);
                         }
@@ -264,11 +264,15 @@ public class DeviceApiUnit {
     /**
      * 设置设备昵称
      *
-     * @param url      设备ip
-     * @param deviceId 设备Id
+     * @param url       设备ip
+     * @param deviceId  设备Id
      * @param aliasName 设备Id
      */
     public void setName(String url, String deviceId, String aliasName, final OkgoCommonListener<Object> listener) {
+        if (TextUtils.isEmpty(url)) {
+            listener.onSuccess(null);
+            return;
+        }
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("deviceId", deviceId);
@@ -278,7 +282,7 @@ public class DeviceApiUnit {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String reqUrl = String.format(ApiConstant.URL_DEVICE_SET_DEVICE_NAME, url);
+        String reqUrl = url + ApiConstant.URL_DEVICE_SET_DEVICE_NAME;
         OkGo.<ResponseBean<Object>>post(reqUrl)
                 .tag(this)
                 .upJson(getReqBody(dataJson))
@@ -302,7 +306,7 @@ public class DeviceApiUnit {
     }
 
     /**
-     * 设置设备昵称
+     * 设置设备昵称(Uac)
      *
      * @param deviceId 设备Id
      * @param name     设备别名
@@ -337,5 +341,86 @@ public class DeviceApiUnit {
                         listener.onFail(-1, response.getException().getMessage());
                     }
                 });
+    }
+
+    /**
+     * 解绑设备
+     *
+     * @param deviceId 设备Id
+     */
+    public void unBind(String deviceId, final OkgoCommonListener<Object> listener) {
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("deviceId", deviceId);
+            dataJson.put("agentName", localInfo.deviceName);
+            dataJson.put("agentToken", localInfo.deviceId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<Object>>post(ApiConstant.URL_DEVICE_UNBIND)
+                .tag(this)
+                .upJson(getReqBody(dataJson))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+
+    /**
+     * 获取设备列表之后的操作
+     */
+    private void doGetDeviceList(List<DeviceListBean.Device> devices) {
+        List<String> deviceIds = new ArrayList<>();
+        for (DeviceListBean.Device device : devices) {
+            deviceIds.add(device.deviceid);
+        }
+        getDeviceUrlInfo(deviceIds, new OkgoCommonListener<List<DeviceUrlBean.UrlInfo>>() {
+            @Override
+            public void onSuccess(List<DeviceUrlBean.UrlInfo> bean) {
+                if (bean != null && bean.size() > 0) {
+                    for (DeviceUrlBean.UrlInfo info : bean) {
+                        Camera camera = MainApplication.getApplication().getDeviceCache().get(info.deviceId);
+                        if (camera != null) {
+                            if (!TextUtils.isEmpty(info.gatewayUrl)) {
+                                getDeviceInfo(info.gatewayUrl, camera.deviceId, new OkgoCommonListener<DeviceConfigBean>() {
+                                    @Override
+                                    public void onSuccess(DeviceConfigBean bean) {
+                                        if (bean != null && bean.base != null) {
+                                            if (!TextUtils.isEmpty(bean.base.deviceId)) {
+                                                EventBus.getDefault().post(new DeviceRefreshEvent(bean.base.deviceId));
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFail(int code, String msg) {
+
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+
+            }
+        });
     }
 }

@@ -21,7 +21,7 @@ public class VirtualCamera {
     public int volume;
     public String gwMac = "";
     public boolean isAutoTrace = false;
-    public int mQuality = 0;//AppApplication.AppType;
+    public int mQuality = 1;//AppApplication.AppType;
     public boolean isMute;
     private Context context;
     public String rmtAddr;

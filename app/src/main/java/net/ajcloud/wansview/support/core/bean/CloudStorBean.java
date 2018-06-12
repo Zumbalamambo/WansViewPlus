@@ -14,8 +14,8 @@ public class CloudStorBean {
     public static class Policy {
         public int no;
         public int enable;
-        public long startTime;
-        public long endTime;
+        public String startTime;
+        public String endTime;
         public List<Integer> weekDays;
     }
 }

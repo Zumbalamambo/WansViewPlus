@@ -28,8 +28,6 @@ import net.ajcloud.wansview.support.utils.ToastUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class AddDeviceWaitingActivity extends BaseActivity {
 
@@ -44,7 +42,9 @@ public class AddDeviceWaitingActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            checkStatus();
+            if (MainApplication.getApplication().getLastestActivity() == AddDeviceWaitingActivity.this) {
+                checkStatus();
+            }
         }
     };
 
@@ -118,7 +118,7 @@ public class AddDeviceWaitingActivity extends BaseActivity {
 
             @Override
             public void onFail(int code, String msg) {
-                ToastUtil.single("preBind,error");
+                ToastUtil.single(msg);
             }
         });
     }
@@ -134,8 +134,7 @@ public class AddDeviceWaitingActivity extends BaseActivity {
                 } else {
                     if (TextUtils.equals("0", bean.nErrorCode)) {
                         //success
-                        MainApplication.getApplication().getDeviceCache().add(new Camera(deviceSearchBean.getDeviceID()));
-                        getCameraUrl();
+                        doSuccess();
                     } else {
                         Intent intent = new Intent(AddDeviceWaitingActivity.this, AddDeviceFailActivity.class);
                         startActivity(intent);
@@ -162,8 +161,7 @@ public class AddDeviceWaitingActivity extends BaseActivity {
                         checkHandler.sendEmptyMessageDelayed(MSG_CHECK, 5000);
                     } else if (bean.status == 1) {
                         // success
-                        MainApplication.getApplication().getDeviceCache().add(new Camera(deviceSearchBean.getDeviceID()));
-                        getCameraUrl();
+                        doSuccess();
                     } else if (bean.status == 2) {
                         // fail
                         Intent intent = new Intent(AddDeviceWaitingActivity.this, AddDeviceFailActivity.class);
@@ -180,21 +178,10 @@ public class AddDeviceWaitingActivity extends BaseActivity {
         });
     }
 
-    private void getCameraUrl() {
-        List<String> deviceIds = new ArrayList<>();
-        deviceIds.add(deviceSearchBean.getDeviceID());
-        deviceApiUnit.getDeviceUrlInfo(deviceIds, new OkgoCommonListener<List<DeviceUrlBean.UrlInfo>>() {
-            @Override
-            public void onSuccess(List<DeviceUrlBean.UrlInfo> bean) {
-                AddDeviceSuccessActivity.start(AddDeviceWaitingActivity.this, deviceSearchBean.getDeviceID());
-                finish();
-            }
-
-            @Override
-            public void onFail(int code, String msg) {
-                ToastUtil.single("getCameraUrl error");
-            }
-        });
+    private void doSuccess() {
+        MainApplication.getApplication().getDeviceCache().add(new Camera(deviceSearchBean.getDeviceID(), null));
+        AddDeviceSuccessActivity.start(AddDeviceWaitingActivity.this, deviceSearchBean.getDeviceID());
+        finish();
     }
 
     class TimeCount extends CountDownTimer {
@@ -206,9 +193,6 @@ public class AddDeviceWaitingActivity extends BaseActivity {
         @Override
         public void onTick(long millisUntilFinished) {
             secondTextView.setText(String.valueOf(millisUntilFinished / 1000));
-//            if (millisUntilFinished/1000 == 118){
-//                AddDeviceSuccessActivity.start(AddDeviceWaitingActivity.this, deviceSearchBean.getDeviceID());
-//            }
         }
 
         @Override

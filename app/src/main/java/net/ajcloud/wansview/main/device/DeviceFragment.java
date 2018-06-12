@@ -10,11 +10,16 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,8 +30,13 @@ import net.ajcloud.wansview.main.device.adapter.DeviceListAdapter;
 import net.ajcloud.wansview.main.device.addDevice.AddDeviceSelectActivity;
 import net.ajcloud.wansview.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansview.support.core.api.OkgoCommonListener;
-import net.ajcloud.wansview.support.core.bean.DeviceListBean;
 import net.ajcloud.wansview.support.core.device.Camera;
+import net.ajcloud.wansview.support.event.DeviceBindSuccessEvent;
+import net.ajcloud.wansview.support.event.DeviceRefreshEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +57,18 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
     private RecyclerView deviceListRecycleView;
     private DeviceListAdapter deviceListAdapter;
     private DeviceApiUnit deviceApiUnit;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,34 +98,19 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
         deviceListAdapter = new DeviceListAdapter(getActivity());
         deviceListRecycleView.setAdapter(deviceListAdapter);
         deviceListRecycleView.setNestedScrollingEnabled(false);
+        ((SimpleItemAnimator)deviceListRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
+        Animation animation = new AlphaAnimation(0f, 1f);
+        animation.setDuration(200);
+        LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation, 0.5F);
+        layoutAnimationController.setOrder(LayoutAnimationController.ORDER_NORMAL);
+        deviceListRecycleView.setLayoutAnimation(layoutAnimationController);
 
         initData();
         initListener();
     }
 
     private void initData() {
-        refreshLayout.setRefreshing(true);
         deviceApiUnit = new DeviceApiUnit(getActivity());
-//        List<Camera> list = new ArrayList<>();
-//        Camera camera1 = new Camera();
-//        camera1.setName("客厅");
-//        Camera camera2 = new Camera();
-//        camera2.setName("厨房");
-//        Camera camera3 = new Camera();
-//        camera3.setName("卧室");
-//        Camera camera4 = new Camera();
-//        camera4.setName("餐厅");
-//        Camera camera5 = new Camera();
-//        camera5.setName("书房");
-//        Camera camera6 = new Camera();
-//        camera6.setName("阳台");
-//        list.add(camera1);
-//        list.add(camera2);
-//        list.add(camera3);
-//        list.add(camera4);
-//        list.add(camera5);
-//        list.add(camera6);
-//        deviceListAdapter.setData(list);
         getDeviceList();
     }
 
@@ -119,9 +126,10 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
     }
 
     private void getDeviceList() {
-        deviceApiUnit.getDeviceList(new OkgoCommonListener<DeviceListBean>() {
+        refreshLayout.setRefreshing(true);
+        deviceApiUnit.getDeviceList(new OkgoCommonListener<List<Camera>>() {
             @Override
-            public void onSuccess(DeviceListBean bean) {
+            public void onSuccess(List<Camera> bean) {
                 refreshLayout.setRefreshing(false);
                 List<Camera> devices = new ArrayList<>(MainApplication.getApplication().getDeviceCache().getDevices());
                 if (devices.size() == 0) {
@@ -151,6 +159,22 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
                 break;
             default:
                 break;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDeviceRefresh(DeviceRefreshEvent event) {
+        if (!TextUtils.isEmpty(event.deviceId)) {
+            Camera camera = MainApplication.getApplication().getDeviceCache().get(event.deviceId);
+            deviceListAdapter.update(camera);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDeviceBindSuccess(DeviceBindSuccessEvent event) {
+        if (!TextUtils.isEmpty(event.deviceId)) {
+            Camera camera = MainApplication.getApplication().getDeviceCache().get(event.deviceId);
+            deviceListAdapter.add(camera);
         }
     }
 }

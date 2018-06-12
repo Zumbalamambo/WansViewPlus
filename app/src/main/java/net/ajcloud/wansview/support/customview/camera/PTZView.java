@@ -28,7 +28,7 @@ public class PTZView {
         view = View.inflate(context, net.ajcloud.wansview.R.layout.view_ptz, null);
         view.findViewById(net.ajcloud.wansview.R.id.add_angle).setOnClickListener(addAngleListener);
         view.findViewById(net.ajcloud.wansview.R.id.navigation).setOnClickListener(navigationListener);
-        directionLayout = (CloudDirectionLayout) view.findViewById(net.ajcloud.wansview.R.id.ptz_direction_control);
+        directionLayout = view.findViewById(net.ajcloud.wansview.R.id.ptz_direction_control);
         directionLayout.setListener(ptzListener);
         return view;
     }

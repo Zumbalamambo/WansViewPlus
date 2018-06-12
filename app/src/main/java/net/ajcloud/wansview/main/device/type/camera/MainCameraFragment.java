@@ -64,6 +64,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import net.ajcloud.wansview.BuildConfig;
+import net.ajcloud.wansview.R;
 import net.ajcloud.wansview.entity.camera.Camera;
 import net.ajcloud.wansview.entity.camera.CameraModel;
 import net.ajcloud.wansview.entity.camera.CameraState;
@@ -165,6 +166,7 @@ public class MainCameraFragment extends BaseFragment
     private ScaleFrameLayout mPlayerFrame;
     private TextView playerInfo;
     private ImageView voiceSwitch;
+    private ImageView fullVoiceSwitch;
     private CloudDirectionLayout cloud_directionview;
     private LinearLayout realTimeImageLayout;
     private ImageView realTimeImageImageView;
@@ -655,9 +657,11 @@ public class MainCameraFragment extends BaseFragment
             videoQuality.setVisibility(View.VISIBLE);
             Offline_LinearLayout.setVisibility(View.GONE);
             if (virtualCamera.isMute) {
-                voiceSwitch.setImageResource(net.ajcloud.wansview.R.drawable.volume_off_state);
+                voiceSwitch.setImageResource(R.drawable.volume_off_state);
+                fullVoiceSwitch.setImageResource(R.drawable.volume_off_state);
             } else {
                 voiceSwitch.setImageResource(net.ajcloud.wansview.R.drawable.volume_on_state);
+                fullVoiceSwitch.setImageResource(R.drawable.volume_on_state);
             }
         }
 
@@ -1404,7 +1408,9 @@ public class MainCameraFragment extends BaseFragment
                     hHideControl.removeCallbacks(HideControlRunnalbe);
 
                     if (event.getRawX() > mSurfaceFrame.getWidth() / 2) {
-                        mCP = ControlPoint.CP_RIGHT;
+                        //mCP = ControlPoint.CP_RIGHT;
+                        //设计图上都显示的是在左边
+                        mCP = ControlPoint.CP_LEFT;
                     } else {
                         mCP = ControlPoint.CP_LEFT;
                     }
@@ -1714,59 +1720,59 @@ public class MainCameraFragment extends BaseFragment
 
     void initCameraView(View view) {
 
-        recordVoice = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.press_speak);
-        voice_content = (FrameLayout) view.findViewById(net.ajcloud.wansview.R.id.voice_content);
-        voice_rcd_hint_cancel_area = (RelativeLayout) view.findViewById(net.ajcloud.wansview.R.id.voice_rcd_hint_cancel_area);
-        voice_rcd_hint_anim_area = (LinearLayout) view.findViewById(net.ajcloud.wansview.R.id.voice_rcd_hint_anim_area);
-        sound_level = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.voice_rcd_hint_anim);
-        mSurface = (SurfaceView) view.findViewById(net.ajcloud.wansview.R.id.player_surface);
-        mSurfaceFrame = (FrameLayout) view.findViewById(net.ajcloud.wansview.R.id.content_part);
-        mPlayerFrame = (ScaleFrameLayout) view.findViewById(net.ajcloud.wansview.R.id.player_surface_frame);
+        recordVoice = view.findViewById(net.ajcloud.wansview.R.id.press_speak);
+        voice_content =  view.findViewById(net.ajcloud.wansview.R.id.voice_content);
+        voice_rcd_hint_cancel_area = view.findViewById(net.ajcloud.wansview.R.id.voice_rcd_hint_cancel_area);
+        voice_rcd_hint_anim_area = view.findViewById(net.ajcloud.wansview.R.id.voice_rcd_hint_anim_area);
+        sound_level = view.findViewById(net.ajcloud.wansview.R.id.voice_rcd_hint_anim);
+        mSurface = view.findViewById(net.ajcloud.wansview.R.id.player_surface);
+        mSurfaceFrame = view.findViewById(net.ajcloud.wansview.R.id.content_part);
+        mPlayerFrame = view.findViewById(net.ajcloud.wansview.R.id.player_surface_frame);
         mPlayerFrame.setScaleListener(this);
-        playerInfo = (TextView) view.findViewById(net.ajcloud.wansview.R.id.player_info);
-        no_wifi_tips = (LinearLayout) view.findViewById(net.ajcloud.wansview.R.id.videoplayer_no_wifi_notify);
-        recordTime = (TextView) view.findViewById(net.ajcloud.wansview.R.id.record_time);
+        playerInfo = view.findViewById(net.ajcloud.wansview.R.id.player_info);
+        no_wifi_tips = view.findViewById(net.ajcloud.wansview.R.id.videoplayer_no_wifi_notify);
+        recordTime = view.findViewById(net.ajcloud.wansview.R.id.record_time);
         recordTime.setVisibility(View.GONE);
-        cloud_directionview = (CloudDirectionLayout) view.findViewById(net.ajcloud.wansview.R.id.cloud_directionview);
-        tips = (TextView) view.findViewById(net.ajcloud.wansview.R.id.tips);
-        realTimeImageLayout = (LinearLayout) view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_Layout);
-        realTimeImageImageView = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_ImageView);
-        realTimeImage_Button = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage);
-        realTimeImage_tip = (TextView) view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_tip);
-        realTimeImage_ProgressBar = (ProgressBar) view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_ProgressBar);
-        realTimeImagePlay = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_Play);
-        realTimeImagePlayRelativeLayout = (RelativeLayout) view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_Play_RelativeLayout);
-        full_screen = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.full_screen);
-        fullscreen_play = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.fullscreen_play);
-        fullscreen_recordvideo = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.fullscreen_recordvideo);
-        fullscreen_snapshot = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.fullscreen_snapshot);
-        fullscreen_stop = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.fullscreen_stop);
-        fullscreen_quality_layout = (FrameLayout) view.findViewById(net.ajcloud.wansview.R.id.fullscreen_quality_layout);
-        fullscreen_quality = (TextView) view.findViewById(net.ajcloud.wansview.R.id.fullscreen_quality);
+        cloud_directionview = view.findViewById(net.ajcloud.wansview.R.id.cloud_directionview);
+        tips = view.findViewById(net.ajcloud.wansview.R.id.tips);
+        realTimeImageLayout = view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_Layout);
+        realTimeImageImageView = view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_ImageView);
+        realTimeImage_Button = view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage);
+        realTimeImage_tip = view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_tip);
+        realTimeImage_ProgressBar = view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_ProgressBar);
+        realTimeImagePlay = view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_Play);
+        realTimeImagePlayRelativeLayout = view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_Play_RelativeLayout);
+        full_screen = view.findViewById(net.ajcloud.wansview.R.id.full_screen);
+        fullscreen_play = view.findViewById(net.ajcloud.wansview.R.id.fullscreen_play);
+        fullscreen_recordvideo = view.findViewById(net.ajcloud.wansview.R.id.fullscreen_recordvideo);
+        fullscreen_snapshot = view.findViewById(net.ajcloud.wansview.R.id.fullscreen_snapshot);
+        fullscreen_stop = view.findViewById(net.ajcloud.wansview.R.id.fullscreen_stop);
+        fullscreen_quality_layout = view.findViewById(net.ajcloud.wansview.R.id.fullscreen_quality_layout);
+        fullscreen_quality = view.findViewById(net.ajcloud.wansview.R.id.fullscreen_quality);
         //myRefreshScroll = (PullToRefreshScrollView) view.findViewById(R.id.pull_refresh_scrollview);
-        realTimeImageNoWifiTip = (TextView) view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_No_Wifi_Tip);
-        Offline_LinearLayout = (LinearLayout) view.findViewById(net.ajcloud.wansview.R.id.Offline_LinearLayout);
-        downBar = (LinearLayout) view.findViewById(net.ajcloud.wansview.R.id.DownBar);
-        snapshot = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.snapshot);
-        take_video = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.take_video);
-        soundPressEffect = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.sound_press_effect);
-        realtime_rate = (TextView) view.findViewById(net.ajcloud.wansview.R.id.realtime_rate);
-        videoLayout = (VideoPlayArea4To3) view.findViewById(net.ajcloud.wansview.R.id.Video_Area_FrameLayout);
-        realTimeImageFrameLayout = (FrameLayout) view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_FrameLayout);
-        dynamicAddLayout = (LinearLayout) view.findViewById(net.ajcloud.wansview.R.id.select_view_layout);
-        PTZ = (TextView) view.findViewById(net.ajcloud.wansview.R.id.PTZ);
+        realTimeImageNoWifiTip = view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_No_Wifi_Tip);
+        Offline_LinearLayout = view.findViewById(net.ajcloud.wansview.R.id.Offline_LinearLayout);
+        downBar = view.findViewById(net.ajcloud.wansview.R.id.DownBar);
+        snapshot = view.findViewById(net.ajcloud.wansview.R.id.snapshot);
+        take_video = view.findViewById(net.ajcloud.wansview.R.id.take_video);
+        soundPressEffect = view.findViewById(net.ajcloud.wansview.R.id.sound_press_effect);
+        realtime_rate = view.findViewById(net.ajcloud.wansview.R.id.realtime_rate);
+        videoLayout = view.findViewById(net.ajcloud.wansview.R.id.Video_Area_FrameLayout);
+        realTimeImageFrameLayout = view.findViewById(net.ajcloud.wansview.R.id.RealTimeImage_FrameLayout);
+        dynamicAddLayout = view.findViewById(net.ajcloud.wansview.R.id.select_view_layout);
+        PTZ = view.findViewById(net.ajcloud.wansview.R.id.PTZ);
         PTZ.setOnClickListener(selectOnClickListener);
-        angle = (TextView) view.findViewById(net.ajcloud.wansview.R.id.angle);
+        angle = view.findViewById(net.ajcloud.wansview.R.id.angle);
         angle.setOnClickListener(selectOnClickListener);
-        dynamic = (TextView) view.findViewById(net.ajcloud.wansview.R.id.dynamic);
+        dynamic = view.findViewById(net.ajcloud.wansview.R.id.dynamic);
         dynamic.setOnClickListener(selectOnClickListener);
-        selectViewLayout = (LinearLayout) view.findViewById(net.ajcloud.wansview.R.id.choose_view_layout);
-        deleteAngleLayout = (LinearLayout) view.findViewById(net.ajcloud.wansview.R.id.delete_angleview_layout);
-        functionLayout = (LinearLayout) view.findViewById(net.ajcloud.wansview.R.id.FunctionBar);
-        Update_LinearLayout = (LinearLayout) view.findViewById(net.ajcloud.wansview.R.id.Update_LinearLayout);
-        updateProgressLayout = (LinearLayout) view.findViewById(net.ajcloud.wansview.R.id.update_progress_layout);
-        Update_ProgressBar = (ProgressBar) view.findViewById(net.ajcloud.wansview.R.id.Update_ProgressBar);
-        upgrade_info = (TextView) view.findViewById(net.ajcloud.wansview.R.id.upgrade_info);
+        selectViewLayout = view.findViewById(net.ajcloud.wansview.R.id.choose_view_layout);
+        deleteAngleLayout = view.findViewById(net.ajcloud.wansview.R.id.delete_angleview_layout);
+        functionLayout = view.findViewById(net.ajcloud.wansview.R.id.FunctionBar);
+        Update_LinearLayout = view.findViewById(net.ajcloud.wansview.R.id.Update_LinearLayout);
+        updateProgressLayout = view.findViewById(net.ajcloud.wansview.R.id.update_progress_layout);
+        Update_ProgressBar = view.findViewById(net.ajcloud.wansview.R.id.Update_ProgressBar);
+        upgrade_info = view.findViewById(net.ajcloud.wansview.R.id.upgrade_info);
         /*myRefreshScroll.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
@@ -1774,24 +1780,25 @@ public class MainCameraFragment extends BaseFragment
                 refreshListAndStatus(false);
             }
         });*/
-        progressBar = (ProgressBar) view.findViewById(net.ajcloud.wansview.R.id.progressBar);
+        progressBar = view.findViewById(net.ajcloud.wansview.R.id.progressBar);
         progressBar.setIndeterminate(true);
-        voiceSwitch = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.VoiceSwitch);
-        offlineImg = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.offline_img);
-        offlineHelp = (TextView) view.findViewById(net.ajcloud.wansview.R.id.offline_help);
-        offlineTip = (TextView) view.findViewById(net.ajcloud.wansview.R.id.offline_tip);
-        videoQuality = (TextView) view.findViewById(net.ajcloud.wansview.R.id.video_quality);
-        cameraLayout = (RelativeLayout) view.findViewById(net.ajcloud.wansview.R.id.cameraView);
+        voiceSwitch = view.findViewById(net.ajcloud.wansview.R.id.VoiceSwitch);
+        fullVoiceSwitch = view.findViewById(R.id.full_voiceSwitch);
+        offlineImg = view.findViewById(net.ajcloud.wansview.R.id.offline_img);
+        offlineHelp = view.findViewById(net.ajcloud.wansview.R.id.offline_help);
+        offlineTip = view.findViewById(net.ajcloud.wansview.R.id.offline_tip);
+        videoQuality = view.findViewById(net.ajcloud.wansview.R.id.video_quality);
+        cameraLayout = view.findViewById(net.ajcloud.wansview.R.id.cameraView);
 
-        showRealtimeImageLayout = (RelativeLayout) view.findViewById(net.ajcloud.wansview.R.id.realtime_image_show_layout);
-        showRealtimeContentLayout = (RelativeLayout) view.findViewById(net.ajcloud.wansview.R.id.realtime_image_show_content_layout);
-        showRealtimeImage = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.realtime_imageview);
-        showRealtimeImageCancel = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.realtime_image_cancel);
-        fullScreenLayout = (LinearLayout) view.findViewById(net.ajcloud.wansview.R.id.full_screen_layout);
-        moveTraceLayout = (LinearLayout) view.findViewById(net.ajcloud.wansview.R.id.in_move_trace_LinearLayout);
-        moveTraceImg = (ImageView) view.findViewById(net.ajcloud.wansview.R.id.move_trace_img);
-        myToolBar = (Toolbar) view.findViewById(net.ajcloud.wansview.R.id.myToolBar);
-        myStateBar = (MyStateBar)  view.findViewById(net.ajcloud.wansview.R.id.status_bar);
+        showRealtimeImageLayout = view.findViewById(net.ajcloud.wansview.R.id.realtime_image_show_layout);
+        showRealtimeContentLayout = view.findViewById(net.ajcloud.wansview.R.id.realtime_image_show_content_layout);
+        showRealtimeImage = view.findViewById(net.ajcloud.wansview.R.id.realtime_imageview);
+        showRealtimeImageCancel = view.findViewById(net.ajcloud.wansview.R.id.realtime_image_cancel);
+        fullScreenLayout = view.findViewById(net.ajcloud.wansview.R.id.full_screen_layout);
+        moveTraceLayout = view.findViewById(net.ajcloud.wansview.R.id.in_move_trace_LinearLayout);
+        moveTraceImg = view.findViewById(net.ajcloud.wansview.R.id.move_trace_img);
+        myToolBar = view.findViewById(net.ajcloud.wansview.R.id.myToolBar);
+        myStateBar = view.findViewById(net.ajcloud.wansview.R.id.status_bar);
 
         realTimeImagePlay.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
@@ -1817,12 +1824,14 @@ public class MainCameraFragment extends BaseFragment
                 }
                 if (virtualCamera.isMute) {
                     voiceSwitch.setImageResource(net.ajcloud.wansview.R.drawable.volume_on_state);
+                    fullVoiceSwitch.setImageResource(net.ajcloud.wansview.R.drawable.volume_on_state);
                     virtualCamera.isMute = false;
                     if (audioSender_Realtime != null) {
                         audioSender_Realtime.CancelMute();
                     }
                 } else {
                     voiceSwitch.setImageResource(net.ajcloud.wansview.R.drawable.volume_off_state);
+                    fullVoiceSwitch.setImageResource(net.ajcloud.wansview.R.drawable.volume_off_state);
                     virtualCamera.isMute = true;
                     if (audioSender_Realtime != null) {
                         audioSender_Realtime.SetMute();
@@ -1830,6 +1839,14 @@ public class MainCameraFragment extends BaseFragment
                 }
             }
         });
+        fullVoiceSwitch.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        voiceSwitch.performClick();
+                    }
+                }
+        );
 
         view.findViewById(net.ajcloud.wansview.R.id.videoplayer_no_wifi_play).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1928,8 +1945,12 @@ public class MainCameraFragment extends BaseFragment
                     isFullScreen(true);
                     getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                     full_screen.setImageResource(net.ajcloud.wansview.R.mipmap.shrink);
-                    videoQuality.setVisibility(View.GONE);
-                    fullScreenLayout.setVisibility(View.VISIBLE);
+                    //videoQuality.setVisibility(View.GONE);
+
+                    if (isPlaying) {
+                        fullScreenLayout.setVisibility(View.VISIBLE);
+                    }
+
                     if (!mMediaPlayer.isPlaying()) {
                         fullscreen_play.setVisibility(View.VISIBLE);
                         fullscreen_stop.setVisibility(View.GONE);
@@ -1951,7 +1972,7 @@ public class MainCameraFragment extends BaseFragment
                     params.gravity = Gravity.RIGHT | Gravity.BOTTOM;
                     params.bottomMargin = Utils.dp2px(getActivity(), 45);
                     params.rightMargin = Utils.dp2px(getActivity(), 16);
-                    realtime_rate.setLayoutParams(params);
+                    //realtime_rate.setLayoutParams(params);
                 } else {
                     Orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
                     isFullScreen(false);
@@ -1959,7 +1980,7 @@ public class MainCameraFragment extends BaseFragment
                     getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     full_screen.setImageResource(net.ajcloud.wansview.R.mipmap.full);
                     fullScreenLayout.setVisibility(View.GONE);
-                    videoQuality.setVisibility(View.VISIBLE);
+                    //videoQuality.setVisibility(View.VISIBLE);
 
                     /*if (!mMediaPlayer.isPlaying()) {
                         refreshView();
@@ -1987,7 +2008,7 @@ public class MainCameraFragment extends BaseFragment
                     params.gravity = Gravity.RIGHT | Gravity.BOTTOM;
                     params.bottomMargin = Utils.dp2px(getActivity(), 10);
                     params.rightMargin = Utils.dp2px(getActivity(), 4);
-                    realtime_rate.setLayoutParams(params);
+                    //realtime_rate.setLayoutParams(params);
                 }
             }
         });
@@ -2262,11 +2283,13 @@ public class MainCameraFragment extends BaseFragment
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         // 引入窗口配置文件
         final View view;
+        /*
         if (Orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             view = inflater.inflate(net.ajcloud.wansview.R.layout.popupwindow_quality_horizontal, null);
         } else {
             view = inflater.inflate(net.ajcloud.wansview.R.layout.popupwindow_quality, null);
-        }
+        }*/
+        view = inflater.inflate(net.ajcloud.wansview.R.layout.popupwindow_quality_horizontal, null);
 
         if (CameraUtil.isSupport1080P(getCamera().getCapAbility())) {
             view.findViewById(net.ajcloud.wansview.R.id.quality_FD).setVisibility(View.VISIBLE);
@@ -2278,11 +2301,12 @@ public class MainCameraFragment extends BaseFragment
         }
 
         // 创建PopupWindow对象
-        if (Orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+        pop_quality = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, anchor.getMeasuredHeight(), false);
+        /*if (Orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             pop_quality = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, anchor.getMeasuredHeight(), false);
         } else {
             pop_quality = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, false);
-        }
+        }*/
         // 需要设置一下此参数，点击外边可消失
         pop_quality.setBackgroundDrawable(new BitmapDrawable());
         //设置点击窗口外边窗口消失
@@ -2476,11 +2500,13 @@ public class MainCameraFragment extends BaseFragment
 
         int[] location = new int[2];
         anchor.getLocationOnScreen(location);
-        if (Orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+        pop_quality.showAtLocation(anchor, Gravity.NO_GRAVITY, location[0] + anchor.getMeasuredWidth(), location[1]);
+
+        /*if (Orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             pop_quality.showAtLocation(anchor, Gravity.NO_GRAVITY, location[0] + anchor.getMeasuredWidth(), location[1]);
         } else {
             pop_quality.showAtLocation(anchor, Gravity.NO_GRAVITY, location[0] + anchor.getMeasuredWidth() / 6, location[1] - anchor.getMeasuredHeight() * 3);
-        }
+        }*/
     }
 
     private void replay() {
@@ -2729,6 +2755,11 @@ public class MainCameraFragment extends BaseFragment
         }
 
         @Override
+        public boolean canDrag() {
+            return  !cannotOperateWhenOfflineOrNoplay(false, 0);
+        }
+
+        @Override
         public void onTouchDown() {
             if (cannotOperateWhenOfflineOrNoplay(true, 0)) {
                 return;
@@ -2948,7 +2979,7 @@ public class MainCameraFragment extends BaseFragment
             params.topMargin = (int) SizeUtil.dp2px(getContext(), 42);
             showNavBar();
         }
-        full_screen.setLayoutParams(params);
+        //full_screen.setLayoutParams(params);
         downBar.setVisibility(enable ? View.GONE : View.VISIBLE);
         functionLayout.setVisibility(enable ? View.GONE : View.VISIBLE);
         myToolBar.setVisibility(enable ? View.GONE : View.VISIBLE);

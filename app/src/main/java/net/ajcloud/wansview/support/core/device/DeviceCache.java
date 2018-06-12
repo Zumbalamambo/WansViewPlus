@@ -4,10 +4,12 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import net.ajcloud.wansview.support.core.bean.DeviceConfigBean;
+import net.ajcloud.wansview.support.core.bean.DeviceListBean;
 import net.ajcloud.wansview.support.utils.Trans2PinYin;
 
 import java.util.Collection;
 import java.util.Hashtable;
+import java.util.List;
 
 /**
  * Created by mamengchao on 2018/06/04.
@@ -20,10 +22,14 @@ public class DeviceCache {
     public DeviceCache() {
     }
 
+    /**
+     * 只在绑定设备时单独添加
+     */
     public void add(@NonNull Camera camera) {
         Camera cameraOrigin = hashTable.get(camera.deviceId);
         if (cameraOrigin == null) {
             hashTable.put(camera.deviceId, camera);
+            camera.refreshStatus = 0;
             if (camera.aliasName != null) {
                 camera.sortStr = Trans2PinYin.trans2PinYin(DeviceInfoDictionary.getNameByDevice(camera).trim()).toLowerCase();
             }
@@ -32,12 +38,24 @@ public class DeviceCache {
         }
     }
 
+    public void upDate(List<DeviceListBean.Device> cameras) {
+        clear();
+        if (cameras != null) {
+            for (DeviceListBean.Device bean : cameras) {
+                add(new Camera(bean.deviceid, bean.name));
+            }
+        }
+    }
+
+    /**
+     * 请求fetch-info时调用
+     */
     public void add(@NonNull DeviceConfigBean bean) {
         Camera camera = new Camera(bean);
         if (camera.deviceId != null) {
             Camera cameraOrigin = hashTable.get(camera.deviceId);
             if (cameraOrigin == null) {
-                hashTable.put(camera.deviceId, camera);
+//                hashTable.put(camera.deviceId, camera);
             } else {
                 mergeDeviceInfo(cameraOrigin, camera);
             }
@@ -53,6 +71,8 @@ public class DeviceCache {
                 cameraOrigin.sortStr = "";
             }
         }
+        //获取信息成功
+        cameraOrigin.refreshStatus = 1;
         cameraOrigin.whiteBalance = camera.whiteBalance;
         cameraOrigin.freqValue = camera.freqValue;
         cameraOrigin.nightMode = camera.nightMode;

@@ -67,8 +67,8 @@ public class UserApiUnit {
                 .execute(new JsonCallback<ResponseBean<AppConfigBean>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<AppConfigBean>> response) {
-                        ResponseBean responseBean = response.body();
-                        AppConfigBean bean = (AppConfigBean) responseBean.result;
+                        ResponseBean<AppConfigBean> responseBean = response.body();
+                        AppConfigBean bean = responseBean.result;
                         if (responseBean.isSuccess()) {
                             ApiConstant.setBaseUrl(bean);
                             listener.onSuccess(bean);
@@ -110,9 +110,9 @@ public class UserApiUnit {
                     .execute(new JsonCallback<ResponseBean<ChallengeBean>>() {
                         @Override
                         public void onSuccess(Response<ResponseBean<ChallengeBean>> response) {
-                            ResponseBean responseBean = response.body();
+                            ResponseBean<ChallengeBean> responseBean = response.body();
                             if (responseBean.isSuccess()) {
-                                listener.onSuccess((ChallengeBean) responseBean.result);
+                                listener.onSuccess(responseBean.result);
                             } else {
                                 listener.onFail(responseBean.getResultCode(), responseBean.message);
                             }
@@ -242,8 +242,8 @@ public class UserApiUnit {
                         .execute(new JsonCallback<ResponseBean<SigninBean>>() {
                             @Override
                             public void onSuccess(Response<ResponseBean<SigninBean>> response) {
-                                ResponseBean responseBean = response.body();
-                                SigninBean bean = (SigninBean) responseBean.result;
+                                ResponseBean<SigninBean> responseBean = response.body();
+                                SigninBean bean = responseBean.result;
                                 if (responseBean.isSuccess()) {
                                     saveAccount(mail, password, bean);
                                     listener.onSuccess(bean);
@@ -299,8 +299,8 @@ public class UserApiUnit {
                         .execute(new JsonCallback<ResponseBean<SigninBean>>() {
                             @Override
                             public void onSuccess(Response<ResponseBean<SigninBean>> response) {
-                                ResponseBean responseBean = response.body();
-                                SigninBean bean = (SigninBean) responseBean.result;
+                                ResponseBean<SigninBean> responseBean = response.body();
+                                SigninBean bean = responseBean.result;
                                 if (responseBean.isSuccess()) {
                                     listener.onSuccess(bean);
                                 } else {

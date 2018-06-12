@@ -1,6 +1,7 @@
 package net.ajcloud.wansview.support.core.socket;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import net.ajcloud.wansview.support.core.bean.DeviceBindBean;
 import net.ajcloud.wansview.support.core.bean.DeviceSearchBean;
@@ -15,6 +16,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -70,7 +72,8 @@ public class CableConnectionUnit {
                         System.arraycopy(buf, 0, message, 0, datagramPacket.getLength());
                         DeviceSearchBean bean = parseSearchData(message);
                         if (bean != null) {
-                            deviceBeanHashMap.put(bean.getDeviceID(), bean);
+                            if (TextUtils.equals("0", bean.bindStatus))
+                                deviceBeanHashMap.put(bean.getDeviceID(), bean);
                         }
                     }
                 } catch (IOException e) {
@@ -101,7 +104,7 @@ public class CableConnectionUnit {
                     System.arraycopy(authCode, 0, cmd, 36, 8);
                     datagramSocket = new DatagramSocket();
                     datagramSocket.setSoTimeout(socketTimeout);
-                    InetAddress address = InetAddress.getByName(host);
+                    InetAddress address = InetAddress.getByName("255.255.255.255");
                     DatagramPacket packet = new DatagramPacket(cmd, cmd.length, address, 9713);
                     datagramSocket.send(packet);
 
@@ -181,9 +184,9 @@ public class CableConnectionUnit {
             bean.fwVer = DigitalUtils.bytetoString(fwVer);
             bean.deviceModel = DigitalUtils.bytetoString(deviceModel);
             bean.vendorCode = DigitalUtils.bytetoString(vendorCode);
-            bean.bindStatus = DigitalUtils.bytetoString(bindStatus);
+            bean.bindStatus = DigitalUtils.getBindStatus(bindStatus);
             bean.reserve1 = DigitalUtils.bytetoString(reserve1);
-            WLog.d(TAG, "nStartCode:" + bean.nStartCode + "\tnCmd:" + bean.nCmd + "\tdeviceModel:" + bean.deviceModel + "\tdwDeviceID:" + bean.getDeviceID());
+            WLog.d(TAG, "nStartCode:" + bean.nStartCode + "\tnCmd:" + bean.nCmd + "\tdeviceModel:" + bean.deviceModel + "\tdwDeviceID:" + bean.getDeviceID() + "\tstatue" + bean.bindStatus);
             return bean;
         } catch (Exception e) {
             e.printStackTrace();
@@ -208,8 +211,8 @@ public class CableConnectionUnit {
             bean.nCmd = DigitalUtils.bytetoMacHex(nCmd);
             bean.reserve = DigitalUtils.bytetoString(reserve);
             bean.setDwDeviceID(dwDeviceID);
-            bean.nErrorCode = DigitalUtils.bytetoMacHex(nErrorCode);
-            WLog.d(TAG, "nStartCode:" + bean.nStartCode + "\tnCmd:" + bean.nCmd + "\tdwDeviceID:" + bean.getDeviceID() + "\tnErrorCode:" + bean.nErrorCode);
+            bean.nErrorCode = DigitalUtils.bytetoString(nErrorCode);
+            WLog.d(TAG, "nStartCode:" + bean.nStartCode + "\tnCmd:" + bean.nCmd + "\tdwDeviceID:" + bean.getDeviceID() + "\tnErrorCode:" + bean.nErrorCode + "\treserve:" + bean.reserve);
             return bean;
         } catch (Exception e) {
             e.printStackTrace();

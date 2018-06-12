@@ -29,9 +29,10 @@ public class ApiConstant {
     public static String URL_DEVICE_PREBIND = BASE_UAC_URL + "/req-bind";
     public static String URL_DEVICE_GET_BIND_STATUS = BASE_UAC_URL + "/bind-status";
     public static String URL_DEVICE_GET_DEVICE_LIST = BASE_UAC_URL + "/device-list";
-    public static String URL_DEVICE_GET_DEVICE_INFO = "%1$/cmd/fetch-info";
-    public static String URL_DEVICE_SET_DEVICE_NAME = "%1$/cmd/alias-name";
-    public static String URL_DEVICE_SET_DEVICE_NAME_UAC = BASE_UAC_URL + "/change-nickname";
+    public static String URL_DEVICE_GET_DEVICE_INFO = "/v1/cmd/fetch-info";
+    public static String URL_DEVICE_SET_DEVICE_NAME = "/v1/cmd/alias-name";
+    public static String URL_DEVICE_SET_DEVICE_NAME_UAC = BASE_UAC_URL + "/change-alias-name";
+    public static String URL_DEVICE_UNBIND = BASE_UAC_URL + "/unbind";
 
     public static void setBaseUrl(AppConfigBean bean) {
         isApply = true;
@@ -55,6 +56,7 @@ public class ApiConstant {
         URL_DEVICE_PREBIND = BASE_UAC_URL + "/req-bind";
         URL_DEVICE_GET_BIND_STATUS = BASE_UAC_URL + "/bind-status";
         URL_DEVICE_GET_DEVICE_LIST = BASE_UAC_URL + "/device-list";
-        URL_DEVICE_SET_DEVICE_NAME_UAC = BASE_UAC_URL + "/change-nickname";
+        URL_DEVICE_SET_DEVICE_NAME_UAC = BASE_UAC_URL + "/change-alias-name";
+        URL_DEVICE_UNBIND = BASE_UAC_URL + "/unbind";
     }
 }

@@ -50,6 +50,9 @@ public class CloudDirectionLayout extends FrameLayout {
         mDragger = ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback() {
             @Override
             public boolean tryCaptureView(View child, int pointerId) {
+                if (!canDrag()) {
+                    return false;
+                }
                 return child == mAutoBackView;
             }
 
@@ -118,6 +121,9 @@ public class CloudDirectionLayout extends FrameLayout {
         mDragger.processTouchEvent(event);
         float x = event.getX();
         float y = event.getY();
+        if (!canDrag()) {
+            return true;
+        }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (listener != null) {
@@ -431,6 +437,13 @@ public class CloudDirectionLayout extends FrameLayout {
     	Left, Right, Top, Bottom, CENTER
     }
 
+    private boolean canDrag() {
+        if (null == listener || !listener.canDrag()) {
+            return false;
+        }
+        return true;
+    }
+
     public interface OnSteerListener {
         void onTopTouch();
 
@@ -444,5 +457,6 @@ public class CloudDirectionLayout extends FrameLayout {
 
         void onTouchDown();
         void onTouchLeave();
+        boolean canDrag();
     }
 }

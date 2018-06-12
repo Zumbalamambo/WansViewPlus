@@ -1,4 +1,4 @@
-package net.ajcloud.wansview.support.eventbus;
+package net.ajcloud.wansview.support.event;
 
 /**
  * Created

@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import net.ajcloud.wansview.R;
 
@@ -19,6 +20,7 @@ import net.ajcloud.wansview.R;
  */
 public class MessageFragment extends Fragment implements View.OnClickListener {
 
+    private LinearLayout noMessageLayout;
     private CollapsingToolbarLayout toolbarLayout;
     private Toolbar toolbar;
 
@@ -39,6 +41,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         toolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
         toolbarLayout.setCollapsedTitleGravity(Gravity.CENTER);
 
+        noMessageLayout = view.findViewById(R.id.ll_message_none);
     }
 
     @Override

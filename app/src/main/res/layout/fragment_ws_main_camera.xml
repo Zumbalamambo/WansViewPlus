@@ -14,7 +14,7 @@
             android:id="@+id/status_bar"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorPrimaryDark" />
+            android:background="@color/transparent" />
 
         <net.ajcloud.wansview.support.customview.camera.VideoPlayArea4To3
             android:id="@+id/Video_Area_FrameLayout"
@@ -48,8 +48,16 @@
                         android:id="@+id/full_screen_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|center"
-                        android:orientation="horizontal">
+                        android:layout_gravity="right|center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/full_voiceSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerInside"
+                            android:layout_margin="10dp"
+                            android:src="@drawable/volume_on_state" />
 
                         <ImageView
                             android:id="@+id/fullscreen_play"
@@ -91,6 +99,7 @@
                             android:id="@+id/fullscreen_quality_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             android:layout_gravity="center">
 
                             <ImageView
@@ -370,19 +379,6 @@
                     android:text=""
                     android:textColor="@color/review_green" />
 
-                <TextView
-                    android:id="@+id/realtime_rate"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_gravity="right|bottom"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="4dp"
-                    android:background="@mipmap/flow_home"
-                    android:clickable="false"
-                    android:gravity="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="8dp"
-                    android:visibility="gone" />
             </FrameLayout>
 
             <include
@@ -392,31 +388,48 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/full_screen"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="top|right"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="42dp"
-                android:padding="6dp"
-                android:scaleType="centerInside"
-                android:src="@mipmap/full"
-                android:visibility="visible" />
-
             <include layout="@layout/redide_actionbar_view" />
 
-            <TextView
-                android:id="@+id/video_quality"
-                android:layout_width="58dp"
-                android:layout_height="26dp"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/video_quality_backgroud"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:visibility="gone" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="bottom">
+                <TextView
+                    android:id="@+id/video_quality"
+                    android:layout_width="58dp"
+                    android:layout_height="26dp"
+                    android:background="@drawable/video_quality_backgroud"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/full_screen"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="4dp"
+                    android:padding="6dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/full"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/realtime_rate"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_toLeftOf="@+id/full_screen"
+                    android:clickable="false"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="12dp"
+                    android:visibility="visible" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/Update_LinearLayout"

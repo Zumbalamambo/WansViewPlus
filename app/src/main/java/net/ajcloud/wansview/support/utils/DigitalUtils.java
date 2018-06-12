@@ -355,4 +355,16 @@ public class DigitalUtils {
         }
         return hs.toUpperCase();
     }
+
+    public static String getBindStatus(byte src[]) {
+        if (src == null) {
+            throw new IllegalArgumentException(
+                    "Argument b ( byte array ) is null! ");
+        }
+        StringBuilder result = new StringBuilder();
+        for (byte a:src){
+            result.append(a);
+        }
+        return result.toString();
+    }
 }

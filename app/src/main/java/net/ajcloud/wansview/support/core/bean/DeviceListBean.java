@@ -7,5 +7,10 @@ import java.util.List;
  * Function:   设备列表bean
  */
 public class DeviceListBean {
-    public List<String> cameras;
+    public List<Device> cameras;
+
+    public static class Device {
+        public String deviceid;
+        public String name;
+    }
 }

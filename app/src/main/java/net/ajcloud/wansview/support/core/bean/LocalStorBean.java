@@ -20,7 +20,7 @@ public class LocalStorBean {
         public int enable;
         public int format;
         public int quality;
-        public long startTime;
-        public long endTime;
+        public String startTime;
+        public String endTime;
     }
 }

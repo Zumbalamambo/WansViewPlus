@@ -20,11 +20,11 @@ public class DeviceInfoDictionary {
     private static final Object[][] deviceInfoData = new Object[][]{
             // type		typeId     nameRes
             // k3
-            {"K3", 1, R.string.camera_default_name_k3},
+            {"K03", 1, R.string.camera_default_name_k3},
             // q3
-            {"Q3", 2, R.string.camera_default_name_q3},
+            {"Q03", 2, R.string.camera_default_name_q3},
             // w2
-            {"W2", 3, R.string.camera_default_name_w2}
+            {"W02", 3, R.string.camera_default_name_w2}
     };
 
     static {
@@ -43,11 +43,11 @@ public class DeviceInfoDictionary {
         if (type == null) {
             return R.string.camera_unknow;
         }
-        if (type.startsWith("K3")) {
+        if (type.startsWith("K03")) {
             return R.string.camera_default_name_k3;
-        } else if (type.startsWith("Q3")) {
+        } else if (type.startsWith("Q03")) {
             return R.string.camera_default_name_q3;
-        } else if (type.startsWith("W2")) {
+        } else if (type.startsWith("W02")) {
             return R.string.camera_default_name_w2;
         }
 

@@ -1,5 +1,7 @@
 package net.ajcloud.wansview.support.core.device;
 
+import android.text.TextUtils;
+
 import net.ajcloud.wansview.support.core.bean.AudioInfoBean;
 import net.ajcloud.wansview.support.core.bean.CapabilityBean;
 import net.ajcloud.wansview.support.core.bean.CloudStorBean;
@@ -49,6 +51,7 @@ public class Camera {
     public PictureInfoBean pictureConfig;
     public DeviceTimeBean timeConfig;
 
+    public int refreshStatus;  //刷新状态   0：正在刷新    1：成功    2：失败
     public String sortStr;  //用于排序
     private String gatewayUrl;
     private String tunnelUrl;
@@ -60,8 +63,9 @@ public class Camera {
 
     }
 
-    public Camera(@NotNull String deviceId) {
+    public Camera(@NotNull String deviceId, String name) {
         this.deviceId = deviceId;
+        this.aliasName = name;
     }
 
     public Camera(DeviceConfigBean bean) {
@@ -97,7 +101,7 @@ public class Camera {
     }
 
     public String getGatewayUrl() {
-        return gatewayUrl;
+        return TextUtils.isEmpty(gatewayUrl) ? null : gatewayUrl;
     }
 
     public void setGatewayUrl(String gatewayUrl) {

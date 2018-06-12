@@ -9,6 +9,8 @@ public class DeviceBaseInfoBean {
     public int freqValue;
     public int nightMode;
     public int orientationValue;
+    public String snapshotUrl;
+
     public String aliasName;
     public String deviceId;
     public String deviceMode;
