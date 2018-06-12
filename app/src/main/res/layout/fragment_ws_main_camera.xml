@@ -10,13 +10,13 @@
         android:background="#2b2b2b"
         android:orientation="vertical">
 
-        <net.ajcloud.wansview.support.customview.MyStateBar
+        <net.ajcloud.wansviewplus.support.customview.MyStateBar
             android:id="@+id/status_bar"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/transparent" />
 
-        <net.ajcloud.wansview.support.customview.camera.VideoPlayArea4To3
+        <net.ajcloud.wansviewplus.support.customview.camera.VideoPlayArea4To3
             android:id="@+id/Video_Area_FrameLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                 android:orientation="vertical"
                 android:visibility="visible">
 
-                <net.ajcloud.wansview.support.customview.camera.ScaleFrameLayout
+                <net.ajcloud.wansviewplus.support.customview.camera.ScaleFrameLayout
                     android:id="@+id/player_surface_frame"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -124,20 +124,20 @@
 
                     </LinearLayout>
 
-                </net.ajcloud.wansview.support.customview.camera.ScaleFrameLayout>
+                </net.ajcloud.wansviewplus.support.customview.camera.ScaleFrameLayout>
 
-                <net.ajcloud.wansview.support.customview.camera.CloudDirectionLayout
+                <net.ajcloud.wansviewplus.support.customview.camera.CloudDirectionLayout
                     android:id="@+id/cloud_directionview"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_gravity="center_vertical"
                     android:visibility="gone">
 
-                    <net.ajcloud.wansview.support.customview.camera.CirlView
+                    <net.ajcloud.wansviewplus.support.customview.camera.CirlView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center" />
-                </net.ajcloud.wansview.support.customview.camera.CloudDirectionLayout>
+                </net.ajcloud.wansviewplus.support.customview.camera.CloudDirectionLayout>
 
                 <LinearLayout
                     android:id="@+id/in_move_trace_LinearLayout"
@@ -504,7 +504,7 @@
                         android:src="@mipmap/st_close" />
                 </RelativeLayout>
             </RelativeLayout>
-        </net.ajcloud.wansview.support.customview.camera.VideoPlayArea4To3>
+        </net.ajcloud.wansviewplus.support.customview.camera.VideoPlayArea4To3>
 
         <LinearLayout
             android:id="@+id/DownBar"

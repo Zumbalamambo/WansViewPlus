@@ -48,13 +48,48 @@
               "client_type": 3
             },
             {
-              "client_id": "523513968496-3h11o7gv6ud5buqpanfsdtdkk4dfegto.apps.googleusercontent.com",
+              "client_id": "523513968496-j3gafcr3497566b9d1pl6hio9peo057n.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "net.ajcloud.wansview"
+                "bundle_id": "net.ajcloud.wansviewplus"
               }
             }
           ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523513968496:android:8ec108bc8731c1b8",
+        "android_client_info": {
+          "package_name": "net.ajcloud.wansviewplus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523513968496-2nm2notkl7jqbl6picph70rspmlg35uk.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "523513968496-2nm2notkl7jqbl6picph70rspmlg35uk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNtlvabw-zbAWJMW1NZzK0Yk6c1xV6iYs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

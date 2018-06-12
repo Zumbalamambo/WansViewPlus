@@ -1,6 +1,6 @@
 package com.smarteye;
 
-import net.ajcloud.wansview.support.tools.WLog;
+import net.ajcloud.wansviewplus.support.tools.WLog;
 
 public class SEAT_API {
     public static int ms_verAPI = 0;

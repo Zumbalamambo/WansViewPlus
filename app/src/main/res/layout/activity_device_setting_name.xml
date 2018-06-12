@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".main.device.setting.DeviceSettingNameActivity">
 
-    <net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText
+    <net.ajcloud.wansviewplus.support.customview.materialEditText.MaterialEditText
         android:id="@+id/et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

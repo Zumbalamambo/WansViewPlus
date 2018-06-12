@@ -23,7 +23,7 @@ package org.videolan.libvlc;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-import net.ajcloud.wansview.entity.camera.VideoEncryptionInfo;
+import net.ajcloud.wansviewplus.entity.camera.VideoEncryptionInfo;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;

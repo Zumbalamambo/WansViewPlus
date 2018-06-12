@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
     android:orientation="vertical">
-    <net.ajcloud.wansview.support.customview.MyStateBar
+    <net.ajcloud.wansviewplus.support.customview.MyStateBar
         android:id="@+id/status_bar"
         android:layout_width="match_parent"
         android:layout_height="1dp"

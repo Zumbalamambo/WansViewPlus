@@ -3,7 +3,7 @@ package org.videolan.vlc.util;
 import android.content.Context;
 import android.util.Log;
 
-import net.ajcloud.wansview.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.application.MainApplication;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.util.VLCUtil;

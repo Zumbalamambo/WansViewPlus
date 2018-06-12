@@ -7,7 +7,7 @@
     tools:context=".main.device.addDevice.AddDeviceWifiSettingActivity">
 
 
-    <net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText
+    <net.ajcloud.wansviewplus.support.customview.materialEditText.MaterialEditText
         android:id="@+id/et_wifi_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         app:met_textColor="@color/gray_first"
         app:met_textColorHint="@color/gray_second" />
 
-    <net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText
+    <net.ajcloud.wansviewplus.support.customview.materialEditText.MaterialEditText
         android:id="@+id/et_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

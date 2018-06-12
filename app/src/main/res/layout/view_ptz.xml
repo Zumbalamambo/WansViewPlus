@@ -3,18 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <net.ajcloud.wansview.support.customview.camera.CloudDirectionLayout
+    <net.ajcloud.wansviewplus.support.customview.camera.CloudDirectionLayout
         android:id="@+id/ptz_direction_control"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_centerInParent="true"
         android:layout_gravity="center_vertical">
 
-        <net.ajcloud.wansview.support.customview.camera.CirlView
+        <net.ajcloud.wansviewplus.support.customview.camera.CirlView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center" />
-    </net.ajcloud.wansview.support.customview.camera.CloudDirectionLayout>
+    </net.ajcloud.wansviewplus.support.customview.camera.CloudDirectionLayout>
 
     <ImageView
         android:id="@+id/add_angle"

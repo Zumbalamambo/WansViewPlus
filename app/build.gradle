@@ -5,7 +5,7 @@ apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "net.ajcloud.wansview"
+        applicationId "net.ajcloud.wansviewplus"
         minSdkVersion 19
         targetSdkVersion 22
         versionCode 1
@@ -75,12 +75,12 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'com.google.code.gson:gson:2.8.4'
     implementation 'com.google.firebase:firebase-crash:16.0.0'
-    implementation 'com.lzy.net:okgo:3.0.4'
     implementation files('libs/zxing-3.2.1.jar')
     implementation files('libs/glide-3.7.0.jar')
     implementation files('libs/httpclient-4.2.5.jar')
     implementation(name: 'swipeLayout', ext: 'aar')
     implementation files('libs/pinyin4j-2.5.0.jar')
+    implementation 'com.lzy.net:okgo:3.0.4'
 }
 
 apply plugin: 'com.google.gms.google-services'

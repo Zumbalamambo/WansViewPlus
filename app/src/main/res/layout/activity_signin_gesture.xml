@@ -51,7 +51,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_userName">
 
-        <net.ajcloud.wansview.support.customview.lockgesture.LockGestureLayout
+        <net.ajcloud.wansviewplus.support.customview.lockgesture.LockGestureLayout
             android:id="@+id/lockGestureLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

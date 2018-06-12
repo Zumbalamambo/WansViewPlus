@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
     android:orientation="vertical">
-    <net.ajcloud.wansview.support.customview.MyStateBar
+    <net.ajcloud.wansviewplus.support.customview.MyStateBar
         android:id="@+id/myStateBar"
         android:layout_width="match_parent"
         android:layout_height="1dp" />
@@ -46,7 +46,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
-        <net.ajcloud.wansview.main.video.PlayerView
+        <net.ajcloud.wansviewplus.main.video.PlayerView
             android:id="@+id/pv_video"
             android:layout_width="match_parent"
             android:layout_height="300dp"/>

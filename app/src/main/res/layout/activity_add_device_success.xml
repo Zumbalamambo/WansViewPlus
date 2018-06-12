@@ -14,7 +14,7 @@
         android:layout_marginTop="48dp"
         android:src="@mipmap/ic_launcher_round" />
 
-    <net.ajcloud.wansview.support.customview.materialEditText.MaterialEditText
+    <net.ajcloud.wansviewplus.support.customview.materialEditText.MaterialEditText
         android:id="@+id/et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

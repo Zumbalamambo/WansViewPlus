@@ -26,8 +26,8 @@ import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.util.Log;
 
-import net.ajcloud.wansview.R;
-import net.ajcloud.wansview.main.application.MainApplication;
+import net.ajcloud.wansviewplus.R;
+import net.ajcloud.wansviewplus.main.application.MainApplication;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
