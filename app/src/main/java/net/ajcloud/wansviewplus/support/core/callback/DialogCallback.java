@@ -2,7 +2,7 @@ package net.ajcloud.wansviewplus.support.core.callback;
 
 import android.app.Activity;
 
-import com.lzy.okgo.request.base.Request;
+import net.ajcloud.wansviewplus.support.core.okgo.request.base.Request;
 
 import net.ajcloud.wansviewplus.support.customview.dialog.ProgressDialogManager;
 

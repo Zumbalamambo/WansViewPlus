@@ -80,7 +80,6 @@ dependencies {
     implementation files('libs/httpclient-4.2.5.jar')
     implementation(name: 'swipeLayout', ext: 'aar')
     implementation files('libs/pinyin4j-2.5.0.jar')
-    implementation 'com.lzy.net:okgo:3.0.4'
 }
 
 apply plugin: 'com.google.gms.google-services'

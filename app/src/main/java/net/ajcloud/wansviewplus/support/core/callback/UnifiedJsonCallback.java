@@ -1,6 +1,6 @@
 package net.ajcloud.wansviewplus.support.core.callback;
 
-import com.lzy.okgo.model.Response;
+import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
 
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;

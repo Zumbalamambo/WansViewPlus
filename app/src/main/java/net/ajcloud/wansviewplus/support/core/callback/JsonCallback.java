@@ -3,7 +3,7 @@ package net.ajcloud.wansviewplus.support.core.callback;
 import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import com.lzy.okgo.callback.AbsCallback;
+import net.ajcloud.wansviewplus.support.core.okgo.callback.AbsCallback;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

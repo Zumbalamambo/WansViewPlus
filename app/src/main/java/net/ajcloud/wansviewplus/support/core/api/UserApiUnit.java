@@ -5,8 +5,6 @@ import android.text.TextUtils;
 import android.util.Base64;
 
 import com.google.gson.Gson;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.entity.LocalInfo;
@@ -18,6 +16,8 @@ import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
 import net.ajcloud.wansviewplus.support.core.bean.SigninBean;
 import net.ajcloud.wansviewplus.support.core.callback.JsonCallback;
 import net.ajcloud.wansviewplus.support.core.cipher.CipherUtil;
+import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
+import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -363,9 +363,9 @@ public class UserApiUnit {
     /**
      * 刷新token
      */
-    public ResponseBean refreshToken() {
+    public synchronized String refreshToken() {
         JSONObject dataJson = new JSONObject();
-        ResponseBean bean = null;
+        String accessToken = null;
         try {
             dataJson.put("agentName", localInfo.deviceName);
             dataJson.put("agentToken", localInfo.deviceId);
@@ -374,6 +374,7 @@ public class UserApiUnit {
             dataJson.put("refreshToken", SigninAccountManager.getInstance().getCurrentAccountRefreshToken());
         } catch (Exception e) {
             e.printStackTrace();
+            return accessToken;
         }
         try {
             okhttp3.Response response = OkGo.post(ApiConstant.URL_USER_REFRESH_TOKEN)
@@ -381,35 +382,17 @@ public class UserApiUnit {
                     .upJson(getReqBody(dataJson))
                     .execute();
             String data = response.body().string();
-            bean = new Gson().fromJson(data, ResponseBean.class);
+            ResponseBean bean = new Gson().fromJson(data, ResponseBean.class);
+            if (bean.isSuccess()) {
+                SigninBean signinBean = (SigninBean) bean.result;
+                accessToken = signinBean.accessToken;
+                SigninAccountManager.getInstance().refreshCurrentAccount(signinBean);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            return bean;
+            return accessToken;
         }
-
-//                OkGo.<ResponseBean<SigninBean>>post(ApiConstant.URL_USER_REFRESH_TOKEN)
-//                        .tag(this)
-//                        .upJson(getReqBody(dataJson))
-//                        .execute(new JsonCallback<ResponseBean<SigninBean>>() {
-//                            @Override
-//                            public void onSuccess(Response<ResponseBean<SigninBean>> response) {
-//                                ResponseBean responseBean = response.body();
-//                                if (responseBean.isSuccess()) {
-//                                    SigninBean bean = (SigninBean) responseBean.result;
-//                                    accountManager.refreshCurrentAccount(bean);
-//                                    listener.onSuccess(bean);
-//                                } else {
-//                                    listener.onFail(responseBean.getResultCode(), responseBean.message);
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onError(Response<ResponseBean<SigninBean>> response) {
-//                                super.onError(response);
-//                                listener.onFail(-1, context.getString(R.string.Service_Error));
-//                            }
-//                        });
     }
 
     /**

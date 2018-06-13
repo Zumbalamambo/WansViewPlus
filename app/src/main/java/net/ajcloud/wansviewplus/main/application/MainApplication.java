@@ -10,12 +10,14 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import com.crashlytics.android.Crashlytics;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheEntity;
-import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.cookie.CookieJarImpl;
-import com.lzy.okgo.cookie.store.SPCookieStore;
-import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
+
+import net.ajcloud.wansviewplus.support.core.api.OkTokenInterceptor;
+import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
+import net.ajcloud.wansviewplus.support.core.okgo.cache.CacheEntity;
+import net.ajcloud.wansviewplus.support.core.okgo.cache.CacheMode;
+import net.ajcloud.wansviewplus.support.core.okgo.cookie.CookieJarImpl;
+import net.ajcloud.wansviewplus.support.core.okgo.cookie.store.SPCookieStore;
+import net.ajcloud.wansviewplus.support.core.okgo.interceptor.HttpLoggingInterceptor;
 
 import net.ajcloud.wansviewplus.BuildConfig;
 import net.ajcloud.wansviewplus.entity.DaoMaster;
@@ -96,6 +98,8 @@ public class MainApplication extends Application {
             //非必要情况，不建议使用，第三方的开源库，使用通知显示当前请求的log，不过在做文件下载的时候，这个库好像有问题，对文件判断不准确
             //builder.addInterceptor(new ChuckInterceptor(this));
         }
+        //增加全局刷新token拦截器
+//        builder.addInterceptor(new OkTokenInterceptor());
         //全局的读取超时时间
         builder.readTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);
         //全局的写入超时时间

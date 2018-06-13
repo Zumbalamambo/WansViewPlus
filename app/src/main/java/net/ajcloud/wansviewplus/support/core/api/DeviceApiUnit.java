@@ -3,10 +3,6 @@ package net.ajcloud.wansviewplus.support.core.api;
 import android.content.Context;
 import android.text.TextUtils;
 
-
-import com.lzy.okgo.OkGo;
-
-import com.lzy.okgo.model.Response;
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.entity.LocalInfo;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
@@ -19,6 +15,8 @@ import net.ajcloud.wansviewplus.support.core.bean.PreBindBean;
 import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
 import net.ajcloud.wansviewplus.support.core.callback.JsonCallback;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
+import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
+import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
 import net.ajcloud.wansviewplus.support.event.DeviceRefreshEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -28,8 +26,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.OkHttpClient;
 
 
 /**
