@@ -52,6 +52,7 @@ public class ApiConstant {
         URL_USER_SIGNOUT = BASE_UAC_URL + "/signout";
         URL_USER_USER_ACTIVE = BASE_UAC_URL + "/user-active";
         URL_USER_CHANGE_PASSWORD = BASE_UAC_URL + "/change-password";
+        URL_USER_REFRESH_TOKEN = BASE_UAC_URL + "/refresh-token";
         //设备相关
         URL_DEVICE_PREBIND = BASE_UAC_URL + "/req-bind";
         URL_DEVICE_GET_BIND_STATUS = BASE_UAC_URL + "/bind-status";

@@ -44,7 +44,8 @@ public class SigninAccountManager {
             recentLoginAccount.setIsRecent(false);
             recentLoginAccount.setAccessToken(null);
             recentLoginAccount.setRefreshToken(null);
-            recentLoginAccount.setExpiresIn(0);
+            recentLoginAccount.setAccessExpiresIn(0);
+            recentLoginAccount.setRefreshExpiresIn(0);
             recentLoginAccount.setTokenType(null);
             recentLoginAccount.setScope(null);
             signinAccountInfoDao.update(recentLoginAccount);
@@ -71,7 +72,8 @@ public class SigninAccountManager {
             info.setIsRecent(true);
             info.setAccessToken(encodeAccess);
             info.setRefreshToken(encodeRefresh);
-            info.setExpiresIn(System.currentTimeMillis() + bean.expiresIn);
+            info.setAccessExpiresIn(System.currentTimeMillis() + bean.accessExpiresIn);
+            info.setRefreshExpiresIn(System.currentTimeMillis() + bean.refreshExpiresIn);
             info.setTokenType(bean.tokenType);
             info.setScope(bean.tokenType);
             info.setPassword(encodePwd);
@@ -91,7 +93,8 @@ public class SigninAccountManager {
             String encodeRefresh = CipherUtil.naclEncodeLocal(bean.refreshToken, salt);
             info.setAccessToken(encodeAccess);
             info.setRefreshToken(encodeRefresh);
-            info.setExpiresIn(bean.expiresIn + System.currentTimeMillis());
+            info.setAccessExpiresIn(bean.accessExpiresIn + System.currentTimeMillis());
+            info.setRefreshExpiresIn(bean.refreshExpiresIn + System.currentTimeMillis());
             info.setTokenType(bean.tokenType);
             info.setScope(bean.tokenType);
             signinAccountInfoDao.update(info);
@@ -134,8 +137,17 @@ public class SigninAccountManager {
         if (recentLoginAccount == null) {
             return 0;
         }
-        long expiresIn = recentLoginAccount.getExpiresIn();
-        return expiresIn;
+        return recentLoginAccount.getAccessExpiresIn();
+    }
+
+    public long getCurrentAccountRefreshTokenTime() {
+        SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
+                .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
+                .unique();
+        if (recentLoginAccount == null) {
+            return 0;
+        }
+        return recentLoginAccount.getRefreshExpiresIn();
     }
 
     public String getCurrentAccountRefreshToken() {
@@ -207,13 +219,6 @@ public class SigninAccountManager {
         signinAccountInfoDao.update(currentAccount);
     }
 
-    public void setCurrentAccountAccessTokenTime(long time) {
-        SigninAccountInfo currentAccount = signinAccountInfoDao.queryBuilder()
-                .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
-                .unique();
-        currentAccount.setExpiresIn(System.currentTimeMillis() + time);
-        signinAccountInfoDao.update(currentAccount);
-    }
 
     /**
      * 清除登录信息，登出时用
@@ -225,7 +230,8 @@ public class SigninAccountManager {
         if (recentLoginAccount != null) {
             recentLoginAccount.setAccessToken(null);
             recentLoginAccount.setRefreshToken(null);
-            recentLoginAccount.setExpiresIn(0);
+            recentLoginAccount.setAccessExpiresIn(0);
+            recentLoginAccount.setRefreshExpiresIn(0);
             recentLoginAccount.setTokenType(null);
             recentLoginAccount.setScope(null);
             signinAccountInfoDao.update(recentLoginAccount);

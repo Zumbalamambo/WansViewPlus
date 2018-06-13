@@ -15,6 +15,7 @@
     <string name="device_discovery_id">ID:%1$s</string>
     <string name="device_discovery_num">Found %1$s devices</string>
     <string name="signin_gesture_error_hint">Gesture error, %1$s chances left</string>
+    <string name="me_device_count">%1$s Camera</string>
 
 
     <!--FCM notification channel id-->

@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             app:collapsedTitleTextAppearance="@style/TittleTextAppearanceCollapse"
             app:contentScrim="@color/white"
-            app:expandedTitleMarginStart="16dp"
+            app:expandedTitleMarginStart="@dimen/default_margin_left"
             app:expandedTitleTextAppearance="@style/TittleTextAppearanceExpand"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">

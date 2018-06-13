@@ -118,6 +118,10 @@ public class DeviceCache {
         return hashTable.values();
     }
 
+    public int getCounts() {
+        return hashTable.size();
+    }
+
     public boolean contains(String deviceID) {
         return get(deviceID) != null;
     }

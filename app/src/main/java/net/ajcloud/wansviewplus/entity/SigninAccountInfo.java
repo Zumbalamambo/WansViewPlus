@@ -23,7 +23,8 @@ public class SigninAccountInfo {
     private String refreshToken; //用于刷新token
     private String scope;     //请求范围
     private String tokenType; //token类型
-    private long expiresIn; //有效期
+    private long accessExpiresIn; //有效期
+    private long refreshExpiresIn; //有效期
     private boolean isRecent;
     private String password;
     private String gesture;
@@ -35,23 +36,25 @@ public class SigninAccountInfo {
         this.refreshToken = bean.refreshToken;
         this.scope = bean.scope;
         this.tokenType = bean.tokenType;
-        this.expiresIn = System.currentTimeMillis() + bean.expiresIn;
+        this.accessExpiresIn = System.currentTimeMillis() + bean.accessExpiresIn;
+        this.refreshExpiresIn = System.currentTimeMillis() + bean.refreshExpiresIn;
         this.password = password;
         this.salt = salt;
         this.isRecent = true;
     }
 
-    @Generated(hash = 1652198078)
+    @Generated(hash = 2030771098)
     public SigninAccountInfo(Long id, @NotNull String mail, String accessToken, String refreshToken,
-            String scope, String tokenType, long expiresIn, boolean isRecent, String password,
-            String gesture, String salt) {
+            String scope, String tokenType, long accessExpiresIn, long refreshExpiresIn,
+            boolean isRecent, String password, String gesture, String salt) {
         this.id = id;
         this.mail = mail;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.scope = scope;
         this.tokenType = tokenType;
-        this.expiresIn = expiresIn;
+        this.accessExpiresIn = accessExpiresIn;
+        this.refreshExpiresIn = refreshExpiresIn;
         this.isRecent = isRecent;
         this.password = password;
         this.gesture = gesture;
@@ -110,12 +113,20 @@ public class SigninAccountInfo {
         this.tokenType = tokenType;
     }
 
-    public long getExpiresIn() {
-        return this.expiresIn;
+    public long getAccessExpiresIn() {
+        return this.accessExpiresIn;
     }
 
-    public void setExpiresIn(long expiresIn) {
-        this.expiresIn = expiresIn;
+    public void setAccessExpiresIn(long accessExpiresIn) {
+        this.accessExpiresIn = accessExpiresIn;
+    }
+
+    public long getRefreshExpiresIn() {
+        return this.refreshExpiresIn;
+    }
+
+    public void setRefreshExpiresIn(long refreshExpiresIn) {
+        this.refreshExpiresIn = refreshExpiresIn;
     }
 
     public boolean getIsRecent() {
@@ -149,6 +160,7 @@ public class SigninAccountInfo {
     public void setSalt(String salt) {
         this.salt = salt;
     }
+
 
 
 }

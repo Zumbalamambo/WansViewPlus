@@ -42,7 +42,18 @@
     <dimen name="device_setting_text_size_12">12sp</dimen>
     <dimen name="device_setting_text_size_14">14sp</dimen>
     <dimen name="device_setting_text_size_16">16sp</dimen>
-
+    <!--Me-->
+    <dimen name="me_item_height">56dp</dimen>
+    <dimen name="me_item_height_large">96dp</dimen>
+    <dimen name="me_margin_first">24dp</dimen>
+    <dimen name="me_margin_second">14dp</dimen>
+    <dimen name="me_margin_third">10dp</dimen>
+    <dimen name="me_image_width">48dp</dimen>
+    <dimen name="me_image_height">48dp</dimen>
+    <dimen name="me_text_size_12">12sp</dimen>
+    <dimen name="me_text_size_14">14sp</dimen>
+    <dimen name="me_text_size_16">16sp</dimen>
+    <dimen name="me_text_size_20">20sp</dimen>
 
     <!-- Minimum fling velocity for drawers (dp/second)-->
     <integer name="drawer_min_fling_velocity">200</integer>
