@@ -3,6 +3,7 @@ package net.ajcloud.wansviewplus.main.device.addDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -13,22 +14,28 @@ import com.bumptech.glide.Glide;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
+import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
+import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
+import net.ajcloud.wansviewplus.support.core.bean.PreBindBean;
 import net.ajcloud.wansviewplus.support.tools.zxing.encoding.EncodingUtils;
+import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import java.io.ByteArrayOutputStream;
 
 public class AddDeviceScanQRActivity extends BaseActivity {
 
+    private static final String PRE_BIND = "PRE_BIND";
     private ImageView qrcodeImageView;
     private Button waitButton;
     private TextView soundTextView;
-    private String type;
+    private String deviceId;
+    private String token;
     private String ssid;
     private String pwd;
 
-    public static void start(Context context, String type, String ssid, String pwd) {
+    public static void start(Context context, String deviceId, String ssid, String pwd) {
         Intent intent = new Intent(context, AddDeviceScanQRActivity.class);
-        intent.putExtra("type", type);
+        intent.putExtra("deviceId", deviceId);
         intent.putExtra("ssid", ssid);
         intent.putExtra("pwd", pwd);
         context.startActivity(intent);
@@ -56,19 +63,11 @@ public class AddDeviceScanQRActivity extends BaseActivity {
     @Override
     protected void initData() {
         if (getIntent() != null) {
-            type = getIntent().getStringExtra("type");
+            deviceId = getIntent().getStringExtra("deviceId");
             ssid = getIntent().getStringExtra("ssid");
             pwd = getIntent().getStringExtra("pwd");
         }
-        final ViewTreeObserver viewTreeObserver = qrcodeImageView.getViewTreeObserver();
-        viewTreeObserver.addOnWindowFocusChangeListener(new ViewTreeObserver.OnWindowFocusChangeListener() {
-            @Override
-            public void onWindowFocusChanged(final boolean hasFocus) {
-                if (hasFocus) {
-                    showQRImage();
-                }
-            }
-        });
+        preBind();
     }
 
     @Override
@@ -81,14 +80,34 @@ public class AddDeviceScanQRActivity extends BaseActivity {
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.btn_sure:
-                startActivity(new Intent(AddDeviceScanQRActivity.this, AddDeviceWaitingActivity.class));
+                AddDeviceWifiWaitingActivity.startBind(AddDeviceScanQRActivity.this, deviceId);
                 break;
             case R.id.tv_sound:
-                AddDeviceSoundActivity.start(AddDeviceScanQRActivity.this, type, ssid, pwd);
+                AddDeviceSoundActivity.start(AddDeviceScanQRActivity.this, deviceId, token, ssid, pwd);
                 break;
             default:
                 break;
         }
+    }
+
+    private void preBind() {
+        progressDialogManager.showDialog(PRE_BIND, this);
+        new DeviceApiUnit(this).preBind(deviceId, new OkgoCommonListener<PreBindBean>() {
+            @Override
+            public void onSuccess(PreBindBean bean) {
+                progressDialogManager.dimissDialog(PRE_BIND, 0);
+                if (bean != null && !TextUtils.isEmpty(bean.token)) {
+                    token = bean.token;
+                    showQRImage();
+                }
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                progressDialogManager.dimissDialog(PRE_BIND, 0);
+                ToastUtil.single(msg);
+            }
+        });
     }
 
     private void showQRImage() {
@@ -97,9 +116,17 @@ public class AddDeviceScanQRActivity extends BaseActivity {
         }
         int width = qrcodeImageView.getMeasuredWidth();
         int height = qrcodeImageView.getMeasuredHeight();
-        //TODO
-        String content = "{" + ssid + "/" + pwd + "}";
-        Bitmap bitmap = EncodingUtils.createQRCode(content, width, height, null);
+        StringBuilder content = new StringBuilder();
+        content.append("s=");
+        content.append(ssid);
+        content.append("\n");
+        content.append("p=");
+        content.append(pwd);
+        content.append("\n");
+        content.append("c=");
+        content.append(token);
+        content.append("\n");
+        Bitmap bitmap = EncodingUtils.createQRCode(content.toString(), width, height, null);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] bytes = baos.toByteArray();

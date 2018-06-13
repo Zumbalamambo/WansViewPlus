@@ -18,18 +18,15 @@ import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.BindStatusBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceBindBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceSearchBean;
-import net.ajcloud.wansviewplus.support.core.bean.DeviceUrlBean;
 import net.ajcloud.wansviewplus.support.core.bean.PreBindBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.socket.CableConnectionUnit;
 import net.ajcloud.wansviewplus.support.tools.WLog;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-public class AddDeviceWaitingActivity extends BaseActivity {
+public class AddDeviceCableWaitingActivity extends BaseActivity {
 
     private static int MSG_CHECK = 100;
     private static int SOCKET_TIMEOUT = 5000;
@@ -42,14 +39,14 @@ public class AddDeviceWaitingActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (MainApplication.getApplication().getLastestActivity() == AddDeviceWaitingActivity.this) {
+            if (MainApplication.getApplication().getLastestActivity() == AddDeviceCableWaitingActivity.this) {
                 checkStatus();
             }
         }
     };
 
     public static void startBind(Context context, DeviceSearchBean bean) {
-        Intent intent = new Intent(context, AddDeviceWaitingActivity.class);
+        Intent intent = new Intent(context, AddDeviceCableWaitingActivity.class);
         intent.putExtra("DeviceSearchBean", bean);
         context.startActivity(intent);
     }
@@ -136,7 +133,7 @@ public class AddDeviceWaitingActivity extends BaseActivity {
                         //success
                         doSuccess();
                     } else {
-                        Intent intent = new Intent(AddDeviceWaitingActivity.this, AddDeviceFailActivity.class);
+                        Intent intent = new Intent(AddDeviceCableWaitingActivity.this, AddDeviceFailActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -164,7 +161,7 @@ public class AddDeviceWaitingActivity extends BaseActivity {
                         doSuccess();
                     } else if (bean.status == 2) {
                         // fail
-                        Intent intent = new Intent(AddDeviceWaitingActivity.this, AddDeviceFailActivity.class);
+                        Intent intent = new Intent(AddDeviceCableWaitingActivity.this, AddDeviceFailActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -180,7 +177,7 @@ public class AddDeviceWaitingActivity extends BaseActivity {
 
     private void doSuccess() {
         MainApplication.getApplication().getDeviceCache().add(new Camera(deviceSearchBean.getDeviceID(), null));
-        AddDeviceSuccessActivity.start(AddDeviceWaitingActivity.this, deviceSearchBean.getDeviceID());
+        AddDeviceSuccessActivity.start(AddDeviceCableWaitingActivity.this, deviceSearchBean.getDeviceID());
         finish();
     }
 
@@ -197,7 +194,9 @@ public class AddDeviceWaitingActivity extends BaseActivity {
 
         @Override
         public void onFinish() {
-
+            Intent intent = new Intent(AddDeviceCableWaitingActivity.this, AddDeviceFailActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 }

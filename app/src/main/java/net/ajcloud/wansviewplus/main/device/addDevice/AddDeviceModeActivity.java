@@ -8,16 +8,15 @@ import android.widget.Button;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
+import net.ajcloud.wansviewplus.support.tools.zxing.activity.CaptureActivity;
 
 public class AddDeviceModeActivity extends BaseActivity {
 
     private Button wifiButton;
     private Button cableButton;
-    private String type;
 
-    public static void start(Context context, String type) {
+    public static void start(Context context) {
         Intent intent = new Intent(context, AddDeviceModeActivity.class);
-        intent.putExtra("type", type);
         context.startActivity(intent);
     }
 
@@ -40,13 +39,6 @@ public class AddDeviceModeActivity extends BaseActivity {
     }
 
     @Override
-    protected void initData() {
-        if (getIntent() != null) {
-            type = getIntent().getStringExtra("type");
-        }
-    }
-
-    @Override
     protected void initListener() {
         wifiButton.setOnClickListener(this);
         cableButton.setOnClickListener(this);
@@ -56,9 +48,7 @@ public class AddDeviceModeActivity extends BaseActivity {
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.btn_wifi_select:
-                if (!TextUtils.isEmpty(type)) {
-                    AddDeviceCameraSettingActivity.start(AddDeviceModeActivity.this, type);
-                }
+                AddDeviceCameraSettingActivity.start(AddDeviceModeActivity.this);
                 break;
             case R.id.btn_cable_select:
                 startActivity(new Intent(AddDeviceModeActivity.this, AddDeviceCableConfirmActivity.class));

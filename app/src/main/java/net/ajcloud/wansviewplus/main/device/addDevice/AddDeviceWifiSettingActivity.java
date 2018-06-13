@@ -2,17 +2,19 @@ package net.ajcloud.wansviewplus.main.device.addDevice;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.support.customview.materialEditText.MaterialEditText;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
+
+import java.util.List;
 
 public class AddDeviceWifiSettingActivity extends BaseActivity {
 
@@ -21,11 +23,11 @@ public class AddDeviceWifiSettingActivity extends BaseActivity {
     private Button joinButton;
 
     private WifiManager wifiManager;
-    private String type;
+    private String deviceId;
 
-    public static void start(Context context, String type) {
+    public static void start(Context context, String deviceId) {
         Intent intent = new Intent(context, AddDeviceWifiSettingActivity.class);
-        intent.putExtra("type", type);
+        intent.putExtra("deviceId", deviceId);
         context.startActivity(intent);
     }
 
@@ -51,19 +53,22 @@ public class AddDeviceWifiSettingActivity extends BaseActivity {
     @Override
     protected void initData() {
         if (getIntent() != null) {
-            type = getIntent().getStringExtra("type");
+            deviceId = getIntent().getStringExtra("deviceId");
         }
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifiManager.isWifiEnabled()) {
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
             if (wifiInfo != null) {
-                wifiNameEditText.setText(wifiInfo.getSSID().replace("\"", ""));
+                String wifiName = wifiInfo.getSSID().replace("\"", "");
+                if (is5G()) {
+                }
+                wifiNameEditText.setText(wifiName);
             }
         }
 
-        if (TextUtils.isEmpty(wifiNameEditText.getText().toString())){
+        if (TextUtils.isEmpty(wifiNameEditText.getText().toString())) {
             wifiNameEditText.requestFocus();
-        }else {
+        } else {
             passwordEditText.requestFocus();
         }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
@@ -81,14 +86,35 @@ public class AddDeviceWifiSettingActivity extends BaseActivity {
                 finish();
                 break;
             case net.ajcloud.wansviewplus.R.id.btn_join:
-                if (TextUtils.isEmpty(wifiNameEditText.getText().toString()) || TextUtils.isEmpty(passwordEditText.getText().toString())){
+                if (TextUtils.isEmpty(wifiNameEditText.getText().toString()) || TextUtils.isEmpty(passwordEditText.getText().toString())) {
                     ToastUtil.single("please input name and password");
-                }else {
-                    AddDeviceScanQRActivity.start(AddDeviceWifiSettingActivity.this, type, wifiNameEditText.getText().toString(), passwordEditText.getText().toString());
+                } else {
+                    AddDeviceScanQRActivity.start(AddDeviceWifiSettingActivity.this, deviceId, wifiNameEditText.getText().toString(), passwordEditText.getText().toString());
                 }
                 break;
             default:
                 break;
         }
+    }
+
+    private boolean is5G() {
+        int freq = 0;
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.LOLLIPOP) {
+            freq = wifiInfo.getFrequency();
+        } else {
+            String ssid = wifiInfo.getSSID();
+            if (ssid != null && ssid.length() > 2) {
+                String ssidTemp = ssid.substring(1, ssid.length() - 1);
+                List<ScanResult> scanResults = wifiManager.getScanResults();
+                for (ScanResult scanResult : scanResults) {
+                    if (scanResult.SSID.equals(ssidTemp)) {
+                        freq = scanResult.frequency;
+                        break;
+                    }
+                }
+            }
+        }
+        return freq > 4900 && freq < 5900;
     }
 }

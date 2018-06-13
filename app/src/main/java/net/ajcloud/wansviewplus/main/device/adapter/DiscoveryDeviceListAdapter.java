@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceWaitingActivity;
+import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceCableWaitingActivity;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceSearchBean;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class DiscoveryDeviceListAdapter extends RecyclerView.Adapter<RecyclerVie
         ((DeviceListHolder) holder).selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddDeviceWaitingActivity.startBind(context, mData.get(finalPosition));
+                AddDeviceCableWaitingActivity.startBind(context, mData.get(finalPosition));
             }
         });
     }

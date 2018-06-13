@@ -15,36 +15,38 @@
  */
 package net.ajcloud.wansviewplus.support.tools.zxing.activity;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Rect;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+
+import com.google.zxing.Result;
 
 import net.ajcloud.wansviewplus.R;
+import net.ajcloud.wansviewplus.main.application.BaseActivity;
+import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceInputIdActivity;
+import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceWifiSettingActivity;
 import net.ajcloud.wansviewplus.support.tools.WLog;
 import net.ajcloud.wansviewplus.support.tools.zxing.camera.CameraManager;
 import net.ajcloud.wansviewplus.support.tools.zxing.decode.DecodeThread;
 import net.ajcloud.wansviewplus.support.tools.zxing.utils.BeepManager;
 import net.ajcloud.wansviewplus.support.tools.zxing.utils.CaptureActivityHandler;
 import net.ajcloud.wansviewplus.support.tools.zxing.utils.InactivityTimer;
-import com.google.zxing.Result;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -59,11 +61,12 @@ import java.lang.reflect.Field;
  * @author dswitkin@google.com (Daniel Switkin)
  * @author Sean Owen
  */
-public final class CaptureActivity extends Activity implements SurfaceHolder.Callback, ICaptureActivity {
+public final class CaptureActivity extends BaseActivity implements SurfaceHolder.Callback, ICaptureActivity {
 
     private static final String TAG = CaptureActivity.class.getSimpleName();
 
     private CameraManager cameraManager;
+    private Camera camera;
     private CaptureActivityHandler handler;
     private InactivityTimer inactivityTimer;
     private BeepManager beepManager;
@@ -72,10 +75,13 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     private RelativeLayout scanContainer;
     private RelativeLayout scanCropView;
     private ImageView scanLine;
+    private LinearLayout lightLayout;
+    private Button inputButton;
 
     private Rect mCropRect = null;
     private boolean isHasSurface = false;
     private boolean hasCameraPermission = false;
+    public boolean isOpen = false;
 
     public Handler getHandler() {
         return handler;
@@ -91,10 +97,19 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     }
 
     @Override
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
-        setContentView(R.layout.activity_capture);
+    protected int getLayoutId() {
+        return R.layout.activity_capture;
+    }
 
+    @Override
+    protected boolean hasTittle() {
+        return true;
+    }
+
+    @Override
+    protected void initView() {
+        getToolbar().setTittle("QR scan");
+        getToolbar().setLeftImg(R.mipmap.icon_back);
         init();
         hasCameraPermission = true;
     }
@@ -107,6 +122,32 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         scanContainer = (RelativeLayout) findViewById(R.id.capture_container);
         scanCropView = (RelativeLayout) findViewById(R.id.capture_crop_view);
         scanLine = (ImageView) findViewById(R.id.capture_scan_line);
+        inputButton = findViewById(R.id.btn_input_deviceId);
+        inputButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CaptureActivity.this, AddDeviceInputIdActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        lightLayout = findViewById(R.id.ll_light);
+        lightLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                camera = cameraManager.getCamera();
+                Camera.Parameters parameters = camera.getParameters();
+                if (isOpen) {
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                    camera.setParameters(parameters);
+                    isOpen = false;
+                } else {  // 开灯
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                    camera.setParameters(parameters);
+                    isOpen = true;
+                }
+            }
+        });
 
         inactivityTimer = new InactivityTimer(this);
         beepManager = new BeepManager(this);
@@ -216,13 +257,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         inactivityTimer.onActivity();
         beepManager.playBeepSoundAndVibrate();
 
-        Intent resultIntent = new Intent();
-        bundle.putInt("width", mCropRect.width());
-        bundle.putInt("height", mCropRect.height());
-        bundle.putString("result", rawResult.getText());
-        resultIntent.putExtras(bundle);
-        WLog.d(TAG, rawResult.getText());
-        this.setResult(RESULT_OK, resultIntent);
+        //TODO
+        AddDeviceWifiSettingActivity.start(CaptureActivity.this, rawResult.getText());
         CaptureActivity.this.finish();
     }
 
@@ -334,4 +370,5 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         }
         return 0;
     }
+
 }

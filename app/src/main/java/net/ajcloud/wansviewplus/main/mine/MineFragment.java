@@ -65,50 +65,39 @@ public class MineFragment extends Fragment {
             public void onClick(View v) {
                 SigninAccountManager.getInstance().setCurrentAccountGesture("1236987");
 
-                new DeviceApiUnit(getActivity()).getDeviceList(new OkgoCommonListener<List<Camera>>() {
+                new DeviceApiUnit(getActivity()).unBind("K03868WPCGRPFDX4",  new OkgoCommonListener<Object>() {
                     @Override
-                    public void onSuccess(List<Camera> bean) {
-
+                    public void onSuccess(Object bean) {
+                        ToastUtil.single("ok");
                     }
 
                     @Override
                     public void onFail(int code, String msg) {
-
+                        ToastUtil.single(msg);
                     }
                 });
-//                new DeviceApiUnit(getActivity()).unBind("K03868WPCGRPFDX4",  new OkgoCommonListener<Object>() {
-//                    @Override
-//                    public void onSuccess(Object bean) {
-//                        ToastUtil.single("ok");
-//                    }
-//
-//                    @Override
-//                    public void onFail(int code, String msg) {
-//                        ToastUtil.single(msg);
-//                    }
-//                });
-//                new DeviceApiUnit(getActivity()).unBind("K03868KVLJNASXNC",  new OkgoCommonListener<Object>() {
-//                    @Override
-//                    public void onSuccess(Object bean) {
-//                        ToastUtil.single("ok");
-//                    }
-//
-//                    @Override
-//                    public void onFail(int code, String msg) {
-//                        ToastUtil.single(msg);
-//                    }
-//                });
-//                new DeviceApiUnit(getActivity()).unBind("K038682CY5NV1PI9",  new OkgoCommonListener<Object>() {
-//                    @Override
-//                    public void onSuccess(Object bean) {
-//                        ToastUtil.single("ok");
-//                    }
-//
-//                    @Override
-//                    public void onFail(int code, String msg) {
-//                        ToastUtil.single(msg);
-//                    }
-//                });
+                new DeviceApiUnit(getActivity()).unBind("K03868KVLJNASXNC",  new OkgoCommonListener<Object>() {
+                    @Override
+                    public void onSuccess(Object bean) {
+                        ToastUtil.single("ok");
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+                        ToastUtil.single(msg);
+                    }
+                });
+                new DeviceApiUnit(getActivity()).unBind("K038682CY5NV1PI9",  new OkgoCommonListener<Object>() {
+                    @Override
+                    public void onSuccess(Object bean) {
+                        ToastUtil.single("ok");
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+                        ToastUtil.single(msg);
+                    }
+                });
             }
         });
         view.findViewById(net.ajcloud.wansviewplus.R.id.logout).setOnClickListener(new View.OnClickListener() {

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.support.customview.dialog.CommonDialog;
+import net.ajcloud.wansviewplus.support.tools.zxing.activity.CaptureActivity;
 import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
 
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
@@ -20,12 +21,10 @@ public class AddDeviceCameraSettingActivity extends BaseActivity {
 
     private Button flashButton;
     private TextView noFlashTextView;
-    private String type;
     private CommonDialog notFlashDialog;
 
-    public static void start(Context context, String type) {
+    public static void start(Context context) {
         Intent intent = new Intent(context, AddDeviceCameraSettingActivity.class);
-        intent.putExtra("type", type);
         context.startActivity(intent);
     }
 
@@ -48,13 +47,6 @@ public class AddDeviceCameraSettingActivity extends BaseActivity {
     }
 
     @Override
-    protected void initData() {
-        if (getIntent() != null) {
-            type = getIntent().getStringExtra("type");
-        }
-    }
-
-    @Override
     protected void initListener() {
         flashButton.setOnClickListener(this);
         noFlashTextView.setOnClickListener(this);
@@ -73,9 +65,7 @@ public class AddDeviceCameraSettingActivity extends BaseActivity {
                 finish();
                 break;
             case net.ajcloud.wansviewplus.R.id.btn_flash:
-                if (!TextUtils.isEmpty(type)) {
-                    AddDeviceWifiSettingActivity.start(AddDeviceCameraSettingActivity.this, type);
-                }
+                CaptureActivity.start(AddDeviceCameraSettingActivity.this);
                 break;
             case net.ajcloud.wansviewplus.R.id.tv_no_flash:
                 showDialog();

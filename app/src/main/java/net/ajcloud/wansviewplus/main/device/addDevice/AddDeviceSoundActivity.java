@@ -29,14 +29,16 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
 
     private SEAT_API seat_api;
     private WifiManager wifiManager;
-    private String type;
+    private String deviceId;
+    private String token;
     private String ssid;
     private String pwd;
     int[] handleAudioT = new int[1];
 
-    public static void start(Context context, String type, String ssid, String pwd) {
+    public static void start(Context context, String deviceId, String token, String ssid, String pwd) {
         Intent intent = new Intent(context, AddDeviceSoundActivity.class);
-        intent.putExtra("type", type);
+        intent.putExtra("deviceId", deviceId);
+        intent.putExtra("token", token);
         intent.putExtra("ssid", ssid);
         intent.putExtra("pwd", pwd);
         context.startActivity(intent);
@@ -64,7 +66,8 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
     @Override
     protected void initData() {
         if (getIntent() != null) {
-            type = getIntent().getStringExtra("type");
+            deviceId = getIntent().getStringExtra("deviceId");
+            token = getIntent().getStringExtra("token");
             ssid = getIntent().getStringExtra("ssid");
             pwd = getIntent().getStringExtra("pwd");
         }
@@ -99,11 +102,17 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
         switch (v.getId()) {
             case R.id.btn_send:
                 //configure Wi-Fi of the device by Smartlink technology
-                byte[] bytsWifi = ssid.getBytes();
-                byte[] bytsPwd = pwd.getBytes();
-                String strTips = String.format("Configuring(%s,%s)...", ssid, pwd);
-                ToastUtil.single(strTips);
-                WLog.d(TAG, "voice] " + strTips);
+                StringBuilder content = new StringBuilder();
+                content.append("s=");
+                content.append(ssid);
+                content.append("\n");
+                content.append("p=");
+                content.append(pwd);
+                content.append("\n");
+                content.append("c=");
+                content.append(token);
+                content.append("\n");
+                WLog.d(TAG, "voice] " + content.toString());
 
                 for (int i = 0; i < 2; i++) {
                     seat_api.SEAT_Start(handleAudioT[0]);
@@ -112,7 +121,7 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
 //                            bytsPwd, bytsPwd.length,
 //                            SEAT_API.WIFI_SECURITY_MODE_UNKNOWN, null, //WIFI_SECURITY_MODE_WPAPSK_TKIP, nMode value by getCipherType(MainActivity.this, strCurWiFiSSID);
 //                            null, 0);
-                    int nWrite = seat_api.SEAT_WriteByte(handleAudioT[0], bytsWifi, bytsWifi.length);
+                    int nWrite = seat_api.SEAT_WriteByte(handleAudioT[0], content.toString().getBytes(), content.toString().getBytes().length);
                     WLog.d(TAG, "voice]  SEAT_WriteSSIDWiFi2(.)=" + nWrite);
                     seat_api.SEAT_Stop(handleAudioT[0]);
 
@@ -124,7 +133,7 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
                 }
                 break;
             case R.id.btn_next:
-                startActivity(new Intent(AddDeviceSoundActivity.this, AddDeviceWaitingActivity.class));
+                AddDeviceWifiWaitingActivity.startBind(AddDeviceSoundActivity.this, deviceId);
                 break;
             case R.id.tv_error:
                 showDialog();

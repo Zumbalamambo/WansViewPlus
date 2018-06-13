@@ -49,13 +49,13 @@ public class AddDeviceSelectActivity extends BaseActivity {
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.rl_k3:
-                AddDeviceModeActivity.start(AddDeviceSelectActivity.this, ConstantsUtil.DEVICE_TYPE_K3);
+                AddDeviceModeActivity.start(AddDeviceSelectActivity.this);
                 break;
             case R.id.rl_q3:
-                AddDeviceModeActivity.start(AddDeviceSelectActivity.this, ConstantsUtil.DEVICE_TYPE_Q3);
+                AddDeviceModeActivity.start(AddDeviceSelectActivity.this);
                 break;
             case R.id.rl_w2:
-                AddDeviceModeActivity.start(AddDeviceSelectActivity.this, ConstantsUtil.DEVICE_TYPE_W2);
+                AddDeviceModeActivity.start(AddDeviceSelectActivity.this);
                 break;
             default:
                 break;

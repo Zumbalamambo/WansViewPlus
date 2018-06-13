@@ -11,6 +11,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.autofocus" />
 
     <application
         android:name=".main.application.MainApplication"
@@ -78,14 +81,13 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".support.tools.zxing.activity.CaptureActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/QRTheme" />
+            android:screenOrientation="portrait"/>
         <activity android:name=".main.device.addDevice.AddDeviceSelectActivity" />
         <activity android:name=".main.device.addDevice.AddDeviceModeActivity" />
         <activity android:name=".main.device.addDevice.AddDeviceCameraSettingActivity" />
         <activity android:name=".main.device.addDevice.AddDeviceWifiSettingActivity" />
         <activity android:name=".main.device.addDevice.AddDeviceScanQRActivity" />
-        <activity android:name=".main.device.addDevice.AddDeviceWaitingActivity" />
+        <activity android:name=".main.device.addDevice.AddDeviceCableWaitingActivity" />
         <activity android:name=".main.device.addDevice.AddDeviceSuccessActivity" />
         <activity android:name=".main.device.addDevice.AddDeviceSoundActivity" />
         <activity android:name=".main.device.addDevice.AddDeviceCableConfirmActivity" />
@@ -114,7 +116,9 @@
         <activity android:name=".main.device.setting.MaintenanceActivity" />
         <activity android:name=".main.device.setting.TimeZoneActivity" />
         <activity android:name=".main.device.addDevice.AddDeviceFailActivity" />
-        <activity android:name=".main.test.TestActivity"></activity>
+        <activity android:name=".main.test.TestActivity" />
+        <activity android:name=".main.device.addDevice.AddDeviceWifiWaitingActivity" />
+        <activity android:name=".main.device.addDevice.AddDeviceInputIdActivity"></activity>
     </application>
 
 </manifest>

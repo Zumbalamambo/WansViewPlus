@@ -23,10 +23,11 @@
 
         <RelativeLayout
             android:id="@+id/capture_crop_view"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:layout_below="@id/capture_mask_top"
             android:layout_centerHorizontal="true"
+            android:layout_margin="25dp"
             android:background="@mipmap/bg_qr_code_rect">
 
             <ImageView
@@ -37,6 +38,29 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:src="@mipmap/qr_code_scan_line" />
+
+            <LinearLayout
+                android:id="@+id/ll_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_all" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Tap to turn light on"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/device_setting_text_size_12" />
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -67,5 +91,33 @@
             android:layout_below="@id/capture_mask_top"
             android:layout_toRightOf="@id/capture_crop_view"
             android:background="@mipmap/zxing_shadow" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/capture_crop_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="@dimen/default_margin_left"
+            android:layout_marginStart="@dimen/default_margin_left"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Scan the QR code on the camera"
+            android:textColor="@color/white"
+            android:textSize="@dimen/device_setting_text_size_14" />
+
+        <Button
+            android:id="@+id/btn_input_deviceId"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/signIn_btn_height"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/device_setting_margin_first"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@drawable/selector_button"
+            android:text="Enter manually"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/device_setting_text_size_16" />
     </RelativeLayout>
 </RelativeLayout>
