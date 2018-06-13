@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_gesture"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:layout_height="@dimen/device_setting_item_height">
+
+        <TextView
+            android:id="@+id/tv_gesture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:text="Gesture login"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/device_setting_text_size_14" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/sc_gesture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:checked="false"
+            android:theme="@style/CustomSwitch"
+            app:switchMinWidth="37dp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:background="@color/gray_line" />
+
+    <RelativeLayout
+        android:id="@+id/rl_set_gesture"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:layout_height="@dimen/me_item_height">
+
+        <TextView
+            android:id="@+id/tv_set_gesture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:text="Modify gesture graphics"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/device_setting_text_size_14" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray_line" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:layout_marginTop="@dimen/me_margin_first"
+        android:background="@color/gray_line" />
+
+    <RelativeLayout
+        android:id="@+id/rl_change_password"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:layout_height="@dimen/me_item_height">
+
+        <TextView
+            android:id="@+id/tv_change_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:text="Change Password"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/device_setting_text_size_14" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_line" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:layout_marginTop="@dimen/me_margin_top"
+        android:background="@color/gray_line" />
+
+    <RelativeLayout
+        android:id="@+id/rl_log_off"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:layout_height="@dimen/me_item_height">
+
+        <TextView
+            android:id="@+id/tv_log_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:text="Log off account"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/device_setting_text_size_14" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_line" />
+</LinearLayout>

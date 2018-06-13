@@ -12,7 +12,7 @@ public interface PreferenceKey {
     interface sp_key {
         //设备唯一标识
         String DEVICE_ID = "DEVICE_ID";
-        //登录状态
-        String IS_LOGIN = "IS_LOGIN";
+        //是否使用指纹
+        String USE_GESTURE = "USE_GESTURE";
     }
 }

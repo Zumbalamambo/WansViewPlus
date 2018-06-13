@@ -87,7 +87,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/me_margin_first"
         android:background="@color/gray_line" />
 
     <RelativeLayout
@@ -134,7 +134,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/me_margin_first"
         android:background="@color/gray_line" />
 
     <RelativeLayout
@@ -236,7 +236,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/me_margin_first"
         android:background="@color/gray_line" />
 
     <RelativeLayout
@@ -323,7 +323,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/me_margin_first"
         android:background="@color/gray_line" />
 
     <RelativeLayout

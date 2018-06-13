@@ -45,6 +45,7 @@
     <!--Me-->
     <dimen name="me_item_height">56dp</dimen>
     <dimen name="me_item_height_large">96dp</dimen>
+    <dimen name="me_margin_top">160dp</dimen>
     <dimen name="me_margin_first">24dp</dimen>
     <dimen name="me_margin_second">14dp</dimen>
     <dimen name="me_margin_third">10dp</dimen>

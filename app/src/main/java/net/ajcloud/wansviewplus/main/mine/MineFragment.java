@@ -22,6 +22,7 @@ import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.account.SigninTwiceActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.mine.security.SecurityActivity;
 import net.ajcloud.wansviewplus.main.test.TestActivity;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
@@ -133,6 +134,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             case R.id.rl_cloud_storage:
                 break;
             case R.id.rl_security:
+                startActivity(new Intent(getActivity(), SecurityActivity.class));
                 break;
             case R.id.rl_version:
                 break;

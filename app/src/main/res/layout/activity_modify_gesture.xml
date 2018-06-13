@@ -1,8 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".main.mine.security.ModifyGestureActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/iv_gesture_hint"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="@dimen/me_margin_first"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tv_gesture_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:layout_marginTop="18dp"
+        android:gravity="center"
+        android:text="Please draw unlock pattern"
+        android:textColor="@color/gray_first"
+        android:textSize="@dimen/me_text_size_16" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_gesture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:layout_marginTop="24dp">
+
+        <net.ajcloud.wansviewplus.support.customview.lockgesture.LockGestureLayout
+            android:id="@+id/lockGestureLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+</LinearLayout>

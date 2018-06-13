@@ -16,6 +16,8 @@ import net.ajcloud.wansviewplus.support.core.bean.SigninBean;
 import net.ajcloud.wansviewplus.support.customview.dialog.SigninMoreDialog;
 import net.ajcloud.wansviewplus.support.customview.materialEditText.MaterialEditText;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
+import net.ajcloud.wansviewplus.support.utils.preference.PreferenceKey;
+import net.ajcloud.wansviewplus.support.utils.preference.SPUtil;
 
 public class SigninTwiceActivity extends BaseActivity {
 
@@ -50,7 +52,7 @@ public class SigninTwiceActivity extends BaseActivity {
         forgotTextView = findViewById(net.ajcloud.wansviewplus.R.id.textView_forgot_password);
         signinButton = findViewById(net.ajcloud.wansviewplus.R.id.btn_signin);
         signinMoreDialog = new SigninMoreDialog(this);
-        if (SigninAccountManager.getInstance().getCurrentAccountGesture() != null) {
+        if ((boolean) SPUtil.getSPUtil(this, PreferenceKey.sp_name.account).get(PreferenceKey.sp_key.USE_GESTURE, false)) {
             signinMoreDialog.setFirstText("Gesture");
         }
         signinMoreDialog.setSecondText("Switch account");

@@ -17,7 +17,6 @@ import android.widget.RelativeLayout;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
-import net.ajcloud.wansviewplus.support.core.cipher.CipherUtil;
 import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
 
 import java.util.ArrayList;
@@ -59,6 +58,7 @@ public class LockGestureLayout extends RelativeLayout {
     private Point mTmpTarget = new Point();
     //isFirst
     private boolean isFirst;
+    private String tmpPassword;
     //保存用户选中的LockGestureView的id
     private List<Integer> mChoose = new ArrayList<>();
     private Paint mPaint;
@@ -236,11 +236,11 @@ public class LockGestureLayout extends RelativeLayout {
                     }
                 } else {
                     if (checkPassword()) {
+                        if (listenner != null) {
+                            listenner.onSuccess(getPassword());
+                        }
                         resetHander.removeMessages(RESET);
                         resetHander.sendEmptyMessageDelayed(RESET, 500);
-                        if (listenner != null) {
-                            listenner.onSuccess();
-                        }
                     } else {
                         times--;
                         mPaint.setColor(errorInnerColor);
@@ -331,6 +331,7 @@ public class LockGestureLayout extends RelativeLayout {
      */
     private boolean checkPassword() {
         if (isFirst) {
+            isFirst = false;
             return true;
         }
 
@@ -338,7 +339,12 @@ public class LockGestureLayout extends RelativeLayout {
         for (int key : mChoose) {
             choose.append(key);
         }
-        return TextUtils.equals(choose.toString(), SigninAccountManager.getInstance().getCurrentAccountGesture());
+        if (TextUtils.isEmpty(tmpPassword)){
+            return TextUtils.equals(choose.toString(), SigninAccountManager.getInstance().getCurrentAccountGesture());
+        }else {
+            return TextUtils.equals(choose.toString(), tmpPassword);
+        }
+
     }
 
     public int getTimes() {
@@ -357,8 +363,24 @@ public class LockGestureLayout extends RelativeLayout {
         isFirst = first;
     }
 
+    public String getTmpPassword() {
+        return tmpPassword;
+    }
+
+    public void setTmpPassword(String tmpPassword) {
+        this.tmpPassword = tmpPassword;
+    }
+
+    public String getPassword() {
+        StringBuilder choose = new StringBuilder();
+        for (int key : mChoose) {
+            choose.append(key);
+        }
+        return choose.toString();
+    }
+
     public interface OnLockGestureResultListenner {
-        void onSuccess();
+        void onSuccess(String password);
 
         void onFail(int restTimes);
 

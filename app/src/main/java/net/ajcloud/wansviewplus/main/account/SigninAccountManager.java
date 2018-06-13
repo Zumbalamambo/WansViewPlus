@@ -213,9 +213,13 @@ public class SigninAccountManager {
         SigninAccountInfo currentAccount = signinAccountInfoDao.queryBuilder()
                 .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
                 .unique();
-        String salt = currentAccount.getSalt();
-        String gesturePwd = CipherUtil.naclEncodeLocal(gesture, salt);
-        currentAccount.setGesture(gesturePwd);
+        if (TextUtils.isEmpty(gesture)){
+            currentAccount.setGesture("");
+        }else {
+            String salt = currentAccount.getSalt();
+            String gesturePwd = CipherUtil.naclEncodeLocal(gesture, salt);
+            currentAccount.setGesture(gesturePwd);
+        }
         signinAccountInfoDao.update(currentAccount);
     }
 

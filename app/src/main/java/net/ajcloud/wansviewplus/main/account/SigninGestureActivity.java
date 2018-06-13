@@ -50,7 +50,6 @@ public class SigninGestureActivity extends BaseActivity {
         signinMoreDialog.setFirstText("Password sign in");
         signinMoreDialog.setSecondText("Switch account");
         lockGestureView.setTimes(5);
-        lockGestureView.setFirst(false);
     }
 
     @Override
@@ -66,7 +65,7 @@ public class SigninGestureActivity extends BaseActivity {
         moreTextView.setOnClickListener(this);
         lockGestureView.setLockGestureResultListenner(new LockGestureLayout.OnLockGestureResultListenner() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(String password) {
                 doSignin();
             }
 
