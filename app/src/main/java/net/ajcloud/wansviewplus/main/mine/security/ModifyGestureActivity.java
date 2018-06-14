@@ -7,7 +7,6 @@ import android.widget.TextView;
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
-import net.ajcloud.wansviewplus.support.customview.MyToolbar;
 import net.ajcloud.wansviewplus.support.customview.lockgesture.GestureIndicatorView;
 import net.ajcloud.wansviewplus.support.customview.lockgesture.LockGestureLayout;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
@@ -29,7 +28,7 @@ public class ModifyGestureActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return net.ajcloud.wansviewplus.R.layout.activity_modify_gesture;
+        return R.layout.activity_modify_gesture;
     }
 
     @Override
@@ -39,11 +38,9 @@ public class ModifyGestureActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        MyToolbar toolbar = getToolbar();
-        if (toolbar != null) {
-            toolbar.setTitle("Set gesture graphics");
-            toolbar.setLeftImg(net.ajcloud.wansviewplus.R.mipmap.icon_back);
-        }
+        getToolbar().setTittle("Set gesture graphics");
+        getToolbar().setLeftImg(R.mipmap.icon_back);
+
         hintTextView = findViewById(R.id.tv_gesture_hint);
         gestureLayout = findViewById(R.id.lockGestureLayout);
         indicatorView = findViewById(R.id.iv_gesture_hint);
@@ -95,7 +92,7 @@ public class ModifyGestureActivity extends BaseActivity {
         List<GestureIndicatorView.Point> points = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
             GestureIndicatorView.Point point = new GestureIndicatorView.Point(false);
-            if (password.contains((i + 1) + "")){
+            if (password.contains((i + 1) + "")) {
                 point.setFocus(true);
             }
             points.add(point);

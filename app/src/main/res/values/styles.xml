@@ -147,4 +147,8 @@
         <!--关闭时的轨迹颜色取30%的颜色-->
         <item name="android:colorForeground">@color/gray_second</item>
     </style>
+
+    <style name="FullscreenDialog" parent="@style/Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
 </resources>

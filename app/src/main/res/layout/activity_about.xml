@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".main.mine.AboutActivity">
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="48dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:text="Vansview +"
+        android:textColor="@color/gray_first"
+        android:textSize="@dimen/me_text_size_34"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/rl_email"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/me_item_height"
+        android:layout_marginTop="34dp"
+        android:background="@drawable/bg_ripper_effect">
+
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/me_margin_first"
+            android:layout_toEndOf="@id/iv_version"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:text="Email"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/device_setting_text_size_14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="9dp"
+            android:layout_toEndOf="@id/tv_email"
+            android:layout_toStartOf="@id/iv_email"
+            android:ellipsize="end"
+            android:gravity="end|center_vertical"
+            android:singleLine="true"
+            android:text="service@vansview.com"
+            android:textColor="@color/gray_second"
+            android:textSize="@dimen/device_setting_text_size_14" />
+
+        <ImageView
+            android:id="@+id/iv_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/me_margin_first"
+            android:src="@drawable/ic_arrow" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:background="@color/gray_line" />
+
+    <RelativeLayout
+        android:id="@+id/rl_service"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/me_item_height"
+        android:layout_marginTop="@dimen/me_margin_first"
+        android:background="@drawable/bg_ripper_effect">
+
+        <TextView
+            android:id="@+id/tv_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/me_margin_first"
+            android:layout_toEndOf="@id/iv_version"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:text="Service agreement"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/device_setting_text_size_14" />
+
+        <ImageView
+            android:id="@+id/iv_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/me_margin_first"
+            android:src="@drawable/ic_arrow" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:background="@color/gray_line" />
+
+    <RelativeLayout
+        android:id="@+id/rl_terms"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/me_item_height"
+        android:background="@drawable/bg_ripper_effect">
+
+        <TextView
+            android:id="@+id/tv_terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/me_margin_first"
+            android:layout_toEndOf="@id/iv_version"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:text="Terms of Cloud storage"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/device_setting_text_size_14" />
+
+        <ImageView
+            android:id="@+id/iv_terms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/me_margin_first"
+            android:src="@drawable/ic_arrow" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:background="@color/gray_line" />
+</LinearLayout>

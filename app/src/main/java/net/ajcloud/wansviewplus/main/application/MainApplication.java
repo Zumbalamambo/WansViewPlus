@@ -74,13 +74,13 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        if (!BuildConfig.DEBUG) {
+//        if (!BuildConfig.DEBUG) {
             //Firebase错误收集
             Fabric.with(this, new Crashlytics());
             //自定义崩溃处理
             CrashHandler crashHandler = CrashHandler.getInstance();
             crashHandler.init(this);
-        }
+//        }
         fileIO = new AndroidFileIO(getAssets());
 
 
@@ -99,7 +99,7 @@ public class MainApplication extends Application {
             //builder.addInterceptor(new ChuckInterceptor(this));
         }
         //增加全局刷新token拦截器
-//        builder.addInterceptor(new OkTokenInterceptor());
+        builder.addInterceptor(new OkTokenInterceptor());
         //全局的读取超时时间
         builder.readTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);
         //全局的写入超时时间

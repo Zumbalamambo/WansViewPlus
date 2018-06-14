@@ -1,5 +1,6 @@
 package net.ajcloud.wansviewplus.main.mine.security;
 
+import android.content.Intent;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -7,6 +8,7 @@ import android.widget.RelativeLayout;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
+import net.ajcloud.wansviewplus.support.customview.dialog.LogoffDialog;
 import net.ajcloud.wansviewplus.support.utils.preference.PreferenceKey;
 import net.ajcloud.wansviewplus.support.utils.preference.SPUtil;
 
@@ -16,6 +18,7 @@ public class SecurityActivity extends BaseActivity {
     private RelativeLayout setGestureLayout;
     private RelativeLayout setPasswordLayout;
     private RelativeLayout logoffLayout;
+    private LogoffDialog logoffDialog;
 
     @Override
     protected int getLayoutId() {
@@ -36,6 +39,9 @@ public class SecurityActivity extends BaseActivity {
         setGestureLayout = findViewById(R.id.rl_set_gesture);
         setPasswordLayout = findViewById(R.id.rl_change_password);
         logoffLayout = findViewById(R.id.rl_log_off);
+
+        logoffDialog = new LogoffDialog(this);
+
         if ((boolean) SPUtil.getSPUtil(this, PreferenceKey.sp_name.account).get(PreferenceKey.sp_key.USE_GESTURE, false)) {
             gestureSwitch.setChecked(true);
             setGestureLayout.setVisibility(View.VISIBLE);
@@ -57,6 +63,12 @@ public class SecurityActivity extends BaseActivity {
                 showSettsLinear(isChecked);
             }
         });
+        logoffDialog.setDialogClickListener(new LogoffDialog.OnDialogClickListener() {
+            @Override
+            public void logoff() {
+                startActivity(new Intent(SecurityActivity.this, LogoffActivity.class));
+            }
+        });
     }
 
 
@@ -67,8 +79,12 @@ public class SecurityActivity extends BaseActivity {
                 ModifyGestureActivity.start(this);
                 break;
             case R.id.rl_change_password:
+                startActivity(new Intent(SecurityActivity.this, ChangePasswordActivity.class));
                 break;
             case R.id.rl_log_off:
+                if (!logoffDialog.isShowing()){
+                    logoffDialog.show();
+                }
                 break;
             default:
                 break;

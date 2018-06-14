@@ -36,8 +36,8 @@ public class SigninAccountInfo {
         this.refreshToken = bean.refreshToken;
         this.scope = bean.scope;
         this.tokenType = bean.tokenType;
-        this.accessExpiresIn = System.currentTimeMillis() + bean.accessExpiresIn;
-        this.refreshExpiresIn = System.currentTimeMillis() + bean.refreshExpiresIn;
+        this.accessExpiresIn = System.currentTimeMillis()/1000 + bean.accessExpiresIn;
+        this.refreshExpiresIn = System.currentTimeMillis()/1000 + bean.refreshExpiresIn;
         this.password = password;
         this.salt = salt;
         this.isRecent = true;

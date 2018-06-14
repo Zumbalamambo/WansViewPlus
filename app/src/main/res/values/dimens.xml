@@ -55,6 +55,7 @@
     <dimen name="me_text_size_14">14sp</dimen>
     <dimen name="me_text_size_16">16sp</dimen>
     <dimen name="me_text_size_20">20sp</dimen>
+    <dimen name="me_text_size_34">34sp</dimen>
 
     <!-- Minimum fling velocity for drawers (dp/second)-->
     <integer name="drawer_min_fling_velocity">200</integer>

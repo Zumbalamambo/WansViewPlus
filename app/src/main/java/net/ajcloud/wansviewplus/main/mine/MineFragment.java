@@ -26,6 +26,7 @@ import net.ajcloud.wansviewplus.main.mine.security.SecurityActivity;
 import net.ajcloud.wansviewplus.main.test.TestActivity;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
+import net.ajcloud.wansviewplus.support.customview.dialog.LogoutDialog;
 import net.ajcloud.wansviewplus.support.customview.dialog.ProgressDialogManager;
 import net.ajcloud.wansviewplus.support.tools.TimeLock;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
@@ -54,6 +55,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout logoutLayout;
     private RelativeLayout testLayout;
 
+    private LogoutDialog logoutDialog;
     private TimeLock timeLock = new TimeLock();
 
     @Override
@@ -91,6 +93,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         } else {
             testLayout.setVisibility(View.GONE);
         }
+        logoutDialog = new LogoutDialog(getActivity());
         initListener();
         initData();
     }
@@ -120,6 +123,12 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 initData();
             }
         });
+        logoutDialog.setDialogClickListener(new LogoutDialog.OnDialogClickListener() {
+            @Override
+            public void logout() {
+                doLogout();
+            }
+        });
     }
 
     @Override
@@ -142,9 +151,12 @@ public class MineFragment extends Fragment implements View.OnClickListener {
             case R.id.rl_version:
                 break;
             case R.id.rl_about:
+                startActivity(new Intent(getActivity(), AboutActivity.class));
                 break;
             case R.id.rl_logout:
-                logout();
+                if (!logoutDialog.isShowing()) {
+                    logoutDialog.show();
+                }
                 break;
             case R.id.rl_test:
                 startActivity(new Intent(getActivity(), TestActivity.class));
@@ -154,7 +166,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void logout() {
+    private void doLogout() {
         ProgressDialogManager.getDialogManager().showDialog(LOGOUT, getActivity());
         new UserApiUnit(getActivity()).signout(new OkgoCommonListener<Object>() {
             @Override

@@ -12,6 +12,7 @@ import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.bean.AppConfigBean;
 import net.ajcloud.wansviewplus.support.core.bean.ChallengeBean;
+import net.ajcloud.wansviewplus.support.core.bean.RefreshTokenBean;
 import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
 import net.ajcloud.wansviewplus.support.core.bean.SigninBean;
 import net.ajcloud.wansviewplus.support.core.callback.JsonCallback;
@@ -21,8 +22,6 @@ import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 
 /**
  * Created by mamengchao on 2018/05/21.
@@ -303,6 +302,7 @@ public class UserApiUnit {
                                 ResponseBean<SigninBean> responseBean = response.body();
                                 SigninBean bean = responseBean.result;
                                 if (responseBean.isSuccess()) {
+                                    SigninAccountManager.getInstance().refreshCurrentAccount(bean);
                                     listener.onSuccess(bean);
                                 } else {
                                     listener.onFail(responseBean.getResultCode(), responseBean.message);
@@ -382,13 +382,13 @@ public class UserApiUnit {
                     .upJson(getReqBody(dataJson))
                     .execute();
             String data = response.body().string();
-            ResponseBean bean = new Gson().fromJson(data, ResponseBean.class);
+            RefreshTokenBean bean = new Gson().fromJson(data, RefreshTokenBean.class);
             if (bean.isSuccess()) {
-                SigninBean signinBean = (SigninBean) bean.result;
+                SigninBean signinBean = bean.result;
                 accessToken = signinBean.accessToken;
                 SigninAccountManager.getInstance().refreshCurrentAccount(signinBean);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             return accessToken;

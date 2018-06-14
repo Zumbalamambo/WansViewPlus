@@ -8,7 +8,6 @@ import net.ajcloud.wansviewplus.support.core.okgo.model.HttpParams;
 import net.ajcloud.wansviewplus.support.core.okgo.request.base.ProgressRequestBody;
 import net.ajcloud.wansviewplus.support.core.okgo.utils.OkLogger;
 import net.ajcloud.wansviewplus.support.tools.WLog;
-import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,12 +50,13 @@ public class OkTokenInterceptor implements Interceptor {
 
         //排除登录的API
         if (!originalUrl.equals(ApiConstant.URL_USER_REFRESH_TOKEN)
+                && !originalUrl.equals(ApiConstant.URL_GET_APP_CONFIG)
                 && !originalUrl.equals(ApiConstant.URL_USER_CHALLENGE)
                 && !originalUrl.equals(ApiConstant.URL_USER_SIGNIN)
                 && !originalUrl.equals(ApiConstant.URL_USER_SIGNUP)) {
             if (!TextUtils.isEmpty(token)) {
                 //TODO 可能有修改
-                boolean isValid = System.currentTimeMillis() - expiresIn > 3600 * 24 * 3 / 4;
+                boolean isValid = expiresIn - System.currentTimeMillis()/1000 > 3600 * 2 * 66 / 72;
 //                boolean isValid = false;
                 if (isValid) {
                     WLog.d(TAG, "token：" + token + " 有效 ");
@@ -66,7 +66,7 @@ public class OkTokenInterceptor implements Interceptor {
                         String newAccessToken = new UserApiUnit(MainApplication.getApplication()).refreshToken();
                         if (TextUtils.isEmpty(newAccessToken)) {
                             WLog.d(TAG, "token error");
-                            return null;
+                            return chain.proceed(originalRequest);
                         } else {
                             JSONObject dataJson = null;
                             try {

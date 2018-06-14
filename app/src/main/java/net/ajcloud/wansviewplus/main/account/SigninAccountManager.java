@@ -72,8 +72,8 @@ public class SigninAccountManager {
             info.setIsRecent(true);
             info.setAccessToken(encodeAccess);
             info.setRefreshToken(encodeRefresh);
-            info.setAccessExpiresIn(System.currentTimeMillis() + bean.accessExpiresIn);
-            info.setRefreshExpiresIn(System.currentTimeMillis() + bean.refreshExpiresIn);
+            info.setAccessExpiresIn(System.currentTimeMillis()/1000 + bean.accessExpiresIn);
+            info.setRefreshExpiresIn(System.currentTimeMillis()/1000 + bean.refreshExpiresIn);
             info.setTokenType(bean.tokenType);
             info.setScope(bean.tokenType);
             info.setPassword(encodePwd);
@@ -93,8 +93,8 @@ public class SigninAccountManager {
             String encodeRefresh = CipherUtil.naclEncodeLocal(bean.refreshToken, salt);
             info.setAccessToken(encodeAccess);
             info.setRefreshToken(encodeRefresh);
-            info.setAccessExpiresIn(bean.accessExpiresIn + System.currentTimeMillis());
-            info.setRefreshExpiresIn(bean.refreshExpiresIn + System.currentTimeMillis());
+            info.setAccessExpiresIn(bean.accessExpiresIn + System.currentTimeMillis()/1000);
+            info.setRefreshExpiresIn(bean.refreshExpiresIn + System.currentTimeMillis()/1000);
             info.setTokenType(bean.tokenType);
             info.setScope(bean.tokenType);
             signinAccountInfoDao.update(info);
@@ -256,10 +256,10 @@ public class SigninAccountManager {
                 return false;
             } else {
 //                long expiresIn = recentLoginAccount.getExpiresIn();
-//                if (System.currentTimeMillis() > expiresIn) {
+//                if (System.currentTimeMillis()/1000 > expiresIn) {
 //                    return false;
 //                } else {
-//                    if ((System.currentTimeMillis() + 48 * 3600) > expiresIn) {
+//                    if ((System.currentTimeMillis()/1000 + 48 * 3600) > expiresIn) {
 //                        EventBus.getDefault().post(new RefreshTokenEvent());
 //                    }
                 return true;

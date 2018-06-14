@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/shape_signin_more"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="26dp"
+        android:gravity="center"
+        android:text="Log off confirmation"
+        android:textColor="@color/gray_first"
+        android:textSize="@dimen/me_text_size_16" />
+
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_editText_height"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:layout_marginTop="26dp"
+        android:background="@drawable/shape_logout_button"
+        android:text="confirm"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/me_text_size_16" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_editText_height"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_add_device_button"
+        android:text="Cancel"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/me_text_size_16" />
+</LinearLayout>
