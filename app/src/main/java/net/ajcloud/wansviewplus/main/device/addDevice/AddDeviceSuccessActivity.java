@@ -26,6 +26,7 @@ import java.util.List;
 
 public class AddDeviceSuccessActivity extends BaseActivity {
 
+    private static String LOADING = "LOADING";
     private MaterialEditText nameEditText;
     private Button okButton;
 
@@ -107,6 +108,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
                         deviceApiUnit.setNameUac(deviceId, name, new OkgoCommonListener<Object>() {
                             @Override
                             public void onSuccess(Object bean) {
+                                progressDialogManager.dimissDialog(LOADING, 0);
                                 camera.aliasName = name;
                                 EventBus.getDefault().post(new DeviceBindSuccessEvent(deviceId));
                                 startActivity(new Intent(AddDeviceSuccessActivity.this, HomeActivity.class));
@@ -114,6 +116,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
 
                             @Override
                             public void onFail(int code, String msg) {
+                                progressDialogManager.dimissDialog(LOADING, 0);
                                 ToastUtil.single("setNameUac error");
                             }
                         });
@@ -121,6 +124,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
 
                     @Override
                     public void onFail(int code, String msg) {
+                        progressDialogManager.dimissDialog(LOADING, 0);
                         ToastUtil.single("setNameEmc error");
                     }
                 });
@@ -128,6 +132,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
 
             @Override
             public void onFail(int code, String msg) {
+                progressDialogManager.dimissDialog(LOADING, 0);
                 ToastUtil.single("setNameGateway error");
             }
         });
@@ -135,6 +140,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
     }
 
     private void getCameraUrl() {
+        progressDialogManager.showDialog(LOADING, this);
         List<String> deviceIds = new ArrayList<>();
         deviceIds.add(deviceId);
         deviceApiUnit.getDeviceUrlInfo(deviceIds, new OkgoCommonListener<List<DeviceUrlBean.UrlInfo>>() {
@@ -154,6 +160,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
 
             @Override
             public void onFail(int code, String msg) {
+                progressDialogManager.dimissDialog(LOADING, 0);
                 ToastUtil.single("getCameraUrl error");
                 EventBus.getDefault().post(new DeviceBindSuccessEvent(deviceId));
                 startActivity(new Intent(AddDeviceSuccessActivity.this, HomeActivity.class));
@@ -168,6 +175,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
                 if (changeName) {
                     changeName();
                 }else {
+                    progressDialogManager.dimissDialog(LOADING, 0);
                     EventBus.getDefault().post(new DeviceBindSuccessEvent(deviceId));
                     startActivity(new Intent(AddDeviceSuccessActivity.this, HomeActivity.class));
                 }
@@ -175,6 +183,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
 
             @Override
             public void onFail(int code, String msg) {
+                progressDialogManager.dimissDialog(LOADING, 0);
                 EventBus.getDefault().post(new DeviceBindSuccessEvent(deviceId));
                 startActivity(new Intent(AddDeviceSuccessActivity.this, HomeActivity.class));
             }

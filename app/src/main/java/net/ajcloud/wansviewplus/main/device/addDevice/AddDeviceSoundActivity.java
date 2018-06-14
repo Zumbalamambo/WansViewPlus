@@ -148,8 +148,8 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
             noSoundDialog = new CommonDialog.Builder(this)
                     .canceledOnTouchOutside(false)
                     .view(R.layout.dialog_no_sound)
-                    .height(DisplayUtil.dip2Pix(this, 130))
-                    .width(DisplayUtil.dip2Pix(this, 100))
+                    .height(476)
+                    .width(327)
                     .addViewOnclickListener(R.id.iv_close, dialogClickListener)
                     .build();
         }

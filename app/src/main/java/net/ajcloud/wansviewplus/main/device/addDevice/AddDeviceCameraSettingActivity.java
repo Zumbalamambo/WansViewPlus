@@ -3,7 +3,9 @@ package net.ajcloud.wansviewplus.main.device.addDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -80,8 +82,8 @@ public class AddDeviceCameraSettingActivity extends BaseActivity {
             notFlashDialog = new CommonDialog.Builder(this)
                     .canceledOnTouchOutside(false)
                     .view(net.ajcloud.wansviewplus.R.layout.dialog_not_flash)
-                    .height(DisplayUtil.dip2Pix(this, 100))
-                    .width(DisplayUtil.dip2Pix(this, 100))
+                    .height(368)
+                    .width(327)
                     .addViewOnclickListener(net.ajcloud.wansviewplus.R.id.iv_close, dialogClickListener)
                     .build();
         }

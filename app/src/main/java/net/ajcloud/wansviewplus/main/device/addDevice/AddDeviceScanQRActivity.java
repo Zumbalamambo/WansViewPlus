@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
+import net.ajcloud.wansviewplus.main.home.HomeActivity;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.PreBindBean;
@@ -106,6 +107,9 @@ public class AddDeviceScanQRActivity extends BaseActivity {
             public void onFail(int code, String msg) {
                 progressDialogManager.dimissDialog(PRE_BIND, 0);
                 ToastUtil.single(msg);
+                if (code == 1201){
+                    startActivity(new Intent(AddDeviceScanQRActivity.this, HomeActivity.class));
+                }
             }
         });
     }

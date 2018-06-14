@@ -26,7 +26,9 @@ import net.ajcloud.wansviewplus.main.mine.security.SecurityActivity;
 import net.ajcloud.wansviewplus.main.test.TestActivity;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
+import net.ajcloud.wansviewplus.support.customview.dialog.ProgressDialogManager;
 import net.ajcloud.wansviewplus.support.tools.TimeLock;
+import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 /**
  * Created by mamengchao on 2018/05/15.
@@ -34,6 +36,7 @@ import net.ajcloud.wansviewplus.support.tools.TimeLock;
  */
 public class MineFragment extends Fragment implements View.OnClickListener {
 
+    private static String LOGOUT = "LOGOUT";
     private CollapsingToolbarLayout toolbarLayout;
     private Toolbar toolbar;
 
@@ -152,16 +155,19 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     }
 
     private void logout() {
+        ProgressDialogManager.getDialogManager().showDialog(LOGOUT, getActivity());
         new UserApiUnit(getActivity()).signout(new OkgoCommonListener<Object>() {
             @Override
             public void onSuccess(Object bean) {
+                ProgressDialogManager.getDialogManager().dimissDialog(LOGOUT, 0);
                 SigninTwiceActivity.start(getActivity(), SigninAccountManager.getInstance().getCurrentAccountMail());
                 getActivity().finish();
             }
 
             @Override
             public void onFail(int code, String msg) {
-
+                ProgressDialogManager.getDialogManager().dimissDialog(LOGOUT, 0);
+                ToastUtil.single(msg);
             }
         });
     }

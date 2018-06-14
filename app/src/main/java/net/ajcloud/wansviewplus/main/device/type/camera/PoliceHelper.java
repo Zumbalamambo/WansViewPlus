@@ -120,6 +120,7 @@ public class PoliceHelper /*implements ResponseListener*/ {
     }
 
     public void getUrlAndPlay() {
+        listener.onPlay(playedRequestType, "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov", 90, 160);
         /*if (isRequestToken) {
             return;
         }

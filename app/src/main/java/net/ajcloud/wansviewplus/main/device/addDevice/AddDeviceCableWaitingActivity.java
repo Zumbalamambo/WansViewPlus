@@ -13,6 +13,7 @@ import android.widget.TextView;
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.home.HomeActivity;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.BindStatusBean;
@@ -116,6 +117,9 @@ public class AddDeviceCableWaitingActivity extends BaseActivity {
             @Override
             public void onFail(int code, String msg) {
                 ToastUtil.single(msg);
+                if (code == 1201){
+                    startActivity(new Intent(AddDeviceCableWaitingActivity.this, HomeActivity.class));
+                }
             }
         });
     }
