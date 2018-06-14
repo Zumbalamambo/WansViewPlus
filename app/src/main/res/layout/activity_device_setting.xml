@@ -14,8 +14,7 @@
             android:id="@+id/item_name"
             android:layout_width="match_parent"
             android:layout_height="@dimen/device_setting_item_height"
-            android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:layout_marginStart="@dimen/device_setting_margin_first">
+            android:background="@drawable/bg_ripper_effect">
 
             <TextView
                 android:id="@+id/item_name_tips"
@@ -23,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/device_setting_margin_first"
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/device_setting_margin_first"
                 android:src="@drawable/ic_arrow" />
 
             <TextView
@@ -50,9 +51,9 @@
                 android:ellipsize="end"
                 android:gravity="end|center_vertical"
                 android:singleLine="true"
+                android:text="Front Door"
                 android:textColor="@color/gray_second"
-                android:textSize="@dimen/device_setting_text_size_14"
-                android:text="Front Door" />
+                android:textSize="@dimen/device_setting_text_size_14" />
         </RelativeLayout>
 
         <View
@@ -66,8 +67,7 @@
             android:id="@+id/item_info"
             android:layout_width="match_parent"
             android:layout_height="@dimen/device_setting_item_height"
-            android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:layout_marginStart="@dimen/device_setting_margin_first">
+            android:background="@drawable/bg_ripper_effect">
 
             <TextView
                 android:id="@+id/item_info_tips"
@@ -75,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/device_setting_margin_first"
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
@@ -89,6 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/device_setting_margin_first"
                 android:src="@drawable/ic_arrow" />
         </RelativeLayout>
 
@@ -103,8 +105,7 @@
             android:id="@+id/item_network"
             android:layout_width="match_parent"
             android:layout_height="@dimen/device_setting_item_height"
-            android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:layout_marginStart="@dimen/device_setting_margin_first">
+            android:background="@drawable/bg_ripper_effect">
 
             <TextView
                 android:id="@+id/item_network_tips"
@@ -112,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/device_setting_margin_first"
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
@@ -126,6 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/device_setting_margin_first"
                 android:src="@drawable/ic_arrow" />
 
             <TextView
@@ -163,8 +166,7 @@
             android:id="@+id/item_alert"
             android:layout_width="match_parent"
             android:layout_height="@dimen/device_setting_item_height"
-            android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:layout_marginStart="@dimen/device_setting_margin_first">
+            android:background="@drawable/bg_ripper_effect">
 
             <TextView
                 android:id="@+id/item_alert_tips"
@@ -172,6 +174,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/device_setting_margin_first"
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
@@ -186,6 +189,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/device_setting_margin_first"
                 android:src="@drawable/ic_arrow" />
         </RelativeLayout>
 
@@ -200,8 +204,7 @@
             android:id="@+id/item_image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/device_setting_item_height"
-            android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:layout_marginStart="@dimen/device_setting_margin_first">
+            android:background="@drawable/bg_ripper_effect">
 
             <TextView
                 android:id="@+id/item_image_tips"
@@ -209,6 +212,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/device_setting_margin_first"
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
@@ -223,6 +227,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/device_setting_margin_first"
                 android:src="@drawable/ic_arrow" />
         </RelativeLayout>
 
@@ -237,8 +242,7 @@
             android:id="@+id/item_timezone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/device_setting_item_height"
-            android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:layout_marginStart="@dimen/device_setting_margin_first">
+            android:background="@drawable/bg_ripper_effect">
 
             <TextView
                 android:id="@+id/item_timezone_tips"
@@ -246,6 +250,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/device_setting_margin_first"
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
@@ -260,6 +265,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/device_setting_margin_first"
                 android:src="@drawable/ic_arrow" />
 
             <TextView
@@ -297,8 +303,7 @@
             android:id="@+id/item_tf_storage"
             android:layout_width="match_parent"
             android:layout_height="@dimen/device_setting_item_height"
-            android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:layout_marginStart="@dimen/device_setting_margin_first">
+            android:background="@drawable/bg_ripper_effect">
 
             <TextView
                 android:id="@+id/item_tf_storage_tips"
@@ -306,6 +311,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/device_setting_margin_first"
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
@@ -320,6 +326,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/device_setting_margin_first"
                 android:src="@drawable/ic_arrow" />
         </RelativeLayout>
 
@@ -334,8 +341,7 @@
             android:id="@+id/item_cloud_storage"
             android:layout_width="match_parent"
             android:layout_height="@dimen/device_setting_item_height"
-            android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:layout_marginStart="@dimen/device_setting_margin_first">
+            android:background="@drawable/bg_ripper_effect">
 
             <TextView
                 android:id="@+id/item_cloud_storage_tips"
@@ -343,6 +349,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/device_setting_margin_first"
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
@@ -357,6 +364,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/device_setting_margin_first"
                 android:src="@drawable/ic_arrow" />
         </RelativeLayout>
 
@@ -379,8 +387,7 @@
             android:id="@+id/item_maintenance"
             android:layout_width="match_parent"
             android:layout_height="@dimen/device_setting_item_height"
-            android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:layout_marginStart="@dimen/device_setting_margin_first">
+            android:background="@drawable/bg_ripper_effect">
 
             <TextView
                 android:id="@+id/item_maintenance_tips"
@@ -388,6 +395,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/device_setting_margin_first"
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
@@ -402,6 +410,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/device_setting_margin_first"
                 android:src="@drawable/ic_arrow" />
         </RelativeLayout>
 

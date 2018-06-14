@@ -11,8 +11,7 @@
         android:id="@+id/item_placement"
         android:layout_width="match_parent"
         android:layout_height="@dimen/device_setting_item_height"
-        android:layout_marginEnd="@dimen/device_setting_margin_first"
-        android:layout_marginStart="@dimen/device_setting_margin_first">
+        android:background="@drawable/bg_ripper_effect">
 
         <TextView
             android:id="@+id/item_placement_tips"
@@ -20,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
             android:ellipsize="end"
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
             android:src="@drawable/ic_arrow" />
 
         <TextView
@@ -63,8 +64,7 @@
         android:id="@+id/item_night"
         android:layout_width="match_parent"
         android:layout_height="@dimen/device_setting_item_height"
-        android:layout_marginEnd="@dimen/device_setting_margin_first"
-        android:layout_marginStart="@dimen/device_setting_margin_first">
+        android:background="@drawable/bg_ripper_effect">
 
         <TextView
             android:id="@+id/item_night_tips"
@@ -72,6 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
             android:ellipsize="end"
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
@@ -86,6 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
             android:checked="true"
             android:theme="@style/CustomSwitch"
             app:switchMinWidth="37dp" />
@@ -102,8 +104,7 @@
         android:id="@+id/item_microphone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/device_setting_item_height"
-        android:layout_marginEnd="@dimen/device_setting_margin_first"
-        android:layout_marginStart="@dimen/device_setting_margin_first">
+        android:background="@drawable/bg_ripper_effect">
 
         <TextView
             android:id="@+id/item_microphone_tips"
@@ -111,6 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
             android:ellipsize="end"
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
@@ -125,6 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
             android:checked="true"
             android:theme="@style/CustomSwitch"
             app:switchMinWidth="37dp" />
@@ -219,8 +222,7 @@
         android:id="@+id/item_light"
         android:layout_width="match_parent"
         android:layout_height="@dimen/device_setting_item_height"
-        android:layout_marginEnd="@dimen/device_setting_margin_first"
-        android:layout_marginStart="@dimen/device_setting_margin_first">
+        android:background="@drawable/bg_ripper_effect">
 
         <TextView
             android:id="@+id/item_light_tips"
@@ -228,6 +230,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
             android:ellipsize="end"
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
@@ -242,6 +245,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
             android:checked="true"
             android:theme="@style/CustomSwitch"
             app:switchMinWidth="37dp" />

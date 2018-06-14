@@ -22,8 +22,7 @@
                 android:id="@+id/item_storage"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/device_setting_item_height"
-                android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:layout_marginStart="@dimen/device_setting_margin_first">
+                android:background="@drawable/bg_ripper_effect">
 
                 <TextView
                     android:id="@+id/item_storage_tips"
@@ -31,6 +30,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/device_setting_margin_first"
                     android:ellipsize="end"
                     android:gravity="start|center_vertical"
                     android:maxWidth="200dp"
@@ -45,6 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/device_setting_margin_first"
                     android:checked="true"
                     android:theme="@style/CustomSwitch"
                     app:switchMinWidth="37dp" />
@@ -61,8 +62,7 @@
                 android:id="@+id/item_time"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/device_setting_item_height"
-                android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:layout_marginStart="@dimen/device_setting_margin_first">
+                android:background="@drawable/bg_ripper_effect">
 
                 <TextView
                     android:id="@+id/item_time_tips"
@@ -70,6 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/device_setting_margin_first"
                     android:ellipsize="end"
                     android:gravity="start|center_vertical"
                     android:maxWidth="200dp"
@@ -84,6 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/device_setting_margin_first"
                     android:src="@drawable/ic_arrow" />
 
                 <TextView
@@ -113,8 +115,7 @@
                 android:id="@+id/item_quality"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/device_setting_item_height"
-                android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:layout_marginStart="@dimen/device_setting_margin_first">
+                android:background="@drawable/bg_ripper_effect">
 
                 <TextView
                     android:id="@+id/item_quality_tips"
@@ -122,6 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/device_setting_margin_first"
                     android:ellipsize="end"
                     android:gravity="start|center_vertical"
                     android:maxWidth="200dp"
@@ -136,6 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/device_setting_margin_first"
                     android:src="@drawable/ic_arrow" />
 
                 <TextView
@@ -165,9 +168,8 @@
                 android:id="@+id/item_plan_one"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/device_setting_item_height"
-                android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:layout_marginStart="@dimen/device_setting_margin_first"
-                android:layout_marginTop="@dimen/device_setting_margin_first">
+                android:layout_marginTop="@dimen/device_setting_margin_first"
+                android:background="@drawable/bg_ripper_effect">
 
                 <TextView
                     android:id="@+id/item_plan_one_tips"
@@ -175,6 +177,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/device_setting_margin_first"
                     android:ellipsize="end"
                     android:gravity="start|center_vertical"
                     android:maxWidth="200dp"
@@ -189,6 +192,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/device_setting_margin_first"
                     android:src="@drawable/ic_arrow" />
 
                 <TextView
@@ -218,8 +222,7 @@
                 android:id="@+id/item_one_time"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/device_setting_item_height"
-                android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:layout_marginStart="@dimen/device_setting_margin_first">
+                android:background="@drawable/bg_ripper_effect">
 
                 <TextView
                     android:id="@+id/item_one_time_tips"
@@ -227,6 +230,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/device_setting_margin_first"
                     android:ellipsize="end"
                     android:gravity="start|center_vertical"
                     android:maxWidth="200dp"
@@ -241,6 +245,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/device_setting_margin_first"
                     android:layout_toEndOf="@id/item_one_time_tips"
                     android:ellipsize="end"
                     android:gravity="end|center_vertical"
@@ -261,9 +266,8 @@
                 android:id="@+id/item_plan_two"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/device_setting_item_height"
-                android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:layout_marginStart="@dimen/device_setting_margin_first"
-                android:layout_marginTop="@dimen/device_setting_margin_first">
+                android:layout_marginTop="@dimen/device_setting_margin_first"
+                android:background="@drawable/bg_ripper_effect">
 
                 <TextView
                     android:id="@+id/item_plan_two_tips"
@@ -271,6 +275,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/device_setting_margin_first"
                     android:ellipsize="end"
                     android:gravity="start|center_vertical"
                     android:maxWidth="200dp"
@@ -285,6 +290,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/device_setting_margin_first"
                     android:src="@drawable/ic_arrow" />
 
                 <TextView
@@ -314,8 +320,7 @@
                 android:id="@+id/item_two_time"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/device_setting_item_height"
-                android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:layout_marginStart="@dimen/device_setting_margin_first">
+                android:background="@drawable/bg_ripper_effect">
 
                 <TextView
                     android:id="@+id/item_two_time_tips"
@@ -323,6 +328,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/device_setting_margin_first"
                     android:ellipsize="end"
                     android:gravity="start|center_vertical"
                     android:maxWidth="200dp"
@@ -337,6 +343,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/device_setting_margin_first"
                     android:layout_toEndOf="@id/item_two_time_tips"
                     android:ellipsize="end"
                     android:gravity="end|center_vertical"

@@ -18,6 +18,11 @@
         <attr name="mCount" format="integer" />
     </declare-styleable>
 
+    <declare-styleable name="GestureIndicatorView">
+        <attr name="indicatorCircleColor" format="color" />
+        <attr name="selectedColor" format="color" />
+    </declare-styleable>
+
     <declare-styleable name="ReplayTimeAxisView">
         <attr name="spacing" format="integer" />
         <attr name="longScale" format="integer" />

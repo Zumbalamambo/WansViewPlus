@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginEnd="@dimen/me_margin_first"
-    android:layout_marginStart="@dimen/me_margin_first"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/gray_first"
@@ -22,6 +22,8 @@
         android:id="@+id/tv_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
         android:layout_marginTop="17dp"
         android:ellipsize="end"
         android:singleLine="true"
@@ -32,6 +34,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
         android:layout_marginTop="25dp"
         android:orientation="horizontal">
 
@@ -87,19 +91,23 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
         android:layout_marginTop="@dimen/me_margin_first"
         android:background="@color/gray_line" />
 
     <RelativeLayout
         android:id="@+id/rl_cloud_storage"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/me_item_height">
+        android:layout_height="@dimen/me_item_height"
+        android:background="@drawable/bg_ripper_effect">
 
         <ImageView
             android:id="@+id/iv_cloud_storage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/me_margin_first"
             android:src="@drawable/ic_all" />
 
         <TextView
@@ -122,31 +130,38 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/me_margin_first"
             android:src="@drawable/ic_arrow" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
         android:background="@color/gray_line" />
 
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
         android:layout_marginTop="@dimen/me_margin_first"
         android:background="@color/gray_line" />
 
     <RelativeLayout
         android:id="@+id/rl_security"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/me_item_height">
+        android:layout_height="@dimen/me_item_height"
+        android:background="@drawable/bg_ripper_effect">
 
         <ImageView
             android:id="@+id/iv_security"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/me_margin_first"
             android:src="@drawable/ic_all" />
 
         <TextView
@@ -169,24 +184,29 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/me_margin_first"
             android:src="@drawable/ic_arrow" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
         android:background="@color/gray_line" />
 
     <RelativeLayout
         android:id="@+id/rl_version"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/me_item_height">
+        android:layout_height="@dimen/me_item_height"
+        android:background="@drawable/bg_ripper_effect">
 
         <ImageView
             android:id="@+id/iv_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/me_margin_first"
             android:src="@drawable/ic_all" />
 
         <TextView
@@ -225,30 +245,37 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/me_margin_first"
             android:src="@drawable/ic_arrow" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
         android:background="@color/gray_line" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
         android:layout_marginTop="@dimen/me_margin_first"
         android:background="@color/gray_line" />
 
     <RelativeLayout
         android:id="@+id/rl_about"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/me_item_height">
+        android:layout_height="@dimen/me_item_height"
+        android:background="@drawable/bg_ripper_effect">
 
         <ImageView
             android:id="@+id/iv_about"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/me_margin_first"
             android:src="@drawable/ic_all" />
 
         <TextView
@@ -271,24 +298,29 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/me_margin_first"
             android:src="@drawable/ic_arrow" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
         android:background="@color/gray_line" />
 
     <RelativeLayout
         android:id="@+id/rl_logout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/me_item_height">
+        android:layout_height="@dimen/me_item_height"
+        android:background="@drawable/bg_ripper_effect">
 
         <ImageView
             android:id="@+id/iv_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/me_margin_first"
             android:src="@drawable/ic_all" />
 
         <TextView
@@ -311,31 +343,38 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/me_margin_first"
             android:src="@drawable/ic_arrow" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
         android:background="@color/gray_line" />
 
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
         android:layout_marginTop="@dimen/me_margin_first"
         android:background="@color/gray_line" />
 
     <RelativeLayout
         android:id="@+id/rl_test"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/me_item_height">
+        android:layout_height="@dimen/me_item_height"
+        android:background="@drawable/bg_ripper_effect">
 
         <ImageView
             android:id="@+id/iv_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/me_margin_first"
             android:src="@drawable/ic_all" />
 
         <TextView
@@ -358,11 +397,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/me_margin_first"
             android:src="@drawable/ic_arrow" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:layout_marginEnd="@dimen/me_margin_first"
+        android:layout_marginStart="@dimen/me_margin_first"
         android:background="@color/gray_line" />
 </LinearLayout>

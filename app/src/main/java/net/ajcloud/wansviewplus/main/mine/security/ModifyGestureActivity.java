@@ -8,12 +8,17 @@ import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.support.customview.MyToolbar;
+import net.ajcloud.wansviewplus.support.customview.lockgesture.GestureIndicatorView;
 import net.ajcloud.wansviewplus.support.customview.lockgesture.LockGestureLayout;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModifyGestureActivity extends BaseActivity {
 
     private TextView hintTextView;
+    private GestureIndicatorView indicatorView;
     private LockGestureLayout gestureLayout;
     private int times = 1;
 
@@ -41,6 +46,7 @@ public class ModifyGestureActivity extends BaseActivity {
         }
         hintTextView = findViewById(R.id.tv_gesture_hint);
         gestureLayout = findViewById(R.id.lockGestureLayout);
+        indicatorView = findViewById(R.id.iv_gesture_hint);
     }
 
     @Override
@@ -56,6 +62,7 @@ public class ModifyGestureActivity extends BaseActivity {
             public void onSuccess(String password) {
                 if (times == 1) {
                     gestureLayout.setTmpPassword(password);
+                    setIndicator(password);
                     hintTextView.setText(R.string.me_set_gesture_again);
                     times++;
                 } else {
@@ -70,6 +77,7 @@ public class ModifyGestureActivity extends BaseActivity {
                 if (times == 2) {
                     ToastUtil.single("set fail,please retry");
                     gestureLayout.setTmpPassword("");
+                    resetIndicator();
                     hintTextView.setText(R.string.me_set_gesture);
                     gestureLayout.setFirst(true);
                     times = 1;
@@ -81,5 +89,26 @@ public class ModifyGestureActivity extends BaseActivity {
 
             }
         });
+    }
+
+    private void setIndicator(String password) {
+        List<GestureIndicatorView.Point> points = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            GestureIndicatorView.Point point = new GestureIndicatorView.Point(false);
+            if (password.contains((i + 1) + "")){
+                point.setFocus(true);
+            }
+            points.add(point);
+        }
+        indicatorView.setPoints(points);
+    }
+
+    private void resetIndicator() {
+        List<GestureIndicatorView.Point> points = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            GestureIndicatorView.Point point = new GestureIndicatorView.Point(false);
+            points.add(point);
+        }
+        indicatorView.setPoints(points);
     }
 }
