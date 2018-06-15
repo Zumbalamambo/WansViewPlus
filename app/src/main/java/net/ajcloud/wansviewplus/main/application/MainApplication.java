@@ -10,6 +10,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import net.ajcloud.wansviewplus.support.core.api.OkTokenInterceptor;
 import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
@@ -74,13 +75,13 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-//        if (!BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
             //Firebase错误收集
             Fabric.with(this, new Crashlytics());
             //自定义崩溃处理
             CrashHandler crashHandler = CrashHandler.getInstance();
             crashHandler.init(this);
-//        }
+        }
         fileIO = new AndroidFileIO(getAssets());
 
 
@@ -145,6 +146,9 @@ public class MainApplication extends Application {
         final Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
 
+        //FCM主题订阅
+        FirebaseMessaging.getInstance().subscribeToTopic("notice");
+        FirebaseMessaging.getInstance().subscribeToTopic("ads");
         deviceCache = new DeviceCache();
     }
 

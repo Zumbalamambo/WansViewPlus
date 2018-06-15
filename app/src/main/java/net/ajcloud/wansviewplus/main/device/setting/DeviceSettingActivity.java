@@ -1,5 +1,6 @@
 package net.ajcloud.wansviewplus.main.device.setting;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -7,7 +8,10 @@ import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
+import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceSelectActivity;
+import net.ajcloud.wansviewplus.support.core.device.Camera;
+import net.ajcloud.wansviewplus.support.core.device.DeviceInfoDictionary;
 
 public class DeviceSettingActivity extends BaseActivity {
 
@@ -17,6 +21,14 @@ public class DeviceSettingActivity extends BaseActivity {
     private RelativeLayout nameLayout, infoLayout, networkLayout, alertLayout,
             imageLayout, timezoneLayout, tfLayout, cloudLayout, maintenanceLayout;
     private TextView nameTextView, networkTextView, timezoneTextView;
+    private String deviceId;
+    private Camera camera;
+
+    public static void start(Context context, String deviceId) {
+        Intent intent = new Intent(context, DeviceSettingActivity.class);
+        intent.putExtra("deviceId", deviceId);
+        context.startActivity(intent);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -58,6 +70,20 @@ public class DeviceSettingActivity extends BaseActivity {
         tfLayout.setOnClickListener(this);
         cloudLayout.setOnClickListener(this);
         maintenanceLayout.setOnClickListener(this);
+    }
+
+    @Override
+    protected void initData() {
+        if (getIntent() != null) {
+            deviceId = getIntent().getStringExtra("deviceId");
+            camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+        }
+
+        if (camera != null) {
+            nameTextView.setText(DeviceInfoDictionary.getNameByDevice(camera));
+            networkTextView.setText(camera.networkConfig.ssid);
+            timezoneTextView.setText(camera.timeConfig.tzName);
+        }
     }
 
     @Override

@@ -20,6 +20,7 @@ import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
 import net.ajcloud.wansviewplus.support.event.DeviceRefreshEvent;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.greendao.annotation.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -147,11 +148,11 @@ public class DeviceApiUnit {
                     @Override
                     public void onSuccess(Response<ResponseBean<DeviceListBean>> response) {
                         ResponseBean<DeviceListBean> responseBean = response.body();
-                        DeviceListBean deviceListBean = responseBean.result;
                         if (responseBean.isSuccess()) {
+                            DeviceListBean deviceListBean = responseBean.result;
                             List<DeviceListBean.Device> devices = deviceListBean.cameras;
                             MainApplication.getApplication().getDeviceCache().upDate(devices);
-                            doGetDeviceList(devices);
+                            doGetDeviceList(new ArrayList<>(MainApplication.getApplication().getDeviceCache().getDevices()));
                             listener.onSuccess(new ArrayList<>(MainApplication.getApplication().getDeviceCache().getDevices()));
                         } else {
                             listener.onFail(responseBean.getResultCode(), responseBean.message);
@@ -192,8 +193,8 @@ public class DeviceApiUnit {
                     @Override
                     public void onSuccess(Response<ResponseBean<DeviceUrlBean>> response) {
                         ResponseBean responseBean = response.body();
-                        DeviceUrlBean bean = (DeviceUrlBean) responseBean.result;
                         if (responseBean.isSuccess()) {
+                            DeviceUrlBean bean = (DeviceUrlBean) responseBean.result;
                             if (bean.devices != null && bean.devices.size() != 0) {
                                 for (DeviceUrlBean.UrlInfo info : bean.devices) {
                                     Camera camera = MainApplication.getApplication().getDeviceCache().get(info.deviceId);
@@ -377,14 +378,13 @@ public class DeviceApiUnit {
                 });
     }
 
-
     /**
      * 获取设备列表之后的操作
      */
-    private void doGetDeviceList(List<DeviceListBean.Device> devices) {
+    public void doGetDeviceList(List<Camera> devices) {
         List<String> deviceIds = new ArrayList<>();
-        for (DeviceListBean.Device device : devices) {
-            deviceIds.add(device.deviceid);
+        for (Camera device : devices) {
+            deviceIds.add(device.deviceId);
         }
         getDeviceUrlInfo(deviceIds, new OkgoCommonListener<List<DeviceUrlBean.UrlInfo>>() {
             @Override

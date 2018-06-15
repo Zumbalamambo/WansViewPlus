@@ -116,4 +116,8 @@ public class DeviceHomeActivity extends BaseActivity {
     protected boolean hasStateBar() {
         return false;
     }
+
+    public String getOid() {
+        return oid;
+    }
 }

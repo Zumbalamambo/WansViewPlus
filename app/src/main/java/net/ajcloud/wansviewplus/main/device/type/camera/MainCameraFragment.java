@@ -75,6 +75,7 @@ import net.ajcloud.wansviewplus.entity.camera.ViewSetting;
 import net.ajcloud.wansviewplus.main.application.BaseFragment;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.main.device.setting.DeviceSettingActivity;
+import net.ajcloud.wansviewplus.main.device.type.DeviceHomeActivity;
 import net.ajcloud.wansviewplus.support.customview.MyStateBar;
 import net.ajcloud.wansviewplus.support.customview.camera.AngleView;
 import net.ajcloud.wansviewplus.support.customview.camera.CloudDirectionLayout;
@@ -501,7 +502,7 @@ public class MainCameraFragment extends BaseFragment
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == net.ajcloud.wansviewplus.R.id.camer_setting) {
-                    startActivity(new Intent(getActivity(), DeviceSettingActivity.class));
+                    DeviceSettingActivity.start(getActivity(), ((DeviceHomeActivity) getActivity()).getOid());
                 }
                 return true;
             }

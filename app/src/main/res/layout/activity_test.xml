@@ -4,31 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context=".main.test.TestActivity">
 
-
     <EditText
-        android:id="@+id/oldPwd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/newPwd"
+        android:id="@+id/et_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/change"
+        android:id="@+id/push_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="117dp"
-        android:text="change PWD" />
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_signin_button"
+        android:text="push_set"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
 
     <Button
-        android:id="@+id/logout"
+        android:id="@+id/unbind_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="117dp"
-        android:text="logout" />
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_signin_button"
+        android:text="unbind_all"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
 
+    <TextView
+        android:id="@+id/tv_test"
+        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        android:gravity="start"
+        android:layout_height="wrap_content" />
 </LinearLayout>

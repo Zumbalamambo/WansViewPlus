@@ -4,24 +4,27 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.google.gson.Gson;
-
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.entity.LocalInfo;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.bean.AppConfigBean;
 import net.ajcloud.wansviewplus.support.core.bean.ChallengeBean;
-import net.ajcloud.wansviewplus.support.core.bean.RefreshTokenBean;
 import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
 import net.ajcloud.wansviewplus.support.core.bean.SigninBean;
 import net.ajcloud.wansviewplus.support.core.callback.JsonCallback;
 import net.ajcloud.wansviewplus.support.core.cipher.CipherUtil;
+import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
 import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
 
+import org.greenrobot.greendao.annotation.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mamengchao on 2018/05/21.
@@ -60,29 +63,33 @@ public class UserApiUnit {
      * App启动时需要的公共参数
      */
     public void getAppConfig(final OkgoCommonListener<AppConfigBean> listener) {
-        JSONObject jsonObject = new JSONObject();
-        OkGo.<ResponseBean<AppConfigBean>>post(ApiConstant.URL_GET_APP_CONFIG)
-                .tag(this)
-                .upJson(jsonObject)
-                .execute(new JsonCallback<ResponseBean<AppConfigBean>>() {
-                    @Override
-                    public void onSuccess(Response<ResponseBean<AppConfigBean>> response) {
-                        ResponseBean<AppConfigBean> responseBean = response.body();
-                        AppConfigBean bean = responseBean.result;
-                        if (responseBean.isSuccess()) {
-                            ApiConstant.setBaseUrl(bean);
-                            listener.onSuccess(bean);
-                        } else {
-                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+        if (ApiConstant.isApply) {
+            listener.onSuccess(null);
+        } else {
+            JSONObject jsonObject = new JSONObject();
+            OkGo.<ResponseBean<AppConfigBean>>post(ApiConstant.URL_GET_APP_CONFIG)
+                    .tag(this)
+                    .upJson(jsonObject)
+                    .execute(new JsonCallback<ResponseBean<AppConfigBean>>() {
+                        @Override
+                        public void onSuccess(Response<ResponseBean<AppConfigBean>> response) {
+                            ResponseBean<AppConfigBean> responseBean = response.body();
+                            if (responseBean.isSuccess()) {
+                                AppConfigBean bean = responseBean.result;
+                                ApiConstant.setBaseUrl(bean);
+                                listener.onSuccess(bean);
+                            } else {
+                                listener.onFail(responseBean.getResultCode(), responseBean.message);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onError(Response<ResponseBean<AppConfigBean>> response) {
-                        super.onError(response);
-                        listener.onFail(-1, context.getString(R.string.Service_Error));
-                    }
-                });
+                        @Override
+                        public void onError(Response<ResponseBean<AppConfigBean>> response) {
+                            super.onError(response);
+                            listener.onFail(-1, context.getString(R.string.Service_Error));
+                        }
+                    });
+        }
     }
 
 
@@ -102,60 +109,36 @@ public class UserApiUnit {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        if (ApiConstant.isApply) {
-            OkGo.<ResponseBean<ChallengeBean>>post(ApiConstant.URL_USER_CHALLENGE)
-                    .tag(this)
-                    .upJson(getReqBody(dataJson))
-                    .execute(new JsonCallback<ResponseBean<ChallengeBean>>() {
-                        @Override
-                        public void onSuccess(Response<ResponseBean<ChallengeBean>> response) {
-                            ResponseBean<ChallengeBean> responseBean = response.body();
-                            if (responseBean.isSuccess()) {
-                                listener.onSuccess(responseBean.result);
-                            } else {
-                                listener.onFail(responseBean.getResultCode(), responseBean.message);
+        getAppConfig(new OkgoCommonListener<AppConfigBean>() {
+            @Override
+            public void onSuccess(AppConfigBean bean) {
+                OkGo.<ResponseBean<ChallengeBean>>post(ApiConstant.URL_USER_CHALLENGE)
+                        .tag(this)
+                        .upJson(getReqBody(dataJson))
+                        .execute(new JsonCallback<ResponseBean<ChallengeBean>>() {
+                            @Override
+                            public void onSuccess(Response<ResponseBean<ChallengeBean>> response) {
+                                ResponseBean responseBean = response.body();
+                                if (responseBean.isSuccess()) {
+                                    listener.onSuccess((ChallengeBean) responseBean.result);
+                                } else {
+                                    listener.onFail(responseBean.getResultCode(), responseBean.message);
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onError(Response<ResponseBean<ChallengeBean>> response) {
-                            super.onError(response);
-                            listener.onFail(-1, context.getString(R.string.Service_Error));
-                        }
-                    });
-        } else {
-            getAppConfig(new OkgoCommonListener<AppConfigBean>() {
-                @Override
-                public void onSuccess(AppConfigBean bean) {
-                    OkGo.<ResponseBean<ChallengeBean>>post(ApiConstant.URL_USER_CHALLENGE)
-                            .tag(this)
-                            .upJson(getReqBody(dataJson))
-                            .execute(new JsonCallback<ResponseBean<ChallengeBean>>() {
-                                @Override
-                                public void onSuccess(Response<ResponseBean<ChallengeBean>> response) {
-                                    ResponseBean responseBean = response.body();
-                                    if (responseBean.isSuccess()) {
-                                        listener.onSuccess((ChallengeBean) responseBean.result);
-                                    } else {
-                                        listener.onFail(responseBean.getResultCode(), responseBean.message);
-                                    }
-                                }
+                            @Override
+                            public void onError(Response<ResponseBean<ChallengeBean>> response) {
+                                super.onError(response);
+                                listener.onFail(-1, context.getString(R.string.Service_Error));
+                            }
+                        });
+            }
 
-                                @Override
-                                public void onError(Response<ResponseBean<ChallengeBean>> response) {
-                                    super.onError(response);
-                                    listener.onFail(-1, context.getString(R.string.Service_Error));
-                                }
-                            });
-                }
-
-                @Override
-                public void onFail(int code, String msg) {
-                    listener.onFail(code, msg);
-                }
-            });
-        }
+            @Override
+            public void onFail(int code, String msg) {
+                listener.onFail(code, msg);
+            }
+        });
     }
 
     /**
@@ -243,8 +226,8 @@ public class UserApiUnit {
                             @Override
                             public void onSuccess(Response<ResponseBean<SigninBean>> response) {
                                 ResponseBean<SigninBean> responseBean = response.body();
-                                SigninBean bean = responseBean.result;
                                 if (responseBean.isSuccess()) {
+                                    SigninBean bean = responseBean.result;
                                     saveAccount(mail, password, bean);
                                     listener.onSuccess(bean);
                                 } else {
@@ -300,8 +283,8 @@ public class UserApiUnit {
                             @Override
                             public void onSuccess(Response<ResponseBean<SigninBean>> response) {
                                 ResponseBean<SigninBean> responseBean = response.body();
-                                SigninBean bean = responseBean.result;
                                 if (responseBean.isSuccess()) {
+                                    SigninBean bean = responseBean.result;
                                     SigninAccountManager.getInstance().refreshCurrentAccount(bean);
                                     listener.onSuccess(bean);
                                 } else {
@@ -363,36 +346,86 @@ public class UserApiUnit {
     /**
      * 刷新token
      */
-    public synchronized String refreshToken() {
-        JSONObject dataJson = new JSONObject();
-        String accessToken = null;
+    public synchronized okhttp3.Response refreshToken() {
         try {
+            JSONObject dataJson = new JSONObject();
             dataJson.put("agentName", localInfo.deviceName);
             dataJson.put("agentToken", localInfo.deviceId);
             dataJson.put("osName", "android");
             dataJson.put("accessToken", SigninAccountManager.getInstance().getCurrentAccountAccessToken());
             dataJson.put("refreshToken", SigninAccountManager.getInstance().getCurrentAccountRefreshToken());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return accessToken;
-        }
-        try {
-            okhttp3.Response response = OkGo.post(ApiConstant.URL_USER_REFRESH_TOKEN)
+            return OkGo.post(ApiConstant.URL_USER_REFRESH_TOKEN)
                     .tag(this)
                     .upJson(getReqBody(dataJson))
                     .execute();
-            String data = response.body().string();
-            RefreshTokenBean bean = new Gson().fromJson(data, RefreshTokenBean.class);
-            if (bean.isSuccess()) {
-                SigninBean signinBean = bean.result;
-                accessToken = signinBean.accessToken;
-                SigninAccountManager.getInstance().refreshCurrentAccount(signinBean);
-            }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            return accessToken;
         }
+        return null;
+    }
+
+    /**
+     * 推送设置
+     *
+     * @param action 操作：upsert，remove
+     * @param token  pushtoken
+     */
+    public void pushSetting(@NotNull String action, String token, final OkgoCommonListener<Object> listener) {
+        JSONObject dataJson = new JSONObject();
+        try {
+            if (TextUtils.equals(action, "upsert")) {
+                //op
+                JSONObject opJson = new JSONObject();
+                opJson.put("op", action);
+                //device
+                JSONArray devicesArray = new JSONArray();
+                for (Camera camera : MainApplication.getApplication().getDeviceCache().getDevices()) {
+                    JSONObject deviceJson = new JSONObject();
+                    deviceJson.put("did", camera.deviceId);
+                    deviceJson.put("alias", camera.aliasName);
+                    devicesArray.put(deviceJson);
+                }
+                //agents
+                JSONArray agentsArray = new JSONArray();
+                JSONObject agentJson = new JSONObject();
+                agentJson.put("name", localInfo.deviceName);
+                agentJson.put("token", localInfo.deviceId);
+                agentJson.put("accept", 1);
+                agentJson.put("pushToken", token);
+                agentJson.put("pushType", "FCM");
+                List<String> topics = new ArrayList<>();
+                topics.add("notice");
+                topics.add("ads");
+                agentJson.put("pushTopics", topics);
+                agentsArray.put(agentJson);
+
+                dataJson.put("op", opJson);
+                dataJson.put("devices", devicesArray);
+                dataJson.put("agents", agentsArray);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<Object>>post("https://emc.ajyun.com.cn/api" + ApiConstant.URL_DEVICE_PUSH_SETTING)
+                .tag(this)
+                .upJson(getReqBody(dataJson))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
     }
 
     /**

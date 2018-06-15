@@ -2,8 +2,12 @@ package net.ajcloud.wansviewplus.support.core.api;
 
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
+
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.support.core.bean.RefreshTokenBean;
+import net.ajcloud.wansviewplus.support.core.bean.SigninBean;
 import net.ajcloud.wansviewplus.support.core.okgo.model.HttpParams;
 import net.ajcloud.wansviewplus.support.core.okgo.request.base.ProgressRequestBody;
 import net.ajcloud.wansviewplus.support.core.okgo.utils.OkLogger;
@@ -21,6 +25,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okio.Buffer;
 
 /**
@@ -41,9 +46,6 @@ public class OkTokenInterceptor implements Interceptor {
         String originalUrl = originalHttpUrl.url().toString();
         String method = originalRequest.method();
 
-        WLog.d(TAG, "originalUrl-->" + originalUrl);
-        WLog.d(TAG, "method-->" + method);
-
         final String token = SigninAccountManager.getInstance().getCurrentAccountAccessToken();
         final long expiresIn = SigninAccountManager.getInstance().getCurrentAccountAccessTokenTime();
         WLog.d(TAG, "当前的token：" + token + "\t有效期：" + expiresIn);
@@ -55,42 +57,54 @@ public class OkTokenInterceptor implements Interceptor {
                 && !originalUrl.equals(ApiConstant.URL_USER_SIGNIN)
                 && !originalUrl.equals(ApiConstant.URL_USER_SIGNUP)) {
             if (!TextUtils.isEmpty(token)) {
-                //TODO 可能有修改
-                boolean isValid = expiresIn - System.currentTimeMillis()/1000 > 3600 * 2 * 66 / 72;
-//                boolean isValid = false;
+                boolean isValid = expiresIn - System.currentTimeMillis() / 1000 > 3600 * 2 * 66 / 72;
                 if (isValid) {
                     WLog.d(TAG, "token：" + token + " 有效 ");
                 } else {
                     if (method.equalsIgnoreCase("POST")) {
                         //阻塞获取新token
-                        String newAccessToken = new UserApiUnit(MainApplication.getApplication()).refreshToken();
-                        if (TextUtils.isEmpty(newAccessToken)) {
-                            WLog.d(TAG, "token error");
-                            return chain.proceed(originalRequest);
+                        okhttp3.Response response = new UserApiUnit(MainApplication.getApplication()).refreshToken();
+                        String data = response.body().string();
+                        RefreshTokenBean bean = new Gson().fromJson(data, RefreshTokenBean.class);
+                        if (bean.isSuccess()) {
+                            SigninBean signinBean = bean.result;
+                            SigninAccountManager.getInstance().refreshCurrentAccount(signinBean);
                         } else {
-                            JSONObject dataJson = null;
-                            try {
-                                dataJson = new JSONObject(bodyToString(originalRequest));
-                                WLog.d(TAG, "---original:" + dataJson.toString());
-                                JSONObject metaJson = dataJson.getJSONObject("meta");
-                                metaJson.put("accessToken", newAccessToken);
-                                dataJson.put("meta", metaJson);
-                                WLog.d(TAG, "---new:" + dataJson.toString());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                            //重新构建Request
-                            ProgressRequestBody progressRequestBody = (ProgressRequestBody) originalRequest.body();
-                            progressRequestBody.setRequestBody(RequestBody.create(HttpParams.MEDIA_TYPE_JSON, dataJson.toString()));
-                            newRequest = chain.request().newBuilder()
-                                    .post(progressRequestBody)
-                                    .url(originalUrl)
-                                    .build();
-
-                            //继续请求
-                            return chain.proceed(newRequest);
+                            return chain.proceed(originalRequest);
+//                            JSONObject responseJson = new JSONObject();
+//                            try {
+//                                responseJson.put("status", "error");
+//                                responseJson.put("code", 1006);
+//                                responseJson.put("message", "token is expired,please relogin");
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                            ResponseBody responseBody = ResponseBody.create(HttpParams.MEDIA_TYPE_JSON, responseJson.toString());
+//                            okhttp3.Response newResponse = new okhttp3.Response.Builder()
+//                                    .body(responseBody)
+//                                    .build();
+//                            return newResponse;
                         }
+                        JSONObject dataJson = null;
+                        try {
+                            dataJson = new JSONObject(bodyToString(originalRequest));
+                            WLog.d(TAG, "---original:" + dataJson.toString());
+                            JSONObject metaJson = dataJson.getJSONObject("meta");
+                            metaJson.put("accessToken", SigninAccountManager.getInstance().getCurrentAccountAccessToken());
+                            dataJson.put("meta", metaJson);
+                            WLog.d(TAG, "---new:" + dataJson.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        //重新构建Request
+                        ProgressRequestBody progressRequestBody = (ProgressRequestBody) originalRequest.body();
+                        progressRequestBody.setRequestBody(RequestBody.create(HttpParams.MEDIA_TYPE_JSON, dataJson.toString()));
+                        newRequest = chain.request().newBuilder()
+                                .post(progressRequestBody)
+                                .url(originalUrl)
+                                .build();
+                        //继续请求
+                        return chain.proceed(newRequest);
                     }
                 }
             }

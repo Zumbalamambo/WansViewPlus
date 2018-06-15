@@ -4,19 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/iv_thumbnail"
+    <FrameLayout
+        android:id="@+id/fl_pic"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_marginTop="20dp"
-        android:scaleType="fitXY"
-        android:src="@mipmap/realtime_picture" />
+        android:layout_height="144dp"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/iv_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/realtime_picture" />
+
+        <TextView
+            android:id="@+id/tv_device_status"
+            android:layout_width="64dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|bottom"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="ON LINE"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/device_textSize_10" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tv_device_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/iv_thumbnail"
+        android:layout_below="@id/fl_pic"
         android:layout_marginTop="16dp"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/signIn_textSize_20"
@@ -24,17 +42,16 @@
 
     <LinearLayout
         android:id="@+id/ll_cloud_storage"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_device_name"
         android:layout_marginBottom="15dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
-        android:visibility="gone"
         tools:visibility="visible">
 
         <TextView
-            android:id="@+id/tv_cloud_storage"
+            android:id="@+id/tv_cloud"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -44,6 +61,7 @@
             android:textSize="@dimen/signIn_textSize_14" />
 
         <TextView
+            android:id="@+id/tv_cloud_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -53,34 +71,13 @@
             android:textSize="@dimen/signIn_textSize_14" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_camera_state"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_device_name"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
+    <ImageView
+        android:id="@+id/iv_refresh"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignBottom="@id/ll_cloud_storage"
+        android:layout_alignParentEnd="true"
         android:visibility="gone"
-        tools:visibility="gone">
+        android:src="@drawable/ic_all" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="Off line,"
-            android:textColor="@color/gray_second"
-            android:textSize="@dimen/signIn_textSize_14" />
-
-        <TextView
-            android:id="@+id/tv_connect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="Connect"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/signIn_textSize_14" />
-    </LinearLayout>
 </RelativeLayout>

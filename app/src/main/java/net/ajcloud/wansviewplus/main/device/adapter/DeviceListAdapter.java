@@ -1,20 +1,18 @@
 package net.ajcloud.wansviewplus.main.device.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.main.device.type.DeviceHomeActivity;
 import net.ajcloud.wansviewplus.main.device.type.camera.MainCameraFragment;
+import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.device.DeviceInfoDictionary;
 
@@ -29,10 +27,12 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private LayoutInflater layoutInflater;
     private List<Camera> mData;
     private Context context;
+    private DeviceApiUnit deviceApiUnit;
 
     public DeviceListAdapter(Context context) {
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
+        deviceApiUnit = new DeviceApiUnit(context);
         mData = new ArrayList<>();
     }
 
@@ -63,17 +63,49 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((DeviceListHolder) holder).deviceName.setText(DeviceInfoDictionary.getNameByDevice(mData.get(position)));
-        ((DeviceListHolder) holder).cloudLayout.setVisibility(View.VISIBLE);
-        ((DeviceListHolder) holder).stateLayout.setVisibility(View.GONE);
+        final Camera camera = mData.get(position);
+        final int finalPosition = position;
+        ((DeviceListHolder) holder).tv_deviceName.setText(DeviceInfoDictionary.getNameByDevice(camera));
 
-        ((DeviceListHolder) holder).thumbnailImageView.setOnClickListener(new View.OnClickListener() {
+        if (camera.onlineStatus == 0 || camera.onlineStatus == 1) {
+            ((DeviceListHolder) holder).tv_status.setText("ON LINE");
+        } else if (camera.onlineStatus == 2) {
+            ((DeviceListHolder) holder).tv_status.setText("OFF LINE");
+        }
+
+        if (camera.refreshStatus == 2) {
+            ((DeviceListHolder) holder).iv_refresh.setVisibility(View.VISIBLE);
+        } else {
+            ((DeviceListHolder) holder).iv_refresh.setVisibility(View.GONE);
+        }
+
+        if (camera.cloudStorConfig == null || camera.cloudStorConfig.enable == 0) {//关闭
+            ((DeviceListHolder) holder).tv_cloud.setTextColor(context.getResources().getColor(R.color.gray_second));
+            ((DeviceListHolder) holder).tv_cloudState.setText(" not subscribed");
+            ((DeviceListHolder) holder).tv_cloud.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO 云存储购买页
+                }
+            });
+        } else if (camera.cloudStorConfig.enable == 1) {//启用
+            ((DeviceListHolder) holder).tv_cloud.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+            ((DeviceListHolder) holder).tv_cloudState.setText(" is in service");
+            ((DeviceListHolder) holder).tv_cloud.setOnClickListener(null);
+        }
+
+        ((DeviceListHolder) holder).iv_thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Camera> cameras = new ArrayList<>(MainApplication.getApplication().getDeviceCache().getDevices());
-                Intent intent = new Intent(context, DeviceHomeActivity.class);
-                intent.putExtra("class", MainCameraFragment.class);
-                context.startActivity(intent);
+                DeviceHomeActivity.startCamerHomeActivity(context, mData.get(finalPosition).deviceId, MainCameraFragment.class);
+            }
+        });
+        ((DeviceListHolder) holder).iv_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Camera> devices = new ArrayList<>();
+                devices.add(camera);
+                deviceApiUnit.doGetDeviceList(devices);
             }
         });
     }
@@ -84,22 +116,22 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     private class DeviceListHolder extends RecyclerView.ViewHolder {
-        private ImageView thumbnailImageView;
-        private TextView deviceName;
-        private LinearLayout cloudLayout;
-        private LinearLayout stateLayout;
-        private TextView cloudTextView;
-        private TextView connectButton;
+        private ImageView iv_thumbnail;
+        private TextView tv_deviceName;
+        private TextView tv_cloud;
+        private TextView tv_cloudState;
+        private TextView tv_status;
+        private ImageView iv_refresh;
 
         public DeviceListHolder(View itemView) {
             super(itemView);
 
-            thumbnailImageView = itemView.findViewById(R.id.iv_thumbnail);
-            deviceName = itemView.findViewById(R.id.tv_device_name);
-            cloudLayout = itemView.findViewById(R.id.ll_cloud_storage);
-            stateLayout = itemView.findViewById(R.id.ll_camera_state);
-            cloudTextView = itemView.findViewById(R.id.tv_cloud_storage);
-            connectButton = itemView.findViewById(R.id.tv_connect);
+            iv_thumbnail = itemView.findViewById(R.id.iv_thumbnail);
+            tv_deviceName = itemView.findViewById(R.id.tv_device_name);
+            tv_cloud = itemView.findViewById(R.id.tv_cloud);
+            tv_cloudState = itemView.findViewById(R.id.tv_cloud_state);
+            tv_status = itemView.findViewById(R.id.tv_device_status);
+            iv_refresh = itemView.findViewById(R.id.iv_refresh);
         }
     }
 }
