@@ -3,8 +3,10 @@ package net.ajcloud.wansviewplus.main.device.type.camera;
 import android.content.Context;
 import android.util.Log;
 
+import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.utils.stun.StunResult;
 
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -120,7 +122,9 @@ public class PoliceHelper /*implements ResponseListener*/ {
     }
 
     public void getUrlAndPlay() {
-        listener.onPlay(playedRequestType, "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov", 90, 160);
+        //listener.onPlay(playedRequestType, MainApplication.fileIO.getVideoFileDirectory(virtualCamera.cid) +  File.separator + "vlc.mp4", 90, 160);
+
+        listener.onPlay(playedRequestType, "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov", 540, 960);
         /*if (isRequestToken) {
             return;
         }

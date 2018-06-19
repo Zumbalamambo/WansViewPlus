@@ -81,8 +81,12 @@ public class DeviceSettingActivity extends BaseActivity {
 
         if (camera != null) {
             nameTextView.setText(DeviceInfoDictionary.getNameByDevice(camera));
-            networkTextView.setText(camera.networkConfig.ssid);
-            timezoneTextView.setText(camera.timeConfig.tzName);
+            if (camera.networkConfig != null) {
+                networkTextView.setText(camera.networkConfig.ssid);
+            }
+            if (camera.timeConfig != null) {
+                timezoneTextView.setText(camera.timeConfig.tzName);
+            }
         }
     }
 

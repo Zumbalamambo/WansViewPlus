@@ -2822,7 +2822,7 @@ public class MainCameraFragment extends BaseFragment
         mSurface.setVisibility(View.VISIBLE);
         mSurfaceHolder = mSurface.getHolder();
         String chroma = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("chroma_format", "");
-        mSurface.setZOrderOnTop(true);
+        //mSurface.setZOrderOnTop(true);
         if (AndroidUtil.isGingerbreadOrLater() && chroma.equals("YV12")) {
             mSurfaceHolder.setFormat(ImageFormat.YV12);
         } else if (chroma.equals("RV16")) {
