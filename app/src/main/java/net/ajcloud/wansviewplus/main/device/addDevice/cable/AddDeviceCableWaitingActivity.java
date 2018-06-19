@@ -181,7 +181,7 @@ public class AddDeviceCableWaitingActivity extends BaseActivity {
     }
 
     private void doSuccess() {
-        MainApplication.getApplication().getDeviceCache().add(new Camera(deviceSearchBean.getDeviceID(), null));
+//        MainApplication.getApplication().getDeviceCache().add(new Camera(deviceSearchBean.getDeviceID(), null));
         AddDeviceSuccessActivity.start(AddDeviceCableWaitingActivity.this, deviceSearchBean.getDeviceID());
         finish();
     }

@@ -33,8 +33,6 @@ public class DeviceCache {
             if (camera.aliasName != null) {
                 camera.sortStr = Trans2PinYin.trans2PinYin(DeviceInfoDictionary.getNameByDevice(camera).trim()).toLowerCase();
             }
-        } else {
-            mergeDeviceInfo(cameraOrigin, camera);
         }
     }
 

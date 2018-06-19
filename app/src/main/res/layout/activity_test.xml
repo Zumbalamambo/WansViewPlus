@@ -23,6 +23,16 @@
         android:textColor="@color/white" />
 
     <Button
+        android:id="@+id/unbind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_signin_button"
+        android:text="unbind"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
+    <Button
         android:id="@+id/unbind_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

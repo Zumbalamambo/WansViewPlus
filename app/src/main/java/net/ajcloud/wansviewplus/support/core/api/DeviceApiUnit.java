@@ -20,7 +20,6 @@ import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
 import net.ajcloud.wansviewplus.support.event.DeviceRefreshEvent;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.greendao.annotation.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,7 +65,6 @@ public class DeviceApiUnit {
 
     /**
      * 请求绑定接口，获取authCode
-     *
      */
     public void preBind(final OkgoCommonListener<PreBindBean> listener) {
         JSONObject dataJson = new JSONObject();
@@ -377,6 +375,48 @@ public class DeviceApiUnit {
     }
 
     /**
+     * 获取摄像机第一帧
+     *
+     * @param url      设备ip
+     * @param deviceId 设备Id
+     */
+    public void getFristFrame(String url, String deviceId, final OkgoCommonListener<Object> listener) {
+        if (TextUtils.isEmpty(url)) {
+            listener.onFail(-1, "url cant be empty");
+            return;
+        }
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("deviceId", deviceId);
+            dataJson.put("agentName", localInfo.deviceName);
+            dataJson.put("agentToken", localInfo.deviceId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String reqUrl = url + ApiConstant.URL_DEVICE_GET_FRIST_FRAME;
+        OkGo.<ResponseBean<Object>>post(reqUrl)
+                .tag(this)
+                .upJson(getReqBody(dataJson))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
      * 获取设备列表之后的操作
      */
     public void doGetDeviceList(List<Camera> devices) {
@@ -400,6 +440,17 @@ public class DeviceApiUnit {
                                                 EventBus.getDefault().post(new DeviceRefreshEvent(bean.base.deviceId));
                                             }
                                         }
+                                    }
+
+                                    @Override
+                                    public void onFail(int code, String msg) {
+
+                                    }
+                                });
+                                getFristFrame(info.gatewayUrl, camera.deviceId, new OkgoCommonListener<Object>() {
+                                    @Override
+                                    public void onSuccess(Object bean) {
+
                                     }
 
                                     @Override

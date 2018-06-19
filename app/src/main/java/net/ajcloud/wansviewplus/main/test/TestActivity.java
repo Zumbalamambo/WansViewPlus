@@ -1,5 +1,6 @@
 package net.ajcloud.wansviewplus.main.test;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -49,6 +50,24 @@ public class TestActivity extends BaseActivity {
                         tvTest.setText(msg);
                     }
                 });
+            }
+        });
+        findViewById(net.ajcloud.wansviewplus.R.id.unbind).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(etTest.getText().toString())) {
+                    new DeviceApiUnit(TestActivity.this).unBind(etTest.getText().toString(), new OkgoCommonListener<Object>() {
+                        @Override
+                        public void onSuccess(Object bean) {
+                            ToastUtil.single("ok");
+                        }
+
+                        @Override
+                        public void onFail(int code, String msg) {
+                            ToastUtil.single(msg);
+                        }
+                    });
+                }
             }
         });
         findViewById(net.ajcloud.wansviewplus.R.id.unbind_all).setOnClickListener(new View.OnClickListener() {

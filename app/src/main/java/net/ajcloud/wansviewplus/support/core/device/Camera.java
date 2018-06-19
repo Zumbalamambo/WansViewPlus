@@ -65,10 +65,10 @@ public class Camera {
 
     }
 
-    public Camera(@NotNull String deviceId, String name) {
-        this.deviceId = deviceId;
-        this.aliasName = name;
-    }
+//    public Camera(@NotNull String deviceId, String name) {
+//        this.deviceId = deviceId;
+//        this.aliasName = name;
+//    }
 
     public Camera(@NotNull String deviceId, String name, String accessPriKey, String accessPubKey) {
         this.deviceId = deviceId;
@@ -139,5 +139,21 @@ public class Camera {
 
     public void setEmcUrl(String emcUrl) {
         this.emcUrl = emcUrl;
+    }
+
+    public String getAccessPriKey() {
+        return accessPriKey;
+    }
+
+    public void setAccessPriKey(String accessPriKey) {
+        this.accessPriKey = accessPriKey;
+    }
+
+    public String getAccessPubKey() {
+        return accessPubKey;
+    }
+
+    public void setAccessPubKey(String accessPubKey) {
+        this.accessPubKey = accessPubKey;
     }
 }

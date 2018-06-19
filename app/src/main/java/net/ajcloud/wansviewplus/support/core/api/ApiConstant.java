@@ -29,9 +29,11 @@ public class ApiConstant {
     public static String URL_DEVICE_GET_DEVICE_LIST = BASE_UAC_URL + "/device-list";
     public static String URL_DEVICE_SET_DEVICE_NAME_UAC = BASE_UAC_URL + "/change-alias-name";
     public static String URL_DEVICE_UNBIND = BASE_UAC_URL + "/unbind";
+
     public static String URL_DEVICE_GET_DEVICE_INFO = "/v1/cmd/fetch-info";
     public static String URL_DEVICE_SET_DEVICE_NAME = "/v1/cmd/alias-name";
     public static String URL_DEVICE_PUSH_SETTING = "/v1/cmd/push-setting";
+    public static String URL_DEVICE_GET_FRIST_FRAME = "/v1/cmd/snapshot";
 
     public static void setBaseUrl(AppConfigBean bean) {
         isApply = true;
