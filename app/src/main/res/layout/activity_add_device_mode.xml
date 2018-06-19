@@ -124,10 +124,10 @@
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/tv_cable"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/shape_signin_button"
+                android:background="@drawable/shape_add_device_button"
                 android:text="Select"
                 android:textAllCaps="false"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/signIn_textSize_16" />
         </RelativeLayout>
     </LinearLayout>

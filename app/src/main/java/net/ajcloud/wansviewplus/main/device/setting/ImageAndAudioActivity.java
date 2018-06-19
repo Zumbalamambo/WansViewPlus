@@ -14,6 +14,7 @@ import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
+import net.ajcloud.wansviewplus.support.customview.dialog.CommonDialog;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 public class ImageAndAudioActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
@@ -22,6 +23,7 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
     private TextView placementTextView, volumeTextView;
     private SwitchCompat nightSwitch, microphoneSwitch, lightSwitch;
     private AppCompatSeekBar volumeSeekbar;
+    private CommonDialog placeDialog;
     private String deviceId;
     private Camera camera;
 
@@ -63,8 +65,8 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
         if (camera != null) {
             nightSwitch.setChecked(camera.nightMode == 1);
 
-            if (camera.audioConfig != null){
-                if (camera.audioConfig.enable == 1){
+            if (camera.audioConfig != null) {
+                if (camera.audioConfig.enable == 1) {
                     microphoneSwitch.setChecked(true);
                     volumeSeekbar.setProgress(camera.audioConfig.volume);
                 }
@@ -119,4 +121,34 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
                 break;
         }
     }
+
+    private void showDialog() {
+        if (placeDialog == null) {
+            placeDialog = new CommonDialog.Builder(this)
+                    .canceledOnTouchOutside(false)
+                    .view(R.layout.dialog_place)
+                    .height(368)
+                    .width(327)
+                    .addViewOnclickListener(net.ajcloud.wansviewplus.R.id.iv_close, dialogClickListener)
+                    .build();
+        }
+        if (!placeDialog.isShowing()) {
+            placeDialog.show();
+        }
+    }
+
+    private View.OnClickListener dialogClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case net.ajcloud.wansviewplus.R.id.iv_close:
+                    if (placeDialog != null && placeDialog.isShowing()) {
+                        placeDialog.dismiss();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }

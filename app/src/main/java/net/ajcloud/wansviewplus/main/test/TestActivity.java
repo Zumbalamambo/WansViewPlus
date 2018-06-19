@@ -39,7 +39,7 @@ public class TestActivity extends BaseActivity {
         findViewById(net.ajcloud.wansviewplus.R.id.push_set).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new UserApiUnit(TestActivity.this).pushSetting("upsert", "fHJYNJZgpnE:APA91bE6B0PPneI6NOxhe-qGD1OxA2O7NrP60eP3Yc1lSqepnJroEQBmPgX4WyJC6RDg0zmN8TQa5KlHjnxbN6VozWz1-tgEBoV3KnfqpHcJWPIST_gAC7hEwtXhEzqYjDzIuKR-Rqa-", null, new OkgoCommonListener<Object>() {
+                new UserApiUnit(TestActivity.this).pushSetting("upsert", "fHJYNJZgpnE:APA91bE6B0PPneI6NOxhe-qGD1OxA2O7NrP60eP3Yc1lSqepnJroEQBmPgX4WyJC6RDg0zmN8TQa5KlHjnxbN6VozWz1-tgEBoV3KnfqpHcJWPIST_gAC7hEwtXhEzqYjDzIuKR-Rqa-", new OkgoCommonListener<Object>() {
                     @Override
                     public void onSuccess(Object bean) {
                         tvTest.setText(bean.toString());

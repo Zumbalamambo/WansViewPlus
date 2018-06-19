@@ -370,23 +370,16 @@ public class UserApiUnit {
      * @param action 操作：upsert，remove
      * @param token  pushtoken
      */
-    public void pushSetting(@NotNull String action, String token, String alias, final OkgoCommonListener<Object> listener) {
+    public void pushSetting(@NotNull String action, String token, final OkgoCommonListener<Object> listener) {
         JSONObject dataJson = new JSONObject();
         try {
             if (TextUtils.equals(action, "upsert")) {
-                //op
-                JSONObject opJson = new JSONObject();
-                opJson.put("op", action);
                 //device
                 JSONArray devicesArray = new JSONArray();
                 for (Camera camera : MainApplication.getApplication().getDeviceCache().getDevices()) {
                     JSONObject deviceJson = new JSONObject();
                     deviceJson.put("did", camera.deviceId);
-                    if (TextUtils.isEmpty(alias)){
-                        deviceJson.put("alias", camera.aliasName);
-                    }else {
-                        deviceJson.put("alias", alias);
-                    }
+                    deviceJson.put("alias", camera.aliasName);
                     devicesArray.put(deviceJson);
                 }
                 //agents
@@ -395,7 +388,7 @@ public class UserApiUnit {
                 agentJson.put("name", localInfo.deviceName);
                 agentJson.put("token", localInfo.deviceId);
                 agentJson.put("accept", 1);
-                if (!TextUtils.isEmpty(token)){
+                if (!TextUtils.isEmpty(token)) {
                     agentJson.put("pushToken", token);
                 }
                 agentJson.put("pushType", "FCM");
@@ -405,10 +398,53 @@ public class UserApiUnit {
                 agentJson.put("pushTopics", topics);
                 agentsArray.put(agentJson);
 
-                dataJson.put("op", opJson);
+                dataJson.put("op", "upsert");
                 dataJson.put("devices", devicesArray);
                 dataJson.put("agents", agentsArray);
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<Object>>post("https://emc.ajyun.com.cn/api" + ApiConstant.URL_DEVICE_PUSH_SETTING)
+                .tag(this)
+                .upJson(getReqBody(dataJson))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 推送设置
+     *
+     * @param deviceId
+     * @param alias
+     */
+    public void setPushName(String deviceId, String alias, final OkgoCommonListener<Object> listener) {
+        JSONObject dataJson = new JSONObject();
+        try {
+            //device
+            JSONArray devicesArray = new JSONArray();
+            JSONObject deviceJson = new JSONObject();
+            deviceJson.put("did", deviceId);
+            deviceJson.put("alias", alias);
+            devicesArray.put(deviceJson);
+
+            dataJson.put("op", "upsert");
+            dataJson.put("devices", devicesArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
