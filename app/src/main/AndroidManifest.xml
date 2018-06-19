@@ -137,7 +137,7 @@
         <activity android:name=".main.device.setting.MaintenanceActivity" />
         <activity android:name=".main.device.setting.TimeZoneActivity" />
         <activity
-            android:name=".main.device.addDevice.AddDeviceFailActivity"
+            android:name=".main.device.addDevice.wifi.AddDeviceFailActivity"
             android:launchMode="singleTask" />
         <activity android:name=".main.test.TestActivity" />
         <activity

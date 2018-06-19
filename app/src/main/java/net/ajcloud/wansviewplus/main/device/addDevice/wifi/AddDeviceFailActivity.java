@@ -1,11 +1,10 @@
-package net.ajcloud.wansviewplus.main.device.addDevice;
+package net.ajcloud.wansviewplus.main.device.addDevice.wifi;
 
 import android.view.View;
 import android.widget.Button;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
-import net.ajcloud.wansviewplus.main.device.addDevice.wifi.AddDeviceWifiSettingActivity;
 
 public class AddDeviceFailActivity extends BaseActivity {
 

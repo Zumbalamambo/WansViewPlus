@@ -13,7 +13,6 @@ import android.widget.TextView;
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
-import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceFailActivity;
 import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceSuccessActivity;
 import net.ajcloud.wansviewplus.main.home.HomeActivity;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
@@ -139,9 +138,9 @@ public class AddDeviceCableWaitingActivity extends BaseActivity {
                         //success
                         doSuccess();
                     } else {
-                        Intent intent = new Intent(AddDeviceCableWaitingActivity.this, AddDeviceFailActivity.class);
-                        startActivity(intent);
-                        finish();
+//                        Intent intent = new Intent(AddDeviceCableWaitingActivity.this, AddDeviceFailActivity.class);
+//                        startActivity(intent);
+//                        finish();
                     }
                 }
             }
@@ -167,9 +166,9 @@ public class AddDeviceCableWaitingActivity extends BaseActivity {
                         doSuccess();
                     } else if (bean.status == 2) {
                         // fail
-                        Intent intent = new Intent(AddDeviceCableWaitingActivity.this, AddDeviceFailActivity.class);
-                        startActivity(intent);
-                        finish();
+//                        Intent intent = new Intent(AddDeviceCableWaitingActivity.this, AddDeviceFailActivity.class);
+//                        startActivity(intent);
+//                        finish();
                     }
                 }
             }
@@ -200,8 +199,8 @@ public class AddDeviceCableWaitingActivity extends BaseActivity {
 
         @Override
         public void onFinish() {
-            Intent intent = new Intent(AddDeviceCableWaitingActivity.this, AddDeviceFailActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(AddDeviceCableWaitingActivity.this, AddDeviceFailActivity.class);
+//            startActivity(intent);
             finish();
         }
     }
