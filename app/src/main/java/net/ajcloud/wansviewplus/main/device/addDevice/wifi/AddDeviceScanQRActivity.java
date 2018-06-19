@@ -1,11 +1,10 @@
-package net.ajcloud.wansviewplus.main.device.addDevice;
+package net.ajcloud.wansviewplus.main.device.addDevice.wifi;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,14 +28,12 @@ public class AddDeviceScanQRActivity extends BaseActivity {
     private ImageView qrcodeImageView;
     private Button waitButton;
     private TextView soundTextView;
-    private String deviceId;
     private String token;
     private String ssid;
     private String pwd;
 
-    public static void start(Context context, String deviceId, String ssid, String pwd) {
+    public static void start(Context context, String ssid, String pwd) {
         Intent intent = new Intent(context, AddDeviceScanQRActivity.class);
-        intent.putExtra("deviceId", deviceId);
         intent.putExtra("ssid", ssid);
         intent.putExtra("pwd", pwd);
         context.startActivity(intent);
@@ -64,7 +61,6 @@ public class AddDeviceScanQRActivity extends BaseActivity {
     @Override
     protected void initData() {
         if (getIntent() != null) {
-            deviceId = getIntent().getStringExtra("deviceId");
             ssid = getIntent().getStringExtra("ssid");
             pwd = getIntent().getStringExtra("pwd");
         }
@@ -81,10 +77,10 @@ public class AddDeviceScanQRActivity extends BaseActivity {
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.btn_sure:
-                AddDeviceWifiWaitingActivity.startBind(AddDeviceScanQRActivity.this, deviceId);
+                AddDeviceWifiWaitingActivity.startBind(AddDeviceScanQRActivity.this);
                 break;
             case R.id.tv_sound:
-                AddDeviceSoundActivity.start(AddDeviceScanQRActivity.this, deviceId, token, ssid, pwd);
+                AddDeviceSoundActivity.start(AddDeviceScanQRActivity.this, token, ssid, pwd);
                 break;
             default:
                 break;
@@ -93,7 +89,7 @@ public class AddDeviceScanQRActivity extends BaseActivity {
 
     private void preBind() {
         progressDialogManager.showDialog(PRE_BIND, this);
-        new DeviceApiUnit(this).preBind(deviceId, new OkgoCommonListener<PreBindBean>() {
+        new DeviceApiUnit(this).preBind(new OkgoCommonListener<PreBindBean>() {
             @Override
             public void onSuccess(PreBindBean bean) {
                 progressDialogManager.dimissDialog(PRE_BIND, 0);

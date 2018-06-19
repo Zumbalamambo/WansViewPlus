@@ -57,6 +57,8 @@ public class Camera {
     private String tunnelUrl;
     private String cloudStorUrl;
     private String emcUrl;
+    private String accessPriKey;
+    private String accessPubKey;
 
 
     private Camera() {
@@ -66,6 +68,13 @@ public class Camera {
     public Camera(@NotNull String deviceId, String name) {
         this.deviceId = deviceId;
         this.aliasName = name;
+    }
+
+    public Camera(@NotNull String deviceId, String name, String accessPriKey, String accessPubKey) {
+        this.deviceId = deviceId;
+        this.aliasName = name;
+        this.accessPriKey = accessPriKey;
+        this.accessPubKey = accessPubKey;
     }
 
     public Camera(DeviceConfigBean bean) {

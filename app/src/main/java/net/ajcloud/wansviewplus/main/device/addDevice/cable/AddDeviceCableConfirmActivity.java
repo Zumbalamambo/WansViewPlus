@@ -1,4 +1,4 @@
-package net.ajcloud.wansviewplus.main.device.addDevice;
+package net.ajcloud.wansviewplus.main.device.addDevice.cable;
 
 import android.content.Intent;
 import android.view.View;

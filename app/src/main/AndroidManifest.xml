@@ -83,16 +83,36 @@
         <activity
             android:name=".support.tools.zxing.activity.CaptureActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".main.device.addDevice.AddDeviceSelectActivity" />
-        <activity android:name=".main.device.addDevice.AddDeviceModeActivity" />
-        <activity android:name=".main.device.addDevice.AddDeviceCameraSettingActivity" />
-        <activity android:name=".main.device.addDevice.AddDeviceWifiSettingActivity" />
-        <activity android:name=".main.device.addDevice.AddDeviceScanQRActivity" />
-        <activity android:name=".main.device.addDevice.AddDeviceCableWaitingActivity" />
-        <activity android:name=".main.device.addDevice.AddDeviceSuccessActivity" />
-        <activity android:name=".main.device.addDevice.AddDeviceSoundActivity" />
-        <activity android:name=".main.device.addDevice.AddDeviceCableConfirmActivity" />
-        <activity android:name=".main.device.addDevice.AddDeviceDiscoveryActivity" />
+        <activity
+            android:name=".main.device.addDevice.AddDeviceSelectActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".main.device.addDevice.AddDeviceModeActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".main.device.addDevice.wifi.AddDeviceCameraSettingActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".main.device.addDevice.wifi.AddDeviceWifiSettingActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".main.device.addDevice.wifi.AddDeviceScanQRActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".main.device.addDevice.cable.AddDeviceCableWaitingActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".main.device.addDevice.AddDeviceSuccessActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".main.device.addDevice.wifi.AddDeviceSoundActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".main.device.addDevice.cable.AddDeviceCableConfirmActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".main.device.addDevice.cable.AddDeviceDiscoveryActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".main.download.ui.VideoDownloadActivity"
             android:screenOrientation="portrait" />
@@ -116,10 +136,13 @@
         <activity android:name=".main.device.setting.CloudStorageActivity" />
         <activity android:name=".main.device.setting.MaintenanceActivity" />
         <activity android:name=".main.device.setting.TimeZoneActivity" />
-        <activity android:name=".main.device.addDevice.AddDeviceFailActivity" />
+        <activity
+            android:name=".main.device.addDevice.AddDeviceFailActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".main.test.TestActivity" />
-        <activity android:name=".main.device.addDevice.AddDeviceWifiWaitingActivity" />
-        <activity android:name=".main.device.addDevice.AddDeviceInputIdActivity" />
+        <activity
+            android:name=".main.device.addDevice.wifi.AddDeviceWifiWaitingActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".main.mine.security.SecurityActivity" />
         <activity android:name=".main.mine.security.ChangePasswordActivity" />
         <activity android:name=".main.mine.AboutActivity" />

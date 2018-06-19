@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceCableWaitingActivity;
+import net.ajcloud.wansviewplus.main.device.addDevice.cable.AddDeviceCableWaitingActivity;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceSearchBean;
 
 import java.util.ArrayList;

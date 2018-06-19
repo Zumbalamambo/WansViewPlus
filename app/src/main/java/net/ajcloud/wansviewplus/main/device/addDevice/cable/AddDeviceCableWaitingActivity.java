@@ -1,4 +1,4 @@
-package net.ajcloud.wansviewplus.main.device.addDevice;
+package net.ajcloud.wansviewplus.main.device.addDevice.cable;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.widget.TextView;
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceFailActivity;
+import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceSuccessActivity;
 import net.ajcloud.wansviewplus.main.home.HomeActivity;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
@@ -106,7 +108,7 @@ public class AddDeviceCableWaitingActivity extends BaseActivity {
     }
 
     private void preBind() {
-        deviceApiUnit.preBind(deviceSearchBean.getDeviceID(), new OkgoCommonListener<PreBindBean>() {
+        deviceApiUnit.preBind(new OkgoCommonListener<PreBindBean>() {
             @Override
             public void onSuccess(PreBindBean bean) {
                 if (bean != null && !TextUtils.isEmpty(bean.token)) {

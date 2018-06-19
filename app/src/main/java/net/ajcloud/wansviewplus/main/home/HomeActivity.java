@@ -14,10 +14,7 @@ import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.device.DeviceFragment;
 import net.ajcloud.wansviewplus.main.message.MessageFragment;
 import net.ajcloud.wansviewplus.main.mine.MineFragment;
-import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
-import net.ajcloud.wansviewplus.support.core.bean.SigninBean;
-import net.ajcloud.wansviewplus.support.event.RefreshTokenEvent;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -150,9 +147,5 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
             return;
         }
         this.moveTaskToBack(true);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(RefreshTokenEvent event) {
     }
 }

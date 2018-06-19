@@ -2,13 +2,13 @@ package net.ajcloud.wansviewplus.main.device.addDevice;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
-import net.ajcloud.wansviewplus.support.tools.zxing.activity.CaptureActivity;
+import net.ajcloud.wansviewplus.main.device.addDevice.cable.AddDeviceCableConfirmActivity;
+import net.ajcloud.wansviewplus.main.device.addDevice.wifi.AddDeviceCameraSettingActivity;
 
 public class AddDeviceModeActivity extends BaseActivity {
 

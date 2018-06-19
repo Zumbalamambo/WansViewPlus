@@ -1,11 +1,8 @@
-package net.ajcloud.wansviewplus.main.device.addDevice;
+package net.ajcloud.wansviewplus.main.device.addDevice.wifi;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -13,11 +10,6 @@ import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.support.customview.dialog.CommonDialog;
 import net.ajcloud.wansviewplus.support.tools.zxing.activity.CaptureActivity;
-import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
-
-import net.ajcloud.wansviewplus.main.application.BaseActivity;
-import net.ajcloud.wansviewplus.support.customview.dialog.CommonDialog;
-import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
 
 public class AddDeviceCameraSettingActivity extends BaseActivity {
 
@@ -67,7 +59,7 @@ public class AddDeviceCameraSettingActivity extends BaseActivity {
                 finish();
                 break;
             case net.ajcloud.wansviewplus.R.id.btn_flash:
-                CaptureActivity.start(AddDeviceCameraSettingActivity.this);
+                AddDeviceWifiSettingActivity.start(AddDeviceCameraSettingActivity.this);
                 break;
             case net.ajcloud.wansviewplus.R.id.tv_no_flash:
                 showDialog();

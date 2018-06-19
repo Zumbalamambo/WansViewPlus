@@ -67,9 +67,9 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         final int finalPosition = position;
         ((DeviceListHolder) holder).tv_deviceName.setText(DeviceInfoDictionary.getNameByDevice(camera));
 
-        if (camera.onlineStatus == 0 || camera.onlineStatus == 1) {
+        if (camera.onlineStatus == 2) {
             ((DeviceListHolder) holder).tv_status.setText("ON LINE");
-        } else if (camera.onlineStatus == 2) {
+        }else {
             ((DeviceListHolder) holder).tv_status.setText("OFF LINE");
         }
 

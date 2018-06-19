@@ -39,8 +39,7 @@ import com.google.zxing.Result;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
-import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceInputIdActivity;
-import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceWifiSettingActivity;
+import net.ajcloud.wansviewplus.main.device.addDevice.wifi.AddDeviceWifiSettingActivity;
 import net.ajcloud.wansviewplus.support.tools.WLog;
 import net.ajcloud.wansviewplus.support.tools.zxing.camera.CameraManager;
 import net.ajcloud.wansviewplus.support.tools.zxing.decode.DecodeThread;
@@ -126,9 +125,9 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
         inputButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CaptureActivity.this, AddDeviceInputIdActivity.class);
-                startActivity(intent);
-                finish();
+//                Intent intent = new Intent(CaptureActivity.this, AddDeviceInputIdActivity.class);
+//                startActivity(intent);
+//                finish();
             }
         });
         lightLayout = findViewById(R.id.ll_light);
@@ -258,8 +257,8 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
         beepManager.playBeepSoundAndVibrate();
 
         //TODO
-        AddDeviceWifiSettingActivity.start(CaptureActivity.this, rawResult.getText());
-        CaptureActivity.this.finish();
+//        AddDeviceWifiSettingActivity.start(CaptureActivity.this, rawResult.getText());
+//        CaptureActivity.this.finish();
     }
 
     private void initCamera(SurfaceHolder surfaceHolder) {

@@ -1,4 +1,4 @@
-package net.ajcloud.wansviewplus.main.device.addDevice;
+package net.ajcloud.wansviewplus.main.device.addDevice.wifi;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,11 +23,9 @@ public class AddDeviceWifiSettingActivity extends BaseActivity {
     private Button joinButton;
 
     private WifiManager wifiManager;
-    private String deviceId;
 
-    public static void start(Context context, String deviceId) {
+    public static void start(Context context) {
         Intent intent = new Intent(context, AddDeviceWifiSettingActivity.class);
-        intent.putExtra("deviceId", deviceId);
         context.startActivity(intent);
     }
 
@@ -52,9 +50,6 @@ public class AddDeviceWifiSettingActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        if (getIntent() != null) {
-            deviceId = getIntent().getStringExtra("deviceId");
-        }
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifiManager.isWifiEnabled()) {
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
@@ -89,7 +84,7 @@ public class AddDeviceWifiSettingActivity extends BaseActivity {
                 if (TextUtils.isEmpty(wifiNameEditText.getText().toString()) || TextUtils.isEmpty(passwordEditText.getText().toString())) {
                     ToastUtil.single("please input name and password");
                 } else {
-                    AddDeviceScanQRActivity.start(AddDeviceWifiSettingActivity.this, deviceId, wifiNameEditText.getText().toString(), passwordEditText.getText().toString());
+                    AddDeviceScanQRActivity.start(AddDeviceWifiSettingActivity.this, wifiNameEditText.getText().toString(), passwordEditText.getText().toString());
                 }
                 break;
             default:

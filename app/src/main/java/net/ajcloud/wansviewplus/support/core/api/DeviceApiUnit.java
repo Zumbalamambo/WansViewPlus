@@ -67,12 +67,10 @@ public class DeviceApiUnit {
     /**
      * 请求绑定接口，获取authCode
      *
-     * @param deviceId 设备Id
      */
-    public void preBind(String deviceId, final OkgoCommonListener<PreBindBean> listener) {
+    public void preBind(final OkgoCommonListener<PreBindBean> listener) {
         JSONObject dataJson = new JSONObject();
         try {
-            dataJson.put("deviceId", deviceId);
             dataJson.put("agentName", localInfo.deviceName);
             dataJson.put("agentToken", localInfo.deviceId);
         } catch (JSONException e) {

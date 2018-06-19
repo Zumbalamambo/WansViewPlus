@@ -11,6 +11,8 @@ public class DeviceListBean {
 
     public static class Device {
         public String deviceid;
-        public String name;
+        public String aliasname;
+        public String accessPriKey;
+        public String accessPubKey;
     }
 }

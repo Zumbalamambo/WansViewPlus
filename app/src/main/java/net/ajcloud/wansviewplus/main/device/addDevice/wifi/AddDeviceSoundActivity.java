@@ -1,4 +1,4 @@
-package net.ajcloud.wansviewplus.main.device.addDevice;
+package net.ajcloud.wansviewplus.main.device.addDevice.wifi;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +15,6 @@ import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.support.customview.dialog.CommonDialog;
 import net.ajcloud.wansviewplus.support.tools.WLog;
-import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
-import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import java.util.List;
 
@@ -29,15 +27,13 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
 
     private SEAT_API seat_api;
     private WifiManager wifiManager;
-    private String deviceId;
     private String token;
     private String ssid;
     private String pwd;
     int[] handleAudioT = new int[1];
 
-    public static void start(Context context, String deviceId, String token, String ssid, String pwd) {
+    public static void start(Context context, String token, String ssid, String pwd) {
         Intent intent = new Intent(context, AddDeviceSoundActivity.class);
-        intent.putExtra("deviceId", deviceId);
         intent.putExtra("token", token);
         intent.putExtra("ssid", ssid);
         intent.putExtra("pwd", pwd);
@@ -66,7 +62,6 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
     @Override
     protected void initData() {
         if (getIntent() != null) {
-            deviceId = getIntent().getStringExtra("deviceId");
             token = getIntent().getStringExtra("token");
             ssid = getIntent().getStringExtra("ssid");
             pwd = getIntent().getStringExtra("pwd");
@@ -133,7 +128,7 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
                 }
                 break;
             case R.id.btn_next:
-                AddDeviceWifiWaitingActivity.startBind(AddDeviceSoundActivity.this, deviceId);
+                AddDeviceWifiWaitingActivity.startBind(AddDeviceSoundActivity.this);
                 break;
             case R.id.tv_error:
                 showDialog();

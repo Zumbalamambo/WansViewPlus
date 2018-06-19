@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.device.addDevice.AddDeviceCameraSettingActivity">
+    tools:context=".main.device.addDevice.wifi.AddDeviceCameraSettingActivity">
 
     <ImageView
         android:id="@+id/iv_camera"

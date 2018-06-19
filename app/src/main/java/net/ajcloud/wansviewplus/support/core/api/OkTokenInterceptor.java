@@ -11,8 +11,10 @@ import net.ajcloud.wansviewplus.support.core.bean.SigninBean;
 import net.ajcloud.wansviewplus.support.core.okgo.model.HttpParams;
 import net.ajcloud.wansviewplus.support.core.okgo.request.base.ProgressRequestBody;
 import net.ajcloud.wansviewplus.support.core.okgo.utils.OkLogger;
+import net.ajcloud.wansviewplus.support.event.ReLoginEvent;
 import net.ajcloud.wansviewplus.support.tools.WLog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,7 +27,6 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 import okio.Buffer;
 
 /**
@@ -57,7 +58,7 @@ public class OkTokenInterceptor implements Interceptor {
                 && !originalUrl.equals(ApiConstant.URL_USER_SIGNIN)
                 && !originalUrl.equals(ApiConstant.URL_USER_SIGNUP)) {
             if (!TextUtils.isEmpty(token)) {
-                boolean isValid = expiresIn - System.currentTimeMillis() / 1000 > 3600 * 2 * 66 / 72;
+                boolean isValid = expiresIn - System.currentTimeMillis() / 1000 > 3600 * 2 / 4;
                 if (isValid) {
                     WLog.d(TAG, "token：" + token + " 有效 ");
                 } else {
@@ -70,7 +71,12 @@ public class OkTokenInterceptor implements Interceptor {
                             SigninBean signinBean = bean.result;
                             SigninAccountManager.getInstance().refreshCurrentAccount(signinBean);
                         } else {
-                            return chain.proceed(originalRequest);
+                            //refreshtoken过期，重新登录
+                            if (TextUtils.equals(bean.code, "1008")) {
+                                EventBus.getDefault().post(new ReLoginEvent());
+                            } else {
+                                return chain.proceed(originalRequest);
+                            }
 //                            JSONObject responseJson = new JSONObject();
 //                            try {
 //                                responseJson.put("status", "error");
