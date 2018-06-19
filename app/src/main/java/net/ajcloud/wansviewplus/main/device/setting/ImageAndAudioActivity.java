@@ -1,5 +1,7 @@
 package net.ajcloud.wansviewplus.main.device.setting;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
@@ -10,6 +12,8 @@ import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
+import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 public class ImageAndAudioActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
@@ -18,6 +22,14 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
     private TextView placementTextView, volumeTextView;
     private SwitchCompat nightSwitch, microphoneSwitch, lightSwitch;
     private AppCompatSeekBar volumeSeekbar;
+    private String deviceId;
+    private Camera camera;
+
+    public static void start(Context context, String deviceId) {
+        Intent intent = new Intent(context, ImageAndAudioActivity.class);
+        intent.putExtra("deviceId", deviceId);
+        context.startActivity(intent);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -40,6 +52,24 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
         microphoneSwitch = findViewById(R.id.item_microphone_switch);
         lightSwitch = findViewById(R.id.item_light_switch);
         volumeSeekbar = findViewById(R.id.item_volume_seekbar);
+    }
+
+    @Override
+    protected void initData() {
+        if (getIntent() != null) {
+            deviceId = getIntent().getStringExtra("deviceId");
+            camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+        }
+        if (camera != null) {
+            nightSwitch.setChecked(camera.nightMode == 1);
+
+            if (camera.audioConfig != null){
+                if (camera.audioConfig.enable == 1){
+                    microphoneSwitch.setChecked(true);
+                    volumeSeekbar.setProgress(camera.audioConfig.volume);
+                }
+            }
+        }
     }
 
     @Override

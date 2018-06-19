@@ -1,5 +1,6 @@
 package net.ajcloud.wansviewplus.main.device.setting;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -52,6 +53,9 @@ public class TimeZoneActivity extends BaseActivity {
         timezoneAdapter.setOnItemClickListener(new TimezoneAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, TimezoneInfo bean) {
+                Intent intent = new Intent();
+                intent.putExtra("timezone", bean.en);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });

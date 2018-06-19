@@ -370,7 +370,7 @@ public class UserApiUnit {
      * @param action 操作：upsert，remove
      * @param token  pushtoken
      */
-    public void pushSetting(@NotNull String action, String token, final OkgoCommonListener<Object> listener) {
+    public void pushSetting(@NotNull String action, String token, String alias, final OkgoCommonListener<Object> listener) {
         JSONObject dataJson = new JSONObject();
         try {
             if (TextUtils.equals(action, "upsert")) {
@@ -382,7 +382,11 @@ public class UserApiUnit {
                 for (Camera camera : MainApplication.getApplication().getDeviceCache().getDevices()) {
                     JSONObject deviceJson = new JSONObject();
                     deviceJson.put("did", camera.deviceId);
-                    deviceJson.put("alias", camera.aliasName);
+                    if (TextUtils.isEmpty(alias)){
+                        deviceJson.put("alias", camera.aliasName);
+                    }else {
+                        deviceJson.put("alias", alias);
+                    }
                     devicesArray.put(deviceJson);
                 }
                 //agents
@@ -391,7 +395,9 @@ public class UserApiUnit {
                 agentJson.put("name", localInfo.deviceName);
                 agentJson.put("token", localInfo.deviceId);
                 agentJson.put("accept", 1);
-                agentJson.put("pushToken", token);
+                if (!TextUtils.isEmpty(token)){
+                    agentJson.put("pushToken", token);
+                }
                 agentJson.put("pushType", "FCM");
                 List<String> topics = new ArrayList<>();
                 topics.add("notice");

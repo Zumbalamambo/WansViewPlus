@@ -11,15 +11,15 @@ public class LocalStorBean {
     public int storageType;
     public int writeMode;
     public int triggerMode;
+    public int quality;
     public String nasPath;
     public String playUrlRoot;
     public List<Policy> policies;
 
-    public static class Policy{
+    public static class Policy {
         public int no;
         public int enable;
         public int format;
-        public int quality;
         public String startTime;
         public String endTime;
     }

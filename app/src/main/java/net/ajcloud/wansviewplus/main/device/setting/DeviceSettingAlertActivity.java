@@ -1,5 +1,6 @@
 package net.ajcloud.wansviewplus.main.device.setting;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.SwitchCompat;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
+import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 public class DeviceSettingAlertActivity extends BaseActivity {
@@ -20,6 +23,14 @@ public class DeviceSettingAlertActivity extends BaseActivity {
     private AppCompatSeekBar detectionSeekbar;
     private RelativeLayout timeLayout;
     private TextView timeTextView;
+    private String deviceId;
+    private Camera camera;
+
+    public static void start(Context context, String deviceId) {
+        Intent intent = new Intent(context, DeviceSettingAlertActivity.class);
+        intent.putExtra("deviceId", deviceId);
+        context.startActivity(intent);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -41,6 +52,21 @@ public class DeviceSettingAlertActivity extends BaseActivity {
         detectionSeekbar = findViewById(R.id.item_sensitivity_seekbar);
         timeLayout = findViewById(R.id.item_time);
         timeTextView = findViewById(R.id.item_time_time);
+    }
+
+    @Override
+    protected void initData() {
+        if (getIntent() != null) {
+            deviceId = getIntent().getStringExtra("deviceId");
+            camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+        }
+        if (camera != null && camera.moveMonitorConfig != null) {
+            if (camera.moveMonitorConfig.enable == 1) {
+                detectionSwitch.setChecked(true);
+                detectionSeekbar.setProgress(camera.moveMonitorConfig.susceptiveness + 1);
+            }
+
+        }
     }
 
     @Override

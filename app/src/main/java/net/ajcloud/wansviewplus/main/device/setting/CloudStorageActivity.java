@@ -1,5 +1,6 @@
 package net.ajcloud.wansviewplus.main.device.setting;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
+import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.support.core.device.Camera;
 
 public class CloudStorageActivity extends BaseActivity {
 
@@ -17,7 +20,14 @@ public class CloudStorageActivity extends BaseActivity {
     private RelativeLayout timeLayout, qualityLayout, planOneLayout, planTwoLayout;
     private TextView timeTextView, qualityTextView, planOneTextView, planTwoTextView, periodOneTextView, periodTwoTextView;
     private Button expireButton, replenishButton;
+    private String deviceId;
+    private Camera camera;
 
+    public static void start(Context context, String deviceId) {
+        Intent intent = new Intent(context, CloudStorageActivity.class);
+        intent.putExtra("deviceId", deviceId);
+        context.startActivity(intent);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -47,6 +57,17 @@ public class CloudStorageActivity extends BaseActivity {
         periodTwoTextView = findViewById(R.id.item_two_time_time);
         expireButton = findViewById(R.id.btn_expire);
         replenishButton = findViewById(R.id.btn_replenish);
+    }
+
+    @Override
+    protected void initData() {
+        if (getIntent() != null) {
+            deviceId = getIntent().getStringExtra("deviceId");
+            camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+        }
+        if (camera != null &&camera.cloudStorConfig != null) {
+            storageSwitch.setChecked(camera.cloudStorConfig.enable == 1);
+        }
     }
 
     @Override

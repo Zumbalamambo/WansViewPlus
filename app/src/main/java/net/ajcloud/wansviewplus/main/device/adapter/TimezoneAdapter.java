@@ -56,7 +56,14 @@ public class TimezoneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final TimezoneInfo bean = mData.get(holder.getAdapterPosition());
         final int finalPosition = position;
+        StringBuilder timezone = new StringBuilder();
+        if (!bean.timeZone.startsWith("-")) {
+            timezone.append("+");
+        }
+        timezone.append(bean.timeZone);
+        timezone.insert(timezone.length() - 2, ":");
         ((TimezoneHolder) holder).timezoneName.setText(bean.en);
+        ((TimezoneHolder) holder).offsetTime.setText(timezone.toString());
         if (mOnItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

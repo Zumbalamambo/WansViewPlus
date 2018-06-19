@@ -128,7 +128,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:checked="true"
+            android:checked="false"
             android:theme="@style/CustomSwitch"
             app:switchMinWidth="37dp" />
     </RelativeLayout>
@@ -193,6 +193,7 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="23dp"
             android:max="100"
+            android:progress="50"
             android:progressTint="@color/colorPrimary_light"
             android:thumbTint="@color/colorPrimary" />
 
@@ -222,6 +223,7 @@
         android:id="@+id/item_light"
         android:layout_width="match_parent"
         android:layout_height="@dimen/device_setting_item_height"
+        android:visibility="gone"
         android:background="@drawable/bg_ripper_effect">
 
         <TextView

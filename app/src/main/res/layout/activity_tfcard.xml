@@ -35,7 +35,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:checked="true"
+            android:checked="false"
             android:theme="@style/CustomSwitch"
             app:switchMinWidth="37dp" />
     </RelativeLayout>
@@ -189,7 +189,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:checked="true"
+            android:checked="false"
             android:theme="@style/CustomSwitch"
             app:switchMinWidth="37dp" />
     </RelativeLayout>

@@ -94,28 +94,28 @@ public class DeviceSettingActivity extends BaseActivity {
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.item_name:
-                DeviceSettingNameActivity.startForResult(DeviceSettingActivity.this, nameTextView.getText().toString());
+                DeviceSettingNameActivity.startForResult(DeviceSettingActivity.this, deviceId, nameTextView.getText().toString());
                 break;
             case R.id.item_info:
-                startActivity(new Intent(DeviceSettingActivity.this, DeviceSettingInfoActivity.class));
+                DeviceSettingInfoActivity.start(DeviceSettingActivity.this, deviceId);
                 break;
             case R.id.item_network:
                 startActivity(new Intent(DeviceSettingActivity.this, AddDeviceSelectActivity.class));
                 break;
             case R.id.item_alert:
-                startActivity(new Intent(DeviceSettingActivity.this, DeviceSettingAlertActivity.class));
+                DeviceSettingAlertActivity.start(DeviceSettingActivity.this, deviceId);
                 break;
             case R.id.item_image:
-                startActivity(new Intent(DeviceSettingActivity.this, ImageAndAudioActivity.class));
+                ImageAndAudioActivity.start(DeviceSettingActivity.this, deviceId);
                 break;
             case R.id.item_timezone:
-                startActivity(new Intent(DeviceSettingActivity.this, TimeZoneActivity.class));
+                startActivityForResult(new Intent(DeviceSettingActivity.this, TimeZoneActivity.class), TIMEZONE);
                 break;
             case R.id.item_tf_storage:
-                startActivity(new Intent(DeviceSettingActivity.this, TFCardActivity.class));
+                TFCardActivity.start(DeviceSettingActivity.this, deviceId);
                 break;
             case R.id.item_cloud_storage:
-                startActivity(new Intent(DeviceSettingActivity.this, CloudStorageActivity.class));
+                CloudStorageActivity.start(DeviceSettingActivity.this, deviceId);
                 break;
             case R.id.item_maintenance:
                 startActivity(new Intent(DeviceSettingActivity.this, MaintenanceActivity.class));
@@ -133,6 +133,11 @@ public class DeviceSettingActivity extends BaseActivity {
                 if (data != null) {
                     String name = data.getStringExtra("name");
                     nameTextView.setText(name);
+                }
+            } else if (requestCode == TIMEZONE) {
+                if (data != null) {
+                    String timeZone = data.getStringExtra("timezone");
+                    timezoneTextView.setText(timeZone);
                 }
             }
         }

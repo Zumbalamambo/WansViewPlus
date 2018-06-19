@@ -12,6 +12,7 @@ import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.main.home.HomeActivity;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
+import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceConfigBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceUrlBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
@@ -30,6 +31,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
     private MaterialEditText nameEditText;
     private Button okButton;
 
+    private UserApiUnit userApiUnit;
     private DeviceApiUnit deviceApiUnit;
     private String deviceId;
     private Camera camera;
@@ -65,6 +67,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
             deviceId = getIntent().getStringExtra("deviceId");
             camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
         }
+        userApiUnit = new UserApiUnit(this);
         deviceApiUnit = new DeviceApiUnit(this);
     }
 
@@ -102,7 +105,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
         deviceApiUnit.setName(camera.getGatewayUrl(), deviceId, name, new OkgoCommonListener<Object>() {
             @Override
             public void onSuccess(Object bean) {
-                deviceApiUnit.setName(camera.getEmcUrl(), deviceId, name, new OkgoCommonListener<Object>() {
+                userApiUnit.pushSetting("upsert", null, name, new OkgoCommonListener<Object>() {
                     @Override
                     public void onSuccess(Object bean) {
                         deviceApiUnit.setNameUac(deviceId, name, new OkgoCommonListener<Object>() {
@@ -174,7 +177,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
             public void onSuccess(DeviceConfigBean bean) {
                 if (changeName) {
                     changeName();
-                }else {
+                } else {
                     progressDialogManager.dimissDialog(LOADING, 0);
                     EventBus.getDefault().post(new DeviceBindSuccessEvent(deviceId));
                     startActivity(new Intent(AddDeviceSuccessActivity.this, HomeActivity.class));
