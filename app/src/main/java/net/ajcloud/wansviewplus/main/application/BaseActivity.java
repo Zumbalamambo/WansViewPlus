@@ -1,7 +1,6 @@
 package net.ajcloud.wansviewplus.main.application;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,11 +15,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceSelectActivity;
-import net.ajcloud.wansviewplus.main.device.setting.DeviceSettingActivity;
-import net.ajcloud.wansviewplus.main.device.setting.DeviceSettingAlertActivity;
-import net.ajcloud.wansviewplus.main.device.setting.DeviceSettingInfoActivity;
-import net.ajcloud.wansviewplus.main.device.setting.DeviceSettingNameActivity;
 import net.ajcloud.wansviewplus.support.customview.MyToolbar;
 import net.ajcloud.wansviewplus.support.customview.dialog.ProgressDialogManager;
 import net.ajcloud.wansviewplus.support.tools.TimeLock;

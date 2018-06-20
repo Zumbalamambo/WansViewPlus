@@ -156,4 +156,5 @@ public class Camera {
     public void setAccessPubKey(String accessPubKey) {
         this.accessPubKey = accessPubKey;
     }
+
 }

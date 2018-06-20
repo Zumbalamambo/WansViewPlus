@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".main.device.setting.DetectionTimeActivity">
+    tools:context=".main.device.setting.homeAlert.DetectionTimeActivity">
 
     <RelativeLayout
         android:id="@+id/item_all_time"
@@ -47,19 +47,20 @@
         android:layout_marginStart="@dimen/device_setting_margin_first"
         android:background="@color/gray_line" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginEnd="@dimen/device_setting_margin_first"
-        android:layout_marginStart="@dimen/device_setting_margin_first"
-        android:layout_marginTop="@dimen/device_setting_margin_first"
-        android:background="@color/gray_line" />
 
     <RelativeLayout
         android:id="@+id/item_period_one"
         android:layout_width="match_parent"
         android:layout_height="@dimen/device_setting_item_height"
+        android:layout_marginTop="@dimen/device_setting_margin_first"
         android:background="@drawable/bg_ripper_effect">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
 
         <TextView
             android:id="@+id/item_period_one_tips"
@@ -96,23 +97,23 @@
             android:ellipsize="end"
             android:gravity="end|center_vertical"
             android:singleLine="true"
-            android:text="off"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginEnd="@dimen/device_setting_margin_first"
-        android:layout_marginStart="@dimen/device_setting_margin_first"
-        android:background="@color/gray_line" />
 
     <RelativeLayout
         android:id="@+id/item_period_two"
         android:layout_width="match_parent"
         android:layout_height="@dimen/device_setting_item_height"
         android:background="@drawable/bg_ripper_effect">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
 
         <TextView
             android:id="@+id/item_period_two_tips"
@@ -149,15 +150,17 @@
             android:ellipsize="end"
             android:gravity="end|center_vertical"
             android:singleLine="true"
-            android:text="12:00-24:00"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginEnd="@dimen/device_setting_margin_first"
-        android:layout_marginStart="@dimen/device_setting_margin_first"
-        android:background="@color/gray_line" />
+
 </LinearLayout>

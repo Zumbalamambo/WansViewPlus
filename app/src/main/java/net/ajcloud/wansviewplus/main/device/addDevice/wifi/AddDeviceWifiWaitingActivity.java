@@ -148,12 +148,12 @@ public class AddDeviceWifiWaitingActivity extends BaseActivity {
         outer:
         for (DeviceListBean.Device device : bean) {
             for (Camera localCamera : MainApplication.getApplication().getDeviceCache().getDevices()) {
-                if (TextUtils.equals(localCamera.deviceId, device.deviceid)) {
+                if (TextUtils.equals(localCamera.deviceId, device.deviceId)) {
                     continue outer;
                 }
             }
-//            MainApplication.getApplication().getDeviceCache().add(new Camera(device.deviceid, null));
-            AddDeviceSuccessActivity.start(AddDeviceWifiWaitingActivity.this, device.deviceid);
+//            MainApplication.getApplication().getDeviceCache().add(new Camera(device.deviceId, null));
+            AddDeviceSuccessActivity.start(AddDeviceWifiWaitingActivity.this, device.deviceId);
             finish();
         }
     }

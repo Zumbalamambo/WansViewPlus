@@ -9,6 +9,8 @@ public class ApiConstant {
     public static boolean isApply = false;
     public static String UAC_URL = "https://uac.ajyun.com.cn";
     public static String BASE_UAC_URL = UAC_URL + "/v1";
+    public static String EMC_URL = "https://emc.ajyun.com.cn/api";
+    public static String BASE_EMC_URL = EMC_URL + "/v1";
 
     //App启动时需要的公共参数
     public static String URL_GET_APP_CONFIG = "https://sdc.ajyun.com.cn/api/v1/cmd/app-config";
@@ -30,10 +32,11 @@ public class ApiConstant {
     public static String URL_DEVICE_SET_DEVICE_NAME_UAC = BASE_UAC_URL + "/change-alias-name";
     public static String URL_DEVICE_UNBIND = BASE_UAC_URL + "/unbind";
 
+    public static String URL_DEVICE_PUSH_SETTING = BASE_EMC_URL + "/cmd/push-setting";
     public static String URL_DEVICE_GET_DEVICE_INFO = "/v1/cmd/fetch-info";
     public static String URL_DEVICE_SET_DEVICE_NAME = "/v1/cmd/alias-name";
-    public static String URL_DEVICE_PUSH_SETTING = "/v1/cmd/push-setting";
-    public static String URL_DEVICE_GET_FRIST_FRAME = "/v1/cmd/snapshot";
+    public static String URL_DEVICE_GET_FIRST_FRAME = "/v1/cmd/snapshot";
+    public static String URL_DEVICE_MOVE_DETECTION = "/v1/cmd/move-monitor-config";
 
     public static void setBaseUrl(AppConfigBean bean) {
         isApply = true;
@@ -58,5 +61,6 @@ public class ApiConstant {
         URL_DEVICE_GET_DEVICE_LIST = BASE_UAC_URL + "/device-list";
         URL_DEVICE_SET_DEVICE_NAME_UAC = BASE_UAC_URL + "/change-alias-name";
         URL_DEVICE_UNBIND = BASE_UAC_URL + "/unbind";
+        URL_DEVICE_PUSH_SETTING = BASE_EMC_URL + "/cmd/push-setting";
     }
 }

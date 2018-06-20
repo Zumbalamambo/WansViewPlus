@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -33,7 +34,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:checked="true"
+            android:checked="false"
             android:theme="@style/CustomSwitch"
             app:switchMinWidth="37dp" />
     </RelativeLayout>
@@ -45,19 +46,22 @@
         android:layout_marginStart="@dimen/device_setting_margin_first"
         android:background="@color/gray_line" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginEnd="@dimen/device_setting_margin_first"
-        android:layout_marginStart="@dimen/device_setting_margin_first"
-        android:layout_marginTop="@dimen/device_setting_margin_first"
-        android:background="@color/gray_line" />
 
     <RelativeLayout
         android:id="@+id/item_start"
         android:layout_width="match_parent"
         android:layout_height="@dimen/device_setting_item_height"
-        android:background="@drawable/bg_ripper_effect">
+        android:layout_marginTop="@dimen/device_setting_margin_first"
+        android:background="@drawable/bg_ripper_effect"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
 
         <TextView
             android:id="@+id/item_start_tips"
@@ -94,23 +98,25 @@
             android:ellipsize="end"
             android:gravity="end|center_vertical"
             android:singleLine="true"
-            android:text="12:00"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginEnd="@dimen/device_setting_margin_first"
-        android:layout_marginStart="@dimen/device_setting_margin_first"
-        android:background="@color/gray_line" />
 
     <RelativeLayout
         android:id="@+id/item_end"
         android:layout_width="match_parent"
         android:layout_height="@dimen/device_setting_item_height"
-        android:background="@drawable/bg_ripper_effect">
+        android:background="@drawable/bg_ripper_effect"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
 
         <TextView
             android:id="@+id/item_end_tips"
@@ -147,15 +153,77 @@
             android:ellipsize="end"
             android:gravity="end|center_vertical"
             android:singleLine="true"
-            android:text="24:00"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
     </RelativeLayout>
 
-    <View
+    <RelativeLayout
+        android:id="@+id/item_repeat"
         android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginEnd="@dimen/device_setting_margin_first"
-        android:layout_marginStart="@dimen/device_setting_margin_first"
-        android:background="@color/gray_line" />
+        android:layout_height="@dimen/device_setting_item_height"
+        android:background="@drawable/bg_ripper_effect"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
+
+        <TextView
+            android:id="@+id/item_repeat_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxWidth="200dp"
+            android:singleLine="true"
+            android:text="Repeat time"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/device_setting_text_size_14" />
+
+        <ImageView
+            android:id="@+id/item_repeat_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:src="@drawable/ic_arrow" />
+
+        <TextView
+            android:id="@+id/item_repeat_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/device_setting_margin_second"
+            android:layout_toEndOf="@id/item_repeat_tips"
+            android:layout_toStartOf="@id/item_repeat_arrow"
+            android:ellipsize="end"
+            android:gravity="end|center_vertical"
+            android:singleLine="true"
+            android:textColor="@color/gray_second"
+            android:textSize="@dimen/device_setting_text_size_14" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
+    </RelativeLayout>
 </LinearLayout>

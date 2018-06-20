@@ -12,6 +12,7 @@ import android.widget.TextView;
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.device.setting.homeAlert.DetectionTimeActivity;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 
 public class CloudStorageActivity extends BaseActivity {

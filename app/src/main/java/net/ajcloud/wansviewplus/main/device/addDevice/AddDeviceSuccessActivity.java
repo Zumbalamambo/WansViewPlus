@@ -130,8 +130,8 @@ public class AddDeviceSuccessActivity extends BaseActivity {
                             DeviceListBean bean = responseBean.result;
                             if (bean.cameras != null) {
                                 for (DeviceListBean.Device device : bean.cameras) {
-                                    if (TextUtils.equals(deviceId, device.deviceid)) {
-                                        MainApplication.getApplication().getDeviceCache().add(new Camera(device.deviceid, device.aliasname, device.accessPriKey, device.accessPubKey));
+                                    if (TextUtils.equals(deviceId, device.deviceId)) {
+                                        MainApplication.getApplication().getDeviceCache().add(new Camera(device.deviceId, device.aliasName, device.accessPriKey, device.accessPubKey));
                                         getCameraUrl();
                                         return;
                                     }

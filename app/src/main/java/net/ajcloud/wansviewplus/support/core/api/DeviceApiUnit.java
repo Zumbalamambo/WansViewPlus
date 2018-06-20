@@ -3,6 +3,8 @@ package net.ajcloud.wansviewplus.support.core.api;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
+
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.entity.LocalInfo;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
@@ -11,6 +13,7 @@ import net.ajcloud.wansviewplus.support.core.bean.BindStatusBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceConfigBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceListBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceUrlBean;
+import net.ajcloud.wansviewplus.support.core.bean.MoveMonitorBean;
 import net.ajcloud.wansviewplus.support.core.bean.PreBindBean;
 import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
 import net.ajcloud.wansviewplus.support.core.callback.JsonCallback;
@@ -43,7 +46,7 @@ public class DeviceApiUnit {
         localInfo = ((MainApplication) context.getApplicationContext()).getLocalInfo();
     }
 
-    private JSONObject getReqBody(JSONObject data) {
+    private JSONObject getReqBody(JSONObject data, String deviceId) {
         try {
             JSONObject metaJson = new JSONObject();
             metaJson.put("locale", localInfo.appLang);
@@ -51,6 +54,9 @@ public class DeviceApiUnit {
             String accessToken = SigninAccountManager.getInstance().getCurrentAccountAccessToken();
             if (!TextUtils.isEmpty(accessToken)) {
                 metaJson.put("accessToken", accessToken);
+            }
+            if (!TextUtils.isEmpty(deviceId)) {
+                metaJson.put("deviceId", deviceId);
             }
 
             JSONObject body = new JSONObject();
@@ -76,7 +82,7 @@ public class DeviceApiUnit {
         }
         OkGo.<ResponseBean<PreBindBean>>post(ApiConstant.URL_DEVICE_PREBIND)
                 .tag(this)
-                .upJson(getReqBody(dataJson))
+                .upJson(getReqBody(dataJson, null))
                 .execute(new JsonCallback<ResponseBean<PreBindBean>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<PreBindBean>> response) {
@@ -112,7 +118,7 @@ public class DeviceApiUnit {
         }
         OkGo.<ResponseBean<BindStatusBean>>post(ApiConstant.URL_DEVICE_GET_BIND_STATUS)
                 .tag(this)
-                .upJson(getReqBody(dataJson))
+                .upJson(getReqBody(dataJson, null))
                 .execute(new JsonCallback<ResponseBean<BindStatusBean>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<BindStatusBean>> response) {
@@ -139,7 +145,7 @@ public class DeviceApiUnit {
         JSONObject dataJson = new JSONObject();
         OkGo.<ResponseBean<DeviceListBean>>post(ApiConstant.URL_DEVICE_GET_DEVICE_LIST)
                 .tag(this)
-                .upJson(getReqBody(dataJson))
+                .upJson(getReqBody(dataJson, null))
                 .execute(new JsonCallback<ResponseBean<DeviceListBean>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<DeviceListBean>> response) {
@@ -184,7 +190,7 @@ public class DeviceApiUnit {
         }
         OkGo.<ResponseBean<DeviceUrlBean>>post(ApiConstant.URL_GET_DEVICE_URL_INFO)
                 .tag(this)
-                .upJson(getReqBody(jsonObject))
+                .upJson(getReqBody(jsonObject, null))
                 .execute(new JsonCallback<ResponseBean<DeviceUrlBean>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<DeviceUrlBean>> response) {
@@ -233,7 +239,7 @@ public class DeviceApiUnit {
         }
         OkGo.<ResponseBean<DeviceConfigBean>>post(url + ApiConstant.URL_DEVICE_GET_DEVICE_INFO)
                 .tag(this)
-                .upJson(getReqBody(dataJson))
+                .upJson(getReqBody(dataJson, null))
                 .execute(new JsonCallback<ResponseBean<DeviceConfigBean>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<DeviceConfigBean>> response) {
@@ -280,7 +286,7 @@ public class DeviceApiUnit {
         String reqUrl = url + ApiConstant.URL_DEVICE_SET_DEVICE_NAME;
         OkGo.<ResponseBean<Object>>post(reqUrl)
                 .tag(this)
-                .upJson(getReqBody(dataJson))
+                .upJson(getReqBody(dataJson, null))
                 .execute(new JsonCallback<ResponseBean<Object>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<Object>> response) {
@@ -318,7 +324,7 @@ public class DeviceApiUnit {
         }
         OkGo.<ResponseBean<Object>>post(ApiConstant.URL_DEVICE_SET_DEVICE_NAME_UAC)
                 .tag(this)
-                .upJson(getReqBody(dataJson))
+                .upJson(getReqBody(dataJson, null))
                 .execute(new JsonCallback<ResponseBean<Object>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<Object>> response) {
@@ -354,7 +360,7 @@ public class DeviceApiUnit {
         }
         OkGo.<ResponseBean<Object>>post(ApiConstant.URL_DEVICE_UNBIND)
                 .tag(this)
-                .upJson(getReqBody(dataJson))
+                .upJson(getReqBody(dataJson, null))
                 .execute(new JsonCallback<ResponseBean<Object>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<Object>> response) {
@@ -393,10 +399,51 @@ public class DeviceApiUnit {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String reqUrl = url + ApiConstant.URL_DEVICE_GET_FRIST_FRAME;
+        String reqUrl = url + ApiConstant.URL_DEVICE_GET_FIRST_FRAME;
         OkGo.<ResponseBean<Object>>post(reqUrl)
                 .tag(this)
-                .upJson(getReqBody(dataJson))
+                .upJson(getReqBody(dataJson, null))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 设置移动告警
+     *
+     * @param url      设备ip
+     * @param deviceId 设备Id
+     * @param bean     移动告警配置
+     */
+    public void setMoveDetection(String url, String deviceId, MoveMonitorBean bean, final OkgoCommonListener<Object> listener) {
+        if (TextUtils.isEmpty(url)) {
+            listener.onSuccess(null);
+            return;
+        }
+        JSONObject dataJson = null;
+        try {
+            dataJson = new JSONObject(new Gson().toJson(bean));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String reqUrl = url + ApiConstant.URL_DEVICE_MOVE_DETECTION;
+        OkGo.<ResponseBean<Object>>post(reqUrl)
+                .tag(this)
+                .upJson(getReqBody(dataJson, deviceId))
                 .execute(new JsonCallback<ResponseBean<Object>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<Object>> response) {
@@ -437,20 +484,12 @@ public class DeviceApiUnit {
                                     public void onSuccess(DeviceConfigBean bean) {
                                         if (bean != null && bean.base != null) {
                                             if (!TextUtils.isEmpty(bean.base.deviceId)) {
+                                                //刷新单条camera信息
                                                 EventBus.getDefault().post(new DeviceRefreshEvent(bean.base.deviceId));
+                                                //获取第一帧逻辑
+                                                doGetFirstFrame(bean.base.deviceId);
                                             }
                                         }
-                                    }
-
-                                    @Override
-                                    public void onFail(int code, String msg) {
-
-                                    }
-                                });
-                                getFristFrame(info.gatewayUrl, camera.deviceId, new OkgoCommonListener<Object>() {
-                                    @Override
-                                    public void onSuccess(Object bean) {
-
                                     }
 
                                     @Override
@@ -469,5 +508,23 @@ public class DeviceApiUnit {
 
             }
         });
+        new UserApiUnit(context).pushSetting("upsert", null, new OkgoCommonListener<Object>() {
+            @Override
+            public void onSuccess(Object bean) {
+
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+
+            }
+        });
+    }
+
+    private void doGetFirstFrame(String deviceId) {
+        Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+        if (camera != null) {
+
+        }
     }
 }

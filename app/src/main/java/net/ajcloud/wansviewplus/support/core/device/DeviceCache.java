@@ -40,7 +40,7 @@ public class DeviceCache {
         clear();
         if (cameras != null) {
             for (DeviceListBean.Device bean : cameras) {
-                add(new Camera(bean.deviceid, bean.aliasname, bean.accessPriKey, bean.accessPubKey));
+                add(new Camera(bean.deviceId, bean.aliasName, bean.accessPriKey, bean.accessPubKey));
             }
         }
     }

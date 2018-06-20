@@ -405,7 +405,7 @@ public class UserApiUnit {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        OkGo.<ResponseBean<Object>>post("https://emc.ajyun.com.cn/api" + ApiConstant.URL_DEVICE_PUSH_SETTING)
+        OkGo.<ResponseBean<Object>>post(ApiConstant.URL_DEVICE_PUSH_SETTING)
                 .tag(this)
                 .upJson(getReqBody(dataJson))
                 .execute(new JsonCallback<ResponseBean<Object>>() {
@@ -448,7 +448,7 @@ public class UserApiUnit {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        OkGo.<ResponseBean<Object>>post("https://emc.ajyun.com.cn/api" + ApiConstant.URL_DEVICE_PUSH_SETTING)
+        OkGo.<ResponseBean<Object>>post(ApiConstant.URL_DEVICE_PUSH_SETTING)
                 .tag(this)
                 .upJson(getReqBody(dataJson))
                 .execute(new JsonCallback<ResponseBean<Object>>() {

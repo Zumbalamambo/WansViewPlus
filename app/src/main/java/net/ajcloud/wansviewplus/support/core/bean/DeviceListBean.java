@@ -10,8 +10,8 @@ public class DeviceListBean {
     public List<Device> cameras;
 
     public static class Device {
-        public String deviceid;
-        public String aliasname;
+        public String deviceId;
+        public String aliasName;
         public String accessPriKey;
         public String accessPubKey;
     }

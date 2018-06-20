@@ -128,9 +128,9 @@
         <activity android:name=".main.device.setting.DeviceSettingActivity" />
         <activity android:name=".main.device.setting.DeviceSettingNameActivity" />
         <activity android:name=".main.device.setting.DeviceSettingInfoActivity" />
-        <activity android:name=".main.device.setting.DeviceSettingAlertActivity" />
-        <activity android:name=".main.device.setting.DetectionTimeActivity" />
-        <activity android:name=".main.device.setting.TimePeriodActivity" />
+        <activity android:name=".main.device.setting.homeAlert.DeviceSettingAlertActivity" />
+        <activity android:name=".main.device.setting.homeAlert.DetectionTimeActivity" />
+        <activity android:name=".main.device.setting.homeAlert.TimePeriodActivity" />
         <activity android:name=".main.device.setting.ImageAndAudioActivity" />
         <activity android:name=".main.device.setting.TFCardActivity" />
         <activity android:name=".main.device.setting.CloudStorageActivity" />

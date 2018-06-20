@@ -79,6 +79,7 @@ dependencies {
     implementation files('libs/httpclient-4.2.5.jar')
     implementation(name: 'swipeLayout', ext: 'aar')
     implementation files('libs/pinyin4j-2.5.0.jar')
+    implementation 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
