@@ -11,9 +11,12 @@ import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.bean.AudioInfoBean;
 import net.ajcloud.wansviewplus.support.core.bean.BindStatusBean;
+import net.ajcloud.wansviewplus.support.core.bean.CloudStorBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceConfigBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceListBean;
+import net.ajcloud.wansviewplus.support.core.bean.DeviceTimeBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceUrlBean;
+import net.ajcloud.wansviewplus.support.core.bean.LocalStorBean;
 import net.ajcloud.wansviewplus.support.core.bean.MoveMonitorBean;
 import net.ajcloud.wansviewplus.support.core.bean.PreBindBean;
 import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
@@ -565,6 +568,129 @@ public class DeviceApiUnit {
             e.printStackTrace();
         }
         String reqUrl = url + ApiConstant.URL_DEVICE_AUDIO_CONFIG;
+        OkGo.<ResponseBean<Object>>post(reqUrl)
+                .tag(this)
+                .upJson(getReqBody(dataJson, deviceId))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 设置TF卡存储
+     *
+     * @param url      设备ip
+     * @param deviceId 设备Id
+     * @param bean     本地存储配置
+     */
+    public void setLocalStor(String url, String deviceId, LocalStorBean bean, final OkgoCommonListener<Object> listener) {
+        if (TextUtils.isEmpty(url)) {
+            listener.onSuccess(null);
+            return;
+        }
+        JSONObject dataJson = null;
+        try {
+            dataJson = new JSONObject(new Gson().toJson(bean));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String reqUrl = url + ApiConstant.URL_DEVICE_LOCAL_STOR;
+        OkGo.<ResponseBean<Object>>post(reqUrl)
+                .tag(this)
+                .upJson(getReqBody(dataJson, deviceId))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 设置云存储
+     *
+     * @param url      设备ip
+     * @param deviceId 设备Id
+     * @param bean     云存储设置
+     */
+    public void setCloudStor(String url, String deviceId, CloudStorBean bean, final OkgoCommonListener<Object> listener) {
+        if (TextUtils.isEmpty(url)) {
+            listener.onSuccess(null);
+            return;
+        }
+        JSONObject dataJson = null;
+        try {
+            dataJson = new JSONObject(new Gson().toJson(bean));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String reqUrl = url + ApiConstant.URL_DEVICE_CLOUD_STOR;
+        OkGo.<ResponseBean<Object>>post(reqUrl)
+                .tag(this)
+                .upJson(getReqBody(dataJson, deviceId))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 设置时区
+     *
+     * @param url      设备ip
+     * @param deviceId 设备Id
+     * @param bean     时区配置
+     */
+    public void setTimeZone(String url, String deviceId, DeviceTimeBean bean, final OkgoCommonListener<Object> listener) {
+        if (TextUtils.isEmpty(url)) {
+            listener.onSuccess(null);
+            return;
+        }
+        JSONObject dataJson = null;
+        try {
+            dataJson = new JSONObject(new Gson().toJson(bean));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String reqUrl = url + ApiConstant.URL_DEVICE_TIME_ZONE;
         OkGo.<ResponseBean<Object>>post(reqUrl)
                 .tag(this)
                 .upJson(getReqBody(dataJson, deviceId))

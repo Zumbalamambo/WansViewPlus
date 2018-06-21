@@ -1,5 +1,9 @@
 package net.ajcloud.wansviewplus.support.core.bean;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,20 +12,40 @@ import java.util.List;
  * Function:    本地存储信息
  */
 public class LocalStorBean implements Serializable {
-    public int enable;
-    public int storageType;
-    public int writeMode;
-    public int triggerMode;
-    public int quality;
+    public String enable;
+    public String storageType;
+    public String writeMode;
+    public String triggerMode;
+    public String quality;
     public String nasPath;
     public String playUrlRoot;
     public List<Policy> policies;
 
     public static class Policy implements Serializable{
-        public int no;
-        public int enable;
-        public int format;
+        public String no;
+        public String enable;
+        public String format;
         public String startTime;
         public String endTime;
+        public List<Integer> weekDays;
+    }
+
+    public Object deepClone() {
+        try {
+            // 序列化
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+
+            oos.writeObject(this);
+
+            // 反序列化
+            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bis);
+
+            return ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

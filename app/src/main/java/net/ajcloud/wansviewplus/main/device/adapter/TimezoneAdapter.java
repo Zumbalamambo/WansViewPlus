@@ -41,8 +41,9 @@ public class TimezoneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         mData = new ArrayList<>();
     }
 
-    public void setData(List<TimezoneInfo> mData) {
+    public void setData(List<TimezoneInfo> mData, int selectionPos) {
         this.mData = mData;
+        this.selectionPos = selectionPos;
         notifyDataSetChanged();
     }
 

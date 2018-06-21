@@ -82,7 +82,7 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
         volumeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                ToastUtil.single(progress + "");
+                volumeTextView.setText(progress + "");
             }
 
             @Override
@@ -101,6 +101,7 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.item_placement:
+                showDialog();
                 break;
             default:
                 break;
@@ -138,7 +139,9 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
                     .view(R.layout.dialog_place)
                     .height(368)
                     .width(327)
-                    .addViewOnclickListener(net.ajcloud.wansviewplus.R.id.iv_close, dialogClickListener)
+                    .addViewOnclickListener(R.id.iv_close, dialogClickListener)
+                    .addViewOnclickListener(R.id.iv_positioning, dialogClickListener)
+                    .addViewOnclickListener(R.id.iv_inverted, dialogClickListener)
                     .build();
         }
         if (!placeDialog.isShowing()) {
@@ -149,11 +152,17 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
     private View.OnClickListener dialogClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            if (placeDialog != null && placeDialog.isShowing()) {
+                placeDialog.dismiss();
+            }
             switch (v.getId()) {
-                case net.ajcloud.wansviewplus.R.id.iv_close:
-                    if (placeDialog != null && placeDialog.isShowing()) {
-                        placeDialog.dismiss();
-                    }
+                case R.id.iv_positioning:
+                    cloneCamera.orientationValue = "0";
+                    refreshUI();
+                    break;
+                case R.id.iv_inverted:
+                    cloneCamera.orientationValue = "3";
+                    refreshUI();
                     break;
                 default:
                     break;
@@ -163,11 +172,18 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
 
     private void refreshUI() {
         if (cloneCamera != null) {
-            nightSwitch.setChecked(TextUtils.equals(cloneCamera.nightMode, "1"));
+            if (TextUtils.equals(cloneCamera.orientationValue, "0")) {
+                placementTextView.setText("positioning");
+            } else {
+                placementTextView.setText("inverted");
+            }
+
+            nightSwitch.setChecked(TextUtils.equals(cloneCamera.nightMode, "2"));
 
             if (cloneCamera.audioConfig != null) {
                 microphoneSwitch.setChecked(TextUtils.equals(cloneCamera.audioConfig.micEnable, "1"));
                 if (!TextUtils.isEmpty(camera.audioConfig.speakerVolume)) {
+                    volumeTextView.setText(camera.audioConfig.speakerVolume);
                     volumeSeekbar.setProgress(Integer.valueOf(camera.audioConfig.speakerVolume));
                 }
             }

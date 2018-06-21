@@ -1,14 +1,13 @@
-package net.ajcloud.wansviewplus.main.device.setting.homeAlert;
+package net.ajcloud.wansviewplus.main.device.setting.cloudStorage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
@@ -16,35 +15,35 @@ import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
-import net.ajcloud.wansviewplus.support.core.bean.MoveMonitorBean;
+import net.ajcloud.wansviewplus.support.core.bean.CloudStorBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
+import net.ajcloud.wansviewplus.support.customview.dialog.AudioQualityDialog;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import java.util.List;
 
-public class DeviceSettingAlertActivity extends BaseActivity {
+public class CloudStorageActivity extends BaseActivity {
 
     private static final String LOADING = "LOADING";
-    private SwitchCompat detectionSwitch;
-    private TextView levelTextView;
-    private AppCompatSeekBar detectionSeekbar;
-    private RelativeLayout sensitivityLayout, timeLayout;
-    private TextView timeTextView;
-
+    private SwitchCompat storageSwitch;
+    private RelativeLayout timeLayout, qualityLayout, planOneLayout, planTwoLayout;
+    private TextView timeTextView, qualityTextView, planOneTextView, planTwoTextView, periodOneTextView, periodTwoTextView;
+    private Button expireButton, replenishButton;
+    private AudioQualityDialog audioQualityDialog;
+    private DeviceApiUnit deviceApiUnit;
     private String deviceId;
     private Camera camera;
-    private MoveMonitorBean cloneBean;
-    private DeviceApiUnit deviceApiUnit;
+    private CloudStorBean cloneBean;
 
     public static void start(Context context, String deviceId) {
-        Intent intent = new Intent(context, DeviceSettingAlertActivity.class);
+        Intent intent = new Intent(context, CloudStorageActivity.class);
         intent.putExtra("deviceId", deviceId);
         context.startActivity(intent);
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_device_setting_alert;
+        return R.layout.activity_cloud_storage;
     }
 
     @Override
@@ -54,25 +53,34 @@ public class DeviceSettingAlertActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Home alert");
+        getToolbar().setTittle("Cloud storage");
         getToolbar().setLeftImg(R.mipmap.icon_back);
 
-        detectionSwitch = findViewById(R.id.item_detection_switch);
-        levelTextView = findViewById(R.id.item_sensitivity_level);
-        detectionSeekbar = findViewById(R.id.item_sensitivity_seekbar);
-        sensitivityLayout = findViewById(R.id.item_sensitivity);
+        storageSwitch = findViewById(R.id.item_storage_switch);
         timeLayout = findViewById(R.id.item_time);
+        qualityLayout = findViewById(R.id.item_quality);
+        planOneLayout = findViewById(R.id.item_plan_one);
+        planTwoLayout = findViewById(R.id.item_plan_two);
         timeTextView = findViewById(R.id.item_time_time);
+        qualityTextView = findViewById(R.id.item_quality_time);
+        planOneTextView = findViewById(R.id.item_plan_one_time);
+        planTwoTextView = findViewById(R.id.item_plan_two_time);
+        periodOneTextView = findViewById(R.id.item_one_time_time);
+        periodTwoTextView = findViewById(R.id.item_two_time_time);
+        expireButton = findViewById(R.id.btn_expire);
+        replenishButton = findViewById(R.id.btn_replenish);
+        audioQualityDialog = new AudioQualityDialog(this);
     }
 
     @Override
     protected void initData() {
+
         deviceApiUnit = new DeviceApiUnit(this);
         if (getIntent() != null) {
             deviceId = getIntent().getStringExtra("deviceId");
             camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
-            if (camera.moveMonitorConfig != null) {
-                cloneBean = (MoveMonitorBean) camera.moveMonitorConfig.deepClone();
+            if (camera.localStorConfig != null) {
+                cloneBean = (CloudStorBean) camera.cloudStorConfig.deepClone();
             }
         }
         refreshUI();
@@ -81,45 +89,26 @@ public class DeviceSettingAlertActivity extends BaseActivity {
     @Override
     protected void initListener() {
         timeLayout.setOnClickListener(this);
-        detectionSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        qualityLayout.setOnClickListener(this);
+        planOneLayout.setOnClickListener(this);
+        planTwoLayout.setOnClickListener(this);
+        replenishButton.setOnClickListener(this);
+        storageSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    cloneBean.enable = 1;
-                    sensitivityLayout.setVisibility(View.VISIBLE);
-                    timeLayout.setVisibility(View.VISIBLE);
+                    cloneBean.enable = "1";
                 } else {
-                    cloneBean.enable = 0;
-                    sensitivityLayout.setVisibility(View.GONE);
-                    timeLayout.setVisibility(View.GONE);
+                    cloneBean.enable = "0";
                 }
+                refreshUI();
             }
         });
-        detectionSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        audioQualityDialog.setDialogClickListener(new AudioQualityDialog.OnDialogClickListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress == 0) {
-                    levelTextView.setText("low");
-                } else if (progress == 1) {
-
-                } else if (progress == 2) {
-                    levelTextView.setText("medium");
-                } else if (progress == 3) {
-
-                } else if (progress == 4) {
-                    levelTextView.setText("high");
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                int progress = seekBar.getProgress();
-                cloneBean.susceptiveness = String.valueOf(progress + 1);
+            public void onClick(String quality) {
+                cloneBean.quality = quality;
+                refreshUI();
             }
         });
     }
@@ -128,7 +117,16 @@ public class DeviceSettingAlertActivity extends BaseActivity {
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.item_time:
-                DetectionTimeActivity.start(DeviceSettingAlertActivity.this, cloneBean);
+                CloudDetectionTimeActivity.start(CloudStorageActivity.this, cloneBean);
+                break;
+            case R.id.item_quality:
+                if (!audioQualityDialog.isShowing()) {
+                    audioQualityDialog.show();
+                }
+                break;
+            case R.id.item_plan_one:
+                break;
+            case R.id.item_plan_two:
                 break;
             default:
                 break;
@@ -137,29 +135,31 @@ public class DeviceSettingAlertActivity extends BaseActivity {
 
     private void refreshUI() {
         if (cloneBean != null) {
-            if (cloneBean.enable == 1) {
-                detectionSwitch.setChecked(true);
-                sensitivityLayout.setVisibility(View.VISIBLE);
+            if (TextUtils.equals(cloneBean.enable, "1")) {
+                storageSwitch.setChecked(true);
                 timeLayout.setVisibility(View.VISIBLE);
+                qualityLayout.setVisibility(View.VISIBLE);
 
-                if (!TextUtils.isEmpty(cloneBean.susceptiveness)) {
-                    detectionSeekbar.setProgress(Integer.parseInt(cloneBean.susceptiveness) - 1);
+                if (TextUtils.equals(cloneBean.quality, "1")) {
+                    qualityTextView.setText("HD");
+                } else if (TextUtils.equals(cloneBean.quality, "5")) {
+                    qualityTextView.setText("FHD");
                 }
 
-                List<MoveMonitorBean.Policy> policyList = cloneBean.policies;
-                for (MoveMonitorBean.Policy policy : policyList) {
+                List<CloudStorBean.Policy> policyList = cloneBean.policies;
+                for (CloudStorBean.Policy policy : policyList) {
                     if (TextUtils.equals(policy.no, "1")) {
-                        if (policy.enable == 1) {
+                        if (TextUtils.equals(policy.enable, "1")) {
                             timeTextView.setText("24-hour");
                         } else {
                             StringBuilder time = new StringBuilder();
-                            for (MoveMonitorBean.Policy policy_2 : policyList) {
+                            for (CloudStorBean.Policy policy_2 : policyList) {
                                 if (TextUtils.equals(policy_2.no, "2")) {
-                                    if (policy_2.enable == 1) {
+                                    if (TextUtils.equals(policy_2.enable, "1")) {
                                         time.append(" period1");
                                     }
                                 } else if (TextUtils.equals(policy_2.no, "3")) {
-                                    if (policy_2.enable == 1) {
+                                    if (TextUtils.equals(policy_2.enable, "1")) {
                                         time.append(" period2");
                                     }
                                 }
@@ -169,20 +169,20 @@ public class DeviceSettingAlertActivity extends BaseActivity {
                     }
                 }
             } else {
-                detectionSwitch.setChecked(false);
-                sensitivityLayout.setVisibility(View.GONE);
+                storageSwitch.setChecked(false);
                 timeLayout.setVisibility(View.GONE);
+                qualityLayout.setVisibility(View.GONE);
             }
         }
     }
 
     private void doSet() {
         progressDialogManager.showDialog(LOADING, this);
-        deviceApiUnit.setMoveDetection(camera.getGatewayUrl(), deviceId, cloneBean, new OkgoCommonListener<Object>() {
+        deviceApiUnit.setCloudStor(camera.getGatewayUrl(), deviceId, cloneBean, new OkgoCommonListener<Object>() {
             @Override
             public void onSuccess(Object bean) {
                 progressDialogManager.dimissDialog(LOADING, 0);
-                camera.moveMonitorConfig = cloneBean;
+                camera.cloudStorConfig = cloneBean;
                 finish();
             }
 
@@ -204,8 +204,8 @@ public class DeviceSettingAlertActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0 && resultCode == RESULT_OK) {
-            MoveMonitorBean moveMonitorBean = (MoveMonitorBean) data.getSerializableExtra("MoveMonitorBean");
-            cloneBean = moveMonitorBean;
+            CloudStorBean cloudStorBean = (CloudStorBean) data.getSerializableExtra("CloudStorBean");
+            cloneBean = cloudStorBean;
             refreshUI();
         }
     }

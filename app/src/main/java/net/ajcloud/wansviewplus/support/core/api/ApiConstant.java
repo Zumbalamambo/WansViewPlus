@@ -40,6 +40,9 @@ public class ApiConstant {
     public static String URL_DEVICE_PLACEMENT = "/v1/cmd/orientation-config";
     public static String URL_DEVICE_NIGHT_VERSION = "/v1/cmd/night-vision-config";
     public static String URL_DEVICE_AUDIO_CONFIG = "/v1/cmd/audio-config";
+    public static String URL_DEVICE_LOCAL_STOR = "/v1/cmd/local-stor-config";
+    public static String URL_DEVICE_CLOUD_STOR = "/v1/cmd/cloud-stor-config";
+    public static String URL_DEVICE_TIME_ZONE = "/v1/cmd/time-config";
 
     public static void setBaseUrl(AppConfigBean bean) {
         isApply = true;

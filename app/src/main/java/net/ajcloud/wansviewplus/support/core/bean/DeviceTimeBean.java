@@ -8,6 +8,6 @@ import java.io.Serializable;
  */
 public class DeviceTimeBean implements Serializable {
     public String tzName;
-    public int tzValue;
-    public int dst;
+    public String tzValue;
+    public String dst;
 }

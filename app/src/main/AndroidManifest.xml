@@ -132,8 +132,8 @@
         <activity android:name=".main.device.setting.homeAlert.DetectionTimeActivity" />
         <activity android:name=".main.device.setting.homeAlert.TimePeriodActivity" />
         <activity android:name=".main.device.setting.ImageAndAudioActivity" />
-        <activity android:name=".main.device.setting.TFCardActivity" />
-        <activity android:name=".main.device.setting.CloudStorageActivity" />
+        <activity android:name=".main.device.setting.tfcardStorage.TFCardActivity" />
+        <activity android:name=".main.device.setting.cloudStorage.CloudStorageActivity" />
         <activity android:name=".main.device.setting.MaintenanceActivity" />
         <activity android:name=".main.device.setting.TimeZoneActivity" />
         <activity
@@ -146,7 +146,11 @@
         <activity android:name=".main.mine.security.SecurityActivity" />
         <activity android:name=".main.mine.security.ChangePasswordActivity" />
         <activity android:name=".main.mine.AboutActivity" />
-        <activity android:name=".main.mine.security.LogoffActivity"></activity>
+        <activity android:name=".main.mine.security.LogoffActivity" />
+        <activity android:name=".main.device.setting.tfcardStorage.TFDetectionTimeActivity" />
+        <activity android:name=".main.device.setting.tfcardStorage.TFTimePeriodActivity" />
+        <activity android:name=".main.device.setting.cloudStorage.CloudDetectionTimeActivity" />
+        <activity android:name=".main.device.setting.cloudStorage.CloudTimePeriodActivity"></activity>
     </application>
 
 </manifest>

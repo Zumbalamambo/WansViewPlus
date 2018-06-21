@@ -69,7 +69,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         if (camera.onlineStatus == 2) {
             ((DeviceListHolder) holder).tv_status.setText("ON LINE");
-        }else {
+        } else {
             ((DeviceListHolder) holder).tv_status.setText("OFF LINE");
         }
 
@@ -79,7 +79,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((DeviceListHolder) holder).iv_refresh.setVisibility(View.GONE);
         }
 
-        if (camera.cloudStorConfig == null || camera.cloudStorConfig.enable == 0) {//关闭
+        if (camera.cloudStorConfig == null || TextUtils.equals(camera.cloudStorConfig.enable, "0")) {//关闭
             ((DeviceListHolder) holder).tv_cloud.setTextColor(context.getResources().getColor(R.color.gray_second));
             ((DeviceListHolder) holder).tv_cloudState.setText(" not subscribed");
             ((DeviceListHolder) holder).tv_cloud.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +88,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     //TODO 云存储购买页
                 }
             });
-        } else if (camera.cloudStorConfig.enable == 1) {//启用
+        } else if (TextUtils.equals(camera.cloudStorConfig.enable, "1")) {//启用
             ((DeviceListHolder) holder).tv_cloud.setTextColor(context.getResources().getColor(R.color.colorPrimary));
             ((DeviceListHolder) holder).tv_cloudState.setText(" is in service");
             ((DeviceListHolder) holder).tv_cloud.setOnClickListener(null);

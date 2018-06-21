@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -26,7 +26,7 @@
             android:ellipsize="end"
             android:maxWidth="150dp"
             android:singleLine="true"
-            android:text="Not flashing"
+            android:text="Set camera placement"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/signIn_textSize_18" />
     </RelativeLayout>
@@ -37,31 +37,37 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="-20dp"
-            android:src="@mipmap/ic_launcher_round" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
-            android:text="1.Please try restarting the camera after power off."
+            android:text="Please select camera placement mode.If your camera picture is upside-down,swap the placement mode."
             android:textColor="@color/gray_first"
             android:textSize="@dimen/signIn_textSize_16" />
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:text="2.Try to contact us for help service@wansview.com"
-            android:textColor="@color/gray_first"
-            android:textSize="@dimen/signIn_textSize_16" />
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_positioning"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:src="@mipmap/ic_launcher_round" />
+
+            <ImageView
+                android:id="@+id/iv_inverted"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:src="@mipmap/ic_launcher_round" />
+        </RelativeLayout>
+
     </LinearLayout>
 </LinearLayout>

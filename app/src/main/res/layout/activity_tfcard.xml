@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".main.device.setting.TFCardActivity">
+    tools:context=".main.device.setting.tfcardStorage.TFCardActivity">
 
     <RelativeLayout
         android:id="@+id/item_storage"
@@ -91,20 +91,30 @@
             android:text="24-hour"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginEnd="@dimen/device_setting_margin_first"
-        android:layout_marginStart="@dimen/device_setting_margin_first"
-        android:background="@color/gray_line" />
 
     <RelativeLayout
         android:id="@+id/item_quality"
         android:layout_width="match_parent"
         android:layout_height="@dimen/device_setting_item_height"
         android:background="@drawable/bg_ripper_effect">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
 
         <TextView
             android:id="@+id/item_quality_tips"
@@ -146,26 +156,21 @@
             android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginEnd="@dimen/device_setting_margin_first"
-        android:layout_marginStart="@dimen/device_setting_margin_first"
-        android:background="@color/gray_line" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginEnd="@dimen/device_setting_margin_first"
-        android:layout_marginStart="@dimen/device_setting_margin_first"
-        android:layout_marginTop="@dimen/device_setting_margin_first"
-        android:background="@color/gray_line" />
 
     <RelativeLayout
         android:id="@+id/item_record"
         android:layout_width="match_parent"
         android:layout_height="@dimen/device_setting_item_height"
+        android:layout_marginTop="@dimen/device_setting_margin_first"
         android:background="@drawable/bg_ripper_effect">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+
+            android:background="@color/gray_line" />
 
         <TextView
             android:id="@+id/item_record_tips"
@@ -192,12 +197,15 @@
             android:checked="false"
             android:theme="@style/CustomSwitch"
             app:switchMinWidth="37dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/device_setting_margin_first"
+            android:layout_marginStart="@dimen/device_setting_margin_first"
+            android:background="@color/gray_line" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginEnd="@dimen/device_setting_margin_first"
-        android:layout_marginStart="@dimen/device_setting_margin_first"
-        android:background="@color/gray_line" />
+
 </LinearLayout>

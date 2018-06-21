@@ -10,7 +10,9 @@ import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceSelectActivity;
+import net.ajcloud.wansviewplus.main.device.setting.cloudStorage.CloudStorageActivity;
 import net.ajcloud.wansviewplus.main.device.setting.homeAlert.DeviceSettingAlertActivity;
+import net.ajcloud.wansviewplus.main.device.setting.tfcardStorage.TFCardActivity;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.device.DeviceInfoDictionary;
 
@@ -110,7 +112,7 @@ public class DeviceSettingActivity extends BaseActivity {
                 ImageAndAudioActivity.start(DeviceSettingActivity.this, deviceId);
                 break;
             case R.id.item_timezone:
-                startActivityForResult(new Intent(DeviceSettingActivity.this, TimeZoneActivity.class), TIMEZONE);
+                TimeZoneActivity.start(DeviceSettingActivity.this, deviceId);
                 break;
             case R.id.item_tf_storage:
                 TFCardActivity.start(DeviceSettingActivity.this, deviceId);
