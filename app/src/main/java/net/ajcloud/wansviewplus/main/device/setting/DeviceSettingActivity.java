@@ -121,7 +121,7 @@ public class DeviceSettingActivity extends BaseActivity {
                 CloudStorageActivity.start(DeviceSettingActivity.this, deviceId);
                 break;
             case R.id.item_maintenance:
-                startActivity(new Intent(DeviceSettingActivity.this, MaintenanceActivity.class));
+                MaintenanceActivity.start(DeviceSettingActivity.this, deviceId);
                 break;
             default:
                 break;

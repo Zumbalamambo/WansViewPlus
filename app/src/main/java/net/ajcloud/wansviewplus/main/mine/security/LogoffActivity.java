@@ -8,7 +8,7 @@ import android.widget.Button;
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
-import net.ajcloud.wansviewplus.support.customview.dialog.LogoffConfirmDialog;
+import net.ajcloud.wansviewplus.support.customview.dialog.ConfirmDialog;
 import net.ajcloud.wansviewplus.support.customview.materialEditText.MaterialEditText;
 
 public class LogoffActivity extends BaseActivity {
@@ -17,7 +17,7 @@ public class LogoffActivity extends BaseActivity {
     private MaterialEditText emailEditText;
     private MaterialEditText pwdEditText;
     private Button logoffButton;
-    private LogoffConfirmDialog logoffConfirmDialog;
+    private ConfirmDialog confirmDialog;
 
     @Override
     protected int getLayoutId() {
@@ -38,8 +38,8 @@ public class LogoffActivity extends BaseActivity {
         pwdEditText = findViewById(R.id.et_pwd);
         logoffButton = findViewById(R.id.btn_logoff);
 
-        logoffConfirmDialog = new LogoffConfirmDialog(this);
-
+        confirmDialog = new ConfirmDialog(this);
+        confirmDialog.setTittle("Log off confirmation");
         emailEditText.setText(SigninAccountManager.getInstance().getCurrentAccountMail());
         pwdEditText.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
@@ -48,7 +48,7 @@ public class LogoffActivity extends BaseActivity {
     @Override
     protected void initListener() {
         logoffButton.setOnClickListener(this);
-        logoffConfirmDialog.setDialogClickListener(new LogoffConfirmDialog.OnDialogClickListener() {
+        confirmDialog.setDialogClickListener(new ConfirmDialog.OnDialogClickListener() {
             @Override
             public void confirm() {
                 doLogoff();
@@ -79,8 +79,8 @@ public class LogoffActivity extends BaseActivity {
             return;
         }
         //TODO 本地校验
-        if (!logoffConfirmDialog.isShowing()){
-            logoffConfirmDialog.show();
+        if (!confirmDialog.isShowing()){
+            confirmDialog.show();
         }
     }
 

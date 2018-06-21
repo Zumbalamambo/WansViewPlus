@@ -40,7 +40,7 @@ public class Camera implements Serializable{
     public String endpoint;
     public String fwVersion;
     public long onlineModified;
-    public int onlineStatus;
+    public int onlineStatus;     // 离线 - 1, 在线 - 2, 升级中 - 4
     public String remoteAddr;
     public long tunnelSyncTime;
     public String vendorCode;

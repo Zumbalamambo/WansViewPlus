@@ -56,17 +56,17 @@ public class TestActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(etTest.getText().toString())) {
-                    new DeviceApiUnit(TestActivity.this).unBind(etTest.getText().toString(), new OkgoCommonListener<Object>() {
-                        @Override
-                        public void onSuccess(Object bean) {
-                            ToastUtil.single("ok");
-                        }
-
-                        @Override
-                        public void onFail(int code, String msg) {
-                            ToastUtil.single(msg);
-                        }
-                    });
+//                    new DeviceApiUnit(TestActivity.this).unBind(etTest.getText().toString(), new OkgoCommonListener<Object>() {
+//                        @Override
+//                        public void onSuccess(Object bean) {
+//                            ToastUtil.single("ok");
+//                        }
+//
+//                        @Override
+//                        public void onFail(int code, String msg) {
+//                            ToastUtil.single(msg);
+//                        }
+//                    });
                 }
             }
         });
@@ -75,17 +75,17 @@ public class TestActivity extends BaseActivity {
             public void onClick(View v) {
                 for (Camera camera : MainApplication.getApplication().getDeviceCache().getDevices()
                         ) {
-                    new DeviceApiUnit(TestActivity.this).unBind(camera.deviceId, new OkgoCommonListener<Object>() {
-                        @Override
-                        public void onSuccess(Object bean) {
-                            ToastUtil.single("ok");
-                        }
-
-                        @Override
-                        public void onFail(int code, String msg) {
-                            ToastUtil.single(msg);
-                        }
-                    });
+//                    new DeviceApiUnit(TestActivity.this).unBind(camera.deviceId, new OkgoCommonListener<Object>() {
+//                        @Override
+//                        public void onSuccess(Object bean) {
+//                            ToastUtil.single("ok");
+//                        }
+//
+//                        @Override
+//                        public void onFail(int code, String msg) {
+//                            ToastUtil.single(msg);
+//                        }
+//                    });
                 }
             }
         });

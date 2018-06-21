@@ -349,42 +349,6 @@ public class DeviceApiUnit {
     }
 
     /**
-     * 解绑设备
-     *
-     * @param deviceId 设备Id
-     */
-    public void unBind(String deviceId, final OkgoCommonListener<Object> listener) {
-        JSONObject dataJson = new JSONObject();
-        try {
-            dataJson.put("deviceId", deviceId);
-            dataJson.put("agentName", localInfo.deviceName);
-            dataJson.put("agentToken", localInfo.deviceId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        OkGo.<ResponseBean<Object>>post(ApiConstant.URL_DEVICE_UNBIND)
-                .tag(this)
-                .upJson(getReqBody(dataJson, null))
-                .execute(new JsonCallback<ResponseBean<Object>>() {
-                    @Override
-                    public void onSuccess(Response<ResponseBean<Object>> response) {
-                        ResponseBean responseBean = response.body();
-                        if (responseBean.isSuccess()) {
-                            listener.onSuccess(responseBean.result);
-                        } else {
-                            listener.onFail(responseBean.getResultCode(), responseBean.message);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<ResponseBean<Object>> response) {
-                        super.onError(response);
-                        listener.onFail(-1, response.getException().getMessage());
-                    }
-                });
-    }
-
-    /**
      * 获取摄像机第一帧
      *
      * @param url      设备ip
@@ -694,6 +658,150 @@ public class DeviceApiUnit {
         OkGo.<ResponseBean<Object>>post(reqUrl)
                 .tag(this)
                 .upJson(getReqBody(dataJson, deviceId))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 重启
+     *
+     * @param url      设备ip
+     * @param deviceId 设备Id
+     */
+    public void restart(String url, String deviceId, final OkgoCommonListener<Object> listener) {
+        if (TextUtils.isEmpty(url)) {
+            listener.onSuccess(null);
+            return;
+        }
+        JSONObject dataJson = new JSONObject();
+
+        String reqUrl = url + ApiConstant.URL_DEVICE_RESTART;
+        OkGo.<ResponseBean<Object>>post(reqUrl)
+                .tag(this)
+                .upJson(getReqBody(dataJson, deviceId))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 恢复出厂设置
+     *
+     * @param url      设备ip
+     * @param deviceId 设备Id
+     */
+    public void restore(String url, String deviceId, final OkgoCommonListener<Object> listener) {
+        if (TextUtils.isEmpty(url)) {
+            listener.onSuccess(null);
+            return;
+        }
+        JSONObject dataJson = new JSONObject();
+
+        String reqUrl = url + ApiConstant.URL_DEVICE_RESTORE;
+        OkGo.<ResponseBean<Object>>post(reqUrl)
+                .tag(this)
+                .upJson(getReqBody(dataJson, deviceId))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 删除
+     *
+     * @param url      设备ip
+     * @param deviceId 设备Id
+     */
+    public void remove(String url, final String deviceId, final OkgoCommonListener<Object> listener) {
+        if (TextUtils.isEmpty(url)) {
+            listener.onSuccess(null);
+            return;
+        }
+        JSONObject dataJson = new JSONObject();
+
+        String reqUrl = url + ApiConstant.URL_DEVICE_REMOVE;
+        OkGo.<ResponseBean<Object>>post(reqUrl)
+                .tag(this)
+                .upJson(getReqBody(dataJson, deviceId))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            unBind(deviceId, listener);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 解绑设备
+     *
+     * @param deviceId 设备Id
+     */
+    private void unBind(String deviceId, final OkgoCommonListener<Object> listener) {
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("deviceId", deviceId);
+            dataJson.put("agentName", localInfo.deviceName);
+            dataJson.put("agentToken", localInfo.deviceId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<Object>>post(ApiConstant.URL_DEVICE_UNBIND)
+                .tag(this)
+                .upJson(getReqBody(dataJson, null))
                 .execute(new JsonCallback<ResponseBean<Object>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<Object>> response) {

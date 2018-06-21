@@ -43,6 +43,9 @@ public class ApiConstant {
     public static String URL_DEVICE_LOCAL_STOR = "/v1/cmd/local-stor-config";
     public static String URL_DEVICE_CLOUD_STOR = "/v1/cmd/cloud-stor-config";
     public static String URL_DEVICE_TIME_ZONE = "/v1/cmd/time-config";
+    public static String URL_DEVICE_RESTART = "/v1/cmd/restart";
+    public static String URL_DEVICE_RESTORE = "/v1/cmd/reset";
+    public static String URL_DEVICE_REMOVE = "/v1/cmd/remove";
 
     public static void setBaseUrl(AppConfigBean bean) {
         isApply = true;
