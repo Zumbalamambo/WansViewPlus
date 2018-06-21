@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.AppCompatSeekBar;
 import android.support.v7.widget.SwitchCompat;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
@@ -13,12 +14,15 @@ import android.widget.TextView;
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
+import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.customview.dialog.CommonDialog;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 public class ImageAndAudioActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
 
+    private static final String LOADING = "LOADING";
     private RelativeLayout placementLayout;
     private TextView placementTextView, volumeTextView;
     private SwitchCompat nightSwitch, microphoneSwitch, lightSwitch;
@@ -26,6 +30,8 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
     private CommonDialog placeDialog;
     private String deviceId;
     private Camera camera;
+    private Camera cloneCamera;
+    private DeviceApiUnit deviceApiUnit;
 
     public static void start(Context context, String deviceId) {
         Intent intent = new Intent(context, ImageAndAudioActivity.class);
@@ -58,20 +64,13 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
 
     @Override
     protected void initData() {
+        deviceApiUnit = new DeviceApiUnit(this);
         if (getIntent() != null) {
             deviceId = getIntent().getStringExtra("deviceId");
             camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+            cloneCamera = (Camera) camera.deepClone();
         }
-        if (camera != null) {
-            nightSwitch.setChecked(camera.nightMode == 1);
-
-            if (camera.audioConfig != null) {
-                if (camera.audioConfig.enable == 1) {
-                    microphoneSwitch.setChecked(true);
-                    volumeSeekbar.setProgress(camera.audioConfig.volume);
-                }
-            }
-        }
+        refreshUI();
     }
 
     @Override
@@ -93,7 +92,7 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                cloneCamera.audioConfig.speakerVolume = String.valueOf(seekBar.getProgress());
             }
         });
     }
@@ -112,8 +111,18 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.item_night_switch:
+                if (isChecked) {
+                    cloneCamera.nightMode = "2";
+                } else {
+                    cloneCamera.nightMode = "0";
+                }
                 break;
             case R.id.item_microphone_switch:
+                if (isChecked) {
+                    cloneCamera.audioConfig.micEnable = "1";
+                } else {
+                    cloneCamera.audioConfig.micEnable = "0";
+                }
                 break;
             case R.id.item_light_switch:
                 break;
@@ -151,4 +160,63 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
             }
         }
     };
+
+    private void refreshUI() {
+        if (cloneCamera != null) {
+            nightSwitch.setChecked(TextUtils.equals(cloneCamera.nightMode, "1"));
+
+            if (cloneCamera.audioConfig != null) {
+                microphoneSwitch.setChecked(TextUtils.equals(cloneCamera.audioConfig.micEnable, "1"));
+                if (!TextUtils.isEmpty(camera.audioConfig.speakerVolume)) {
+                    volumeSeekbar.setProgress(Integer.valueOf(camera.audioConfig.speakerVolume));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        progressDialogManager.showDialog(LOADING, ImageAndAudioActivity.this);
+        deviceApiUnit.setPlacement(cloneCamera.getGatewayUrl(), cloneCamera.deviceId, "3", new OkgoCommonListener<Object>() {
+            @Override
+            public void onSuccess(Object bean) {
+                camera.orientationValue = cloneCamera.orientationValue;
+                deviceApiUnit.setNightVersion(cloneCamera.getGatewayUrl(), cloneCamera.deviceId, cloneCamera.nightMode, new OkgoCommonListener<Object>() {
+                    @Override
+                    public void onSuccess(Object bean) {
+                        camera.nightMode = cloneCamera.nightMode;
+                        deviceApiUnit.setAudioConfig(cloneCamera.getGatewayUrl(), cloneCamera.deviceId, cloneCamera.audioConfig, new OkgoCommonListener<Object>() {
+                            @Override
+                            public void onSuccess(Object bean) {
+                                progressDialogManager.dimissDialog(LOADING, 0);
+                                camera.audioConfig = cloneCamera.audioConfig;
+                                finish();
+                            }
+
+                            @Override
+                            public void onFail(int code, String msg) {
+                                progressDialogManager.dimissDialog(LOADING, 0);
+                                ToastUtil.single(msg);
+                                finish();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+                        progressDialogManager.dimissDialog(LOADING, 0);
+                        ToastUtil.single(msg);
+                        finish();
+                    }
+                });
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                progressDialogManager.dimissDialog(LOADING, 0);
+                ToastUtil.single(msg);
+                finish();
+            }
+        });
+    }
 }

@@ -1,13 +1,16 @@
 package net.ajcloud.wansviewplus.support.core.bean;
 
-import java.util.List;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
  * Created by mamengchao on 2018/06/06.
  * Function:
  */
-public class AudioInfoBean {
-    public int enable;
-    public int volume;
-    public List<String> targets;
+public class AudioInfoBean implements Serializable {
+    public String micEnable;
+    public String speakerVolume;
 }

@@ -53,14 +53,6 @@ public class DeviceSettingAlertActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if (camera != null && camera.moveMonitorConfig != null) {
-            cloneBean = (MoveMonitorBean) camera.moveMonitorConfig.deepClone();
-        }
-    }
-
-    @Override
     protected void initView() {
         getToolbar().setTittle("Home alert");
         getToolbar().setLeftImg(R.mipmap.icon_back);
@@ -79,6 +71,9 @@ public class DeviceSettingAlertActivity extends BaseActivity {
         if (getIntent() != null) {
             deviceId = getIntent().getStringExtra("deviceId");
             camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+            if (camera.moveMonitorConfig != null) {
+                cloneBean = (MoveMonitorBean) camera.moveMonitorConfig.deepClone();
+            }
         }
         refreshUI();
     }
@@ -133,7 +128,7 @@ public class DeviceSettingAlertActivity extends BaseActivity {
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.item_time:
-                DetectionTimeActivity.start(DeviceSettingAlertActivity.this, deviceId);
+                DetectionTimeActivity.start(DeviceSettingAlertActivity.this, cloneBean);
                 break;
             default:
                 break;
@@ -160,17 +155,17 @@ public class DeviceSettingAlertActivity extends BaseActivity {
     }
 
     private void refreshUI() {
-        if (camera != null && camera.moveMonitorConfig != null) {
-            if (camera.moveMonitorConfig.enable == 1) {
+        if (cloneBean != null) {
+            if (cloneBean.enable == 1) {
                 detectionSwitch.setChecked(true);
                 sensitivityLayout.setVisibility(View.VISIBLE);
                 timeLayout.setVisibility(View.VISIBLE);
 
-                if (!TextUtils.isEmpty(camera.moveMonitorConfig.susceptiveness)) {
-                    detectionSeekbar.setProgress(Integer.parseInt(camera.moveMonitorConfig.susceptiveness) - 1);
+                if (!TextUtils.isEmpty(cloneBean.susceptiveness)) {
+                    detectionSeekbar.setProgress(Integer.parseInt(cloneBean.susceptiveness) - 1);
                 }
 
-                List<MoveMonitorBean.Policy> policyList = camera.moveMonitorConfig.policies;
+                List<MoveMonitorBean.Policy> policyList = cloneBean.policies;
                 for (MoveMonitorBean.Policy policy : policyList) {
                     if (TextUtils.equals(policy.no, "1")) {
                         if (policy.enable == 1) {
@@ -182,7 +177,7 @@ public class DeviceSettingAlertActivity extends BaseActivity {
                                     if (policy_2.enable == 1) {
                                         time.append(" period1");
                                     }
-                                } else if (TextUtils.equals(policy.no, "3")) {
+                                } else if (TextUtils.equals(policy_2.no, "3")) {
                                     if (policy_2.enable == 1) {
                                         time.append(" period2");
                                     }
@@ -203,5 +198,15 @@ public class DeviceSettingAlertActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         doSet();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            MoveMonitorBean moveMonitorBean = (MoveMonitorBean) data.getSerializableExtra("MoveMonitorBean");
+            cloneBean = moveMonitorBean;
+            refreshUI();
+        }
     }
 }

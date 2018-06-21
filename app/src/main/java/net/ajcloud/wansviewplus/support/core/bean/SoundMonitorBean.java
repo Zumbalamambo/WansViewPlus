@@ -1,17 +1,18 @@
 package net.ajcloud.wansviewplus.support.core.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by mamengchao on 2018/06/06.
  * Function:
  */
-public class SoundMonitorBean {
+public class SoundMonitorBean implements Serializable {
     public int enable;
     public int susceptiveness;
     public List<Policy> policies;
 
-    public static class Policy{
+    public static class Policy implements Serializable{
         private int no;
         private int enable;
         private int respondMode;

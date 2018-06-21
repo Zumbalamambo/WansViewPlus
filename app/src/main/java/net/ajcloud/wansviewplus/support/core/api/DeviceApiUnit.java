@@ -9,6 +9,7 @@ import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.entity.LocalInfo;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.support.core.bean.AudioInfoBean;
 import net.ajcloud.wansviewplus.support.core.bean.BindStatusBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceConfigBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceListBean;
@@ -441,6 +442,129 @@ public class DeviceApiUnit {
             e.printStackTrace();
         }
         String reqUrl = url + ApiConstant.URL_DEVICE_MOVE_DETECTION;
+        OkGo.<ResponseBean<Object>>post(reqUrl)
+                .tag(this)
+                .upJson(getReqBody(dataJson, deviceId))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 设置倒置
+     *
+     * @param url              设备ip
+     * @param deviceId         设备Id
+     * @param orientationValue 0 - 关闭(全为彩色模式) , 1 - 自动(缺省),  2-红外灯模式 |
+     */
+    public void setPlacement(String url, String deviceId, String orientationValue, final OkgoCommonListener<Object> listener) {
+        if (TextUtils.isEmpty(url)) {
+            listener.onSuccess(null);
+            return;
+        }
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("orientationValue", orientationValue);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String reqUrl = url + ApiConstant.URL_DEVICE_PLACEMENT;
+        OkGo.<ResponseBean<Object>>post(reqUrl)
+                .tag(this)
+                .upJson(getReqBody(dataJson, deviceId))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 设置夜视
+     *
+     * @param url       设备ip
+     * @param deviceId  设备Id
+     * @param nightMode 0 - 关闭(全为彩色模式) , 1 - 自动(缺省),  2-红外灯模式 |
+     */
+    public void setNightVersion(String url, String deviceId, String nightMode, final OkgoCommonListener<Object> listener) {
+        if (TextUtils.isEmpty(url)) {
+            listener.onSuccess(null);
+            return;
+        }
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("nightMode", nightMode);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String reqUrl = url + ApiConstant.URL_DEVICE_NIGHT_VERSION;
+        OkGo.<ResponseBean<Object>>post(reqUrl)
+                .tag(this)
+                .upJson(getReqBody(dataJson, deviceId))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 设置音频
+     *
+     * @param url      设备ip
+     * @param deviceId 设备Id
+     * @param bean     音频设置
+     */
+    public void setAudioConfig(String url, String deviceId, AudioInfoBean bean, final OkgoCommonListener<Object> listener) {
+        if (TextUtils.isEmpty(url)) {
+            listener.onSuccess(null);
+            return;
+        }
+        JSONObject dataJson = null;
+        try {
+            dataJson = new JSONObject(new Gson().toJson(bean));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String reqUrl = url + ApiConstant.URL_DEVICE_AUDIO_CONFIG;
         OkGo.<ResponseBean<Object>>post(reqUrl)
                 .tag(this)
                 .upJson(getReqBody(dataJson, deviceId))

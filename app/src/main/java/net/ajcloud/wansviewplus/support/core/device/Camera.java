@@ -18,15 +18,22 @@ import net.ajcloud.wansviewplus.support.core.bean.ViewAnglesBean;
 
 import org.greenrobot.greendao.annotation.NotNull;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /**
  * Created by mamengchao on 2018/06/07.
  * Function:    摄像机实体类
  */
-public class Camera {
+public class Camera implements Serializable{
+    private static final long serialVersionUID = 1L;
     public int whiteBalance;
     public int freqValue;
-    public int nightMode;
-    public int orientationValue;
+    public String nightMode;
+    public String orientationValue;
     public String aliasName;
     public String deviceId;
     public String deviceMode;
@@ -157,4 +164,22 @@ public class Camera {
         this.accessPubKey = accessPubKey;
     }
 
+    public Object deepClone() {
+        try {
+            // 序列化
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+
+            oos.writeObject(this);
+
+            // 反序列化
+            ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+            ObjectInputStream ois = new ObjectInputStream(bis);
+
+            return ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

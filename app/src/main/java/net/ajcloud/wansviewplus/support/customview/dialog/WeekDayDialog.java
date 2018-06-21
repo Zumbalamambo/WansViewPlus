@@ -50,7 +50,7 @@ public class WeekDayDialog extends Dialog implements View.OnClickListener, Compo
         this.context = context;
         this.weekdays = weekdays;
         cbs = new ArrayList<>();
-        weekdaySet = new HashSet<>();
+        weekdaySet = new HashSet<>(weekdays);
     }
 
     public interface OnDialogClickListener {
@@ -116,6 +116,7 @@ public class WeekDayDialog extends Dialog implements View.OnClickListener, Compo
         }
         switch (v.getId()) {
             case R.id.tv_confirm:
+                weekdays = new ArrayList<>(weekdaySet);
                 listener.confirm(new ArrayList<>(weekdaySet));
                 break;
             default:

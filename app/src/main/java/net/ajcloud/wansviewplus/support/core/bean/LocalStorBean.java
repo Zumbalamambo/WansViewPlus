@@ -1,12 +1,13 @@
 package net.ajcloud.wansviewplus.support.core.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by mamengchao on 2018/06/06.
  * Function:    本地存储信息
  */
-public class LocalStorBean {
+public class LocalStorBean implements Serializable {
     public int enable;
     public int storageType;
     public int writeMode;
@@ -16,7 +17,7 @@ public class LocalStorBean {
     public String playUrlRoot;
     public List<Policy> policies;
 
-    public static class Policy {
+    public static class Policy implements Serializable{
         public int no;
         public int enable;
         public int format;

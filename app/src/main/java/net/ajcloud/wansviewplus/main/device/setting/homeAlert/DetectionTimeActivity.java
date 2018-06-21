@@ -1,6 +1,6 @@
 package net.ajcloud.wansviewplus.main.device.setting.homeAlert;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
@@ -11,12 +11,7 @@ import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
-import net.ajcloud.wansviewplus.main.application.MainApplication;
-import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
-import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.MoveMonitorBean;
-import net.ajcloud.wansviewplus.support.core.device.Camera;
-import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 public class DetectionTimeActivity extends BaseActivity {
 
@@ -26,15 +21,12 @@ public class DetectionTimeActivity extends BaseActivity {
     private SwitchCompat alltimeSwitch;
     private RelativeLayout periodOneLayout, periodTwoLayout;
     private TextView periodOneTextView, periodTwoTextView;
-    private String deviceId;
-    private Camera camera;
     private MoveMonitorBean cloneBean;
-    private DeviceApiUnit deviceApiUnit;
 
-    public static void start(Context context, String deviceId) {
+    public static void start(Activity context, MoveMonitorBean bean) {
         Intent intent = new Intent(context, DetectionTimeActivity.class);
-        intent.putExtra("deviceId", deviceId);
-        context.startActivity(intent);
+        intent.putExtra("MoveMonitorBean", bean);
+        context.startActivityForResult(intent, 0);
     }
 
     @Override
@@ -45,14 +37,6 @@ public class DetectionTimeActivity extends BaseActivity {
     @Override
     protected boolean hasTittle() {
         return true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (camera != null && camera.moveMonitorConfig != null) {
-            cloneBean = (MoveMonitorBean) camera.moveMonitorConfig.deepClone();
-        }
     }
 
     @Override
@@ -69,12 +53,10 @@ public class DetectionTimeActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        deviceApiUnit = new DeviceApiUnit(this);
         if (getIntent() != null) {
-            deviceId = getIntent().getStringExtra("deviceId");
-            camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+            cloneBean = (MoveMonitorBean) getIntent().getSerializableExtra("MoveMonitorBean");
+            refreshUI();
         }
-        refreshUI();
     }
 
     @Override
@@ -88,23 +70,16 @@ public class DetectionTimeActivity extends BaseActivity {
                     if (TextUtils.equals(policy.no, "1")) {
                         if (isChecked) {
                             policy.enable = 1;
-                            periodOneLayout.setVisibility(View.GONE);
-                            periodTwoLayout.setVisibility(View.GONE);
                         } else {
                             policy.enable = 0;
-                            periodOneLayout.setVisibility(View.VISIBLE);
-                            periodTwoLayout.setVisibility(View.VISIBLE);
-                            if (!TextUtils.isEmpty(policy.startTime)) {
-                                String time = policy.startTime;
-                                periodOneTextView.setText(time.substring(0, time.length() - 2).replaceAll("(.{2})", ":"));
-                            }
-                            if (!TextUtils.isEmpty(policy.endTime)) {
-                                String time = policy.endTime;
-                                periodTwoTextView.setText(time.substring(0, time.length() - 2).replaceAll("(.{2})", ":"));
-                            }
                         }
+                        for (int i = 1; i < 8; i++) {
+                            policy.weekDays.add(i);
+                        }
+                        break;
                     }
                 }
+                refreshUI();
             }
         });
     }
@@ -113,65 +88,44 @@ public class DetectionTimeActivity extends BaseActivity {
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.item_period_one:
-                TimePeriodActivity.start(DetectionTimeActivity.this, deviceId, PERIOD_ONE);
+                TimePeriodActivity.start(DetectionTimeActivity.this, PERIOD_ONE, cloneBean);
                 break;
             case R.id.item_period_two:
-                TimePeriodActivity.start(DetectionTimeActivity.this, deviceId, PERIOD_TWO);
+                TimePeriodActivity.start(DetectionTimeActivity.this, PERIOD_TWO, cloneBean);
                 break;
             default:
                 break;
         }
     }
 
-    private void doSet() {
-        progressDialogManager.showDialog(LOADING, this);
-        deviceApiUnit.setMoveDetection(camera.getGatewayUrl(), deviceId, cloneBean, new OkgoCommonListener<Object>() {
-            @Override
-            public void onSuccess(Object bean) {
-                progressDialogManager.dimissDialog(LOADING, 0);
-                camera.moveMonitorConfig = cloneBean;
-                finish();
-            }
-
-            @Override
-            public void onFail(int code, String msg) {
-                progressDialogManager.dimissDialog(LOADING, 0);
-                ToastUtil.single(msg);
-                finish();
-            }
-        });
-    }
-
     private void refreshUI() {
-        if (camera.moveMonitorConfig != null) {
-            for (MoveMonitorBean.Policy policy : camera.moveMonitorConfig.policies) {
-                if (TextUtils.equals(policy.no, "1")) {
-                    if (policy.enable == 1) {
-                        alltimeSwitch.setChecked(true);
-                        periodOneLayout.setVisibility(View.GONE);
-                        periodTwoLayout.setVisibility(View.GONE);
-                    } else {
-                        alltimeSwitch.setChecked(false);
-                        periodOneLayout.setVisibility(View.VISIBLE);
-                        periodTwoLayout.setVisibility(View.VISIBLE);
-                        for (MoveMonitorBean.Policy item : camera.moveMonitorConfig.policies) {
-                            if (TextUtils.equals(item.no, "2")) {
-                                if (item.enable == 0) {
-                                    periodOneTextView.setText("off");
-                                } else if (!TextUtils.isEmpty(item.startTime) && !TextUtils.isEmpty(item.endTime)) {
-                                    StringBuilder startTime = new StringBuilder(item.startTime.substring(0, item.startTime.length() - 2));
-                                    StringBuilder endTime = new StringBuilder(item.endTime.substring(0, item.endTime.length() - 2));
-                                    periodOneTextView.setText(startTime.insert(2, ":").toString() + " - " + endTime.insert(2, ":").toString());
-                                }
+        for (MoveMonitorBean.Policy policy : cloneBean.policies) {
+            if (TextUtils.equals(policy.no, "1")) {
+                if (policy.enable == 1) {
+                    alltimeSwitch.setChecked(true);
+                    periodOneLayout.setVisibility(View.GONE);
+                    periodTwoLayout.setVisibility(View.GONE);
+                } else {
+                    alltimeSwitch.setChecked(false);
+                    periodOneLayout.setVisibility(View.VISIBLE);
+                    periodTwoLayout.setVisibility(View.VISIBLE);
+                    for (MoveMonitorBean.Policy item : cloneBean.policies) {
+                        if (TextUtils.equals(item.no, "2")) {
+                            if (item.enable == 0) {
+                                periodOneTextView.setText("off");
+                            } else if (!TextUtils.isEmpty(item.startTime) && !TextUtils.isEmpty(item.endTime)) {
+                                StringBuilder startTime = new StringBuilder(item.startTime.substring(0, item.startTime.length() - 2));
+                                StringBuilder endTime = new StringBuilder(item.endTime.substring(0, item.endTime.length() - 2));
+                                periodOneTextView.setText(startTime.insert(2, ":").toString() + " - " + endTime.insert(2, ":").toString());
                             }
-                            if (TextUtils.equals(item.no, "3")) {
-                                if (item.enable == 0) {
-                                    periodTwoTextView.setText("off");
-                                } else if (!TextUtils.isEmpty(item.startTime) && !TextUtils.isEmpty(item.endTime)) {
-                                    StringBuilder startTime = new StringBuilder(item.startTime.substring(0, item.startTime.length() - 2));
-                                    StringBuilder endTime = new StringBuilder(item.endTime.substring(0, item.endTime.length() - 2));
-                                    periodTwoTextView.setText(startTime.insert(2, ":").toString() + " - " + endTime.insert(2, ":").toString());
-                                }
+                        }
+                        if (TextUtils.equals(item.no, "3")) {
+                            if (item.enable == 0) {
+                                periodTwoTextView.setText("off");
+                            } else if (!TextUtils.isEmpty(item.startTime) && !TextUtils.isEmpty(item.endTime)) {
+                                StringBuilder startTime = new StringBuilder(item.startTime.substring(0, item.startTime.length() - 2));
+                                StringBuilder endTime = new StringBuilder(item.endTime.substring(0, item.endTime.length() - 2));
+                                periodTwoTextView.setText(startTime.insert(2, ":").toString() + " - " + endTime.insert(2, ":").toString());
                             }
                         }
                     }
@@ -182,6 +136,19 @@ public class DetectionTimeActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        doSet();
+        Intent intent = new Intent();
+        intent.putExtra("MoveMonitorBean", cloneBean);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            MoveMonitorBean moveMonitorBean = (MoveMonitorBean) data.getSerializableExtra("MoveMonitorBean");
+            cloneBean = moveMonitorBean;
+            refreshUI();
+        }
     }
 }

@@ -37,6 +37,9 @@ public class ApiConstant {
     public static String URL_DEVICE_SET_DEVICE_NAME = "/v1/cmd/alias-name";
     public static String URL_DEVICE_GET_FIRST_FRAME = "/v1/cmd/snapshot";
     public static String URL_DEVICE_MOVE_DETECTION = "/v1/cmd/move-monitor-config";
+    public static String URL_DEVICE_PLACEMENT = "/v1/cmd/orientation-config";
+    public static String URL_DEVICE_NIGHT_VERSION = "/v1/cmd/night-vision-config";
+    public static String URL_DEVICE_AUDIO_CONFIG = "/v1/cmd/audio-config";
 
     public static void setBaseUrl(AppConfigBean bean) {
         isApply = true;
