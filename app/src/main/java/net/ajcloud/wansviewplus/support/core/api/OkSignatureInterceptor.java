@@ -49,11 +49,11 @@ public class OkSignatureInterceptor implements Interceptor {
                 signBody.append("\n");
                 signBody.append(urls[1]);
                 signBody.append("\n");
-                signBody.append(CipherUtil.strToHex(CipherUtil.getSha256(reqBody)));
+                signBody.append(CipherUtil.getSha256(reqBody));
                 signBody.append("\n");
 
                 String signToken = SigninAccountManager.getInstance().getCurrentSignToken();
-                String stringToSign = "HMAC-SHA256" + "\n" + timeStamp + "\n" + CipherUtil.strToHex(CipherUtil.getSha256(signBody.toString()));
+                String stringToSign = "HMAC-SHA256" + "\n" + timeStamp + "\n" + CipherUtil.getSha256(signBody.toString());
                 String signature = CipherUtil.getClondApiSign(signToken, stringToSign);
 
                 Request newRequest = chain.request().newBuilder()

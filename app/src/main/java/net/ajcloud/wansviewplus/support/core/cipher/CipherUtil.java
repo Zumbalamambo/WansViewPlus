@@ -174,7 +174,7 @@ public class CipherUtil {
             SecretKeySpec secret = new SecretKeySpec(
                     key.getBytes("UTF-8"), mac.getAlgorithm());
             mac.init(secret);
-            signature = CipherUtil.strToHex(Base64.encodeToString(mac.doFinal(data.getBytes()), Base64.NO_WRAP));
+            signature = CipherUtil.bytesToHex(mac.doFinal(data.getBytes()));
         } catch (NoSuchAlgorithmException e) {
             WLog.d(TAG, "Hash algorithm SHA-1 is not supported", e);
         } catch (UnsupportedEncodingException e) {
@@ -218,11 +218,20 @@ public class CipherUtil {
 
     /**
      * 字符串转hex字符串
-     *
-     * @throws UnsupportedEncodingException
      */
     public static String strToHex(String str) throws UnsupportedEncodingException {
         return String.format("%x", new BigInteger(1, str.getBytes("UTF-8")));
+    }
 
+    /**
+     * byte[]转hex字符串
+     */
+    public static String bytesToHex(byte[] bytes) {
+        StringBuilder buf = new StringBuilder(bytes.length * 2);
+        for (byte b : bytes) { // 使用String的format方法进行转换
+            buf.append(String.format("%02x", new Integer(b & 0xff)));
+        }
+
+        return buf.toString();
     }
 }

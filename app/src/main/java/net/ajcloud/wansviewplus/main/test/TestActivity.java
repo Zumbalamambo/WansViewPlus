@@ -13,13 +13,13 @@ import net.ajcloud.wansviewplus.support.core.api.ApiConstant;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceConfigBean;
-import net.ajcloud.wansviewplus.support.core.bean.DeviceListBean;
 import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
 import net.ajcloud.wansviewplus.support.core.callback.JsonCallback;
 import net.ajcloud.wansviewplus.support.core.cipher.CipherUtil;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
 import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
+import net.ajcloud.wansviewplus.support.tools.WLog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -96,22 +96,17 @@ public class TestActivity extends BaseActivity {
                 signBody.append("\n");
                 signBody.append("/api/v1/cmd/fetch-info");
                 signBody.append("\n");
-                try {
-                    signBody.append(CipherUtil.strToHex(CipherUtil.getSha256(reqBody.toString())));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                signBody.append(CipherUtil.getSha256(reqBody.toString()));
                 signBody.append("\n");
+                WLog.d("sign token", "signBody:" + signBody.toString());
 
                 String signToken = SigninAccountManager.getInstance().getCurrentSignToken();
+                WLog.d("sign token", "signToken:" + signToken);
                 String stringToSign = null;
-                try {
-                    stringToSign = "HMAC-SHA256" + "\n" + timeStamp + "\n" + CipherUtil.strToHex(CipherUtil.getSha256(signBody.toString()));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                stringToSign = "HMAC-SHA256" + "\n" + timeStamp + "\n" + CipherUtil.getSha256(signBody.toString());
+                WLog.d("sign token", "stringToSign:" + stringToSign);
                 String signature = CipherUtil.getClondApiSign(signToken, stringToSign);
-
+                WLog.d("sign token", "signature:" + signature);
 
                 OkGo.<ResponseBean<DeviceConfigBean>>post(camera.getGatewayUrl() + ApiConstant.URL_DEVICE_GET_DEVICE_INFO)
                         .tag(this)
