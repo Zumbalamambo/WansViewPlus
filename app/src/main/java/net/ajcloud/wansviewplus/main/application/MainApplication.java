@@ -102,7 +102,7 @@ public class MainApplication extends Application {
         //增加全局刷新token拦截器
         builder.addInterceptor(new OkTokenInterceptor());
         //增加签名拦截器
-//        builder.addInterceptor(new OkSignatureInterceptor());
+        builder.addInterceptor(new OkSignatureInterceptor());
         //全局的读取超时时间
         builder.readTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);
         //全局的写入超时时间

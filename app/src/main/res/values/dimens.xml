@@ -72,4 +72,13 @@
     <dimen name="wv_base_sizeText_4">12dp</dimen>
     <!--提示文字-->
     <dimen name="wv_base_sizeText_5">10dp</dimen>
+
+    <!--timepicker-->
+    <dimen name="picker_default_text_size">12sp</dimen>
+    <dimen name="picker_toolbar_height">48dp</dimen>
+    <dimen name="picker_dialog_height">240dp</dimen>
+    <dimen name="textview_default_padding">5dp</dimen>
+    <dimen name="picker_line_width">1dp</dimen>
+    <dimen name="picker_line_mar">15dp</dimen>
+    <dimen name="picker_height">288dp</dimen>
 </resources>

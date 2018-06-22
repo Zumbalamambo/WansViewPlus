@@ -10,8 +10,6 @@ import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.api.ApiConstant;
-import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
-import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceConfigBean;
 import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
 import net.ajcloud.wansviewplus.support.core.callback.JsonCallback;
@@ -51,17 +49,14 @@ public class TestActivity extends BaseActivity {
         findViewById(net.ajcloud.wansviewplus.R.id.push_set).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new UserApiUnit(TestActivity.this).pushSetting("upsert", "fHJYNJZgpnE:APA91bE6B0PPneI6NOxhe-qGD1OxA2O7NrP60eP3Yc1lSqepnJroEQBmPgX4WyJC6RDg0zmN8TQa5KlHjnxbN6VozWz1-tgEBoV3KnfqpHcJWPIST_gAC7hEwtXhEzqYjDzIuKR-Rqa-", new OkgoCommonListener<Object>() {
-                    @Override
-                    public void onSuccess(Object bean) {
-                        tvTest.setText(bean.toString());
-                    }
-
-                    @Override
-                    public void onFail(int code, String msg) {
-                        tvTest.setText(msg);
-                    }
-                });
+                try {
+                    JSONObject jsonObject = new JSONObject("{\"meta\":{\"localtz\":480,\"deviceId\":\"K038682CY5NV1PI9\",\"accessToken\":\"MzM5MTM5NDAtNmFmNC0xMWU4LWE4YmUtMWI5YjE5NzZlMjA1LmMyNmM1NzE2NTM2OGUzNDhmMTM1OTA1YTdlNDVhY2MyLjE1Mjk2NTc0NzI=_2fnN9P29y8ChKUVp\\/a4293vDnIzTedZWdq8CI16kiIc=\",\"locale\":\"zh_CN\"},\"data\":{}}");
+                    String result = CipherUtil.getSha256(jsonObject.toString());
+                    WLog.d("sign token", "result:" + result);
+                    tvTest.setText(result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         findViewById(net.ajcloud.wansviewplus.R.id.unbind).setOnClickListener(new View.OnClickListener() {

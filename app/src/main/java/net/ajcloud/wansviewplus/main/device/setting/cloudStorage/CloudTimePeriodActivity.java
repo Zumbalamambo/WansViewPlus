@@ -9,15 +9,13 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jzxiang.pickerview.TimePickerDialog;
-import com.jzxiang.pickerview.data.Type;
-import com.jzxiang.pickerview.listener.OnDateSetListener;
-
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
-import net.ajcloud.wansviewplus.main.device.setting.tfcardStorage.TFTimePeriodActivity;
 import net.ajcloud.wansviewplus.support.core.bean.CloudStorBean;
 import net.ajcloud.wansviewplus.support.customview.dialog.WeekDayDialog;
+import net.ajcloud.wansviewplus.support.customview.dialog.timePicker.TimePickerDialog;
+import net.ajcloud.wansviewplus.support.customview.dialog.timePicker.data.Type;
+import net.ajcloud.wansviewplus.support.customview.dialog.timePicker.listener.OnDateSetListener;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import java.text.SimpleDateFormat;

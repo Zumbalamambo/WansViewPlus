@@ -60,4 +60,10 @@
     <color name="wv_colorWhiteBack">#ffefeff4</color>
     <color name="wv_colorConfirmPress">#ff0099cc</color>
 
+<!--timepicker-->
+    <color name="timetimepicker_default_text_color">#999999</color>
+    <color name="timepicker_toolbar_bg">#FFFFFF</color>
+    <color name="timepicker_dialog_bg">#80000000</color>
+    <color name="timepicker_line">#CFD8DC</color>
+    <color name="test">#404040</color>
 </resources>
