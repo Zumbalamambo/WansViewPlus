@@ -21,6 +21,7 @@ public class SigninAccountInfo {
     private String mail;
     private String accessToken;
     private String refreshToken; //用于刷新token
+    private String signToken; //用于签名
     private String scope;     //请求范围
     private String tokenType; //token类型
     private long accessExpiresIn; //有效期
@@ -34,6 +35,7 @@ public class SigninAccountInfo {
         this.mail = mail;
         this.accessToken = bean.accessToken;
         this.refreshToken = bean.refreshToken;
+        this.signToken = bean.signToken;
         this.scope = bean.scope;
         this.tokenType = bean.tokenType;
         this.accessExpiresIn = System.currentTimeMillis()/1000 + bean.accessExpiresIn;
@@ -43,14 +45,15 @@ public class SigninAccountInfo {
         this.isRecent = true;
     }
 
-    @Generated(hash = 2030771098)
+    @Generated(hash = 1588649971)
     public SigninAccountInfo(Long id, @NotNull String mail, String accessToken, String refreshToken,
-            String scope, String tokenType, long accessExpiresIn, long refreshExpiresIn,
-            boolean isRecent, String password, String gesture, String salt) {
+            String signToken, String scope, String tokenType, long accessExpiresIn,
+            long refreshExpiresIn, boolean isRecent, String password, String gesture, String salt) {
         this.id = id;
         this.mail = mail;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        this.signToken = signToken;
         this.scope = scope;
         this.tokenType = tokenType;
         this.accessExpiresIn = accessExpiresIn;
@@ -159,6 +162,14 @@ public class SigninAccountInfo {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public String getSignToken() {
+        return this.signToken;
+    }
+
+    public void setSignToken(String signToken) {
+        this.signToken = signToken;
     }
 
 

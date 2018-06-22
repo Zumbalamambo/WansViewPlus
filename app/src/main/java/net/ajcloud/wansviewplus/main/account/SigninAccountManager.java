@@ -44,6 +44,7 @@ public class SigninAccountManager {
             recentLoginAccount.setIsRecent(false);
             recentLoginAccount.setAccessToken(null);
             recentLoginAccount.setRefreshToken(null);
+            recentLoginAccount.setSignToken(null);
             recentLoginAccount.setAccessExpiresIn(0);
             recentLoginAccount.setRefreshExpiresIn(0);
             recentLoginAccount.setTokenType(null);
@@ -60,8 +61,10 @@ public class SigninAccountManager {
             String encodePwd = CipherUtil.naclEncodeLocal(password, salt);
             String encodeAccess = CipherUtil.naclEncodeLocal(bean.accessToken, salt);
             String encodeRefresh = CipherUtil.naclEncodeLocal(bean.refreshToken, salt);
+            String encodeSign = CipherUtil.naclEncodeLocal(bean.signToken, salt);
             bean.accessToken = encodeAccess;
             bean.refreshToken = encodeRefresh;
+            bean.signToken = encodeSign;
             info = new SigninAccountInfo(mail, encodePwd, salt, bean);
             signinAccountInfoDao.insert(info);
         } else {
@@ -69,11 +72,13 @@ public class SigninAccountManager {
             String encodePwd = CipherUtil.naclEncodeLocal(password, salt);
             String encodeAccess = CipherUtil.naclEncodeLocal(bean.accessToken, salt);
             String encodeRefresh = CipherUtil.naclEncodeLocal(bean.refreshToken, salt);
+            String encodeSign = CipherUtil.naclEncodeLocal(bean.signToken, salt);
             info.setIsRecent(true);
             info.setAccessToken(encodeAccess);
             info.setRefreshToken(encodeRefresh);
-            info.setAccessExpiresIn(System.currentTimeMillis()/1000 + bean.accessExpiresIn);
-            info.setRefreshExpiresIn(System.currentTimeMillis()/1000 + bean.refreshExpiresIn);
+            info.setSignToken(encodeSign);
+            info.setAccessExpiresIn(System.currentTimeMillis() / 1000 + bean.accessExpiresIn);
+            info.setRefreshExpiresIn(System.currentTimeMillis() / 1000 + bean.refreshExpiresIn);
             info.setTokenType(bean.tokenType);
             info.setScope(bean.tokenType);
             info.setPassword(encodePwd);
@@ -83,7 +88,7 @@ public class SigninAccountManager {
     }
 
     /**
-     * 保存当前登录账号
+     * 刷新当前登录账号token信息
      */
     public void refreshCurrentAccount(SigninBean bean) {
         SigninAccountInfo info = getCurrentAccount();
@@ -91,10 +96,12 @@ public class SigninAccountManager {
             String salt = info.getSalt();
             String encodeAccess = CipherUtil.naclEncodeLocal(bean.accessToken, salt);
             String encodeRefresh = CipherUtil.naclEncodeLocal(bean.refreshToken, salt);
+            String encodeSign = CipherUtil.naclEncodeLocal(bean.signToken, salt);
             info.setAccessToken(encodeAccess);
             info.setRefreshToken(encodeRefresh);
-            info.setAccessExpiresIn(bean.accessExpiresIn + System.currentTimeMillis()/1000);
-            info.setRefreshExpiresIn(bean.refreshExpiresIn + System.currentTimeMillis()/1000);
+            info.setSignToken(encodeSign);
+            info.setAccessExpiresIn(bean.accessExpiresIn + System.currentTimeMillis() / 1000);
+            info.setRefreshExpiresIn(bean.refreshExpiresIn + System.currentTimeMillis() / 1000);
             info.setTokenType(bean.tokenType);
             info.setScope(bean.tokenType);
             signinAccountInfoDao.update(info);
@@ -165,6 +172,21 @@ public class SigninAccountManager {
         return CipherUtil.naclDecodeLocal(refreshToken, salt);
     }
 
+    public String getCurrentSignToken() {
+        SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
+                .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
+                .unique();
+        if (recentLoginAccount == null) {
+            return null;
+        }
+        String signToken = recentLoginAccount.getSignToken();
+        String salt = recentLoginAccount.getSalt();
+        if (TextUtils.isEmpty(signToken) || TextUtils.isEmpty(salt)) {
+            return null;
+        }
+        return CipherUtil.naclDecodeLocal(signToken, salt);
+    }
+
     public String getCurrentAccountSalt() {
         SigninAccountInfo recentLoginAccount = signinAccountInfoDao.queryBuilder()
                 .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
@@ -213,9 +235,9 @@ public class SigninAccountManager {
         SigninAccountInfo currentAccount = signinAccountInfoDao.queryBuilder()
                 .where(SigninAccountInfoDao.Properties.IsRecent.eq(true))
                 .unique();
-        if (TextUtils.isEmpty(gesture)){
+        if (TextUtils.isEmpty(gesture)) {
             currentAccount.setGesture("");
-        }else {
+        } else {
             String salt = currentAccount.getSalt();
             String gesturePwd = CipherUtil.naclEncodeLocal(gesture, salt);
             currentAccount.setGesture(gesturePwd);
@@ -234,6 +256,7 @@ public class SigninAccountManager {
         if (recentLoginAccount != null) {
             recentLoginAccount.setAccessToken(null);
             recentLoginAccount.setRefreshToken(null);
+            recentLoginAccount.setSignToken(null);
             recentLoginAccount.setAccessExpiresIn(0);
             recentLoginAccount.setRefreshExpiresIn(0);
             recentLoginAccount.setTokenType(null);
@@ -255,15 +278,8 @@ public class SigninAccountManager {
             if (TextUtils.isEmpty(recentLoginAccount.getAccessToken())) {
                 return false;
             } else {
-//                long expiresIn = recentLoginAccount.getExpiresIn();
-//                if (System.currentTimeMillis()/1000 > expiresIn) {
-//                    return false;
-//                } else {
-//                    if ((System.currentTimeMillis()/1000 + 48 * 3600) > expiresIn) {
-//                        EventBus.getDefault().post(new RefreshTokenEvent());
-//                    }
-                return true;
-//                }
+                long expiresIn = recentLoginAccount.getRefreshExpiresIn();
+                return System.currentTimeMillis() / 1000 < expiresIn;
             }
         }
     }

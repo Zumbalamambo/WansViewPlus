@@ -5,6 +5,9 @@ import android.util.Base64;
 import net.ajcloud.wansviewplus.support.jnacl.NaCl;
 import net.ajcloud.wansviewplus.support.tools.WLog;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -12,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 import static net.ajcloud.wansviewplus.support.jnacl.curve25519xsalsa20poly1305.crypto_secretbox_NONCEBYTES;
 
@@ -131,6 +137,7 @@ public class CipherUtil {
         return Base64.encodeToString(saltByte, Base64.NO_WRAP);
     }
 
+    //本地nacl加密
     public static String naclEncodeLocal(String text, String salt) {
         try {
             byte[] publicKey = PUBLICKEY.getBytes();
@@ -144,6 +151,7 @@ public class CipherUtil {
         }
     }
 
+    //本地nacl解密
     public static String naclDecodeLocal(String text, String salt) {
         try {
             byte[] publicKey = PUBLICKEY.getBytes();
@@ -154,6 +162,67 @@ public class CipherUtil {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * 获取Api请求中需要的签名sign字段
+     */
+    public static String getClondApiSign(String key, String data) {
+        String signature = null;
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secret = new SecretKeySpec(
+                    key.getBytes("UTF-8"), mac.getAlgorithm());
+            mac.init(secret);
+            signature = CipherUtil.strToHex(Base64.encodeToString(mac.doFinal(data.getBytes()), Base64.NO_WRAP));
+        } catch (NoSuchAlgorithmException e) {
+            WLog.d(TAG, "Hash algorithm SHA-1 is not supported", e);
+        } catch (UnsupportedEncodingException e) {
+            WLog.d(TAG, "Encoding UTF-8 is not supported", e);
+        } catch (InvalidKeyException e) {
+            WLog.d(TAG, "Invalid key", e);
+        }
+        return signature;
+    }
+
+    /**
+     * sha256加密
+     */
+    public static String getSha256(String str) {
+        if (null == str || 0 == str.length()) {
+            return null;
+        }
+        char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                'a', 'b', 'c', 'd', 'e', 'f'};
+        try {
+            MessageDigest mdTemp = MessageDigest.getInstance("SHA-256");
+            mdTemp.update(str.getBytes("UTF-8"));
+
+            byte[] md = mdTemp.digest();
+            int j = md.length;
+            char[] buf = new char[j * 2];
+            int k = 0;
+            for (int i = 0; i < j; i++) {
+                byte byte0 = md[i];
+                buf[k++] = hexDigits[byte0 >>> 4 & 0xf];
+                buf[k++] = hexDigits[byte0 & 0xf];
+            }
+            return new String(buf);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 字符串转hex字符串
+     *
+     * @throws UnsupportedEncodingException
+     */
+    public static String strToHex(String str) throws UnsupportedEncodingException {
+        return String.format("%x", new BigInteger(1, str.getBytes("UTF-8")));
 
     }
 }

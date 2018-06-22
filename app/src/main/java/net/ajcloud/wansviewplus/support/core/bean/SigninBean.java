@@ -11,4 +11,5 @@ public class SigninBean {
     public String tokenType; //token类型
     public long accessExpiresIn; //有效期
     public long refreshExpiresIn; //有效期
+    public String signToken; //用于签名
 }

@@ -12,14 +12,6 @@ import android.text.TextUtils;
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import net.ajcloud.wansviewplus.support.core.api.OkTokenInterceptor;
-import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
-import net.ajcloud.wansviewplus.support.core.okgo.cache.CacheEntity;
-import net.ajcloud.wansviewplus.support.core.okgo.cache.CacheMode;
-import net.ajcloud.wansviewplus.support.core.okgo.cookie.CookieJarImpl;
-import net.ajcloud.wansviewplus.support.core.okgo.cookie.store.SPCookieStore;
-import net.ajcloud.wansviewplus.support.core.okgo.interceptor.HttpLoggingInterceptor;
-
 import net.ajcloud.wansviewplus.BuildConfig;
 import net.ajcloud.wansviewplus.entity.DaoMaster;
 import net.ajcloud.wansviewplus.entity.DaoSession;
@@ -27,7 +19,15 @@ import net.ajcloud.wansviewplus.entity.LocalInfo;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.framework.FileIO;
 import net.ajcloud.wansviewplus.main.framework.impl.AndroidFileIO;
+import net.ajcloud.wansviewplus.support.core.api.OkSignatureInterceptor;
+import net.ajcloud.wansviewplus.support.core.api.OkTokenInterceptor;
 import net.ajcloud.wansviewplus.support.core.device.DeviceCache;
+import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
+import net.ajcloud.wansviewplus.support.core.okgo.cache.CacheEntity;
+import net.ajcloud.wansviewplus.support.core.okgo.cache.CacheMode;
+import net.ajcloud.wansviewplus.support.core.okgo.cookie.CookieJarImpl;
+import net.ajcloud.wansviewplus.support.core.okgo.cookie.store.SPCookieStore;
+import net.ajcloud.wansviewplus.support.core.okgo.interceptor.HttpLoggingInterceptor;
 import net.ajcloud.wansviewplus.support.tools.CrashHandler;
 import net.ajcloud.wansviewplus.support.utils.preference.PreferenceKey;
 import net.ajcloud.wansviewplus.support.utils.preference.SPUtil;
@@ -101,6 +101,8 @@ public class MainApplication extends Application {
         }
         //增加全局刷新token拦截器
         builder.addInterceptor(new OkTokenInterceptor());
+        //增加签名拦截器
+//        builder.addInterceptor(new OkSignatureInterceptor());
         //全局的读取超时时间
         builder.readTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);
         //全局的写入超时时间
