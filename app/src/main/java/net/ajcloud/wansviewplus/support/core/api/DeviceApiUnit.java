@@ -7,9 +7,9 @@ import com.google.gson.Gson;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.entity.LocalInfo;
-import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.bean.AudioInfoBean;
+import net.ajcloud.wansviewplus.support.core.bean.B2UploadInfoBean;
 import net.ajcloud.wansviewplus.support.core.bean.BindStatusBean;
 import net.ajcloud.wansviewplus.support.core.bean.CloudStorBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceConfigBean;
@@ -796,6 +796,81 @@ public class DeviceApiUnit {
             e.printStackTrace();
         }
         OkGo.<ResponseBean<Object>>post(ApiConstant.URL_DEVICE_UNBIND)
+                .tag(this)
+                .upJson(getReqBody(dataJson, null))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 获取上传token
+     *
+     * @param resourceType 类型 eg：视角: cam-viewangle
+     * @param storageMode  模式 暂只支持 b2
+     */
+    private void getB2UploadInfo(String resourceType, String storageMode, final OkgoCommonListener<B2UploadInfoBean> listener) {
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("resourceType", resourceType);
+            dataJson.put("storageMode", storageMode);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<B2UploadInfoBean>>post(ApiConstant.URL_DEVICE_GET_UPLOAD_INFO)
+                .tag(this)
+                .upJson(getReqBody(dataJson, null))
+                .execute(new JsonCallback<ResponseBean<B2UploadInfoBean>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<B2UploadInfoBean>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            B2UploadInfoBean bean = (B2UploadInfoBean) responseBean.result;
+                            listener.onSuccess(bean);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<B2UploadInfoBean>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 上传成功回调
+     *
+     * @param resourceType 类型 eg：视角: cam-viewangle
+     * @param storageMode  模式 暂只支持 b2
+     */
+    private void uploadNotify(String resourceType, String resourceId, String storageMode, String fileName, final OkgoCommonListener<Object> listener) {
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("resourceType", resourceType);
+            dataJson.put("resourceId", resourceId);
+            dataJson.put("storageMode", storageMode);
+            dataJson.put("fileName", fileName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<Object>>post(ApiConstant.URL_DEVICE_GET_UPLOAD_NOTIFY)
                 .tag(this)
                 .upJson(getReqBody(dataJson, null))
                 .execute(new JsonCallback<ResponseBean<Object>>() {

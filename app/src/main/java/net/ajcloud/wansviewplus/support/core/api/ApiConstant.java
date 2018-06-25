@@ -46,6 +46,8 @@ public class ApiConstant {
     public static String URL_DEVICE_RESTART = "/v1/restart";
     public static String URL_DEVICE_RESTORE = "/v1/reset";
     public static String URL_DEVICE_REMOVE = "/v1/remove";
+    public static String URL_DEVICE_GET_UPLOAD_INFO = "/v1/upload-token";
+    public static String URL_DEVICE_GET_UPLOAD_NOTIFY = "/v1/upload-notify";
 
     public static void setBaseUrl(AppConfigBean bean) {
         isApply = true;

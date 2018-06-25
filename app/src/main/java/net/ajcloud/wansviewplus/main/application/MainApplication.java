@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
@@ -17,6 +18,7 @@ import net.ajcloud.wansviewplus.entity.DaoMaster;
 import net.ajcloud.wansviewplus.entity.DaoSession;
 import net.ajcloud.wansviewplus.entity.LocalInfo;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
+import net.ajcloud.wansviewplus.main.account.SigninActivity;
 import net.ajcloud.wansviewplus.main.framework.FileIO;
 import net.ajcloud.wansviewplus.main.framework.impl.AndroidFileIO;
 import net.ajcloud.wansviewplus.support.core.api.OkSignatureInterceptor;
@@ -184,7 +186,7 @@ public class MainApplication extends Application {
                 SPUtil.getSPUtil(this, PreferenceKey.sp_name.account).put(PreferenceKey.sp_key.DEVICE_ID, localInfo.deviceId);
             }
             localInfo.deviceName = android.os.Build.MODEL;
-            localInfo.timeZone = TimeZone.getDefault().getRawOffset() / 100000;
+            localInfo.timeZone = TimeZone.getDefault().getRawOffset() / 1000 / 60;
             Locale locale = getResources().getConfiguration().locale;
             localInfo.appLang = locale.getLanguage();
         }
@@ -192,7 +194,14 @@ public class MainApplication extends Application {
     }
 
     public void logout() {
+        //清理缓存
         SigninAccountManager.getInstance().clearAccountSigninInfo();
+        getDeviceCache().clear();
+
+        finshActivitys();
+        Intent intent = new Intent(this, SigninActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     public DeviceCache getDeviceCache() {

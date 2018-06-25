@@ -11,15 +11,15 @@ import net.ajcloud.wansviewplus.support.core.bean.SigninBean;
 import net.ajcloud.wansviewplus.support.core.okgo.model.HttpParams;
 import net.ajcloud.wansviewplus.support.core.okgo.request.base.ProgressRequestBody;
 import net.ajcloud.wansviewplus.support.core.okgo.utils.OkLogger;
-import net.ajcloud.wansviewplus.support.event.ReLoginEvent;
 import net.ajcloud.wansviewplus.support.tools.WLog;
+import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -49,7 +49,7 @@ public class OkTokenInterceptor implements Interceptor {
 
         final String token = SigninAccountManager.getInstance().getCurrentAccountAccessToken();
         final long expiresIn = SigninAccountManager.getInstance().getCurrentAccountAccessTokenTime();
-        WLog.d(TAG, "当前的token：" + token + "\t有效期：" + expiresIn);
+        WLog.d(TAG, "当前的token：" + token + "\t有效期：" + sf.format(expiresIn * 1000));
 
         //排除登录的API
         if (!originalUrl.equals(ApiConstant.URL_USER_REFRESH_TOKEN)
@@ -60,7 +60,7 @@ public class OkTokenInterceptor implements Interceptor {
             if (!TextUtils.isEmpty(token)) {
                 boolean isValid = expiresIn - System.currentTimeMillis() / 1000 > 3600 * 2 / 4;
                 if (isValid) {
-                    WLog.d(TAG, "token：" + token + " 有效 ");
+                    WLog.d(TAG, "token有效 ");
                 } else {
                     if (method.equalsIgnoreCase("POST")) {
                         //阻塞获取新token
@@ -73,23 +73,12 @@ public class OkTokenInterceptor implements Interceptor {
                         } else {
                             //refreshtoken过期，重新登录
                             if (TextUtils.equals(bean.code, "1008")) {
-                                EventBus.getDefault().post(new ReLoginEvent());
+                                ToastUtil.single("token error,please relogin");
+                                MainApplication.getApplication().logout();
                             } else {
+                                ToastUtil.single("other error:" + bean.code + " " + bean.message);
                                 return chain.proceed(originalRequest);
                             }
-//                            JSONObject responseJson = new JSONObject();
-//                            try {
-//                                responseJson.put("status", "error");
-//                                responseJson.put("code", 1006);
-//                                responseJson.put("message", "token is expired,please relogin");
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                            ResponseBody responseBody = ResponseBody.create(HttpParams.MEDIA_TYPE_JSON, responseJson.toString());
-//                            okhttp3.Response newResponse = new okhttp3.Response.Builder()
-//                                    .body(responseBody)
-//                                    .build();
-//                            return newResponse;
                         }
                         JSONObject dataJson = null;
                         try {
@@ -113,6 +102,9 @@ public class OkTokenInterceptor implements Interceptor {
                         return chain.proceed(newRequest);
                     }
                 }
+            } else {
+                ToastUtil.single("token error,please relogin");
+                MainApplication.getApplication().logout();
             }
         }
         return chain.proceed(originalRequest);
@@ -147,4 +139,6 @@ public class OkTokenInterceptor implements Interceptor {
             return data;
         }
     }
+
+    SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 }
