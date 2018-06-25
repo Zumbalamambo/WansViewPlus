@@ -73,12 +73,15 @@
     <!--提示文字-->
     <dimen name="wv_base_sizeText_5">10dp</dimen>
 
-    <!--timepicker-->
-    <dimen name="picker_default_text_size">12sp</dimen>
-    <dimen name="picker_toolbar_height">48dp</dimen>
-    <dimen name="picker_dialog_height">240dp</dimen>
-    <dimen name="textview_default_padding">5dp</dimen>
-    <dimen name="picker_line_width">1dp</dimen>
-    <dimen name="picker_line_mar">15dp</dimen>
-    <dimen name="picker_height">288dp</dimen>
+    <!--picker-->
+
+    <!-- 顶部按钮栏高度 -->
+    <dimen name="pickerview_topbar_height">48dp</dimen>
+    <!-- 顶部按钮padding -->
+    <dimen name="pickerview_topbar_padding">25dp</dimen>
+    <!-- 顶部按钮文字大小 -->
+    <dimen name="pickerview_topbar_btn_textsize">14sp</dimen>
+    <dimen name="pickerview_topbar_title_textsize">18sp</dimen>
+    <!-- 选项文字大小 -->
+    <dimen name="pickerview_textsize">20sp</dimen>
 </resources>

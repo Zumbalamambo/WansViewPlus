@@ -45,10 +45,6 @@ public class UserApiUnit {
             JSONObject metaJson = new JSONObject();
             metaJson.put("locale", localInfo.appLang);
             metaJson.put("localtz", localInfo.timeZone);
-            String accessToken = SigninAccountManager.getInstance().getCurrentAccountAccessToken();
-            if (!TextUtils.isEmpty(accessToken)) {
-                metaJson.put("accessToken", accessToken);
-            }
             JSONObject body = new JSONObject();
             body.put("meta", metaJson);
             body.put("data", data);

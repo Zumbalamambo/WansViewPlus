@@ -142,13 +142,12 @@
     <string name="camera_unknow">Unknown Device</string>
     <string name="wv_first_select_video">请先选一个视频</string>
 
-    <!--timepicker-->
-    <string name="picker_sure">Confirm</string>
-    <string name="picker_cancel">Cancel</string>
-    <string name="picker_title">选择时间</string>
-    <string name="picker_year">年</string>
-    <string name="picker_month">月</string>
-    <string name="picker_day">日</string>
-    <string name="picker_hour">时</string>
-    <string name="picker_minute">分</string>
+    <string name="pickerview_cancel">取消</string>
+    <string name="pickerview_submit">确定</string>
+    <string name="pickerview_year">年</string>
+    <string name="pickerview_month">月</string>
+    <string name="pickerview_day">日</string>
+    <string name="pickerview_hours">时</string>
+    <string name="pickerview_minutes">分</string>
+    <string name="pickerview_seconds">秒</string>
 </resources>

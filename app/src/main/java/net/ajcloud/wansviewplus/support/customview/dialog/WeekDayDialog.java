@@ -67,7 +67,7 @@ public class WeekDayDialog extends Dialog implements View.OnClickListener, Compo
         setContentView(R.layout.dialog_weekday);
 
         Window window = getWindow();
-        window.setWindowAnimations(R.style.BottomInOutAnim);
+        window.setWindowAnimations(R.style.picker_view_slide_anim);
         WindowManager windowManager = ((Activity) context).getWindowManager();
         DisplayMetrics outMetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(outMetrics);

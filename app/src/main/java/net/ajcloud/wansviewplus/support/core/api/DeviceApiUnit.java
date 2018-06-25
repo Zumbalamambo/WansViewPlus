@@ -55,10 +55,6 @@ public class DeviceApiUnit {
             JSONObject metaJson = new JSONObject();
             metaJson.put("locale", localInfo.appLang);
             metaJson.put("localtz", localInfo.timeZone);
-            String accessToken = SigninAccountManager.getInstance().getCurrentAccountAccessToken();
-            if (!TextUtils.isEmpty(accessToken)) {
-                metaJson.put("accessToken", accessToken);
-            }
             if (!TextUtils.isEmpty(deviceId)) {
                 metaJson.put("deviceId", deviceId);
             }

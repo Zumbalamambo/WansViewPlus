@@ -88,6 +88,10 @@ public class MainApplication extends Application {
         //初始化OkGo
         OkGo.getInstance().init(this);
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        //增加全局刷新token拦截器
+        builder.addInterceptor(new OkTokenInterceptor());
+        //增加签名拦截器
+        builder.addInterceptor(new OkSignatureInterceptor());
         // 是否开启日志
         if (BuildConfig.LOG_OKGO) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
@@ -99,10 +103,6 @@ public class MainApplication extends Application {
             //非必要情况，不建议使用，第三方的开源库，使用通知显示当前请求的log，不过在做文件下载的时候，这个库好像有问题，对文件判断不准确
             //builder.addInterceptor(new ChuckInterceptor(this));
         }
-        //增加全局刷新token拦截器
-        builder.addInterceptor(new OkTokenInterceptor());
-        //增加签名拦截器
-        builder.addInterceptor(new OkSignatureInterceptor());
         //全局的读取超时时间
         builder.readTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);
         //全局的写入超时时间
