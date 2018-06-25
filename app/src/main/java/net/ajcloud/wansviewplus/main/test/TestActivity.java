@@ -16,6 +16,7 @@ import net.ajcloud.wansviewplus.support.core.callback.JsonCallback;
 import net.ajcloud.wansviewplus.support.core.cipher.CipherUtil;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
+import net.ajcloud.wansviewplus.support.core.okgo.interceptor.HttpLoggingInterceptor;
 import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
 import net.ajcloud.wansviewplus.support.tools.WLog;
 
@@ -23,6 +24,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+
+import okhttp3.OkHttpClient;
 
 public class TestActivity extends BaseActivity {
 
@@ -103,11 +107,18 @@ public class TestActivity extends BaseActivity {
                 String signature = CipherUtil.getClondApiSign(signToken, stringToSign);
                 WLog.d("sign token", "signature:" + signature);
 
+                HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
+                //log打印级别，决定了log显示的详细程度
+                loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
+                //log颜色级别，决定了log在控制台显示的颜色
+                loggingInterceptor.setColorLevel(Level.INFO);
+
                 OkGo.<ResponseBean<DeviceConfigBean>>post(camera.getGatewayUrl() + ApiConstant.URL_DEVICE_GET_DEVICE_INFO)
                         .tag(this)
                         .headers("Authorization", "Bearer" + " " + SigninAccountManager.getInstance().getCurrentAccountAccessToken())
                         .headers("X-UAC-Signature", "UAC1-HMAC-SHA256" + ";" + timeStamp + ";" + signature)
                         .upJson(reqBody)
+                        .client(new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build())
                         .execute(new JsonCallback<ResponseBean<DeviceConfigBean>>() {
                             @Override
                             public void onSuccess(Response<ResponseBean<DeviceConfigBean>> response) {

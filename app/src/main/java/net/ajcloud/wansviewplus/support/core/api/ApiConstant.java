@@ -13,9 +13,9 @@ public class ApiConstant {
     public static String BASE_EMC_URL = EMC_URL + "/v1";
 
     //App启动时需要的公共参数
-    public static String URL_GET_APP_CONFIG = "https://sdc.ajyun.com.cn/api/v1/cmd/app-config";
+    public static String URL_GET_APP_CONFIG = "https://sdc.ajyun.com.cn/api/v1/app-config";
     //设备接入地址信息
-    public static String URL_GET_DEVICE_URL_INFO = "https://sdc.ajyun.com.cn/api/v1/cmd/cam-config";
+    public static String URL_GET_DEVICE_URL_INFO = "https://sdc.ajyun.com.cn/api/v1/cam-config";
 
     // uac账号相关
     public static String URL_USER_CHALLENGE = BASE_UAC_URL + "/challenge";
@@ -32,20 +32,20 @@ public class ApiConstant {
     public static String URL_DEVICE_SET_DEVICE_NAME_UAC = BASE_UAC_URL + "/change-alias-name";
     public static String URL_DEVICE_UNBIND = BASE_UAC_URL + "/unbind";
 
-    public static String URL_DEVICE_PUSH_SETTING = BASE_EMC_URL + "/cmd/push-setting";
-    public static String URL_DEVICE_GET_DEVICE_INFO = "/v1/cmd/fetch-info";
-    public static String URL_DEVICE_SET_DEVICE_NAME = "/v1/cmd/alias-name";
-    public static String URL_DEVICE_GET_FIRST_FRAME = "/v1/cmd/snapshot";
-    public static String URL_DEVICE_MOVE_DETECTION = "/v1/cmd/move-monitor-config";
-    public static String URL_DEVICE_PLACEMENT = "/v1/cmd/orientation-config";
-    public static String URL_DEVICE_NIGHT_VERSION = "/v1/cmd/night-vision-config";
-    public static String URL_DEVICE_AUDIO_CONFIG = "/v1/cmd/audio-config";
-    public static String URL_DEVICE_LOCAL_STOR = "/v1/cmd/local-stor-config";
-    public static String URL_DEVICE_CLOUD_STOR = "/v1/cmd/cloud-stor-config";
-    public static String URL_DEVICE_TIME_ZONE = "/v1/cmd/time-config";
-    public static String URL_DEVICE_RESTART = "/v1/cmd/restart";
-    public static String URL_DEVICE_RESTORE = "/v1/cmd/reset";
-    public static String URL_DEVICE_REMOVE = "/v1/cmd/remove";
+    public static String URL_DEVICE_PUSH_SETTING = BASE_EMC_URL + "/push-setting";
+    public static String URL_DEVICE_GET_DEVICE_INFO = "/v1/fetch-info";
+    public static String URL_DEVICE_SET_DEVICE_NAME = "/v1/alias-name";
+    public static String URL_DEVICE_GET_FIRST_FRAME = "/v1/snapshot";
+    public static String URL_DEVICE_MOVE_DETECTION = "/v1/move-monitor-config";
+    public static String URL_DEVICE_PLACEMENT = "/v1/orientation-config";
+    public static String URL_DEVICE_NIGHT_VERSION = "/v1/night-vision-config";
+    public static String URL_DEVICE_AUDIO_CONFIG = "/v1/audio-config";
+    public static String URL_DEVICE_LOCAL_STOR = "/v1/local-stor-config";
+    public static String URL_DEVICE_CLOUD_STOR = "/v1/cloud-stor-config";
+    public static String URL_DEVICE_TIME_ZONE = "/v1/time-config";
+    public static String URL_DEVICE_RESTART = "/v1/restart";
+    public static String URL_DEVICE_RESTORE = "/v1/reset";
+    public static String URL_DEVICE_REMOVE = "/v1/remove";
 
     public static void setBaseUrl(AppConfigBean bean) {
         isApply = true;
@@ -70,6 +70,6 @@ public class ApiConstant {
         URL_DEVICE_GET_DEVICE_LIST = BASE_UAC_URL + "/device-list";
         URL_DEVICE_SET_DEVICE_NAME_UAC = BASE_UAC_URL + "/change-alias-name";
         URL_DEVICE_UNBIND = BASE_UAC_URL + "/unbind";
-        URL_DEVICE_PUSH_SETTING = BASE_EMC_URL + "/cmd/push-setting";
+        URL_DEVICE_PUSH_SETTING = BASE_EMC_URL + "/push-setting";
     }
 }

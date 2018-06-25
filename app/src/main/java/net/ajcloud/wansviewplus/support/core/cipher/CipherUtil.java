@@ -174,7 +174,7 @@ public class CipherUtil {
             SecretKeySpec secret = new SecretKeySpec(
                     key.getBytes("UTF-8"), mac.getAlgorithm());
             mac.init(secret);
-            signature = CipherUtil.bytesToHex(mac.doFinal(data.getBytes()));
+            signature = urlSafe_base64(mac.doFinal(data.getBytes()));
         } catch (NoSuchAlgorithmException e) {
             WLog.d(TAG, "Hash algorithm SHA-1 is not supported", e);
         } catch (UnsupportedEncodingException e) {
@@ -233,5 +233,21 @@ public class CipherUtil {
         }
 
         return buf.toString();
+    }
+
+    /**
+     * urlsafe-base64
+     */
+    public static String urlSafe_base64(byte[] bytes) {
+        String result = null;
+        try {
+            result = new String(Base64.encode(bytes, Base64.NO_WRAP), "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return result
+                .replace("+", "-")
+                .replace("/", "_")
+                .replace("=", "");
     }
 }
