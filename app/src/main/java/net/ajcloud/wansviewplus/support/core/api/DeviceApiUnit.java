@@ -23,14 +23,17 @@ import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
 import net.ajcloud.wansviewplus.support.core.callback.JsonCallback;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
+import net.ajcloud.wansviewplus.support.core.okgo.callback.FileCallback;
 import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
 import net.ajcloud.wansviewplus.support.event.DeviceRefreshEvent;
+import net.ajcloud.wansviewplus.support.utils.FileUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -893,6 +896,25 @@ public class DeviceApiUnit {
     }
 
     /**
+     * 下载图片
+     *
+     * @param url 图片路径
+     */
+    private void getPicture(String deviceId, String url, final OkgoCommonListener<Object> listener) {
+        OkGo.<File>get(url)
+                .tag(this)
+                .execute(new FileCallback(FileUtil.getFirstFramePath(), deviceId + ".jpg") {
+                             @Override
+                             public void onSuccess(Response<File> response) {
+                                 if (response.isSuccessful()) {
+                                     listener.onSuccess(response.body());
+                                 }
+                             }
+                         }
+                );
+    }
+
+    /**
      * 获取设备列表之后的操作
      */
     public void doGetDeviceList(List<Camera> devices) {
@@ -953,7 +975,25 @@ public class DeviceApiUnit {
     private void doGetFirstFrame(String deviceId) {
         Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
         if (camera != null) {
-
+            String baseURL = FileUtil.getFirstFramePath();
+            File file = new File(baseURL + "/" + deviceId + ".jpg");
+            if (file.exists()) {
+                //TODO  显示
+                return;
+            } else {
+                if (!TextUtils.isEmpty(camera.snapshotUrl)) {
+                    //TODO  显示
+                    return;
+                } else {
+                    if (camera.isOnline()) {
+                        //TODO snapshot---fetchinfo
+                        return;
+                    } else {
+                        //TODO  显示默认
+                        return;
+                    }
+                }
+            }
         }
     }
 }

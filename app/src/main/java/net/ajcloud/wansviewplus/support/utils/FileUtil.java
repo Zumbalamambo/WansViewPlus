@@ -92,6 +92,12 @@ public class FileUtil {
         return folder;
     }
 
+    public static String getFirstFramePath() {
+        String folder = Environment.getExternalStorageDirectory() + "/wansview/firstframe";
+        isFolderExists(folder);
+        return folder;
+    }
+
 
     public static boolean isFolderExists(String folder) {
         File file = new File(folder);

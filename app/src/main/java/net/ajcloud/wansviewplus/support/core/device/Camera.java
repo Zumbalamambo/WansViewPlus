@@ -28,7 +28,7 @@ import java.io.Serializable;
  * Created by mamengchao on 2018/06/07.
  * Function:    摄像机实体类
  */
-public class Camera implements Serializable{
+public class Camera implements Serializable {
     private static final long serialVersionUID = 1L;
     public int whiteBalance;
     public int freqValue;
@@ -44,6 +44,7 @@ public class Camera implements Serializable{
     public String remoteAddr;
     public long tunnelSyncTime;
     public String vendorCode;
+    public String snapshotUrl;
 
     public CapabilityBean capability;
     public StreamInfoBean streamConfig;
@@ -100,6 +101,7 @@ public class Camera implements Serializable{
             fwVersion = bean.base.fwVersion;
             remoteAddr = bean.base.remoteAddr;
             vendorCode = bean.base.vendorCode;
+            snapshotUrl = bean.base.snapshotUrl;
 
             capability = bean.capability;
             streamConfig = bean.streamConfig;
@@ -162,6 +164,10 @@ public class Camera implements Serializable{
 
     public void setAccessPubKey(String accessPubKey) {
         this.accessPubKey = accessPubKey;
+    }
+
+    public boolean isOnline() {
+        return onlineStatus == 2;
     }
 
     public Object deepClone() {
