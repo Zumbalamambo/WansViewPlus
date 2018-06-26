@@ -1,6 +1,7 @@
 package net.ajcloud.wansviewplus.main.device.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -9,13 +10,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.device.type.DeviceHomeActivity;
 import net.ajcloud.wansviewplus.main.device.type.camera.MainCameraFragment;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
+import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.device.DeviceInfoDictionary;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,6 +98,22 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((DeviceListHolder) holder).tv_cloudState.setText(" is in service");
             ((DeviceListHolder) holder).tv_cloud.setOnClickListener(null);
         }
+
+        final RecyclerView.ViewHolder finalHolder = holder;
+        ((DeviceListHolder) holder).iv_thumbnail.setImageResource(R.mipmap.realtime_picture);
+        deviceApiUnit.doGetFirstFrame(camera.deviceId, new OkgoCommonListener<File>() {
+            @Override
+            public void onSuccess(File bean) {
+                if (bean != null) {
+                    Glide.with(context).load(Uri.fromFile(bean)).into(((DeviceListHolder) finalHolder).iv_thumbnail);
+                }
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+
+            }
+        });
 
         ((DeviceListHolder) holder).iv_thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
