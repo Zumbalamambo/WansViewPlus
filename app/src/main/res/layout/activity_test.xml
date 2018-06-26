@@ -13,27 +13,27 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/push_set"
+        android:id="@+id/button_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/shape_signin_button"
-        android:text="push_set"
+        android:text="getB2UploadInfo"
         android:textAllCaps="false"
         android:textColor="@color/white" />
 
     <Button
-        android:id="@+id/unbind"
+        android:id="@+id/button_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/shape_signin_button"
-        android:text="unbind"
+        android:text="uploadNotify"
         android:textAllCaps="false"
         android:textColor="@color/white" />
 
     <Button
-        android:id="@+id/unbind_all"
+        android:id="@+id/button_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

@@ -10,6 +10,8 @@ import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.api.ApiConstant;
+import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
+import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceConfigBean;
 import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
 import net.ajcloud.wansviewplus.support.core.callback.JsonCallback;
@@ -50,20 +52,24 @@ public class TestActivity extends BaseActivity {
     protected void initData() {
         final EditText etTest = findViewById(R.id.et_test);
         final TextView tvTest = findViewById(R.id.tv_test);
-        findViewById(net.ajcloud.wansviewplus.R.id.push_set).setOnClickListener(new View.OnClickListener() {
+        findViewById(net.ajcloud.wansviewplus.R.id.button_1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    JSONObject jsonObject = new JSONObject("{\"meta\":{\"localtz\":480,\"deviceId\":\"K038682CY5NV1PI9\",\"accessToken\":\"MzM5MTM5NDAtNmFmNC0xMWU4LWE4YmUtMWI5YjE5NzZlMjA1LmMyNmM1NzE2NTM2OGUzNDhmMTM1OTA1YTdlNDVhY2MyLjE1Mjk2NTc0NzI=_2fnN9P29y8ChKUVp\\/a4293vDnIzTedZWdq8CI16kiIc=\",\"locale\":\"zh_CN\"},\"data\":{}}");
-                    String result = CipherUtil.getSha256(jsonObject.toString());
-                    WLog.d("sign token", "result:" + result);
-                    tvTest.setText(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                Camera camera = MainApplication.getApplication().getDeviceCache().get("K03868WPCGRPFDX4");
+                new DeviceApiUnit(TestActivity.this).doSnapshot(camera.getGatewayUrl(), camera.deviceId, new OkgoCommonListener<String>() {
+                    @Override
+                    public void onSuccess(String bean) {
+
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+
+                    }
+                });
             }
         });
-        findViewById(net.ajcloud.wansviewplus.R.id.unbind).setOnClickListener(new View.OnClickListener() {
+        findViewById(net.ajcloud.wansviewplus.R.id.button_2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = etTest.getText().toString();
@@ -75,7 +81,7 @@ public class TestActivity extends BaseActivity {
                 }
             }
         });
-        findViewById(net.ajcloud.wansviewplus.R.id.unbind_all).setOnClickListener(new View.OnClickListener() {
+        findViewById(net.ajcloud.wansviewplus.R.id.button_3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Camera camera = MainApplication.getApplication().getDeviceCache().get("K03868KVLJNASXNC");

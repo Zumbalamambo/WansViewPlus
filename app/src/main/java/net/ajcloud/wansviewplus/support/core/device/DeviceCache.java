@@ -85,6 +85,7 @@ public class DeviceCache {
         cameraOrigin.fwVersion = camera.fwVersion;
         cameraOrigin.remoteAddr = camera.remoteAddr;
         cameraOrigin.vendorCode = camera.vendorCode;
+        cameraOrigin.snapshotUrl = camera.snapshotUrl;
 
         cameraOrigin.capability = camera.capability;
         cameraOrigin.streamConfig = camera.streamConfig;

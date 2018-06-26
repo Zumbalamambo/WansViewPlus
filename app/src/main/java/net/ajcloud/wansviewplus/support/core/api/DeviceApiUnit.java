@@ -27,7 +27,6 @@ import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
 import net.ajcloud.wansviewplus.support.core.okgo.callback.FileCallback;
 import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
 import net.ajcloud.wansviewplus.support.event.DeviceRefreshEvent;
-import net.ajcloud.wansviewplus.support.tools.WLog;
 import net.ajcloud.wansviewplus.support.utils.FileUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -355,11 +354,12 @@ public class DeviceApiUnit {
      * @param url      设备ip
      * @param deviceId 设备Id
      */
-    public void doSnapshot(String url, String deviceId, final OkgoCommonListener<Object> listener) {
+    public void doSnapshot(String url, final String deviceId, final OkgoCommonListener<String> listener) {
         if (TextUtils.isEmpty(url)) {
             listener.onFail(-1, "url cant be empty");
             return;
         }
+        final Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("deviceId", deviceId);
@@ -377,7 +377,47 @@ public class DeviceApiUnit {
                     public void onSuccess(Response<ResponseBean<Object>> response) {
                         ResponseBean responseBean = response.body();
                         if (responseBean.isSuccess()) {
-                            listener.onSuccess(responseBean.result);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getDeviceInfo(camera.getGatewayUrl(), deviceId, new OkgoCommonListener<DeviceConfigBean>() {
+                                        @Override
+                                        public void onSuccess(DeviceConfigBean bean) {
+                                            if (bean.base != null) {
+                                                if (TextUtils.isEmpty(bean.base.snapshotUrl)) {
+                                                    new Handler().postDelayed(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            getDeviceInfo(camera.getGatewayUrl(), deviceId, new OkgoCommonListener<DeviceConfigBean>() {
+                                                                @Override
+                                                                public void onSuccess(DeviceConfigBean bean) {
+                                                                    if (bean.base != null && !TextUtils.isEmpty(bean.base.snapshotUrl)) {
+                                                                        listener.onSuccess(bean.base.snapshotUrl);
+                                                                    } else {
+                                                                        listener.onFail(-1, "error");
+                                                                    }
+                                                                }
+
+                                                                @Override
+                                                                public void onFail(int code, String msg) {
+                                                                    listener.onFail(code, msg);
+                                                                }
+                                                            });
+                                                        }
+                                                    }, 3000);
+                                                } else {
+                                                    listener.onSuccess(bean.base.snapshotUrl);
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFail(int code, String msg) {
+                                            listener.onFail(code, msg);
+                                        }
+                                    });
+                                }
+                            }, 2000);
                         } else {
                             listener.onFail(responseBean.getResultCode(), responseBean.message);
                         }
@@ -828,7 +868,7 @@ public class DeviceApiUnit {
      * @param resourceType 类型 eg：视角: cam-viewangle
      * @param storageMode  模式 暂只支持 b2
      */
-    private void getB2UploadInfo(String resourceType, String storageMode, final OkgoCommonListener<B2UploadInfoBean> listener) {
+    public void getB2UploadInfo(String url, String resourceType, String storageMode, final OkgoCommonListener<B2UploadInfoBean> listener) {
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("resourceType", resourceType);
@@ -836,7 +876,44 @@ public class DeviceApiUnit {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        OkGo.<ResponseBean<B2UploadInfoBean>>post(ApiConstant.URL_DEVICE_GET_UPLOAD_INFO)
+        OkGo.<ResponseBean<B2UploadInfoBean>>post(url + ApiConstant.URL_DEVICE_GET_UPLOAD_INFO)
+                .tag(this)
+                .upJson(getReqBody(dataJson, null))
+                .execute(new JsonCallback<ResponseBean<B2UploadInfoBean>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<B2UploadInfoBean>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            B2UploadInfoBean bean = (B2UploadInfoBean) responseBean.result;
+                            listener.onSuccess(bean);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<B2UploadInfoBean>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 获取上传token
+     *
+     * @param resourceType 类型 eg：视角: cam-viewangle
+     * @param storageMode  模式 暂只支持 b2
+     */
+    public void uploadViewAngle(String url, String resourceType, String storageMode, final OkgoCommonListener<B2UploadInfoBean> listener) {
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("resourceType", resourceType);
+            dataJson.put("storageMode", storageMode);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<B2UploadInfoBean>>post(url + ApiConstant.URL_DEVICE_GET_UPLOAD_INFO)
                 .tag(this)
                 .upJson(getReqBody(dataJson, null))
                 .execute(new JsonCallback<ResponseBean<B2UploadInfoBean>>() {
@@ -865,7 +942,7 @@ public class DeviceApiUnit {
      * @param resourceType 类型 eg：视角: cam-viewangle
      * @param storageMode  模式 暂只支持 b2
      */
-    private void uploadNotify(String resourceType, String resourceId, String storageMode, String fileName, final OkgoCommonListener<Object> listener) {
+    public void uploadNotify(String resourceType, String resourceId, String storageMode, String fileName, final OkgoCommonListener<Object> listener) {
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("resourceType", resourceType);
@@ -972,119 +1049,4 @@ public class DeviceApiUnit {
         });
     }
 
-    public void doGetFirstFrame(final String deviceId, final OkgoCommonListener<File> listener) {
-        final Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
-        if (camera != null) {
-            final String baseURL = FileUtil.getFirstFramePath();
-            final File file = new File(baseURL + "/" + deviceId + ".jpg");
-            if (file.exists()) {
-                listener.onSuccess(file);
-            } else {
-                if (!TextUtils.isEmpty(camera.snapshotUrl)) {
-                    getPicture(deviceId, camera.snapshotUrl, new OkgoCommonListener<Object>() {
-                        @Override
-                        public void onSuccess(Object bean) {
-                            listener.onSuccess(file);
-                        }
-
-                        @Override
-                        public void onFail(int code, String msg) {
-                            WLog.d(TAG, code + " " + msg);
-                            listener.onSuccess(null);
-                        }
-                    });
-                } else {
-                    if (TextUtils.isEmpty(camera.getGatewayUrl())) {
-                        listener.onSuccess(null);
-                        return;
-                    }
-                    if (camera.isOnline()) {
-                        doSnapshot(camera.getGatewayUrl(), deviceId, new OkgoCommonListener<Object>() {
-                            @Override
-                            public void onSuccess(Object bean) {
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        getDeviceInfo(camera.getGatewayUrl(), deviceId, new OkgoCommonListener<DeviceConfigBean>() {
-                                            @Override
-                                            public void onSuccess(DeviceConfigBean bean) {
-                                                if (bean.base != null) {
-                                                    if (TextUtils.isEmpty(bean.base.snapshotUrl)) {
-                                                        new Handler().postDelayed(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                getDeviceInfo(camera.getGatewayUrl(), deviceId, new OkgoCommonListener<DeviceConfigBean>() {
-                                                                    @Override
-                                                                    public void onSuccess(DeviceConfigBean bean) {
-                                                                        if (bean.base != null) {
-                                                                            if (TextUtils.isEmpty(bean.base.snapshotUrl)) {
-                                                                                listener.onSuccess(null);
-                                                                            } else {
-                                                                                getPicture(deviceId, bean.base.snapshotUrl, new OkgoCommonListener<Object>() {
-                                                                                    @Override
-                                                                                    public void onSuccess(Object bean) {
-                                                                                        listener.onSuccess(file);
-                                                                                    }
-
-                                                                                    @Override
-                                                                                    public void onFail(int code, String msg) {
-                                                                                        WLog.d(TAG, code + " " + msg);
-                                                                                        listener.onSuccess(null);
-                                                                                    }
-                                                                                });
-                                                                            }
-                                                                        } else {
-                                                                            listener.onSuccess(null);
-                                                                        }
-                                                                    }
-
-                                                                    @Override
-                                                                    public void onFail(int code, String msg) {
-                                                                        WLog.d(TAG, code + " " + msg);
-                                                                        listener.onSuccess(null);
-                                                                    }
-                                                                });
-                                                            }
-                                                        }, 3000);
-                                                    } else {
-                                                        getPicture(deviceId, bean.base.snapshotUrl, new OkgoCommonListener<Object>() {
-                                                            @Override
-                                                            public void onSuccess(Object bean) {
-                                                                listener.onSuccess(file);
-                                                            }
-
-                                                            @Override
-                                                            public void onFail(int code, String msg) {
-                                                                WLog.d(TAG, code + " " + msg);
-                                                                listener.onSuccess(null);
-                                                            }
-                                                        });
-                                                    }
-                                                } else {
-                                                    listener.onSuccess(null);
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onFail(int code, String msg) {
-
-                                            }
-                                        });
-                                    }
-                                }, 2000);
-                            }
-
-                            @Override
-                            public void onFail(int code, String msg) {
-                                WLog.d(TAG, code + " " + msg);
-                                listener.onSuccess(null);
-                            }
-                        });
-                    } else {
-                        listener.onSuccess(null);
-                    }
-                }
-            }
-        }
-    }
 }

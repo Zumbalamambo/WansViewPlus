@@ -1,7 +1,6 @@
 package net.ajcloud.wansviewplus.main.device.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.device.DeviceInfoDictionary;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,20 +98,34 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         final RecyclerView.ViewHolder finalHolder = holder;
-        ((DeviceListHolder) holder).iv_thumbnail.setImageResource(R.mipmap.realtime_picture);
-        deviceApiUnit.doGetFirstFrame(camera.deviceId, new OkgoCommonListener<File>() {
-            @Override
-            public void onSuccess(File bean) {
-                if (bean != null) {
-                    Glide.with(context).load(Uri.fromFile(bean)).into(((DeviceListHolder) finalHolder).iv_thumbnail);
-                }
-            }
+        if (TextUtils.isEmpty(camera.snapshotUrl)) {
+            if (camera.isOnline()) {
+                ((DeviceListHolder) holder).iv_thumbnail.setImageResource(R.mipmap.figure_big);
+                deviceApiUnit.doSnapshot(camera.getGatewayUrl(), camera.deviceId, new OkgoCommonListener<String>() {
+                    @Override
+                    public void onSuccess(String bean) {
+                        Glide.with(context).load(bean)
+                                .placeholder(R.mipmap.figure_big)
+                                .error(R.mipmap.figure_big)
+                                .into(((DeviceListHolder) finalHolder).iv_thumbnail);
+                    }
 
-            @Override
-            public void onFail(int code, String msg) {
-
+                    @Override
+                    public void onFail(int code, String msg) {
+                        Glide.with(context).load(R.mipmap.realtime_picture)
+                                .into(((DeviceListHolder) finalHolder).iv_thumbnail);
+                    }
+                });
+            } else {
+                Glide.with(context).load(R.mipmap.realtime_picture)
+                        .into(((DeviceListHolder) holder).iv_thumbnail);
             }
-        });
+        } else {
+            Glide.with(context).load(camera.snapshotUrl)
+                    .placeholder(R.mipmap.figure_big)
+                    .error(R.mipmap.figure_big)
+                    .into(((DeviceListHolder) holder).iv_thumbnail);
+        }
 
         ((DeviceListHolder) holder).iv_thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
