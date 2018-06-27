@@ -22,12 +22,13 @@ import net.ajcloud.wansviewplus.support.core.bean.MoveMonitorBean;
 import net.ajcloud.wansviewplus.support.core.bean.PreBindBean;
 import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
 import net.ajcloud.wansviewplus.support.core.callback.JsonCallback;
+import net.ajcloud.wansviewplus.support.core.cipher.CipherUtil;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
-import net.ajcloud.wansviewplus.support.core.okgo.callback.FileCallback;
+import net.ajcloud.wansviewplus.support.core.okgo.callback.StringCallback;
+import net.ajcloud.wansviewplus.support.core.okgo.interceptor.HttpLoggingInterceptor;
 import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
 import net.ajcloud.wansviewplus.support.event.DeviceRefreshEvent;
-import net.ajcloud.wansviewplus.support.utils.FileUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -35,8 +36,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+
+import okhttp3.OkHttpClient;
 
 
 /**
@@ -863,12 +869,17 @@ public class DeviceApiUnit {
     }
 
     /**
-     * 获取上传token
+     * B2上传图片
      *
      * @param resourceType 类型 eg：视角: cam-viewangle
      * @param storageMode  模式 暂只支持 b2
      */
-    public void getB2UploadInfo(String url, String resourceType, String storageMode, final OkgoCommonListener<B2UploadInfoBean> listener) {
+    public void getB2UploadInfo(final String deviceId, final String resourceType, final String storageMode, final int viewAngle, final String filePath, final OkgoCommonListener<Object> listener) {
+        final Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+        if (camera == null || TextUtils.isEmpty(camera.getGatewayUrl())) {
+            listener.onFail(-1, "param empty");
+            return;
+        }
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("resourceType", resourceType);
@@ -876,7 +887,7 @@ public class DeviceApiUnit {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        OkGo.<ResponseBean<B2UploadInfoBean>>post(url + ApiConstant.URL_DEVICE_GET_UPLOAD_INFO)
+        OkGo.<ResponseBean<B2UploadInfoBean>>post(camera.getGatewayUrl() + ApiConstant.URL_DEVICE_GET_UPLOAD_INFO)
                 .tag(this)
                 .upJson(getReqBody(dataJson, null))
                 .execute(new JsonCallback<ResponseBean<B2UploadInfoBean>>() {
@@ -884,8 +895,58 @@ public class DeviceApiUnit {
                     public void onSuccess(Response<ResponseBean<B2UploadInfoBean>> response) {
                         ResponseBean responseBean = response.body();
                         if (responseBean.isSuccess()) {
-                            B2UploadInfoBean bean = (B2UploadInfoBean) responseBean.result;
-                            listener.onSuccess(bean);
+                            final B2UploadInfoBean bean = (B2UploadInfoBean) responseBean.result;
+                            if (bean != null && bean.props != null) {
+
+                                File file = new File(filePath);
+                                final String fileName = bean.props.resourceId + "/" + viewAngle + ".png";
+                                try {
+                                    OkHttpClient.Builder builder = new OkHttpClient.Builder();
+                                    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
+                                    loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
+                                    loggingInterceptor.setColorLevel(Level.INFO);
+                                    builder.addInterceptor(loggingInterceptor);
+                                    OkGo.<String>post(bean.props.uploadUrl)
+                                            .tag(this)
+                                            .client(builder.build())
+                                            .headers("X-Bz-Content-Sha1", CipherUtil.getSha1(new FileInputStream(file)))
+                                            .headers("Authorization", bean.props.uploadToken)
+                                            .headers("X-Bz-File-Name", fileName)
+                                            .upFile(file)
+                                            .execute(new StringCallback() {
+
+                                                @Override
+                                                public void onSuccess(Response<String> response) {
+                                                    try {
+                                                        JSONObject resultJson = new JSONObject(response.body());
+                                                        String action = resultJson.optString("action");
+                                                        if (TextUtils.equals(action, "upload")) {
+                                                            uploadNotify(deviceId, bean, fileName, viewAngle, new OkgoCommonListener<Object>() {
+                                                                @Override
+                                                                public void onSuccess(Object bean) {
+                                                                    listener.onSuccess(bean);
+                                                                }
+
+                                                                @Override
+                                                                public void onFail(int code, String msg) {
+                                                                    listener.onFail(code, msg);
+                                                                }
+                                                            });
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                        listener.onFail(-1, "upload notify error");
+                                                    }
+                                                }
+                                            });
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                    listener.onFail(responseBean.getResultCode(), responseBean.message);
+                                }
+
+                            } else {
+                                listener.onFail(responseBean.getResultCode(), responseBean.message);
+                            }
                         } else {
                             listener.onFail(responseBean.getResultCode(), responseBean.message);
                         }
@@ -899,62 +960,33 @@ public class DeviceApiUnit {
                 });
     }
 
-    /**
-     * 获取上传token
-     *
-     * @param resourceType 类型 eg：视角: cam-viewangle
-     * @param storageMode  模式 暂只支持 b2
-     */
-    public void uploadViewAngle(String url, String resourceType, String storageMode, final OkgoCommonListener<B2UploadInfoBean> listener) {
-        JSONObject dataJson = new JSONObject();
-        try {
-            dataJson.put("resourceType", resourceType);
-            dataJson.put("storageMode", storageMode);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        OkGo.<ResponseBean<B2UploadInfoBean>>post(url + ApiConstant.URL_DEVICE_GET_UPLOAD_INFO)
-                .tag(this)
-                .upJson(getReqBody(dataJson, null))
-                .execute(new JsonCallback<ResponseBean<B2UploadInfoBean>>() {
-                    @Override
-                    public void onSuccess(Response<ResponseBean<B2UploadInfoBean>> response) {
-                        ResponseBean responseBean = response.body();
-                        if (responseBean.isSuccess()) {
-                            B2UploadInfoBean bean = (B2UploadInfoBean) responseBean.result;
-                            listener.onSuccess(bean);
-                        } else {
-                            listener.onFail(responseBean.getResultCode(), responseBean.message);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<ResponseBean<B2UploadInfoBean>> response) {
-                        super.onError(response);
-                        listener.onFail(-1, response.getException().getMessage());
-                    }
-                });
-    }
 
     /**
      * 上传成功回调
      *
-     * @param resourceType 类型 eg：视角: cam-viewangle
-     * @param storageMode  模式 暂只支持 b2
+     * @param bean      文件信息
+     * @param fileName  文件名
+     * @param viewAngle view_angle视角编号, 从1开始
      */
-    public void uploadNotify(String resourceType, String resourceId, String storageMode, String fileName, final OkgoCommonListener<Object> listener) {
+    private void uploadNotify(String deviceId, B2UploadInfoBean bean, String fileName, int viewAngle, final OkgoCommonListener<Object> listener) {
+        Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+        if (camera == null) {
+            listener.onFail(-1, "param empty");
+            return;
+        }
         JSONObject dataJson = new JSONObject();
         try {
-            dataJson.put("resourceType", resourceType);
-            dataJson.put("resourceId", resourceId);
-            dataJson.put("storageMode", storageMode);
+            dataJson.put("resourceType", bean.props.resourceType);
+            dataJson.put("resourceId", bean.props.resourceId);
+            dataJson.put("storageMode", bean.props.storageMode);
             dataJson.put("fileName", fileName);
+            dataJson.put("viewAngle", viewAngle);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        OkGo.<ResponseBean<Object>>post(ApiConstant.URL_DEVICE_GET_UPLOAD_NOTIFY)
+        OkGo.<ResponseBean<Object>>post(camera.getGatewayUrl() + ApiConstant.URL_DEVICE_GET_UPLOAD_NOTIFY)
                 .tag(this)
-                .upJson(getReqBody(dataJson, null))
+                .upJson(getReqBody(dataJson, deviceId))
                 .execute(new JsonCallback<ResponseBean<Object>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<Object>> response) {
@@ -972,25 +1004,6 @@ public class DeviceApiUnit {
                         listener.onFail(-1, response.getException().getMessage());
                     }
                 });
-    }
-
-    /**
-     * 下载图片
-     *
-     * @param url 图片路径
-     */
-    private void getPicture(String deviceId, String url, final OkgoCommonListener<Object> listener) {
-        OkGo.<File>get(url)
-                .tag(this)
-                .execute(new FileCallback(FileUtil.getFirstFramePath(), deviceId + ".jpg") {
-                             @Override
-                             public void onSuccess(Response<File> response) {
-                                 if (response.isSuccessful()) {
-                                     listener.onSuccess(response.body());
-                                 }
-                             }
-                         }
-                );
     }
 
     /**

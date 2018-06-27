@@ -5,6 +5,8 @@ import android.util.Base64;
 import net.ajcloud.wansviewplus.support.jnacl.NaCl;
 import net.ajcloud.wansviewplus.support.tools.WLog;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
@@ -250,4 +252,29 @@ public class CipherUtil {
                 .replace("/", "_")
                 .replace("=", "");
     }
+
+    /**
+     * sha1加密
+     */
+    public static String getSha1(InputStream in) {
+        MessageDigest messageDigest;
+        InputStream inputStream = null;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-1");
+            inputStream = new BufferedInputStream(in);
+            byte[] buffer = new byte[8192];
+            int len = inputStream.read(buffer);
+
+            while (len != -1) {
+                messageDigest.update(buffer, 0, len);
+                len = inputStream.read(buffer);
+            }
+
+            return bytesToHex(messageDigest.digest());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

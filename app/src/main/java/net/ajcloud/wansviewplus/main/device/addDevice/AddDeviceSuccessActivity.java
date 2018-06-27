@@ -102,17 +102,12 @@ public class AddDeviceSuccessActivity extends BaseActivity {
 
     private void getDeviceList() {
         progressDialogManager.showDialog(LOADING, this);
-        JSONObject body = new JSONObject();
+        final JSONObject body = new JSONObject();
         try {
             JSONObject metaJson = new JSONObject();
             JSONObject dataJson = new JSONObject();
             metaJson.put("locale", MainApplication.getApplication().getLocalInfo().appLang);
             metaJson.put("localtz", MainApplication.getApplication().getLocalInfo().timeZone);
-            String accessToken = SigninAccountManager.getInstance().getCurrentAccountAccessToken();
-            if (!TextUtils.isEmpty(accessToken)) {
-                metaJson.put("accessToken", accessToken);
-            }
-
             body.put("meta", metaJson);
             body.put("data", dataJson);
         } catch (JSONException e) {
@@ -129,17 +124,20 @@ public class AddDeviceSuccessActivity extends BaseActivity {
                         if (responseBean.isSuccess()) {
                             DeviceListBean bean = responseBean.result;
                             if (bean.cameras != null) {
+                                boolean hasCamera = false;
                                 for (DeviceListBean.Device device : bean.cameras) {
                                     if (TextUtils.equals(deviceId, device.deviceId)) {
+                                        hasCamera = true;
                                         MainApplication.getApplication().getDeviceCache().add(new Camera(device.deviceId, device.aliasName, device.accessPriKey, device.accessPubKey));
                                         getCameraUrl();
-                                        return;
                                     }
                                 }
-                                progressDialogManager.dimissDialog(LOADING, 0);
-                                ToastUtil.single("getDeviceList error");
-                                EventBus.getDefault().post(new DeviceBindSuccessEvent(deviceId));
-                                startActivity(new Intent(AddDeviceSuccessActivity.this, HomeActivity.class));
+                                if (!hasCamera){
+                                    progressDialogManager.dimissDialog(LOADING, 0);
+                                    ToastUtil.single("getDeviceList error");
+                                    EventBus.getDefault().post(new DeviceBindSuccessEvent(deviceId));
+                                    startActivity(new Intent(AddDeviceSuccessActivity.this, HomeActivity.class));
+                                }
                             }
                         }
                     }

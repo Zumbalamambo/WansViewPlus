@@ -21,11 +21,11 @@ import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
 import net.ajcloud.wansviewplus.support.core.okgo.interceptor.HttpLoggingInterceptor;
 import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
 import net.ajcloud.wansviewplus.support.tools.WLog;
+import net.ajcloud.wansviewplus.support.utils.FileUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 
 import okhttp3.OkHttpClient;
@@ -72,13 +72,18 @@ public class TestActivity extends BaseActivity {
         findViewById(net.ajcloud.wansviewplus.R.id.button_2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = etTest.getText().toString();
-                try {
-                    String result = CipherUtil.strToHex(CipherUtil.getSha256(text));
-                    tvTest.setText(result);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                Camera camera = MainApplication.getApplication().getDeviceCache().get("K03868KVLJNASXNC");
+                new DeviceApiUnit(TestActivity.this).getB2UploadInfo(camera.deviceId, "cam-viewangle", "b2", 1, FileUtil.getFirstFramePath() + "/" + "K03868KVLJNASXNC.jpg", new OkgoCommonListener<Object>() {
+                    @Override
+                    public void onSuccess(Object bean) {
+
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+
+                    }
+                });
             }
         });
         findViewById(net.ajcloud.wansviewplus.R.id.button_3).setOnClickListener(new View.OnClickListener() {

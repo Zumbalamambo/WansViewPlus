@@ -96,10 +96,6 @@ public class AddDeviceWifiWaitingActivity extends BaseActivity {
             JSONObject dataJson = new JSONObject();
             metaJson.put("locale", MainApplication.getApplication().getLocalInfo().appLang);
             metaJson.put("localtz", MainApplication.getApplication().getLocalInfo().timeZone);
-            String accessToken = SigninAccountManager.getInstance().getCurrentAccountAccessToken();
-            if (!TextUtils.isEmpty(accessToken)) {
-                metaJson.put("accessToken", accessToken);
-            }
 
             body.put("meta", metaJson);
             body.put("data", dataJson);

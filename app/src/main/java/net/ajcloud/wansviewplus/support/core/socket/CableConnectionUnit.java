@@ -98,10 +98,10 @@ public class CableConnectionUnit {
             @Override
             public void run() {
                 try {
-                    byte[] cmd = new byte[44];
+                    byte[] cmd = new byte[52];
                     System.arraycopy(keyBindHead, 0, cmd, 0, 4);
                     System.arraycopy(deviceId, 0, cmd, 4, 32);
-                    System.arraycopy(authCode, 0, cmd, 36, 8);
+                    System.arraycopy(authCode, 0, cmd, 36, 16);
                     datagramSocket = new DatagramSocket();
                     datagramSocket.setSoTimeout(socketTimeout);
                     InetAddress address = InetAddress.getByName("255.255.255.255");
