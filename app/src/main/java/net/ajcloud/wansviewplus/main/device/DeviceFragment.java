@@ -30,6 +30,7 @@ import net.ajcloud.wansviewplus.main.device.adapter.DeviceListAdapter;
 import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceSelectActivity;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
+import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.event.DeviceBindSuccessEvent;
 import net.ajcloud.wansviewplus.support.event.DeviceDeleteEvent;
@@ -58,6 +59,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
     private RecyclerView deviceListRecycleView;
     private DeviceListAdapter deviceListAdapter;
     private DeviceApiUnit deviceApiUnit;
+    private boolean isfirst = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -140,12 +142,31 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
                     deviceLayout.setVisibility(View.VISIBLE);
                     noDeviceLayout.setVisibility(View.GONE);
                     deviceListAdapter.setData(devices);
+                    if (isfirst) {
+                        isfirst = false;
+                        pushSetting();
+                    }
+
                 }
             }
 
             @Override
             public void onFail(int code, String msg) {
                 refreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    private void pushSetting() {
+        new UserApiUnit(getActivity()).pushSetting("upsert", null, new OkgoCommonListener<Object>() {
+            @Override
+            public void onSuccess(Object bean) {
+
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+
             }
         });
     }

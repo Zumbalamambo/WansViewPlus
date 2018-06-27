@@ -1148,17 +1148,6 @@ public class DeviceApiUnit {
 
             }
         });
-        new UserApiUnit(context).pushSetting("upsert", null, new OkgoCommonListener<Object>() {
-            @Override
-            public void onSuccess(Object bean) {
-
-            }
-
-            @Override
-            public void onFail(int code, String msg) {
-
-            }
-        });
     }
 
 }
