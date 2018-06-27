@@ -837,7 +837,7 @@ public class DeviceApiUnit {
      *
      * @param deviceId 设备Id
      */
-    private void unBind(String deviceId, final OkgoCommonListener<Object> listener) {
+    private void unBind(final String deviceId, final OkgoCommonListener<Object> listener) {
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("deviceId", deviceId);
@@ -854,6 +854,7 @@ public class DeviceApiUnit {
                     public void onSuccess(Response<ResponseBean<Object>> response) {
                         ResponseBean responseBean = response.body();
                         if (responseBean.isSuccess()) {
+                            MainApplication.getApplication().getDeviceCache().remove(deviceId);
                             listener.onSuccess(responseBean.result);
                         } else {
                             listener.onFail(responseBean.getResultCode(), responseBean.message);
@@ -874,12 +875,52 @@ public class DeviceApiUnit {
      * @param resourceType 类型 eg：视角: cam-viewangle
      * @param storageMode  模式 暂只支持 b2
      */
-    public void getB2UploadInfo(final String deviceId, final String resourceType, final String storageMode, final int viewAngle, final String filePath, final OkgoCommonListener<Object> listener) {
-        final Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+    public void b2Upload(final String deviceId, final String filePath, String resourceType, String storageMode, final int viewAngle, final OkgoCommonListener<Object> listener) {
+        Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
         if (camera == null || TextUtils.isEmpty(camera.getGatewayUrl())) {
             listener.onFail(-1, "param empty");
             return;
         }
+
+        getB2UploadInfo(deviceId, resourceType, storageMode, new OkgoCommonListener<B2UploadInfoBean>() {
+            @Override
+            public void onSuccess(final B2UploadInfoBean b2UploadInfoBean) {
+                final String fileName = b2UploadInfoBean.props.resourceId + "/" + viewAngle + ".png";
+                upload(filePath, fileName, b2UploadInfoBean.props.uploadUrl, b2UploadInfoBean.props.uploadToken, new OkgoCommonListener<Object>() {
+                    @Override
+                    public void onSuccess(Object bean) {
+                        uploadNotify(deviceId, b2UploadInfoBean, fileName, viewAngle, new OkgoCommonListener<Object>() {
+                            @Override
+                            public void onSuccess(Object bean) {
+                                listener.onSuccess(bean);
+                            }
+
+                            @Override
+                            public void onFail(int code, String msg) {
+                                listener.onFail(code, msg);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+                        listener.onFail(code, msg);
+                    }
+                });
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                listener.onFail(code, msg);
+            }
+        });
+    }
+
+    /**
+     * 获取上传TOKEN
+     */
+    private void getB2UploadInfo(String deviceId, String resourceType, String storageMode, final OkgoCommonListener<B2UploadInfoBean> listener) {
+        Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("resourceType", resourceType);
@@ -891,64 +932,19 @@ public class DeviceApiUnit {
                 .tag(this)
                 .upJson(getReqBody(dataJson, null))
                 .execute(new JsonCallback<ResponseBean<B2UploadInfoBean>>() {
+
                     @Override
                     public void onSuccess(Response<ResponseBean<B2UploadInfoBean>> response) {
                         ResponseBean responseBean = response.body();
                         if (responseBean.isSuccess()) {
-                            final B2UploadInfoBean bean = (B2UploadInfoBean) responseBean.result;
-                            if (bean != null && bean.props != null) {
-
-                                File file = new File(filePath);
-                                final String fileName = bean.props.resourceId + "/" + viewAngle + ".png";
-                                try {
-                                    OkHttpClient.Builder builder = new OkHttpClient.Builder();
-                                    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
-                                    loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
-                                    loggingInterceptor.setColorLevel(Level.INFO);
-                                    builder.addInterceptor(loggingInterceptor);
-                                    OkGo.<String>post(bean.props.uploadUrl)
-                                            .tag(this)
-                                            .client(builder.build())
-                                            .headers("X-Bz-Content-Sha1", CipherUtil.getSha1(new FileInputStream(file)))
-                                            .headers("Authorization", bean.props.uploadToken)
-                                            .headers("X-Bz-File-Name", fileName)
-                                            .upFile(file)
-                                            .execute(new StringCallback() {
-
-                                                @Override
-                                                public void onSuccess(Response<String> response) {
-                                                    try {
-                                                        JSONObject resultJson = new JSONObject(response.body());
-                                                        String action = resultJson.optString("action");
-                                                        if (TextUtils.equals(action, "upload")) {
-                                                            uploadNotify(deviceId, bean, fileName, viewAngle, new OkgoCommonListener<Object>() {
-                                                                @Override
-                                                                public void onSuccess(Object bean) {
-                                                                    listener.onSuccess(bean);
-                                                                }
-
-                                                                @Override
-                                                                public void onFail(int code, String msg) {
-                                                                    listener.onFail(code, msg);
-                                                                }
-                                                            });
-                                                        }
-                                                    } catch (JSONException e) {
-                                                        e.printStackTrace();
-                                                        listener.onFail(-1, "upload notify error");
-                                                    }
-                                                }
-                                            });
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                    listener.onFail(responseBean.getResultCode(), responseBean.message);
-                                }
-
+                            B2UploadInfoBean b2UploadInfoBean = (B2UploadInfoBean) responseBean.result;
+                            if (b2UploadInfoBean != null && b2UploadInfoBean.props != null) {
+                                listener.onSuccess(b2UploadInfoBean);
                             } else {
-                                listener.onFail(responseBean.getResultCode(), responseBean.message);
+                                listener.onFail(-1, "param empty");
                             }
                         } else {
-                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                            listener.onFail(-1, "param empty");
                         }
                     }
 
@@ -960,6 +956,60 @@ public class DeviceApiUnit {
                 });
     }
 
+    /**
+     * B2上传
+     *
+     * @param filePath 文件路径
+     * @param fileName 文件名
+     */
+    private void upload(String filePath, String fileName, String uploadUrl, String uploadToken, final OkgoCommonListener<Object> listener) {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            listener.onFail(-1, "file null");
+            return;
+        }
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
+        loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
+        loggingInterceptor.setColorLevel(Level.INFO);
+        builder.addInterceptor(loggingInterceptor);
+        try {
+            OkGo.<String>post(uploadUrl)
+                    .tag(this)
+                    .client(builder.build())
+                    .headers("X-Bz-Content-Sha1", CipherUtil.getSha1(new FileInputStream(file)))
+                    .headers("Authorization", uploadToken)
+                    .headers("X-Bz-File-Name", fileName)
+                    .upFile(file)
+                    .execute(new StringCallback() {
+
+                        @Override
+                        public void onSuccess(Response<String> response) {
+                            try {
+                                JSONObject resultJson = new JSONObject(response.body());
+                                String action = resultJson.optString("action");
+                                if (TextUtils.equals(action, "upload")) {
+                                    listener.onSuccess(action);
+                                } else {
+                                    listener.onFail(-1, "upload error");
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                listener.onFail(-1, "upload error");
+                            }
+                        }
+
+                        @Override
+                        public void onError(Response<String> response) {
+                            super.onError(response);
+                            listener.onFail(-1, "upload error");
+                        }
+                    });
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            listener.onFail(-1, "upload error");
+        }
+    }
 
     /**
      * 上传成功回调

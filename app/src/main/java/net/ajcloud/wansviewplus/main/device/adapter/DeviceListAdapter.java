@@ -58,6 +58,15 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    public void remove(String deviceId) {
+        for (int i = 0; i < mData.size(); i++) {
+            if (TextUtils.equals(deviceId, mData.get(i).deviceId)) {
+                notifyItemRemoved(i);
+                notifyItemRangeChanged(i, mData.size());
+            }
+        }
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = layoutInflater.inflate(R.layout.item_device_list, parent, false);

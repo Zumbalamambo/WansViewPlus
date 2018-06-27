@@ -73,7 +73,7 @@ public class TestActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Camera camera = MainApplication.getApplication().getDeviceCache().get("K03868KVLJNASXNC");
-                new DeviceApiUnit(TestActivity.this).getB2UploadInfo(camera.deviceId, "cam-viewangle", "b2", 1, FileUtil.getFirstFramePath() + "/" + "K03868KVLJNASXNC.jpg", new OkgoCommonListener<Object>() {
+                new DeviceApiUnit(TestActivity.this).b2Upload(camera.deviceId, FileUtil.getFirstFramePath() + "/" + "K03868KVLJNASXNC.jpg", "cam-viewangle", "b2", 1, new OkgoCommonListener<Object>() {
                     @Override
                     public void onSuccess(Object bean) {
 

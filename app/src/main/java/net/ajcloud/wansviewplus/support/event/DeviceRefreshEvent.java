@@ -2,7 +2,7 @@ package net.ajcloud.wansviewplus.support.event;
 
 /**
  * Created by mamengchao on 2018/06/11.
- * Function:    设备列表刷新event
+ * Function:    单个设备刷新event
  */
 public class DeviceRefreshEvent {
     public String deviceId;

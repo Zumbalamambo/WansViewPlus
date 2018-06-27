@@ -32,6 +32,7 @@ import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.event.DeviceBindSuccessEvent;
+import net.ajcloud.wansviewplus.support.event.DeviceDeleteEvent;
 import net.ajcloud.wansviewplus.support.event.DeviceRefreshEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -98,7 +99,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
         deviceListAdapter = new DeviceListAdapter(getActivity());
         deviceListRecycleView.setAdapter(deviceListAdapter);
         deviceListRecycleView.setNestedScrollingEnabled(false);
-        ((SimpleItemAnimator)deviceListRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
+        ((SimpleItemAnimator) deviceListRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
         Animation animation = new AlphaAnimation(0f, 1f);
         animation.setDuration(200);
         LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation, 0.5F);
@@ -166,6 +167,13 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
         if (!TextUtils.isEmpty(event.deviceId)) {
             Camera camera = MainApplication.getApplication().getDeviceCache().get(event.deviceId);
             deviceListAdapter.update(camera);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDeviceDelete(DeviceDeleteEvent event) {
+        if (!TextUtils.isEmpty(event.deviceId)) {
+            deviceListAdapter.remove(event.deviceId);
         }
     }
 

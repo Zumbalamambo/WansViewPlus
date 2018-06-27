@@ -13,7 +13,10 @@ import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.customview.dialog.ConfirmDialog;
+import net.ajcloud.wansviewplus.support.event.DeviceDeleteEvent;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class MaintenanceActivity extends BaseActivity {
 
@@ -153,6 +156,7 @@ public class MaintenanceActivity extends BaseActivity {
             @Override
             public void onSuccess(Object bean) {
                 progressDialogManager.dimissDialog(LOADING, 0);
+                EventBus.getDefault().post(new DeviceDeleteEvent(deviceId));
                 startActivity(new Intent(MaintenanceActivity.this, HomeActivity.class));
             }
 
