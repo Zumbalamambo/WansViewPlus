@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import net.ajcloud.wansviewplus.entity.camera.CameraStatus;
 import net.ajcloud.wansviewplus.entity.camera.ViewSetting;
 import net.ajcloud.wansviewplus.main.device.type.camera.VirtualCamera;
+import net.ajcloud.wansviewplus.support.core.bean.ViewAnglesBean;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -37,27 +38,22 @@ public class AngleView implements View.OnClickListener {
     private GridView myGridview;
     private LinearLayout contentLayout;
     private LinearLayout emptyLayout;
-    private ArrayList<ViewSetting> list = new ArrayList<>();
+    private ArrayList<ViewAnglesBean.ViewAngle> list = new ArrayList<>();
     private String oid;
     private AngleAdapter adapter;
     private View normalView;
     private View deleteView;
-   // private TipDialog tip;
+    // private TipDialog tip;
     private boolean isEidt;
     private VirtualCamera virtualCamera;
 
-    public AngleView(final Context context, final String oid, final List<ViewSetting> list, View v1, View v2, VirtualCamera virtualCamera) {
+    public AngleView(final Context context, final String oid, final List<ViewAnglesBean.ViewAngle> list, View v1, View v2, VirtualCamera virtualCamera) {
         this.context = context;
         this.oid = oid;
         normalView = v1;
         deleteView = v2;
         this.virtualCamera = virtualCamera;
-        //tip = new TipDialog(context, "");
-        for (ViewSetting setting : list) {
-            if (!TextUtils.isEmpty(setting.getViewurl())) {
-                this.list.add(setting);
-            }
-        }
+        this.list.addAll(list);
     }
 
     @Override
@@ -73,7 +69,7 @@ public class AngleView implements View.OnClickListener {
                 break;
             case net.ajcloud.wansviewplus.R.id.cancel:
                 isEidt = false;
-                for (ViewSetting data : list) {
+                for (ViewAnglesBean.ViewAngle data : list) {
                     data.setSelect(false);
                 }
                 refreshView();
@@ -81,7 +77,7 @@ public class AngleView implements View.OnClickListener {
 
                 break;
             case net.ajcloud.wansviewplus.R.id.select_all:
-                for (ViewSetting data : list) {
+                for (ViewAnglesBean.ViewAngle data : list) {
                     data.setSelect(true);
                 }
                 adapter.notifyDataSetChanged();
@@ -127,8 +123,8 @@ public class AngleView implements View.OnClickListener {
             convertView = View.inflate(context, net.ajcloud.wansviewplus.R.layout.item_select_angle, null);
             ImageView angleView = (ImageView) convertView.findViewById(net.ajcloud.wansviewplus.R.id.angle_img);
             ImageView selectImg = (ImageView) convertView.findViewById(net.ajcloud.wansviewplus.R.id.select_img);
-            ViewSetting data = list.get(position);
-            Glide.with(context).load(data.getViewurl()).placeholder(net.ajcloud.wansviewplus.R.mipmap.figure_big).into(angleView);
+            ViewAnglesBean.ViewAngle data = list.get(position);
+            Glide.with(context).load(data.url).placeholder(net.ajcloud.wansviewplus.R.mipmap.figure_big).into(angleView);
             if (isEidt && data.isSelect()) {
                 selectImg.setVisibility(View.VISIBLE);
             } else {
@@ -155,9 +151,9 @@ public class AngleView implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 String seqs = "";
-                for (ViewSetting data : list) {
+                for (ViewAnglesBean.ViewAngle data : list) {
                     if (data.isSelect()) {
-                        seqs = seqs + "," + data.getSeq();
+                        seqs = seqs + "," + data.viewAngle;
                     }
                 }
                 if (TextUtils.isEmpty(seqs)) {
@@ -213,7 +209,7 @@ public class AngleView implements View.OnClickListener {
                     if (virtualCamera.state == CameraStatus.OFFLINE) {
                         ToastUtil.show(context.getString(net.ajcloud.wansviewplus.R.string.wv_device_offline));
                     } else {
-                        virtualCamera.onTurnView(list.get(position).getSeq());
+                        virtualCamera.onTurnView(list.get(position).viewAngle);
                     }
                 }
             }

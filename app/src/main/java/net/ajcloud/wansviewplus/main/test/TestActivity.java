@@ -5,17 +5,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
+import net.ajcloud.wansviewplus.support.core.bean.LiveSrcBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
-import net.ajcloud.wansviewplus.support.tools.WLog;
 import net.ajcloud.wansviewplus.support.utils.FileUtil;
 
 import org.json.JSONException;
@@ -81,17 +78,18 @@ public class TestActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("test", "12345/111.com");
-                    WLog.d(TAG, jsonObject.toString());
+                Camera camera = MainApplication.getApplication().getDeviceCache().get("K03868KVLJNASXNC");
+                new DeviceApiUnit(TestActivity.this).getLiveSrcToken(camera.deviceId, 1, 1, new OkgoCommonListener<LiveSrcBean>() {
+                    @Override
+                    public void onSuccess(LiveSrcBean bean) {
 
-                    JsonObject jsonObject1 = new JsonObject();
-                    jsonObject1.addProperty("test", "12345/111.com");
-                    WLog.d(TAG, jsonObject1.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+
+                    }
+                });
             }
         });
     }

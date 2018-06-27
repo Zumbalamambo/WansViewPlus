@@ -17,6 +17,7 @@ import net.ajcloud.wansviewplus.support.core.bean.DeviceConfigBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceListBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceTimeBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceUrlBean;
+import net.ajcloud.wansviewplus.support.core.bean.LiveSrcBean;
 import net.ajcloud.wansviewplus.support.core.bean.LocalStorBean;
 import net.ajcloud.wansviewplus.support.core.bean.MoveMonitorBean;
 import net.ajcloud.wansviewplus.support.core.bean.PreBindBean;
@@ -1055,6 +1056,49 @@ public class DeviceApiUnit {
 
                     @Override
                     public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 直播SEC-TOKEN请求
+     *
+     * @param reqType 1-局域网, 2 - UPnP,  3 - P2P, 4 - 中继, 5 - RTMP直播
+     * @param quality 视频质量, 按设备能力集合: capability.qualities
+     */
+    public void getLiveSrcToken(String deviceId, int reqType, int quality, final OkgoCommonListener<LiveSrcBean> listener) {
+        Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+        if (camera == null) {
+            listener.onFail(-1, "param empty");
+            return;
+        }
+
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("reqType", reqType);
+            dataJson.put("quality", quality);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<LiveSrcBean>>post(camera.getGatewayUrl() + ApiConstant.URL_DEVICE_GET_LIVE_SRC_TOKEN)
+                .tag(this)
+                .upJson(getReqBody(dataJson, deviceId))
+                .execute(new JsonCallback<ResponseBean<LiveSrcBean>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<LiveSrcBean>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            LiveSrcBean bean = (LiveSrcBean) responseBean.result;
+                            listener.onSuccess(bean);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<LiveSrcBean>> response) {
                         super.onError(response);
                         listener.onFail(-1, response.getException().getMessage());
                     }

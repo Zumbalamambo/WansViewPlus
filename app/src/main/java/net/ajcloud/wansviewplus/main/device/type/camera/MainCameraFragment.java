@@ -76,6 +76,8 @@ import net.ajcloud.wansviewplus.main.application.BaseFragment;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.main.device.setting.DeviceSettingActivity;
 import net.ajcloud.wansviewplus.main.device.type.DeviceHomeActivity;
+import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
+import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.customview.MyStateBar;
 import net.ajcloud.wansviewplus.support.customview.camera.AngleView;
 import net.ajcloud.wansviewplus.support.customview.camera.CloudDirectionLayout;
@@ -448,7 +450,7 @@ public class MainCameraFragment extends BaseFragment
         upgradeFromSetting = false;
         initVirtualCameraAndPoliceHelper();
         initCameraView(rootView);
-        refreshMenuSetting( net.ajcloud.wansviewplus.R.menu.menu_camer_setting);
+        refreshMenuSetting(net.ajcloud.wansviewplus.R.menu.menu_camer_setting);
         initSurfaceView();
         ShowUpdate(UPDATE_STATUS.EXIT);
     }
@@ -1722,7 +1724,7 @@ public class MainCameraFragment extends BaseFragment
     void initCameraView(View view) {
 
         recordVoice = view.findViewById(net.ajcloud.wansviewplus.R.id.press_speak);
-        voice_content =  view.findViewById(net.ajcloud.wansviewplus.R.id.voice_content);
+        voice_content = view.findViewById(net.ajcloud.wansviewplus.R.id.voice_content);
         voice_rcd_hint_cancel_area = view.findViewById(net.ajcloud.wansviewplus.R.id.voice_rcd_hint_cancel_area);
         voice_rcd_hint_anim_area = view.findViewById(net.ajcloud.wansviewplus.R.id.voice_rcd_hint_anim_area);
         sound_level = view.findViewById(net.ajcloud.wansviewplus.R.id.voice_rcd_hint_anim);
@@ -2233,16 +2235,19 @@ public class MainCameraFragment extends BaseFragment
             if (cannotOperateWhenOfflineOrNoplay(false, 2000)) {
                 return;
             }
+            String deviceId = ((DeviceHomeActivity) getActivity()).getOid();
+            net.ajcloud.wansviewplus.support.core.device.Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
             int position = -1;
-            if (getCamera().getViewSettings().isEmpty()) {
+            if (camera.viewAnglesConfig == null || camera.viewAnglesConfig.viewAngles.size() == 0) {
                 position = 0;
             } else {
-                for (int i = 0; i < getCamera().getViewSettings().size(); i++) {
-                    if (TextUtils.isEmpty(getCamera().getViewSettings().get(i).getViewurl())) {
-                        position = i;
-                        break;
-                    }
-                }
+                position = camera.viewAnglesConfig.viewAngles.size() - 1;
+//                for (int i = 0; i < camera.viewAnglesConfig.viewAngles.size(); i++) {
+//                    if (TextUtils.isEmpty(getCamera().getViewSettings().get(i).getViewurl())) {
+//                        position = i;
+//                        break;
+//                    }
+//                }
             }
             if (position == -1) {
                 ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_angle_view_full);
@@ -2757,7 +2762,7 @@ public class MainCameraFragment extends BaseFragment
 
         @Override
         public boolean canDrag() {
-            return  !cannotOperateWhenOfflineOrNoplay(false, 0);
+            return !cannotOperateWhenOfflineOrNoplay(false, 0);
         }
 
         @Override
@@ -2910,6 +2915,19 @@ public class MainCameraFragment extends BaseFragment
                     resized.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
                     fOut.flush();
                     fOut.close();
+
+                    String deviceId = ((DeviceHomeActivity) getActivity()).getOid();
+                    new DeviceApiUnit(getActivity()).b2Upload(deviceId, MainApplication.fileIO.getCacheDir() + index + ".jpg", "cam-viewangle", "b2", index + 1, new OkgoCommonListener<Object>() {
+                        @Override
+                        public void onSuccess(Object bean) {
+                            ToastUtil.single("success");
+                        }
+
+                        @Override
+                        public void onFail(int code, String msg) {
+
+                        }
+                    });
                     /*    上传图片 todo
                     UploadFileUtils uploadFileUtils = new UploadFileUtils(getActivity(), f, virtualCamera.cid, "1",
                             UploadFileUtils.CAMERA_VIEWANGLE_V2, f.getName(), new UploadFileUtils.FileUploadResultListener() {
@@ -3142,9 +3160,9 @@ public class MainCameraFragment extends BaseFragment
         lp.width = (int) (layoutW * scale);
         lp.height = (int) (layoutH * scale);
         lp.setMargins((int) marginLeft, (int) marginTop, 0, 0);
-        Log.e("====gpr==", "width:"+ lp.width + "; height:" + lp.height);
+        Log.e("====gpr==", "width:" + lp.width + "; height:" + lp.height);
 
-        Log.e("====gpr==", "marginLeft:"+ marginLeft + "; marginTop:" + marginTop);
+        Log.e("====gpr==", "marginLeft:" + marginLeft + "; marginTop:" + marginTop);
         mSurface.setLayoutParams(lp);
         mSurface.invalidate();
     }
@@ -3715,7 +3733,9 @@ public class MainCameraFragment extends BaseFragment
 
                     break;
                 case net.ajcloud.wansviewplus.R.id.angle:
-                    view = new AngleView(getActivity(), getCamera().getOid(), getCamera().getViewSettings(), selectViewLayout, deleteAngleLayout, virtualCamera).getView();
+                    String deviceId = ((DeviceHomeActivity) getActivity()).getOid();
+                    net.ajcloud.wansviewplus.support.core.device.Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+                    view = new AngleView(getActivity(), deviceId, camera.viewAnglesConfig.viewAngles, selectViewLayout, deleteAngleLayout, virtualCamera).getView();
                     angle.setSelected(true);
 
                     break;
