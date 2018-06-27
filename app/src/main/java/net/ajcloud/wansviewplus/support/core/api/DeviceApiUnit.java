@@ -366,6 +366,10 @@ public class DeviceApiUnit {
             return;
         }
         final Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+        if (camera == null) {
+            listener.onFail(-1, "camera empty");
+            return;
+        }
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("deviceId", deviceId);

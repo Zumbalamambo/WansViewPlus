@@ -61,6 +61,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void remove(String deviceId) {
         for (int i = 0; i < mData.size(); i++) {
             if (TextUtils.equals(deviceId, mData.get(i).deviceId)) {
+                mData.remove(i);
                 notifyItemRemoved(i);
                 notifyItemRangeChanged(i, mData.size());
             }
