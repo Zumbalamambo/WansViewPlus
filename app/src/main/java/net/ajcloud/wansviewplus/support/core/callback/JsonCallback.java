@@ -1,8 +1,10 @@
 package net.ajcloud.wansviewplus.support.core.callback;
 
-import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+
+import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
+import net.ajcloud.wansviewplus.support.core.bean.ResponseErrorBean;
 import net.ajcloud.wansviewplus.support.core.okgo.callback.AbsCallback;
 
 import java.lang.reflect.ParameterizedType;
@@ -32,17 +34,29 @@ public abstract class JsonCallback<T> extends AbsCallback<T> {
         }
         Gson gson = new Gson();
         JsonReader jsonReader = new JsonReader(body.charStream());
-        if (typeArgument == Object.class) {
-            ResponseBean bean = gson.fromJson(jsonReader, type);
-            response.close();
-            return (T) bean;
-        } else if (rawType == ResponseBean.class) {
-            ResponseBean bean = gson.fromJson(jsonReader, type);
-            response.close();
-            return (T) bean;
+
+        if (response.code() == 200) {
+            if (typeArgument == Object.class) {
+                ResponseBean bean = gson.fromJson(jsonReader, type);
+                response.close();
+                return (T) bean;
+            } else if (rawType == ResponseBean.class) {
+                ResponseBean bean = gson.fromJson(jsonReader, type);
+                response.close();
+                return (T) bean;
+            } else {
+                response.close();
+                throw new IllegalStateException("基类错误无法解析!");
+            }
         } else {
+            ResponseErrorBean errorBean = gson.fromJson(jsonReader, ResponseErrorBean.class);
+            ResponseBean bean = new ResponseBean();
+            bean.code = String.valueOf(errorBean.statusCode);
+            bean.status = "error";
+            bean.message = errorBean.message;
             response.close();
-            throw new IllegalStateException("基类错误无法解析!");
+            return (T) bean;
         }
+
     }
 }

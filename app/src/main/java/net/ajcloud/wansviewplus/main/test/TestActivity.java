@@ -5,30 +5,21 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
-import net.ajcloud.wansviewplus.support.core.api.ApiConstant;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
-import net.ajcloud.wansviewplus.support.core.bean.DeviceConfigBean;
-import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
-import net.ajcloud.wansviewplus.support.core.callback.JsonCallback;
-import net.ajcloud.wansviewplus.support.core.cipher.CipherUtil;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
-import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
-import net.ajcloud.wansviewplus.support.core.okgo.interceptor.HttpLoggingInterceptor;
-import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
 import net.ajcloud.wansviewplus.support.tools.WLog;
 import net.ajcloud.wansviewplus.support.utils.FileUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.logging.Level;
-
-import okhttp3.OkHttpClient;
 
 public class TestActivity extends BaseActivity {
 
@@ -89,57 +80,18 @@ public class TestActivity extends BaseActivity {
         findViewById(net.ajcloud.wansviewplus.R.id.button_3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Camera camera = MainApplication.getApplication().getDeviceCache().get("K03868KVLJNASXNC");
-                JSONObject dataJson = new JSONObject();
+
+                JSONObject jsonObject = new JSONObject();
                 try {
-                    dataJson.put("deviceId", "K03868KVLJNASXNC");
-                    dataJson.put("agentName", MainApplication.getApplication().getLocalInfo().deviceName);
-                    dataJson.put("agentToken", MainApplication.getApplication().getLocalInfo().deviceId);
+                    jsonObject.put("test", "12345/111.com");
+                    WLog.d(TAG, jsonObject.toString());
+
+                    JsonObject jsonObject1 = new JsonObject();
+                    jsonObject1.addProperty("test", "12345/111.com");
+                    WLog.d(TAG, jsonObject1.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                String timeStamp = System.currentTimeMillis() + "";
-                JSONObject reqBody = getReqBody(dataJson, null);
-                StringBuilder signBody = new StringBuilder();
-                signBody.append("POST");
-                signBody.append("\n");
-                signBody.append("/api/v1/cmd/fetch-info");
-                signBody.append("\n");
-                signBody.append(CipherUtil.getSha256(reqBody.toString()));
-                signBody.append("\n");
-                WLog.d("sign token", "signBody:" + signBody.toString());
-
-                String signToken = SigninAccountManager.getInstance().getCurrentSignToken();
-                WLog.d("sign token", "signToken:" + signToken);
-                String stringToSign = null;
-                stringToSign = "HMAC-SHA256" + "\n" + timeStamp + "\n" + CipherUtil.getSha256(signBody.toString());
-                WLog.d("sign token", "stringToSign:" + stringToSign);
-                String signature = CipherUtil.getClondApiSign(signToken, stringToSign);
-                WLog.d("sign token", "signature:" + signature);
-
-                HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
-                //log打印级别，决定了log显示的详细程度
-                loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
-                //log颜色级别，决定了log在控制台显示的颜色
-                loggingInterceptor.setColorLevel(Level.INFO);
-
-                OkGo.<ResponseBean<DeviceConfigBean>>post(camera.getGatewayUrl() + ApiConstant.URL_DEVICE_GET_DEVICE_INFO)
-                        .tag(this)
-                        .headers("Authorization", "Bearer" + " " + SigninAccountManager.getInstance().getCurrentAccountAccessToken())
-                        .headers("X-UAC-Signature", "UAC1-HMAC-SHA256" + ";" + timeStamp + ";" + signature)
-                        .upJson(reqBody)
-                        .client(new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build())
-                        .execute(new JsonCallback<ResponseBean<DeviceConfigBean>>() {
-                            @Override
-                            public void onSuccess(Response<ResponseBean<DeviceConfigBean>> response) {
-                            }
-
-                            @Override
-                            public void onError(Response<ResponseBean<DeviceConfigBean>> response) {
-                                super.onError(response);
-                            }
-                        });
             }
         });
     }

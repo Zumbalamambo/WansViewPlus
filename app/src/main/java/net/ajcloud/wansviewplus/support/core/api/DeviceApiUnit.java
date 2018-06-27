@@ -934,7 +934,7 @@ public class DeviceApiUnit {
         }
         OkGo.<ResponseBean<B2UploadInfoBean>>post(camera.getGatewayUrl() + ApiConstant.URL_DEVICE_GET_UPLOAD_INFO)
                 .tag(this)
-                .upJson(getReqBody(dataJson, null))
+                .upJson(getReqBody(dataJson, deviceId))
                 .execute(new JsonCallback<ResponseBean<B2UploadInfoBean>>() {
 
                     @Override
@@ -1028,6 +1028,7 @@ public class DeviceApiUnit {
             listener.onFail(-1, "param empty");
             return;
         }
+
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("resourceType", bean.props.resourceType);
@@ -1040,7 +1041,7 @@ public class DeviceApiUnit {
         }
         OkGo.<ResponseBean<Object>>post(camera.getGatewayUrl() + ApiConstant.URL_DEVICE_GET_UPLOAD_NOTIFY)
                 .tag(this)
-                .upJson(getReqBody(dataJson, deviceId))
+                .upJson(getReqBody(dataJson, deviceId).toString().replace("\\", ""))
                 .execute(new JsonCallback<ResponseBean<Object>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<Object>> response) {

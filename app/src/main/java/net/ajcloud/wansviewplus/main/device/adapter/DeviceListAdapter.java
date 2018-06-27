@@ -86,10 +86,10 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((DeviceListHolder) holder).tv_status.setText("OFF LINE");
         }
 
-        if (camera.refreshStatus == 2) {
-            ((DeviceListHolder) holder).iv_refresh.setVisibility(View.VISIBLE);
-        } else {
+        if (camera.refreshStatus == 1) {
             ((DeviceListHolder) holder).iv_refresh.setVisibility(View.GONE);
+        } else {
+            ((DeviceListHolder) holder).iv_refresh.setVisibility(View.VISIBLE);
         }
 
         if (camera.cloudStorConfig == null || TextUtils.equals(camera.cloudStorConfig.enable, "0")) {//关闭
