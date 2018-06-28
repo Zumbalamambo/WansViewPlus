@@ -32,7 +32,6 @@ public class OkSignatureInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         String originalUrl = request.url().url().toString();
-        String host = request.url().host();
         String encodedPath = request.url().encodedPath();
         String method = request.method();
 

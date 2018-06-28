@@ -183,6 +183,15 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden && deviceListAdapter != null) {
+            List<Camera> list = new ArrayList<>(MainApplication.getApplication().getDeviceCache().getDevices());
+            deviceListAdapter.setData(list);
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDeviceRefresh(DeviceRefreshEvent event) {
         if (!TextUtils.isEmpty(event.deviceId)) {

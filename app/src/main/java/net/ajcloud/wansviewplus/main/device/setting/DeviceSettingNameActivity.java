@@ -14,7 +14,10 @@ import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.customview.materialEditText.MaterialEditText;
+import net.ajcloud.wansviewplus.support.event.DeviceRefreshEvent;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import static net.ajcloud.wansviewplus.main.device.setting.DeviceSettingActivity.RENAME;
 
@@ -102,6 +105,7 @@ public class DeviceSettingNameActivity extends BaseActivity {
                                 public void onSuccess(Object bean) {
                                     progressDialogManager.dimissDialog(LOADING, 0);
                                     camera.aliasName = name;
+                                    EventBus.getDefault().post(new DeviceRefreshEvent(camera.deviceId));
                                     Intent intent = new Intent();
                                     intent.putExtra("name", nameEditText.getText().toString());
                                     setResult(RESULT_OK, intent);
