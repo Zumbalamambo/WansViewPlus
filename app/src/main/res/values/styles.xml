@@ -135,10 +135,6 @@
         <item name="android:textSize">16dp</item>
     </style>
 
-    <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
-        <item name="android:button">@drawable/checkbox_style</item>
-    </style>
-
     <style name="CustomSwitch" parent="Theme.AppCompat.Light">
         <!--开启时的颜色-->
         <item name="colorControlActivated">@color/colorPrimary</item>
@@ -183,5 +179,12 @@
     <style name="picker_view_slide_anim" mce_bogus="1" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/pickerview_slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/pickerview_slide_out_bottom</item>
+    </style>
+
+
+    <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/selector_checkbox</item>
+        <item name="android:scaleX">0.7</item>
+        <item name="android:scaleY">0.7</item>
     </style>
 </resources>

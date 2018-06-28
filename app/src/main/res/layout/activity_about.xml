@@ -11,7 +11,7 @@
         android:layout_height="120dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="48dp"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_me_logo" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -62,12 +62,12 @@
 
         <ImageView
             android:id="@+id/iv_email"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/me_image_size"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/me_margin_first"
-            android:src="@drawable/ic_arrow" />
+            android:src="@mipmap/ic_direction_right_mid" />
     </RelativeLayout>
 
     <View
@@ -101,12 +101,12 @@
 
         <ImageView
             android:id="@+id/iv_service"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/me_image_size"
+            android:layout_height="@dimen/me_image_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/me_margin_first"
-            android:src="@drawable/ic_arrow" />
+            android:src="@mipmap/ic_direction_right_mid" />
     </RelativeLayout>
 
     <View
@@ -139,12 +139,12 @@
 
         <ImageView
             android:id="@+id/iv_terms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/me_image_size"
+            android:layout_height="@dimen/me_image_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/me_margin_first"
-            android:src="@drawable/ic_arrow" />
+            android:src="@mipmap/ic_direction_right_mid" />
     </RelativeLayout>
 
     <View

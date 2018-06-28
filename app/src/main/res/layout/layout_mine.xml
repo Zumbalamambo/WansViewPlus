@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -15,8 +14,7 @@
         android:singleLine="true"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/me_text_size_20"
-        android:textStyle="bold"
-        tools:text="12234556" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_count"
@@ -28,8 +26,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/gray_second"
-        android:textSize="@dimen/me_text_size_14"
-        tools:text="12234556" />
+        android:textSize="@dimen/me_text_size_14" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,10 +44,23 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="@dimen/me_image_width"
-                android:layout_height="@dimen/me_image_height"
-                android:src="@mipmap/ic_launcher" />
+            <FrameLayout
+                android:layout_width="48dp"
+                android:layout_height="48dp">
+
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shape_gray_round" />
+
+                <ImageView
+                    android:layout_width="@dimen/me_image_size"
+                    android:layout_height="@dimen/me_image_size"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_vedio" />
+            </FrameLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -71,10 +81,22 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="@dimen/me_image_width"
-                android:layout_height="@dimen/me_image_height"
-                android:src="@mipmap/ic_launcher" />
+            <FrameLayout
+                android:layout_width="48dp"
+                android:layout_height="48dp">
+
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/shape_gray_round" />
+
+                <ImageView
+                    android:layout_width="@dimen/me_image_size"
+                    android:layout_height="@dimen/me_image_size"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_photo" />
+            </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -104,11 +126,11 @@
 
         <ImageView
             android:id="@+id/iv_cloud_storage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/me_image_size"
+            android:layout_height="@dimen/me_image_size"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/me_margin_first"
-            android:src="@drawable/ic_all" />
+            android:src="@mipmap/ic_cloudstorage" />
 
         <TextView
             android:id="@+id/tv_cloud_storage"
@@ -126,12 +148,12 @@
             android:textSize="@dimen/device_setting_text_size_14" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/me_image_size"
+            android:layout_height="@dimen/me_image_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/me_margin_first"
-            android:src="@drawable/ic_arrow" />
+            android:src="@mipmap/ic_direction_right_mid" />
     </RelativeLayout>
 
     <View
@@ -158,11 +180,11 @@
 
         <ImageView
             android:id="@+id/iv_security"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/me_image_size"
+            android:layout_height="@dimen/me_image_size"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/me_margin_first"
-            android:src="@drawable/ic_all" />
+            android:src="@mipmap/ic_security" />
 
         <TextView
             android:id="@+id/tv_security"
@@ -180,12 +202,12 @@
             android:textSize="@dimen/device_setting_text_size_14" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/me_image_size"
+            android:layout_height="@dimen/me_image_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/me_margin_first"
-            android:src="@drawable/ic_arrow" />
+            android:src="@mipmap/ic_direction_right_mid" />
     </RelativeLayout>
 
     <View
@@ -203,11 +225,11 @@
 
         <ImageView
             android:id="@+id/iv_version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/me_image_size"
+            android:layout_height="@dimen/me_image_size"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/me_margin_first"
-            android:src="@drawable/ic_all" />
+            android:src="@mipmap/ic_version" />
 
         <TextView
             android:id="@+id/tv_version"
@@ -241,12 +263,12 @@
 
         <ImageView
             android:id="@+id/iv_update"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/me_image_size"
+            android:layout_height="@dimen/me_image_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/me_margin_first"
-            android:src="@drawable/ic_arrow" />
+            android:src="@mipmap/ic_update" />
     </RelativeLayout>
 
     <View
@@ -272,11 +294,11 @@
 
         <ImageView
             android:id="@+id/iv_about"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/me_image_size"
+            android:layout_height="@dimen/me_image_size"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/me_margin_first"
-            android:src="@drawable/ic_all" />
+            android:src="@mipmap/ic_about" />
 
         <TextView
             android:id="@+id/tv_about"
@@ -294,12 +316,12 @@
             android:textSize="@dimen/device_setting_text_size_14" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/me_image_size"
+            android:layout_height="@dimen/me_image_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/me_margin_first"
-            android:src="@drawable/ic_arrow" />
+            android:src="@mipmap/ic_direction_right_mid" />
     </RelativeLayout>
 
     <View
@@ -317,11 +339,11 @@
 
         <ImageView
             android:id="@+id/iv_logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/me_image_size"
+            android:layout_height="@dimen/me_image_size"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/me_margin_first"
-            android:src="@drawable/ic_all" />
+            android:src="@mipmap/ic_sign_out" />
 
         <TextView
             android:id="@+id/tv_logout"
@@ -339,12 +361,12 @@
             android:textSize="@dimen/device_setting_text_size_14" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/me_image_size"
+            android:layout_height="@dimen/me_image_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/me_margin_first"
-            android:src="@drawable/ic_arrow" />
+            android:src="@mipmap/ic_direction_right_mid" />
     </RelativeLayout>
 
     <View
@@ -371,8 +393,8 @@
 
         <ImageView
             android:id="@+id/iv_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/me_image_size"
+            android:layout_height="@dimen/me_image_size"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/me_margin_first"
             android:src="@drawable/ic_all" />
@@ -393,12 +415,12 @@
             android:textSize="@dimen/device_setting_text_size_14" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/me_image_size"
+            android:layout_height="@dimen/me_image_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/me_margin_first"
-            android:src="@drawable/ic_arrow" />
+            android:src="@mipmap/ic_direction_right_mid" />
     </RelativeLayout>
 
     <View

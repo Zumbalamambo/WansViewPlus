@@ -75,13 +75,13 @@
 
         <ImageView
             android:id="@+id/item_firmware_update"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/device_setting_image_size"
+            android:layout_height="@dimen/device_setting_image_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/device_setting_margin_first"
             android:visibility="gone"
-            android:src="@drawable/ic_arrow" />
+            android:src="@mipmap/ic_direction_right_mid" />
 
         <TextView
             android:id="@+id/item_firmware_firmware"

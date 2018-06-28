@@ -97,18 +97,18 @@
             android:thumbTint="@color/colorPrimary" />
 
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignParentStart="true"
             android:layout_alignTop="@id/item_sensitivity_seekbar"
-            android:src="@drawable/ic_all" />
+            android:src="@mipmap/ic_sensitivity_low" />
 
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@id/item_sensitivity_seekbar"
-            android:src="@drawable/ic_all" />
+            android:src="@mipmap/ic_sensitivity" />
 
         <View
             android:layout_width="match_parent"
@@ -151,12 +151,12 @@
 
         <ImageView
             android:id="@+id/item_time_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/device_setting_image_size"
+            android:layout_height="@dimen/device_setting_image_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:src="@drawable/ic_arrow" />
+            android:src="@mipmap/ic_direction_right_mid" />
 
         <TextView
             android:id="@+id/item_time_time"

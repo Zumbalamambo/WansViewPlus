@@ -137,7 +137,6 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
             placeDialog = new CommonDialog.Builder(this)
                     .canceledOnTouchOutside(false)
                     .view(R.layout.dialog_place)
-                    .height(368)
                     .width(327)
                     .addViewOnclickListener(R.id.iv_close, dialogClickListener)
                     .addViewOnclickListener(R.id.iv_positioning, dialogClickListener)

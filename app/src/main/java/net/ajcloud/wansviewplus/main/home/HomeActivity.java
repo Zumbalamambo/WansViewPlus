@@ -17,9 +17,6 @@ import net.ajcloud.wansviewplus.main.mine.MineFragment;
 import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 
 public class HomeActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
@@ -62,9 +59,9 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         int currentSelectedPosition = bottomNavigationBar.getCurrentSelectedPosition();
         bottomNavigationBar.clearAll();
-        bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.ic_music, getString(R.string.devices)).setInactiveIconResource(R.drawable.ic_music))
-                .addItem(new BottomNavigationItem(R.drawable.ic_music, getString(R.string.inbox)).setInactiveIconResource(R.drawable.ic_music))
-                .addItem(new BottomNavigationItem(R.drawable.ic_music, getString(R.string.me)).setInactiveIconResource(R.drawable.ic_music))
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_device_color, getString(R.string.devices)).setInactiveIconResource(R.mipmap.ic_device_mid))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_inbox_color, getString(R.string.inbox)).setInactiveIconResource(R.mipmap.ic_inbox_mid))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_me_color, getString(R.string.me)).setInactiveIconResource(R.mipmap.ic_me_mid))
                 .setActiveColor(R.color.colorPrimary)
                 .setFirstSelectedPosition(0)
                 .initialise();

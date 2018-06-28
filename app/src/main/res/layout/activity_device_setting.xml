@@ -18,11 +18,11 @@
 
             <ImageView
                 android:id="@+id/iv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_all" />
+                android:src="@mipmap/ic_name" />
 
             <TextView
                 android:id="@+id/item_name_tips"
@@ -41,12 +41,12 @@
 
             <ImageView
                 android:id="@+id/item_name_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_arrow" />
+                android:src="@mipmap/ic_direction_right_mid" />
 
             <TextView
                 android:id="@+id/item_name_name"
@@ -78,11 +78,11 @@
 
             <ImageView
                 android:id="@+id/iv_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_all" />
+                android:src="@mipmap/ic_information" />
 
             <TextView
                 android:id="@+id/item_info_tips"
@@ -101,12 +101,12 @@
 
             <ImageView
                 android:id="@+id/item_info_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_arrow" />
+                android:src="@mipmap/ic_direction_right_mid" />
         </RelativeLayout>
 
         <View
@@ -124,11 +124,11 @@
 
             <ImageView
                 android:id="@+id/iv_network"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_all" />
+                android:src="@mipmap/ic_wifi" />
 
             <TextView
                 android:id="@+id/item_network_tips"
@@ -147,12 +147,12 @@
 
             <ImageView
                 android:id="@+id/item_network_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_arrow" />
+                android:src="@mipmap/ic_direction_right_mid" />
 
             <TextView
                 android:id="@+id/item_network_name"
@@ -192,11 +192,11 @@
 
             <ImageView
                 android:id="@+id/iv_alert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_all" />
+                android:src="@mipmap/ic_warn" />
 
             <TextView
                 android:id="@+id/item_alert_tips"
@@ -215,12 +215,12 @@
 
             <ImageView
                 android:id="@+id/item_alert_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_arrow" />
+                android:src="@mipmap/ic_direction_right_mid" />
         </RelativeLayout>
 
         <View
@@ -238,11 +238,11 @@
 
             <ImageView
                 android:id="@+id/iv_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_all" />
+                android:src="@mipmap/ic_image" />
 
             <TextView
                 android:id="@+id/item_image_tips"
@@ -261,12 +261,12 @@
 
             <ImageView
                 android:id="@+id/item_image_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_arrow" />
+                android:src="@mipmap/ic_direction_right_mid" />
         </RelativeLayout>
 
         <View
@@ -284,11 +284,11 @@
 
             <ImageView
                 android:id="@+id/iv_timezone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_all" />
+                android:src="@mipmap/ic_timezome" />
 
             <TextView
                 android:id="@+id/item_timezone_tips"
@@ -307,12 +307,12 @@
 
             <ImageView
                 android:id="@+id/item_timezone_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_arrow" />
+                android:src="@mipmap/ic_direction_right_mid" />
 
             <TextView
                 android:id="@+id/item_timezone_name"
@@ -353,11 +353,11 @@
 
             <ImageView
                 android:id="@+id/iv_tf_storage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_all" />
+                android:src="@mipmap/ic_card" />
 
             <TextView
                 android:id="@+id/item_tf_storage_tips"
@@ -376,12 +376,12 @@
 
             <ImageView
                 android:id="@+id/item_tf_storage_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_arrow" />
+                android:src="@mipmap/ic_direction_right_mid" />
         </RelativeLayout>
 
         <View
@@ -399,11 +399,11 @@
 
             <ImageView
                 android:id="@+id/iv_cloud_storage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_all" />
+                android:src="@mipmap/ic_cloudstorage" />
 
             <TextView
                 android:id="@+id/item_cloud_storage_tips"
@@ -422,12 +422,12 @@
 
             <ImageView
                 android:id="@+id/item_cloud_storage_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_arrow" />
+                android:src="@mipmap/ic_direction_right_mid" />
         </RelativeLayout>
 
         <View
@@ -453,11 +453,11 @@
 
             <ImageView
                 android:id="@+id/iv_maintenance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_all" />
+                android:src="@mipmap/ic_maintenance" />
 
             <TextView
                 android:id="@+id/item_maintenance_tips"
@@ -476,12 +476,12 @@
 
             <ImageView
                 android:id="@+id/item_maintenance_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/device_setting_image_size"
+                android:layout_height="@dimen/device_setting_image_size"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/device_setting_margin_first"
-                android:src="@drawable/ic_arrow" />
+                android:src="@mipmap/ic_direction_right_mid" />
         </RelativeLayout>
 
         <View

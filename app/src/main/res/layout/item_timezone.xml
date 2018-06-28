@@ -32,11 +32,11 @@
 
     <ImageView
         android:id="@+id/iv_selected"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/default_margin_left"
-        android:src="@drawable/ic_all"
+        android:src="@mipmap/ic_chosen"
         android:visibility="invisible" />
 </RelativeLayout>

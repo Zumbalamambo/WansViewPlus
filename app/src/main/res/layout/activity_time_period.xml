@@ -80,12 +80,12 @@
 
         <ImageView
             android:id="@+id/item_start_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/device_setting_image_size"
+            android:layout_height="@dimen/device_setting_image_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:src="@drawable/ic_arrow" />
+            android:src="@mipmap/ic_direction_right_mid" />
 
         <TextView
             android:id="@+id/item_start_time"
@@ -135,12 +135,12 @@
 
         <ImageView
             android:id="@+id/item_end_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/device_setting_image_size"
+            android:layout_height="@dimen/device_setting_image_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:src="@drawable/ic_arrow" />
+            android:src="@mipmap/ic_direction_right_mid" />
 
         <TextView
             android:id="@+id/item_end_time"
@@ -190,12 +190,12 @@
 
         <ImageView
             android:id="@+id/item_repeat_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/device_setting_image_size"
+            android:layout_height="@dimen/device_setting_image_size"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:src="@drawable/ic_arrow" />
+            android:src="@mipmap/ic_direction_right_mid" />
 
         <TextView
             android:id="@+id/item_repeat_time"

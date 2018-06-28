@@ -33,13 +33,13 @@
 
             <ImageView
                 android:id="@+id/iv_add_device"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="24dp"
                 android:minHeight="48dp"
-                android:scaleType="center"
-                android:src="@drawable/ic_add_device"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_add"
                 app:layout_collapseMode="parallax"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed" />
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -65,10 +65,10 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_marginTop="160dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/ic_device_empty" />
 
                 <TextView
                     android:layout_width="wrap_content"
