@@ -78,6 +78,7 @@ import net.ajcloud.wansviewplus.main.device.setting.DeviceSettingActivity;
 import net.ajcloud.wansviewplus.main.device.type.DeviceHomeActivity;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
+import net.ajcloud.wansviewplus.support.core.bean.LiveSrcBean;
 import net.ajcloud.wansviewplus.support.customview.MyStateBar;
 import net.ajcloud.wansviewplus.support.customview.camera.AngleView;
 import net.ajcloud.wansviewplus.support.customview.camera.CloudDirectionLayout;
@@ -1658,6 +1659,20 @@ public class MainCameraFragment extends BaseFragment
         //virtualCamera.mQuality = MyPreferenceManager.getInstance().getVideoQuality(getCamera().getOid());
         virtualCamera.state = getCamera().getCameraState().getStatus();
         policeHelper = new PoliceHelper(getActivity(), virtualCamera, this);
+        String deviceId = ((DeviceHomeActivity) getActivity()).getOid();
+        new DeviceApiUnit(getActivity()).getLiveSrcToken(deviceId, 1, 5, new OkgoCommonListener<LiveSrcBean>() {
+            @Override
+            public void onSuccess(LiveSrcBean bean) {
+                if (bean.stream != null && !TextUtils.isEmpty(bean.stream.localUrl)) {
+                    policeHelper.url = bean.stream.localUrl;
+                }
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+
+            }
+        });
     }
 
     public void showCannotPlayDialog() {

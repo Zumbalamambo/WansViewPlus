@@ -1040,7 +1040,7 @@ public class DeviceApiUnit {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        OkGo.<ResponseBean<Object>>post(camera.getGatewayUrl() + ApiConstant.URL_DEVICE_GET_UPLOAD_NOTIFY)
+        OkGo.<ResponseBean<Object>>post(camera.getGatewayUrl() + ApiConstant.URL_DEVICE_UPLOAD_NOTIFY)
                 .tag(this)
                 .upJson(getReqBody(dataJson, deviceId).toString().replace("\\", ""))
                 .execute(new JsonCallback<ResponseBean<Object>>() {
@@ -1049,6 +1049,82 @@ public class DeviceApiUnit {
                         ResponseBean responseBean = response.body();
                         if (responseBean.isSuccess()) {
                             listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 删除视角
+     */
+    public void deleteAngles(String deviceId, List<Integer> angles, final OkgoCommonListener<Object> listener) {
+        Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+        if (camera == null) {
+            listener.onFail(-1, "param empty");
+            return;
+        }
+
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("viewAngles", angles);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<Object>>post(camera.getGatewayUrl() + ApiConstant.URL_DEVICE_DELETE_ANGLE)
+                .tag(this)
+                .upJson(getReqBody(dataJson, deviceId))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<Object>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 转动视角
+     */
+    public void turnToAngles(String deviceId, int viewAngle, final OkgoCommonListener<Object> listener) {
+        Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+        if (camera == null) {
+            listener.onFail(-1, "param empty");
+            return;
+        }
+
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("viewAngle", viewAngle);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<Object>>post(camera.getGatewayUrl() + ApiConstant.URL_DEVICE_TURN_TO_ANGLE)
+                .tag(this)
+                .upJson(getReqBody(dataJson, deviceId))
+                .execute(new JsonCallback<ResponseBean<Object>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<Object>> response) {
+                        ResponseBean responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            listener.onSuccess(responseBean);
                         } else {
                             listener.onFail(responseBean.getResultCode(), responseBean.message);
                         }

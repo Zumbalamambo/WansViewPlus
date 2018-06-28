@@ -1,5 +1,9 @@
 package net.ajcloud.wansviewplus.support.core.api;
 
+import android.webkit.URLUtil;
+
+import com.google.zxing.client.result.URLTOResultParser;
+
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.support.core.cipher.CipherUtil;
 import net.ajcloud.wansviewplus.support.core.okgo.utils.OkLogger;
@@ -29,6 +33,7 @@ public class OkSignatureInterceptor implements Interceptor {
         Request request = chain.request();
         String originalUrl = request.url().url().toString();
         String host = request.url().host();
+        String encodedPath = request.url().encodedPath();
         String method = request.method();
 
         //排除登录的API
@@ -39,15 +44,11 @@ public class OkSignatureInterceptor implements Interceptor {
                 && !originalUrl.equals(ApiConstant.URL_USER_SIGNUP)) {
             if (method.equalsIgnoreCase("POST")) {
                 String timeStamp = System.currentTimeMillis() + "";
-                String[] urls = originalUrl.split(host);
-                if (urls.length < 2) {
-                    return chain.proceed(request);
-                }
                 String reqBody = bodyToString(request);
                 StringBuilder signBody = new StringBuilder();
                 signBody.append("POST");
                 signBody.append("\n");
-                signBody.append(urls[1]);
+                signBody.append(encodedPath);
                 signBody.append("\n");
                 signBody.append(CipherUtil.getSha256(reqBody));
                 signBody.append("\n");
@@ -55,7 +56,8 @@ public class OkSignatureInterceptor implements Interceptor {
                 String signToken = SigninAccountManager.getInstance().getCurrentSignToken();
                 String stringToSign = "HMAC-SHA256" + "\n" + timeStamp + "\n" + CipherUtil.getSha256(signBody.toString());
                 String signature = CipherUtil.getClondApiSign(signToken, stringToSign);
-
+                WLog.d(TAG, "signBody:" + signBody);
+                WLog.d(TAG, "stringToSign:" + stringToSign);
                 Request newRequest = chain.request().newBuilder()
                         .header("Authorization", "Bearer" + " " + SigninAccountManager.getInstance().getCurrentAccountAccessToken())
                         .header("X-UAC-Signature", "UAC1-HMAC-SHA256" + ";" + timeStamp + ";" + signature)

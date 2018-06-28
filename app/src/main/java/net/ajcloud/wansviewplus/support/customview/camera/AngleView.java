@@ -1,7 +1,6 @@
 package net.ajcloud.wansviewplus.support.customview.camera;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,8 +13,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import net.ajcloud.wansviewplus.entity.camera.CameraStatus;
-import net.ajcloud.wansviewplus.entity.camera.ViewSetting;
 import net.ajcloud.wansviewplus.main.device.type.camera.VirtualCamera;
+import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
+import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.ViewAnglesBean;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
@@ -46,6 +46,7 @@ public class AngleView implements View.OnClickListener {
     // private TipDialog tip;
     private boolean isEidt;
     private VirtualCamera virtualCamera;
+    private DeviceApiUnit deviceApiUnit;
 
     public AngleView(final Context context, final String oid, final List<ViewAnglesBean.ViewAngle> list, View v1, View v2, VirtualCamera virtualCamera) {
         this.context = context;
@@ -54,6 +55,7 @@ public class AngleView implements View.OnClickListener {
         deleteView = v2;
         this.virtualCamera = virtualCamera;
         this.list.addAll(list);
+        deviceApiUnit = new DeviceApiUnit(context);
     }
 
     @Override
@@ -150,17 +152,43 @@ public class AngleView implements View.OnClickListener {
         deleteView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String seqs = "";
+                List<Integer> deleteAngles = new ArrayList<>();
                 for (ViewAnglesBean.ViewAngle data : list) {
                     if (data.isSelect()) {
-                        seqs = seqs + "," + data.viewAngle;
+                        deleteAngles.add(data.viewAngle);
                     }
                 }
-                if (TextUtils.isEmpty(seqs)) {
+                if (deleteAngles.size() == 0) {
                     ToastUtil.show(context.getString(net.ajcloud.wansviewplus.R.string.wv_not_select_angles));
                     return;
                 }
-                //tip.show();
+
+                deviceApiUnit.deleteAngles(oid, deleteAngles, new OkgoCommonListener<Object>() {
+                    @Override
+                    public void onSuccess(Object bean) {
+                        ToastUtil.single("success");
+                        normalView.performClick();
+                        isEidt = false;
+                        for (int i = list.size() - 1; i >= 0; i--) {
+                            if (list.get(i).isSelect()) {
+                                list.remove(i);
+                            }
+                        }
+                        refreshView();
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+                        isEidt = false;
+                        for (ViewAnglesBean.ViewAngle data : list) {
+                            data.setSelect(false);
+                        }
+                        refreshView();
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+//                tip.show();
                 /*HttpAdapterManger.getCameraRequest().removeCameraViewAngles(AppApplication.devHostPresenter.getDevHost(oid),
                         seqs.substring(1),
                         new ZResponse(CameraRequest.RemoveCameraViewAngles, new ResponseListener() {
@@ -209,7 +237,19 @@ public class AngleView implements View.OnClickListener {
                     if (virtualCamera.state == CameraStatus.OFFLINE) {
                         ToastUtil.show(context.getString(net.ajcloud.wansviewplus.R.string.wv_device_offline));
                     } else {
-                        virtualCamera.onTurnView(list.get(position).viewAngle);
+//                        virtualCamera.onTurnView(list.get(position).viewAngle);
+                        //TODO 转动视角
+                        deviceApiUnit.turnToAngles(oid, list.get(position).viewAngle, new OkgoCommonListener<Object>() {
+                            @Override
+                            public void onSuccess(Object bean) {
+
+                            }
+
+                            @Override
+                            public void onFail(int code, String msg) {
+
+                            }
+                        });
                     }
                 }
             }

@@ -1,12 +1,11 @@
 package net.ajcloud.wansviewplus.main.device.type.camera;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
-import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.utils.stun.StunResult;
 
-import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -121,10 +120,16 @@ public class PoliceHelper /*implements ResponseListener*/ {
         }
     }
 
+    public String url;
+
     public void getUrlAndPlay() {
         //listener.onPlay(playedRequestType, MainApplication.fileIO.getVideoFileDirectory(virtualCamera.cid) +  File.separator + "vlc.mp4", 90, 160);
+        if (TextUtils.isEmpty(url)) {
+            listener.onPlay(playedRequestType, "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov", 540, 960);
+        } else {
+            listener.onPlay(playedRequestType, url, 540, 960);
+        }
 
-        listener.onPlay(playedRequestType, "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov", 540, 960);
         /*if (isRequestToken) {
             return;
         }
@@ -153,6 +158,7 @@ public class PoliceHelper /*implements ResponseListener*/ {
             e.printStackTrace();
         }*/
     }
+
 
     public boolean isBusy() {
         return isRequestToken || isP2P;
@@ -252,7 +258,7 @@ public class PoliceHelper /*implements ResponseListener*/ {
         }*/
     }
 
-   // @Override
+    // @Override
     public void onError(String api, int errorCode) {
         /*if (CameraRequest.GetStreamTokenUrl.equals(api)) {
             isRequestToken = false;

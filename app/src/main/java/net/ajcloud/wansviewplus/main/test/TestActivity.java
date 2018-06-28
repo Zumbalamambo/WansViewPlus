@@ -12,11 +12,15 @@ import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.LiveSrcBean;
+import net.ajcloud.wansviewplus.support.core.bean.ViewAnglesBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.utils.FileUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestActivity extends BaseActivity {
 
@@ -82,6 +86,55 @@ public class TestActivity extends BaseActivity {
                 new DeviceApiUnit(TestActivity.this).getLiveSrcToken(camera.deviceId, 1, 1, new OkgoCommonListener<LiveSrcBean>() {
                     @Override
                     public void onSuccess(LiveSrcBean bean) {
+
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+
+                    }
+                });
+            }
+        });
+        findViewById(net.ajcloud.wansviewplus.R.id.delete_angle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Camera camera = MainApplication.getApplication().getDeviceCache().get("K03868EIVDXGXYBB");
+                if (camera.viewAnglesConfig == null) {
+                    return;
+                }
+                List<Integer> angles = new ArrayList<>();
+                for (ViewAnglesBean.ViewAngle angle : camera.viewAnglesConfig.viewAngles
+                        ) {
+                    angles.add(angle.viewAngle);
+                }
+                new DeviceApiUnit(TestActivity.this).deleteAngles(camera.deviceId, angles, new OkgoCommonListener<Object>() {
+                    @Override
+                    public void onSuccess(Object bean) {
+
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+
+                    }
+                });
+            }
+        });
+        findViewById(R.id.turn_to_angle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Camera camera = MainApplication.getApplication().getDeviceCache().get("K03868EIVDXGXYBB");
+
+                if (camera.viewAnglesConfig == null || camera.viewAnglesConfig.viewAngles.size() == 0) {
+                    return;
+                }
+                int angle = camera.viewAnglesConfig.viewAngles.get(0).viewAngle;
+                new DeviceApiUnit(TestActivity.this).turnToAngles(camera.deviceId, angle, new OkgoCommonListener<Object>() {
+                    @Override
+                    public void onSuccess(Object bean) {
 
                     }
 

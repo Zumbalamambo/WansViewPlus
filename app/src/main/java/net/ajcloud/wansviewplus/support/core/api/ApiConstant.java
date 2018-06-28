@@ -47,8 +47,10 @@ public class ApiConstant {
     public static String URL_DEVICE_RESTORE = "/v1/reset";
     public static String URL_DEVICE_REMOVE = "/v1/remove";
     public static String URL_DEVICE_GET_UPLOAD_INFO = "/v1/upload-token";
-    public static String URL_DEVICE_GET_UPLOAD_NOTIFY = "/v1/upload-notify";
+    public static String URL_DEVICE_UPLOAD_NOTIFY = "/v1/upload-notify";
     public static String URL_DEVICE_GET_LIVE_SRC_TOKEN = "/v1/live-sec-token";
+    public static String URL_DEVICE_DELETE_ANGLE = "/v1/view-angle-removal";
+    public static String URL_DEVICE_TURN_TO_ANGLE = "/v1/view-angle-turn";
 
     public static void setBaseUrl(AppConfigBean bean) {
         isApply = true;

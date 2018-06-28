@@ -42,6 +42,24 @@
         android:textAllCaps="false"
         android:textColor="@color/white" />
 
+    <Button
+        android:id="@+id/delete_angle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_signin_button"
+        android:text="delete_angle"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+    <Button
+        android:id="@+id/turn_to_angle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_signin_button"
+        android:text="turn_to_angle"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
     <TextView
         android:id="@+id/tv_test"
         android:textSize="18sp"
