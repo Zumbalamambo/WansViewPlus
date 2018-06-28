@@ -193,15 +193,17 @@ public class MainApplication extends Application {
         return localInfo;
     }
 
-    public void logout() {
+    public void logout(boolean isForce) {
         //清理缓存
         SigninAccountManager.getInstance().clearAccountSigninInfo();
         getDeviceCache().clear();
 
-        finshActivitys();
-        Intent intent = new Intent(this, SigninActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        if (isForce) {
+            finshActivitys();
+            Intent intent = new Intent(this, SigninActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
     public DeviceCache getDeviceCache() {

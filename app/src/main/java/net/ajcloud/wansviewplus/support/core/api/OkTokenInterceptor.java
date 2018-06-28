@@ -74,7 +74,7 @@ public class OkTokenInterceptor implements Interceptor {
                             //refreshtoken过期，重新登录
                             if (TextUtils.equals(bean.code, "1008")) {
                                 ToastUtil.single("token error,please relogin");
-                                MainApplication.getApplication().logout();
+                                MainApplication.getApplication().logout(true);
                             } else {
                                 ToastUtil.single("other error:" + bean.code + " " + bean.message);
                                 return chain.proceed(originalRequest);
@@ -104,7 +104,7 @@ public class OkTokenInterceptor implements Interceptor {
                 }
             } else {
                 ToastUtil.single("token error,please relogin");
-                MainApplication.getApplication().logout();
+                MainApplication.getApplication().logout(true);
             }
         }
         return chain.proceed(originalRequest);

@@ -25,14 +25,15 @@ public class ApiConstant {
     public static String URL_USER_USER_ACTIVE = BASE_UAC_URL + "/user-active";
     public static String URL_USER_CHANGE_PASSWORD = BASE_UAC_URL + "/change-password";
     public static String URL_USER_REFRESH_TOKEN = BASE_UAC_URL + "/refresh-token";
-    //设备相关
+    //uac设备相关
     public static String URL_DEVICE_PREBIND = BASE_UAC_URL + "/req-bind";
     public static String URL_DEVICE_GET_BIND_STATUS = BASE_UAC_URL + "/bind-status";
     public static String URL_DEVICE_GET_DEVICE_LIST = BASE_UAC_URL + "/device-list";
     public static String URL_DEVICE_SET_DEVICE_NAME_UAC = BASE_UAC_URL + "/change-alias-name";
     public static String URL_DEVICE_UNBIND = BASE_UAC_URL + "/unbind";
-
+    //emc
     public static String URL_DEVICE_PUSH_SETTING = BASE_EMC_URL + "/push-setting";
+    //cam-config
     public static String URL_DEVICE_GET_DEVICE_INFO = "/v1/fetch-info";
     public static String URL_DEVICE_SET_DEVICE_NAME = "/v1/alias-name";
     public static String URL_DEVICE_GET_FIRST_FRAME = "/v1/snapshot";
@@ -55,6 +56,7 @@ public class ApiConstant {
     public static void setBaseUrl(AppConfigBean bean) {
         isApply = true;
         ApiConstant.UAC_URL = bean.uacUrl;
+        ApiConstant.EMC_URL = bean.emcUrl;
 
         applyUrls();
     }
@@ -69,12 +71,13 @@ public class ApiConstant {
         URL_USER_USER_ACTIVE = BASE_UAC_URL + "/user-active";
         URL_USER_CHANGE_PASSWORD = BASE_UAC_URL + "/change-password";
         URL_USER_REFRESH_TOKEN = BASE_UAC_URL + "/refresh-token";
-        //设备相关
+        //uac设备相关
         URL_DEVICE_PREBIND = BASE_UAC_URL + "/req-bind";
         URL_DEVICE_GET_BIND_STATUS = BASE_UAC_URL + "/bind-status";
         URL_DEVICE_GET_DEVICE_LIST = BASE_UAC_URL + "/device-list";
         URL_DEVICE_SET_DEVICE_NAME_UAC = BASE_UAC_URL + "/change-alias-name";
         URL_DEVICE_UNBIND = BASE_UAC_URL + "/unbind";
+        //emc
         URL_DEVICE_PUSH_SETTING = BASE_EMC_URL + "/push-setting";
     }
 }

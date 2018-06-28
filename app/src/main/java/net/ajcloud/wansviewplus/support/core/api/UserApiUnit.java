@@ -325,7 +325,7 @@ public class UserApiUnit {
                         ResponseBean responseBean = response.body();
                         if (responseBean.isSuccess()) {
                             listener.onSuccess(responseBean);
-                            MainApplication.getApplication().logout();
+                            MainApplication.getApplication().logout(false);
                         } else {
                             listener.onFail(responseBean.getResultCode(), responseBean.message);
                         }
