@@ -242,7 +242,7 @@ public class AngleView implements View.OnClickListener {
                         deviceApiUnit.turnToAngles(oid, list.get(position).viewAngle, new OkgoCommonListener<Object>() {
                             @Override
                             public void onSuccess(Object bean) {
-
+                                ToastUtil.single("success");
                             }
 
                             @Override
