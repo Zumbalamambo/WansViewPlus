@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".main.device.addDevice.wifi.AddDeviceFailActivity">
+
+
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="32dp"
+        android:src="@mipmap/ic_bind_problem_2" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_margin_left"
+        android:layout_marginStart="@dimen/default_margin_left"
+        android:layout_marginTop="16dp"
+        android:gravity="start"
+        android:text="1.The router is not properly connected.
+Please check if the wireless network is
+normal."
+        android:textColor="@color/gray_first"
+        android:textSize="@dimen/device_setting_text_size_16" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="43dp"
+        android:layout_marginTop="60dp">
+
+        <Button
+            android:id="@+id/btn_know"
+            android:layout_width="@dimen/device_btn_width"
+            android:layout_height="@dimen/device_btn_height"
+            android:layout_marginStart="@dimen/default_margin_left"
+            android:background="@drawable/shape_add_device_button"
+            android:text="I know"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/device_setting_text_size_16" />
+
+        <Button
+            android:id="@+id/btn_reconnect"
+            android:layout_width="@dimen/device_btn_width"
+            android:layout_height="@dimen/device_btn_height"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/default_margin_left"
+            android:background="@drawable/shape_signin_button"
+            android:text="Reconnect"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/device_setting_text_size_16" />
+    </RelativeLayout>
+</LinearLayout>

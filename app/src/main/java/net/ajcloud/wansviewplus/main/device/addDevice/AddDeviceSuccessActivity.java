@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.main.home.HomeActivity;
@@ -65,7 +64,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Successfully added device");
-        getToolbar().setRightImg(R.drawable.ic_arrow);
+        getToolbar().setRightImg(R.mipmap.ic_home);
         nameEditText = findViewById(R.id.et_name);
         okButton = findViewById(R.id.btn_ok);
     }
@@ -132,7 +131,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
                                         getCameraUrl();
                                     }
                                 }
-                                if (!hasCamera){
+                                if (!hasCamera) {
                                     progressDialogManager.dimissDialog(LOADING, 0);
                                     ToastUtil.single("getDeviceList error");
                                     EventBus.getDefault().post(new DeviceBindSuccessEvent(deviceId));

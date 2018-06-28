@@ -34,7 +34,7 @@ public class ForgotPasswordActivity extends BaseActivity {
         MyToolbar toolbar = getToolbar();
         if (toolbar != null) {
             toolbar.setTittle("Reset password");
-            toolbar.setLeftImg(R.mipmap.icon_back);
+            toolbar.setLeftImg(R.mipmap.ic_back);
         }
         userName = findViewById(R.id.editText_userName);
         password = findViewById(R.id.editText_password);

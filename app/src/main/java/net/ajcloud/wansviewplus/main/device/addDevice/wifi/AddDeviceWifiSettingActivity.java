@@ -42,7 +42,7 @@ public class AddDeviceWifiSettingActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Wi-Fi Setting");
-        getToolbar().setLeftImg(net.ajcloud.wansviewplus.R.mipmap.icon_back);
+        getToolbar().setLeftImg(net.ajcloud.wansviewplus.R.mipmap.ic_back);
         wifiNameEditText = findViewById(net.ajcloud.wansviewplus.R.id.et_wifi_name);
         passwordEditText = findViewById(net.ajcloud.wansviewplus.R.id.et_password);
         joinButton = findViewById(net.ajcloud.wansviewplus.R.id.btn_join);

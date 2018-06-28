@@ -49,8 +49,16 @@ public class CommonDialog extends Dialog {
         Window window = getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.gravity = Gravity.CENTER;
-        lp.height = height;
-        lp.width = width;
+        if (height == 0) {
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        } else {
+            lp.height = height;
+        }
+        if (width == 0) {
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        } else {
+            lp.width = width;
+        }
         window.setAttributes(lp);
     }
 

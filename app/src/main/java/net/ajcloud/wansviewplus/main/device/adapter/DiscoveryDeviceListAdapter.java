@@ -12,6 +12,7 @@ import android.widget.TextView;
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.device.addDevice.cable.AddDeviceCableWaitingActivity;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceSearchBean;
+import net.ajcloud.wansviewplus.support.core.device.DeviceInfoDictionary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ public class DiscoveryDeviceListAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((DeviceListHolder) holder).deviceName.setText(mData.get(position).szDevName);
+        ((DeviceListHolder) holder).deviceIcon.setImageResource(DeviceInfoDictionary.getIconByType(mData.get(position).deviceModel));
         ((DeviceListHolder) holder).deviceId.setText(String.format(context.getResources().getString(R.string.device_discovery_id), mData.get(position).getSzIpAddr()));
         final int finalPosition = position;
         ((DeviceListHolder) holder).selectButton.setOnClickListener(new View.OnClickListener() {

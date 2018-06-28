@@ -48,7 +48,7 @@ public class MaintenanceActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Device maintenance");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
 
         restartLayout = findViewById(R.id.item_restart);
         restoreLayout = findViewById(R.id.item_restore);

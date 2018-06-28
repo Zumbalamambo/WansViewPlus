@@ -33,7 +33,7 @@ public class ChangePasswordActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Change password");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
 
         pwdEditText = findViewById(R.id.et_pwd);
         newPwdEditText = findViewById(R.id.et_new_pwd);

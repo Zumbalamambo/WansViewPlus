@@ -45,7 +45,7 @@ public class SignupVerifyActivity extends BaseActivity {
         MyToolbar toolbar = getToolbar();
         if (toolbar != null) {
             toolbar.setTittle("Mailbox verification");
-            toolbar.setLeftImg(net.ajcloud.wansviewplus.R.mipmap.icon_back);
+            toolbar.setLeftImg(net.ajcloud.wansviewplus.R.mipmap.ic_back);
         }
         sendAgainTextView = findViewById(net.ajcloud.wansviewplus.R.id.tv_send_again);
         signinButton = findViewById(net.ajcloud.wansviewplus.R.id.btn_signin);

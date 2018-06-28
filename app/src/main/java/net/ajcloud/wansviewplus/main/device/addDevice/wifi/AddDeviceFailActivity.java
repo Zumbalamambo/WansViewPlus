@@ -24,7 +24,7 @@ public class AddDeviceFailActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Problems with settings");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
 
         knowButton = findViewById(R.id.btn_know);
         retryButton = findViewById(R.id.btn_reconnect);

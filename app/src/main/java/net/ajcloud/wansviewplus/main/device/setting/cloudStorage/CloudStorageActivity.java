@@ -54,7 +54,7 @@ public class CloudStorageActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Cloud storage");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
 
         storageSwitch = findViewById(R.id.item_storage_switch);
         timeLayout = findViewById(R.id.item_time);

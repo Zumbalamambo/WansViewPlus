@@ -42,7 +42,7 @@ public class TFDetectionTimeActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Detection time");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
 
         alltimeSwitch = findViewById(R.id.item_all_time_switch);
         periodOneLayout = findViewById(R.id.item_period_one);

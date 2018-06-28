@@ -53,7 +53,7 @@ public class TimeZoneActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Camera time zone");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
 
         timezoneRecycler = findViewById(R.id.rv_timezone);
         timezoneAdapter = new TimezoneAdapter(this);

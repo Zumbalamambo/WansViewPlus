@@ -33,7 +33,7 @@ public class SecurityActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Security settings");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
 
         gestureSwitch = findViewById(R.id.sc_gesture);
         setGestureLayout = findViewById(R.id.rl_set_gesture);

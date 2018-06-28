@@ -60,7 +60,7 @@ public class CloudTimePeriodActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
         periodTipsTextView = findViewById(R.id.item_switch_time_tips);
         periodSwitch = findViewById(R.id.item_switch_switch);
         startLayout = findViewById(R.id.item_start);

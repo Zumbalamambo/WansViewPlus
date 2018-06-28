@@ -32,7 +32,7 @@ public class LogoffActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Log off");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
 
         emailEditText = findViewById(R.id.et_email);
         pwdEditText = findViewById(R.id.et_pwd);

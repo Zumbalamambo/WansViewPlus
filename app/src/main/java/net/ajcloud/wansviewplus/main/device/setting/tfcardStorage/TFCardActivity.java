@@ -52,7 +52,7 @@ public class TFCardActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("TFcard storage");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
 
         storageSwitch = findViewById(R.id.item_storage_switch);
         recordSwitch = findViewById(R.id.item_record_switch);

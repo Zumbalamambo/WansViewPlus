@@ -21,7 +21,6 @@ import net.ajcloud.wansviewplus.support.core.bean.BindStatusBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceBindBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceSearchBean;
 import net.ajcloud.wansviewplus.support.core.bean.PreBindBean;
-import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.socket.CableConnectionUnit;
 import net.ajcloud.wansviewplus.support.tools.WLog;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
@@ -118,7 +117,7 @@ public class AddDeviceCableWaitingActivity extends BaseActivity {
             @Override
             public void onFail(int code, String msg) {
                 ToastUtil.single(msg);
-                if (code == 1201){
+                if (code == 1201) {
                     startActivity(new Intent(AddDeviceCableWaitingActivity.this, HomeActivity.class));
                 }
             }
@@ -138,9 +137,9 @@ public class AddDeviceCableWaitingActivity extends BaseActivity {
                         //success
                         doSuccess();
                     } else {
-//                        Intent intent = new Intent(AddDeviceCableWaitingActivity.this, AddDeviceFailActivity.class);
-//                        startActivity(intent);
-//                        finish();
+                        Intent intent = new Intent(AddDeviceCableWaitingActivity.this, AddDeviceCableFailActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 }
             }
@@ -166,9 +165,9 @@ public class AddDeviceCableWaitingActivity extends BaseActivity {
                         doSuccess();
                     } else if (bean.status == 2) {
                         // fail
-//                        Intent intent = new Intent(AddDeviceCableWaitingActivity.this, AddDeviceFailActivity.class);
-//                        startActivity(intent);
-//                        finish();
+                        Intent intent = new Intent(AddDeviceCableWaitingActivity.this, AddDeviceCableFailActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 }
             }
@@ -181,7 +180,6 @@ public class AddDeviceCableWaitingActivity extends BaseActivity {
     }
 
     private void doSuccess() {
-//        MainApplication.getApplication().getDeviceCache().add(new Camera(deviceSearchBean.getDeviceID(), null));
         AddDeviceSuccessActivity.start(AddDeviceCableWaitingActivity.this, deviceSearchBean.getDeviceID());
         finish();
     }
@@ -199,8 +197,8 @@ public class AddDeviceCableWaitingActivity extends BaseActivity {
 
         @Override
         public void onFinish() {
-//            Intent intent = new Intent(AddDeviceCableWaitingActivity.this, AddDeviceFailActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(AddDeviceCableWaitingActivity.this, AddDeviceCableFailActivity.class);
+            startActivity(intent);
             finish();
         }
     }

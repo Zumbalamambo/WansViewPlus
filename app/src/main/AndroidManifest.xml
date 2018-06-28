@@ -150,7 +150,8 @@
         <activity android:name=".main.device.setting.tfcardStorage.TFDetectionTimeActivity" />
         <activity android:name=".main.device.setting.tfcardStorage.TFTimePeriodActivity" />
         <activity android:name=".main.device.setting.cloudStorage.CloudDetectionTimeActivity" />
-        <activity android:name=".main.device.setting.cloudStorage.CloudTimePeriodActivity"></activity>
+        <activity android:name=".main.device.setting.cloudStorage.CloudTimePeriodActivity" />
+        <activity android:name=".main.device.addDevice.cable.AddDeviceCableFailActivity"></activity>
     </application>
 
 </manifest>

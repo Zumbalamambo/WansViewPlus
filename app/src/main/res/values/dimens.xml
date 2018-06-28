@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="toolbar_img_size">24dp</dimen>
     <dimen name="toolbar_height">48dp</dimen>
     <dimen name="toolbar_text">16sp</dimen>
     <dimen name="toolbar_second_text">14sp</dimen>
@@ -19,6 +20,7 @@
     <dimen name="signIn_textSize_12">12sp</dimen>
     <dimen name="signIn_btn_width">160dp</dimen>
     <dimen name="signIn_btn_height">50dp</dimen>
+    <dimen name="signIn_logo_size">64dp</dimen>
     <!--MaterialEditText-->
     <dimen name="default_padding_top">8dp</dimen>
     <dimen name="default_padding_bottom">8dp</dimen>

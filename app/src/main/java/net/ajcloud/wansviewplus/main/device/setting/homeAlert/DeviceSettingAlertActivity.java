@@ -55,7 +55,7 @@ public class DeviceSettingAlertActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Home alert");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
 
         detectionSwitch = findViewById(R.id.item_detection_switch);
         levelTextView = findViewById(R.id.item_sensitivity_level);

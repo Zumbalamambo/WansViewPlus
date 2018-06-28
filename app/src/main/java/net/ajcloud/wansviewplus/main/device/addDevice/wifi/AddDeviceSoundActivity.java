@@ -53,7 +53,7 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
     @Override
     protected void initView() {
         getToolbar().setTittle("Connect to network");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
         sendButton = findViewById(R.id.btn_send);
         nextButton = findViewById(R.id.btn_next);
         errorTextView = findViewById(R.id.tv_error);
@@ -143,7 +143,6 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
             noSoundDialog = new CommonDialog.Builder(this)
                     .canceledOnTouchOutside(false)
                     .view(R.layout.dialog_no_sound)
-                    .height(476)
                     .width(327)
                     .addViewOnclickListener(R.id.iv_close, dialogClickListener)
                     .build();

@@ -12,7 +12,7 @@
         android:layout_height="160dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="48dp"
-        android:src="@mipmap/ic_launcher_round" />
+        android:src="@mipmap/ic_bind_success" />
 
     <net.ajcloud.wansviewplus.support.customview.materialEditText.MaterialEditText
         android:id="@+id/et_name"

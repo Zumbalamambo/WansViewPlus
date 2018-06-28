@@ -20,17 +20,35 @@ public class DeviceInfoDictionary {
     private static final Object[][] deviceInfoData = new Object[][]{
             // type		typeId     nameRes
             // k3
-            {"K03", 1, R.string.camera_default_name_k3},
+            {"K03", 1, R.string.camera_default_name_k3, R.mipmap.ic_model_k3},
             // q3
-            {"Q03", 2, R.string.camera_default_name_q3},
+            {"Q03", 2, R.string.camera_default_name_q3, R.mipmap.ic_model_q3},
             // w2
-            {"W02", 3, R.string.camera_default_name_w2}
+            {"W02", 3, R.string.camera_default_name_w2, R.mipmap.ic_model_w2}
     };
 
     static {
         for (int i = 0; i < deviceInfoData.length; i++) {
             deviceDataMap.put((String) deviceInfoData[i][0], new DeviceInfoDataBean(deviceInfoData[i]));
         }
+    }
+
+    /**
+     * 设备type到图标资源映射
+     *
+     * @param type
+     * @return
+     */
+    public static int getIconByType(String type) {
+        if (type == null) {
+            return R.mipmap.ic_launcher;
+        }
+
+        DeviceInfoDataBean bean = deviceDataMap.get(type);
+        if (bean == null) {
+            return R.mipmap.ic_launcher;
+        }
+        return bean.iconRes;
     }
 
     /**
@@ -74,11 +92,13 @@ public class DeviceInfoDictionary {
         public String type;
         public int typeId;
         public int nameRes;
+        public int iconRes;
 
         public DeviceInfoDataBean(Object[] data) {
             this.type = (String) data[0];
             this.typeId = (int) data[1];
             this.nameRes = (int) data[2];
+            this.iconRes = (int) data[3];
         }
     }
 }

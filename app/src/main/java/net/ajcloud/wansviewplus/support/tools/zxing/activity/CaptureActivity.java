@@ -108,7 +108,7 @@ public final class CaptureActivity extends BaseActivity implements SurfaceHolder
     @Override
     protected void initView() {
         getToolbar().setTittle("QR scan");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
         init();
         hasCameraPermission = true;
     }

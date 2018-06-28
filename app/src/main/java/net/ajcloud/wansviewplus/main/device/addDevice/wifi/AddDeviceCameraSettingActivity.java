@@ -35,7 +35,7 @@ public class AddDeviceCameraSettingActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Camera setting");
-        getToolbar().setLeftImg(net.ajcloud.wansviewplus.R.mipmap.icon_back);
+        getToolbar().setLeftImg(net.ajcloud.wansviewplus.R.mipmap.ic_back);
         flashButton = findViewById(net.ajcloud.wansviewplus.R.id.btn_flash);
         noFlashTextView = findViewById(net.ajcloud.wansviewplus.R.id.tv_no_flash);
     }
@@ -74,7 +74,6 @@ public class AddDeviceCameraSettingActivity extends BaseActivity {
             notFlashDialog = new CommonDialog.Builder(this)
                     .canceledOnTouchOutside(false)
                     .view(net.ajcloud.wansviewplus.R.layout.dialog_not_flash)
-                    .height(368)
                     .width(327)
                     .addViewOnclickListener(net.ajcloud.wansviewplus.R.id.iv_close, dialogClickListener)
                     .build();

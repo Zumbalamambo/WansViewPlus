@@ -51,7 +51,7 @@ public class DeviceSettingNameActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Camera name");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
         getToolbar().setRightText("Save");
         getToolbar().setRightTextColor(getResources().getColor(R.color.colorPrimary));
 

@@ -64,7 +64,7 @@ public class VideoDownloadActivity extends BaseActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar_portrait);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(R.mipmap.icon_back);
+        actionBar.setHomeAsUpIndicator(R.mipmap.ic_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         isDownloadedPage = getIntent().getBooleanExtra("isDownloadedPage", true);
         downloaded = (TextView) findViewById(R.id.downloaded);

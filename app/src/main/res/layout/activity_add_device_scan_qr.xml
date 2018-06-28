@@ -27,12 +27,12 @@
 
     <ImageView
         android:id="@+id/iv_hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_below="@id/tv_hint"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:src="@mipmap/ic_launcher_round" />
+        android:src="@mipmap/ic_bind_scan" />
 
     <Button
         android:id="@+id/btn_sure"

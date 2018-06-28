@@ -52,7 +52,7 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
     @Override
     protected void initView() {
         getToolbar().setTittle("Image and audio");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
         placementLayout = findViewById(R.id.item_placement);
         placementTextView = findViewById(R.id.item_placement_mode);
         volumeTextView = findViewById(R.id.item_volume_level);

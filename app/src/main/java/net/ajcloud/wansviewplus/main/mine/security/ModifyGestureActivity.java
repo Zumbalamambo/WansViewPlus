@@ -39,7 +39,7 @@ public class ModifyGestureActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Set gesture graphics");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
 
         hintTextView = findViewById(R.id.tv_gesture_hint);
         gestureLayout = findViewById(R.id.lockGestureLayout);

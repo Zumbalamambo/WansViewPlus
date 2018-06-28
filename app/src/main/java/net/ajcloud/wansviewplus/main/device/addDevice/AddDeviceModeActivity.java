@@ -33,7 +33,7 @@ public class AddDeviceModeActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Select the connection mode");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
         wifiButton = findViewById(R.id.btn_wifi_select);
         cableButton = findViewById(R.id.btn_cable_select);
     }

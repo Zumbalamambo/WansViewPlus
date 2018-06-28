@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -36,6 +37,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import net.ajcloud.wansviewplus.R;
+import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -420,9 +422,9 @@ public class MaterialEditText extends AppCompatEditText {
         iconRightBitmaps = generateIconBitmaps(typedArray.getResourceId(R.styleable.MaterialEditText_met_iconRight, -1));
         showClearButton = typedArray.getBoolean(R.styleable.MaterialEditText_met_clearButton, false);
         showPasswordEye = typedArray.getBoolean(R.styleable.MaterialEditText_met_passwordEye, false);
-        clearButtonBitmaps = generateIconBitmaps(R.mipmap.icon_delete);
-        browseCloseButtonBitmaps = generateIconBitmaps(R.mipmap.browse_0);
-        browseOpenButtonBitmaps = generateIconBitmaps(R.mipmap.browse_1);
+        clearButtonBitmaps = generateIconBitmaps(R.mipmap.ic_close);
+        browseCloseButtonBitmaps = generateIconBitmaps(R.mipmap.ic_no_display);
+        browseOpenButtonBitmaps = generateIconBitmaps(R.mipmap.ic_display);
         iconPadding = typedArray.getDimensionPixelSize(R.styleable.MaterialEditText_met_iconPadding, getPixel(16));
         floatingLabelAlwaysShown = typedArray.getBoolean(R.styleable.MaterialEditText_met_floatingLabelAlwaysShown, false);
         helperTextAlwaysShown = typedArray.getBoolean(R.styleable.MaterialEditText_met_helperTextAlwaysShown, false);
@@ -1338,7 +1340,9 @@ public class MaterialEditText extends AppCompatEditText {
                 Bitmap clearButtonBitmap = clearButtonBitmaps[0];
                 buttonLeft += (iconOuterWidth - clearButtonBitmap.getWidth()) / 2;
                 int iconTop = lineStartY + bottomSpacing - iconOuterHeight + (iconOuterHeight - clearButtonBitmap.getHeight()) / 2;
-                canvas.drawBitmap(clearButtonBitmap, buttonLeft, iconTop, paint);
+                RectF rectF = new RectF(buttonLeft, iconTop, buttonLeft + DisplayUtil.dip2Pix(getContext(), 24), iconTop + DisplayUtil.dip2Pix(getContext(), 24));
+                canvas.drawBitmap(clearButtonBitmap, null, rectF, paint);
+//                canvas.drawBitmap(clearButtonBitmap, buttonLeft, iconTop, paint);
             } else if (showPasswordEye) {
                 Bitmap browseButtonBitmap;
                 if (eyeState) {
@@ -1348,7 +1352,10 @@ public class MaterialEditText extends AppCompatEditText {
                 }
                 buttonLeft += (iconOuterWidth - browseButtonBitmap.getWidth()) / 2;
                 int iconTop = lineStartY + bottomSpacing - iconOuterHeight + (iconOuterHeight - browseButtonBitmap.getHeight()) / 2;
-                canvas.drawBitmap(browseButtonBitmap, buttonLeft, iconTop, paint);
+
+                RectF rectF = new RectF(buttonLeft, iconTop, buttonLeft + DisplayUtil.dip2Pix(getContext(), 24), iconTop + DisplayUtil.dip2Pix(getContext(), 24));
+                canvas.drawBitmap(browseButtonBitmap, null, rectF, paint);
+//                canvas.drawBitmap(browseButtonBitmap, buttonLeft, iconTop, paint);
             }
         }
 
@@ -1513,7 +1520,7 @@ public class MaterialEditText extends AppCompatEditText {
             return false;
         }
         if (isEnabled()) {
-            if (hasFocus() && showClearButton &&!TextUtils.isEmpty(getText())) {
+            if (hasFocus() && showClearButton && !TextUtils.isEmpty(getText())) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (insideClearButton(event)) {

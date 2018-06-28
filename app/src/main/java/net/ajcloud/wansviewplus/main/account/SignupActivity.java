@@ -40,7 +40,7 @@ public class SignupActivity extends BaseActivity {
         MyToolbar toolbar = getToolbar();
         if (toolbar != null) {
             toolbar.setTittle("Sign up");
-            toolbar.setLeftImg(net.ajcloud.wansviewplus.R.mipmap.icon_back);
+            toolbar.setLeftImg(net.ajcloud.wansviewplus.R.mipmap.ic_back);
         }
         userName = findViewById(net.ajcloud.wansviewplus.R.id.editText_userName);
         password = findViewById(net.ajcloud.wansviewplus.R.id.editText_password);

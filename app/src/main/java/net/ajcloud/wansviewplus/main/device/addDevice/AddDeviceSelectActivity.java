@@ -26,7 +26,7 @@ public class AddDeviceSelectActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Selection of device type");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
 
         k3Layout = findViewById(R.id.rl_k3);
         q3Layout = findViewById(R.id.rl_q3);

@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_bind_problem_1" />
 
         <TextView
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@ please try to reconnect."
         <ImageView
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_bind_problem_2" />
 
         <TextView
             android:layout_width="match_parent"

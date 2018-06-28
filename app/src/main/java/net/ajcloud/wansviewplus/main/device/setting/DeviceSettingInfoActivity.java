@@ -40,7 +40,7 @@ public class DeviceSettingInfoActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Device information");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
 
         updateLayout = findViewById(R.id.item_id);
         idTextView = findViewById(R.id.item_id_id);

@@ -37,7 +37,7 @@ public class TestActivity extends BaseActivity {
     @Override
     protected void initView() {
         getToolbar().setTittle("Test");
-        getToolbar().setLeftImg(R.mipmap.icon_back);
+        getToolbar().setLeftImg(R.mipmap.ic_back);
     }
 
     @Override
