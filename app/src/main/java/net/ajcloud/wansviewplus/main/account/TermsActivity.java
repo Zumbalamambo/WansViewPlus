@@ -1,19 +1,25 @@
 package net.ajcloud.wansviewplus.main.account;
 
+import android.text.TextUtils;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
-import net.ajcloud.wansviewplus.support.customview.MyToolbar;
-
-import net.ajcloud.wansviewplus.main.application.BaseActivity;
+import net.ajcloud.wansviewplus.support.core.api.ApiConstant;
 import net.ajcloud.wansviewplus.support.customview.MyToolbar;
 
 public class TermsActivity extends BaseActivity {
 
+    private static final String LOADING = "LOADING";
+    private WebView mWebView;
+
     @Override
     protected int getLayoutId() {
-        return net.ajcloud.wansviewplus.R.layout.activity_terms;
+        return R.layout.activity_h5;
     }
 
     @Override
@@ -30,7 +36,24 @@ public class TermsActivity extends BaseActivity {
             toolbar.setRightText("Agree");
             toolbar.setRightTextColor(getResources().getColor(net.ajcloud.wansviewplus.R.color.colorPrimary));
         }
+        mWebView = findViewById(R.id.webView);
+        mWebView.setWebChromeClient(mWebChromeClient);
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+
+//        progressDialogManager.showDialog(LOADING, this);
+        String url = ApiConstant.URL_AGREEMENT;
+        if (!TextUtils.isEmpty(url)) {
+            mWebView.loadUrl(url);
+        }
     }
+
+    protected WebChromeClient mWebChromeClient = new WebChromeClient() {
+
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            super.onProgressChanged(view, newProgress);
+        }
+    };
 
     @Override
     public void onClickView(View v) {

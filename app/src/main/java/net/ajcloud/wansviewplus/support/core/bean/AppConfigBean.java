@@ -10,5 +10,7 @@ public class AppConfigBean {
     public String uacUrl;
     public String emcUrl;
     public String cloudStorUrl;
+    public String agreementUrl;
+    public String privacyUrl;
     public List<String> stunServers;
 }

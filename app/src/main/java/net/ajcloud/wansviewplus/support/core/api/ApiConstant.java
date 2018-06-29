@@ -11,6 +11,9 @@ public class ApiConstant {
     public static String BASE_UAC_URL = UAC_URL + "/v1";
     public static String EMC_URL = "https://emc.ajyun.com.cn/api";
     public static String BASE_EMC_URL = EMC_URL + "/v1";
+    //服务条款与免责声明
+    public static String URL_AGREEMENT;
+    public static String URL_PRIVACY;
 
     //App启动时需要的公共参数
     public static String URL_GET_APP_CONFIG = "https://sdc.ajyun.com.cn/api/v1/app-config";
@@ -57,6 +60,8 @@ public class ApiConstant {
         isApply = true;
         ApiConstant.UAC_URL = bean.uacUrl;
         ApiConstant.EMC_URL = bean.emcUrl;
+        ApiConstant.URL_AGREEMENT = bean.agreementUrl;
+        ApiConstant.URL_PRIVACY = bean.privacyUrl;
 
         applyUrls();
     }
