@@ -48,7 +48,7 @@
             android:ellipsize="end"
             android:gravity="end|center_vertical"
             android:singleLine="true"
-            android:text="positioning"
+            android:text="Upright"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>

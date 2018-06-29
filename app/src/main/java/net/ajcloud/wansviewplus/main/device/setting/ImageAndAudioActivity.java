@@ -17,7 +17,7 @@ import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
-import net.ajcloud.wansviewplus.support.customview.dialog.CommonDialog;
+import net.ajcloud.wansviewplus.support.customview.dialog.PlacementDialog;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 public class ImageAndAudioActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
@@ -27,7 +27,7 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
     private TextView placementTextView, volumeTextView;
     private SwitchCompat nightSwitch, microphoneSwitch, lightSwitch;
     private AppCompatSeekBar volumeSeekbar;
-    private CommonDialog placeDialog;
+    private PlacementDialog placeDialog;
     private String deviceId;
     private Camera camera;
     private Camera cloneCamera;
@@ -134,45 +134,24 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
 
     private void showDialog() {
         if (placeDialog == null) {
-            placeDialog = new CommonDialog.Builder(this)
-                    .canceledOnTouchOutside(false)
-                    .view(R.layout.dialog_place)
-                    .width(327)
-                    .addViewOnclickListener(R.id.iv_close, dialogClickListener)
-                    .addViewOnclickListener(R.id.iv_positioning, dialogClickListener)
-                    .addViewOnclickListener(R.id.iv_inverted, dialogClickListener)
-                    .build();
+            placeDialog = new PlacementDialog(this, cloneCamera);
+            placeDialog.setDialogClickListener(new PlacementDialog.OnDialogClickListener() {
+                @Override
+                public void onClick(Camera camera) {
+                    cloneCamera.orientationValue = camera.orientationValue;
+                    refreshUI();
+                }
+            });
         }
         if (!placeDialog.isShowing()) {
-            placeDialog.show();
+            placeDialog.show(cloneCamera);
         }
     }
-
-    private View.OnClickListener dialogClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (placeDialog != null && placeDialog.isShowing()) {
-                placeDialog.dismiss();
-            }
-            switch (v.getId()) {
-                case R.id.iv_positioning:
-                    cloneCamera.orientationValue = "0";
-                    refreshUI();
-                    break;
-                case R.id.iv_inverted:
-                    cloneCamera.orientationValue = "3";
-                    refreshUI();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 
     private void refreshUI() {
         if (cloneCamera != null) {
             if (TextUtils.equals(cloneCamera.orientationValue, "0")) {
-                placementTextView.setText("positioning");
+                placementTextView.setText("Upright");
             } else {
                 placementTextView.setText("inverted");
             }
@@ -192,7 +171,7 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
     @Override
     public void onBackPressed() {
         progressDialogManager.showDialog(LOADING, ImageAndAudioActivity.this);
-        deviceApiUnit.setPlacement(cloneCamera.getGatewayUrl(), cloneCamera.deviceId, "3", new OkgoCommonListener<Object>() {
+        deviceApiUnit.setPlacement(cloneCamera.getGatewayUrl(), cloneCamera.deviceId, cloneCamera.orientationValue, new OkgoCommonListener<Object>() {
             @Override
             public void onSuccess(Object bean) {
                 camera.orientationValue = cloneCamera.orientationValue;
