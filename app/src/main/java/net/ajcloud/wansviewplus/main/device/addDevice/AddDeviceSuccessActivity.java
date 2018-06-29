@@ -217,14 +217,14 @@ public class AddDeviceSuccessActivity extends BaseActivity {
         deviceApiUnit.setName(camera.getGatewayUrl(), deviceId, name, new OkgoCommonListener<Object>() {
             @Override
             public void onSuccess(Object bean) {
-                userApiUnit.setPushName(deviceId, name, new OkgoCommonListener<Object>() {
+                camera.aliasName = name;
+                userApiUnit.pushSetting("upsert", new OkgoCommonListener<Object>() {
                     @Override
                     public void onSuccess(Object bean) {
                         deviceApiUnit.setNameUac(deviceId, name, new OkgoCommonListener<Object>() {
                             @Override
                             public void onSuccess(Object bean) {
                                 progressDialogManager.dimissDialog(LOADING, 0);
-                                camera.aliasName = name;
                                 EventBus.getDefault().post(new DeviceBindSuccessEvent(deviceId));
                                 startActivity(new Intent(AddDeviceSuccessActivity.this, HomeActivity.class));
                             }

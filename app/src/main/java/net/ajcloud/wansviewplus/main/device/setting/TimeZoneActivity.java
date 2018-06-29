@@ -20,6 +20,7 @@ import net.ajcloud.wansviewplus.support.utils.FileUtil;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import java.util.List;
+import java.util.TimeZone;
 
 import static net.ajcloud.wansviewplus.main.device.setting.DeviceSettingActivity.TIMEZONE;
 
@@ -87,8 +88,9 @@ public class TimeZoneActivity extends BaseActivity {
         timezoneAdapter.setOnItemClickListener(new TimezoneAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, TimezoneInfo bean) {
+                TimeZone timeZone = TimeZone.getTimeZone(bean.timeZone);
                 cloneCamera.timeConfig.tzName = bean.en;
-                cloneCamera.timeConfig.tzValue = bean.timeZone;
+                cloneCamera.timeConfig.tzValue = timeZone.getRawOffset() / 1000 / 60 + "";
                 deSet();
             }
         });

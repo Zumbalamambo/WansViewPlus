@@ -158,58 +158,62 @@
         <TextView
             android:id="@+id/item_volume_tips"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="23dp"
             android:ellipsize="end"
-            android:gravity="center"
+            android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
             android:text="Camera speaking volume"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
-
         <TextView
             android:id="@+id/item_volume_level"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="23dp"
             android:ellipsize="end"
-            android:gravity="center"
+            android:gravity="end|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
             android:text="50"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
 
-        <android.support.v7.widget.AppCompatSeekBar
-            android:id="@+id/item_volume_seekbar"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/item_volume_tips"
-            android:layout_marginEnd="25dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="23dp"
-            android:max="100"
-            android:progress="50"
-            android:progressTint="@color/colorPrimary_light"
-            android:thumbTint="@color/colorPrimary" />
+            android:layout_below="@id/item_volume_tips">
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@id/item_volume_seekbar"
-            android:src="@mipmap/ic_volume_low" />
+            <ImageView
+                android:id="@+id/iv_left"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_volume_low" />
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@id/item_volume_seekbar"
-            android:src="@mipmap/ic_volume_high" />
+            <ImageView
+                android:id="@+id/iv_right"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_volume_high" />
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/item_volume_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/iv_left"
+                android:layout_toStartOf="@id/iv_right"
+                android:max="100"
+                android:progress="50"
+                android:progressTint="@color/colorPrimary_light"
+                android:thumbTint="@color/colorPrimary" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <View
@@ -223,8 +227,8 @@
         android:id="@+id/item_light"
         android:layout_width="match_parent"
         android:layout_height="@dimen/device_setting_item_height"
-        android:visibility="gone"
-        android:background="@drawable/bg_ripper_effect">
+        android:background="@drawable/bg_ripper_effect"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/item_light_tips"

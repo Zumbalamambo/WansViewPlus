@@ -1,9 +1,5 @@
 package net.ajcloud.wansviewplus.support.core.api;
 
-import android.webkit.URLUtil;
-
-import com.google.zxing.client.result.URLTOResultParser;
-
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.support.core.cipher.CipherUtil;
 import net.ajcloud.wansviewplus.support.core.okgo.utils.OkLogger;
@@ -42,26 +38,32 @@ public class OkSignatureInterceptor implements Interceptor {
                 && !originalUrl.equals(ApiConstant.URL_USER_SIGNIN)
                 && !originalUrl.equals(ApiConstant.URL_USER_SIGNUP)) {
             if (method.equalsIgnoreCase("POST")) {
-                String timeStamp = System.currentTimeMillis() + "";
-                String reqBody = bodyToString(request);
-                StringBuilder signBody = new StringBuilder();
-                signBody.append("POST");
-                signBody.append("\n");
-                signBody.append(encodedPath);
-                signBody.append("\n");
-                signBody.append(CipherUtil.getSha256(reqBody));
-                signBody.append("\n");
+                try {
+                    String timeStamp = System.currentTimeMillis() + "";
+                    String reqBody = bodyToString(request);
+                    StringBuilder signBody = new StringBuilder();
+                    signBody.append("POST");
+                    signBody.append("\n");
+                    signBody.append(encodedPath);
+                    signBody.append("\n");
+                    signBody.append(CipherUtil.getSha256(reqBody));
+                    signBody.append("\n");
 
-                String signToken = SigninAccountManager.getInstance().getCurrentSignToken();
-                String stringToSign = "HMAC-SHA256" + "\n" + timeStamp + "\n" + CipherUtil.getSha256(signBody.toString());
-                String signature = CipherUtil.getClondApiSign(signToken, stringToSign);
-                WLog.d(TAG, "signBody:" + signBody);
-                WLog.d(TAG, "stringToSign:" + stringToSign);
-                Request newRequest = chain.request().newBuilder()
-                        .header("Authorization", "Bearer" + " " + SigninAccountManager.getInstance().getCurrentAccountAccessToken())
-                        .header("X-UAC-Signature", "UAC1-HMAC-SHA256" + ";" + timeStamp + ";" + signature)
-                        .build();
-                return chain.proceed(newRequest);
+                    String signToken = SigninAccountManager.getInstance().getCurrentSignToken();
+                    String stringToSign = "HMAC-SHA256" + "\n" + timeStamp + "\n" + CipherUtil.getSha256(signBody.toString());
+                    String signature = CipherUtil.getClondApiSign(signToken, stringToSign);
+                    WLog.d(TAG, "signBody:" + signBody);
+                    WLog.d(TAG, "stringToSign:" + stringToSign);
+                    Request newRequest = chain.request().newBuilder()
+                            .header("Authorization", "Bearer" + " " + SigninAccountManager.getInstance().getCurrentAccountAccessToken())
+                            .header("X-UAC-Signature", "UAC1-HMAC-SHA256" + ";" + timeStamp + ";" + signature)
+                            .build();
+                    return chain.proceed(newRequest);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return chain.proceed(request);
+                }
+
             }
         }
         return chain.proceed(request);

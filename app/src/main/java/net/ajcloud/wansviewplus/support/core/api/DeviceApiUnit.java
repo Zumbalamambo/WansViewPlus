@@ -22,6 +22,7 @@ import net.ajcloud.wansviewplus.support.core.bean.LocalStorBean;
 import net.ajcloud.wansviewplus.support.core.bean.MoveMonitorBean;
 import net.ajcloud.wansviewplus.support.core.bean.PreBindBean;
 import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
+import net.ajcloud.wansviewplus.support.core.bean.ViewAnglesBean;
 import net.ajcloud.wansviewplus.support.core.callback.JsonCallback;
 import net.ajcloud.wansviewplus.support.core.cipher.CipherUtil;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
@@ -267,6 +268,52 @@ public class DeviceApiUnit {
 
                     @Override
                     public void onError(Response<ResponseBean<DeviceConfigBean>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 获取视角信息
+     *
+     * @param url      设备ip
+     * @param deviceId 设备Id
+     */
+    public void getDeviceOneInfo(String url, final String deviceId, final OkgoCommonListener<ViewAnglesBean> listener) {
+        JSONObject dataJson = new JSONObject();
+        try {
+            List<String> scopes = new ArrayList<>();
+            scopes.add("viewAnglesConfig");
+            dataJson.put("deviceId", deviceId);
+            dataJson.put("scopes", scopes);
+            dataJson.put("agentName", localInfo.deviceName);
+            dataJson.put("agentToken", localInfo.deviceId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<ViewAnglesBean>>post(url + ApiConstant.URL_DEVICE_GET_DEVICE_INFO)
+                .tag(this)
+                .upJson(getReqBody(dataJson, null))
+                .execute(new JsonCallback<ResponseBean<ViewAnglesBean>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<ViewAnglesBean>> response) {
+                        ResponseBean<ViewAnglesBean> responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            if (responseBean.result != null) {
+                                Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+                                if (camera != null) {
+                                    camera.viewAnglesConfig = responseBean.result;
+                                }
+                            }
+                            listener.onSuccess(responseBean.result);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<ViewAnglesBean>> response) {
                         super.onError(response);
                         listener.onFail(-1, response.getException().getMessage());
                     }
@@ -709,7 +756,7 @@ public class DeviceApiUnit {
         String reqUrl = url + ApiConstant.URL_DEVICE_TIME_ZONE;
         OkGo.<ResponseBean<Object>>post(reqUrl)
                 .tag(this)
-                .upJson(getReqBody(dataJson, deviceId))
+                .upJson(getReqBody(dataJson, deviceId).toString().replace("\\", ""))
                 .execute(new JsonCallback<ResponseBean<Object>>() {
                     @Override
                     public void onSuccess(Response<ResponseBean<Object>> response) {
@@ -1023,8 +1070,8 @@ public class DeviceApiUnit {
      * @param fileName  文件名
      * @param viewAngle view_angle视角编号, 从1开始
      */
-    private void uploadNotify(String deviceId, B2UploadInfoBean bean, String fileName, int viewAngle, final OkgoCommonListener<Object> listener) {
-        Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+    private void uploadNotify(final String deviceId, B2UploadInfoBean bean, String fileName, int viewAngle, final OkgoCommonListener<Object> listener) {
+        final Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
         if (camera == null) {
             listener.onFail(-1, "param empty");
             return;
@@ -1048,7 +1095,17 @@ public class DeviceApiUnit {
                     public void onSuccess(Response<ResponseBean<Object>> response) {
                         ResponseBean responseBean = response.body();
                         if (responseBean.isSuccess()) {
-                            listener.onSuccess(responseBean.result);
+                            getDeviceOneInfo(camera.getGatewayUrl(), deviceId, new OkgoCommonListener<ViewAnglesBean>() {
+                                @Override
+                                public void onSuccess(ViewAnglesBean bean) {
+                                    listener.onSuccess(bean);
+                                }
+
+                                @Override
+                                public void onFail(int code, String msg) {
+                                    listener.onFail(code, msg);
+                                }
+                            });
                         } else {
                             listener.onFail(responseBean.getResultCode(), responseBean.message);
                         }

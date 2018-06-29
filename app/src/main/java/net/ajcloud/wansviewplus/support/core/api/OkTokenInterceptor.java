@@ -73,10 +73,10 @@ public class OkTokenInterceptor implements Interceptor {
                         } else {
                             //refreshtoken过期，重新登录
                             if (TextUtils.equals(bean.code, "1008")) {
-                                ToastUtil.single("token error,please relogin");
+                                WLog.d(TAG,"token error,please relogin");
                                 MainApplication.getApplication().logout(true);
                             } else {
-                                ToastUtil.single("other error:" + bean.code + " " + bean.message);
+                                WLog.d(TAG,"other error:" + bean.code + " " + bean.message);
                                 return chain.proceed(originalRequest);
                             }
                         }
@@ -103,7 +103,7 @@ public class OkTokenInterceptor implements Interceptor {
                     }
                 }
             } else {
-                ToastUtil.single("token error,please relogin");
+                WLog.d(TAG,"token error,please relogin");
                 MainApplication.getApplication().logout(true);
             }
         }

@@ -7,6 +7,7 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 
 import net.ajcloud.wansviewplus.R;
+import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.support.customview.dialog.LogoffDialog;
 import net.ajcloud.wansviewplus.support.utils.preference.PreferenceKey;
@@ -42,7 +43,7 @@ public class SecurityActivity extends BaseActivity {
 
         logoffDialog = new LogoffDialog(this);
 
-        if ((boolean) SPUtil.getSPUtil(this, PreferenceKey.sp_name.account).get(PreferenceKey.sp_key.USE_GESTURE, false)) {
+        if ((boolean) SPUtil.getSPUtil(this, PreferenceKey.sp_name.account).get(PreferenceKey.sp_key.USE_GESTURE + SigninAccountManager.getInstance().getCurrentAccountMail(), false)) {
             gestureSwitch.setChecked(true);
             setGestureLayout.setVisibility(View.VISIBLE);
         } else {
@@ -59,7 +60,7 @@ public class SecurityActivity extends BaseActivity {
         gestureSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SPUtil.getSPUtil(SecurityActivity.this, PreferenceKey.sp_name.account).put(PreferenceKey.sp_key.USE_GESTURE, isChecked);
+                SPUtil.getSPUtil(SecurityActivity.this, PreferenceKey.sp_name.account).put(PreferenceKey.sp_key.USE_GESTURE + SigninAccountManager.getInstance().getCurrentAccountMail(), isChecked);
                 showSettsLinear(isChecked);
             }
         });
@@ -82,7 +83,7 @@ public class SecurityActivity extends BaseActivity {
                 startActivity(new Intent(SecurityActivity.this, ChangePasswordActivity.class));
                 break;
             case R.id.rl_log_off:
-                if (!logoffDialog.isShowing()){
+                if (!logoffDialog.isShowing()) {
                     logoffDialog.show();
                 }
                 break;

@@ -7,6 +7,8 @@ import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
 import net.ajcloud.wansviewplus.support.core.bean.AppConfigBean;
 import net.ajcloud.wansviewplus.support.tools.WLog;
+import net.ajcloud.wansviewplus.support.utils.preference.PreferenceKey;
+import net.ajcloud.wansviewplus.support.utils.preference.SPUtil;
 
 public class GoogleFirebaseInstanceIdService extends FirebaseInstanceIdService {
 
@@ -41,11 +43,11 @@ public class GoogleFirebaseInstanceIdService extends FirebaseInstanceIdService {
      */
     private void sendRegistrationToServer(final String token) {
         // TODO: Implement this method to send token to your app server.
-
+        SPUtil.getSPUtil(this, PreferenceKey.sp_name.account).put(PreferenceKey.sp_key.PUSH_TOKEN, token);
         userApiUnit.getAppConfig(new OkgoCommonListener<AppConfigBean>() {
             @Override
             public void onSuccess(AppConfigBean bean) {
-                userApiUnit.pushSetting("upsert", token, new OkgoCommonListener<Object>() {
+                userApiUnit.pushSetting("upsert", new OkgoCommonListener<Object>() {
                     @Override
                     public void onSuccess(Object bean) {
 

@@ -14,5 +14,7 @@ public interface PreferenceKey {
         String DEVICE_ID = "DEVICE_ID";
         //是否使用指纹
         String USE_GESTURE = "USE_GESTURE";
+        //push_token
+        String PUSH_TOKEN = "PUSH_TOKEN";
     }
 }

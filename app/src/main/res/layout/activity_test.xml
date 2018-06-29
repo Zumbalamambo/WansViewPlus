@@ -67,4 +67,9 @@
         android:layout_margin="8dp"
         android:gravity="start"
         android:layout_height="wrap_content" />
+
+    <net.ajcloud.wansviewplus.support.customview.ReplayTimeAxisView
+        android:id="@+id/aaaaa"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
 </LinearLayout>

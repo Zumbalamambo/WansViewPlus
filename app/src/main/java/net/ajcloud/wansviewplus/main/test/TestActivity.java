@@ -14,6 +14,7 @@ import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.LiveSrcBean;
 import net.ajcloud.wansviewplus.support.core.bean.ViewAnglesBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
+import net.ajcloud.wansviewplus.support.customview.ReplayTimeAxisView;
 import net.ajcloud.wansviewplus.support.utils.FileUtil;
 
 import org.json.JSONException;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestActivity extends BaseActivity {
+
+    private ReplayTimeAxisView replayTimeAxisView;
 
     @Override
     protected int getLayoutId() {
@@ -38,6 +41,19 @@ public class TestActivity extends BaseActivity {
     protected void initView() {
         getToolbar().setTittle("Test");
         getToolbar().setLeftImg(R.mipmap.ic_back);
+        replayTimeAxisView = findViewById(R.id.aaaaa);
+        replayTimeAxisView.setMidTimeStamp(System.currentTimeMillis());
+        replayTimeAxisView.setOnSlideListener(new ReplayTimeAxisView.OnSlideListener() {
+            @Override
+            public void onSlide(long timeStamp) {
+
+            }
+
+            @Override
+            public void onSelected(long startTime, long endTime) {
+
+            }
+        });
     }
 
     @Override
@@ -126,23 +142,25 @@ public class TestActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                Camera camera = MainApplication.getApplication().getDeviceCache().get("K03868EIVDXGXYBB");
+//                Camera camera = MainApplication.getApplication().getDeviceCache().get("K03868EIVDXGXYBB");
+//
+//                if (camera.viewAnglesConfig == null || camera.viewAnglesConfig.viewAngles.size() == 0) {
+//                    return;
+//                }
+//                int angle = camera.viewAnglesConfig.viewAngles.get(0).viewAngle;
+//                new DeviceApiUnit(TestActivity.this).turnToAngles(camera.deviceId, angle, new OkgoCommonListener<Object>() {
+//                    @Override
+//                    public void onSuccess(Object bean) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFail(int code, String msg) {
+//
+//                    }
+//                });
 
-                if (camera.viewAnglesConfig == null || camera.viewAnglesConfig.viewAngles.size() == 0) {
-                    return;
-                }
-                int angle = camera.viewAnglesConfig.viewAngles.get(0).viewAngle;
-                new DeviceApiUnit(TestActivity.this).turnToAngles(camera.deviceId, angle, new OkgoCommonListener<Object>() {
-                    @Override
-                    public void onSuccess(Object bean) {
-
-                    }
-
-                    @Override
-                    public void onFail(int code, String msg) {
-
-                    }
-                });
+                replayTimeAxisView.setCurrentMode(ReplayTimeAxisView.Mode.DownLoad);
             }
         });
     }

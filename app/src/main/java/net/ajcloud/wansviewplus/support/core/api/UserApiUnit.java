@@ -17,6 +17,8 @@ import net.ajcloud.wansviewplus.support.core.cipher.CipherUtil;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
 import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
+import net.ajcloud.wansviewplus.support.utils.preference.PreferenceKey;
+import net.ajcloud.wansviewplus.support.utils.preference.SPUtil;
 
 import org.greenrobot.greendao.annotation.NotNull;
 import org.json.JSONArray;
@@ -364,9 +366,8 @@ public class UserApiUnit {
      * 推送设置
      *
      * @param action 操作：upsert，remove
-     * @param token  pushtoken
      */
-    public void pushSetting(@NotNull String action, String token, final OkgoCommonListener<Object> listener) {
+    public void pushSetting(@NotNull String action, final OkgoCommonListener<Object> listener) {
         JSONObject dataJson = new JSONObject();
         try {
             if (TextUtils.equals(action, "upsert")) {
@@ -384,6 +385,7 @@ public class UserApiUnit {
                 agentJson.put("name", localInfo.deviceName);
                 agentJson.put("token", localInfo.deviceId);
                 agentJson.put("accept", 1);
+                String token = (String) SPUtil.getSPUtil(context, PreferenceKey.sp_name.account).get(PreferenceKey.sp_key.PUSH_TOKEN, null);
                 if (!TextUtils.isEmpty(token)) {
                     agentJson.put("pushToken", token);
                 }
@@ -398,49 +400,6 @@ public class UserApiUnit {
                 dataJson.put("devices", devicesArray);
                 dataJson.put("agents", agentsArray);
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        OkGo.<ResponseBean<Object>>post(ApiConstant.URL_DEVICE_PUSH_SETTING)
-                .tag(this)
-                .upJson(getReqBody(dataJson))
-                .execute(new JsonCallback<ResponseBean<Object>>() {
-                    @Override
-                    public void onSuccess(Response<ResponseBean<Object>> response) {
-                        ResponseBean responseBean = response.body();
-                        if (responseBean.isSuccess()) {
-                            listener.onSuccess(responseBean.result);
-                        } else {
-                            listener.onFail(responseBean.getResultCode(), responseBean.message);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<ResponseBean<Object>> response) {
-                        super.onError(response);
-                        listener.onFail(-1, response.getException().getMessage());
-                    }
-                });
-    }
-
-    /**
-     * 推送设置
-     *
-     * @param deviceId
-     * @param alias
-     */
-    public void setPushName(String deviceId, String alias, final OkgoCommonListener<Object> listener) {
-        JSONObject dataJson = new JSONObject();
-        try {
-            //device
-            JSONArray devicesArray = new JSONArray();
-            JSONObject deviceJson = new JSONObject();
-            deviceJson.put("did", deviceId);
-            deviceJson.put("alias", alias);
-            devicesArray.put(deviceJson);
-
-            dataJson.put("op", "upsert");
-            dataJson.put("devices", devicesArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }

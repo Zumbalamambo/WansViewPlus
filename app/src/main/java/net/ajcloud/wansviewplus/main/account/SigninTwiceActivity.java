@@ -52,7 +52,7 @@ public class SigninTwiceActivity extends BaseActivity {
         forgotTextView = findViewById(net.ajcloud.wansviewplus.R.id.textView_forgot_password);
         signinButton = findViewById(net.ajcloud.wansviewplus.R.id.btn_signin);
         signinMoreDialog = new SigninMoreDialog(this);
-        if ((boolean) SPUtil.getSPUtil(this, PreferenceKey.sp_name.account).get(PreferenceKey.sp_key.USE_GESTURE, false)) {
+        if ((boolean) SPUtil.getSPUtil(this, PreferenceKey.sp_name.account).get(PreferenceKey.sp_key.USE_GESTURE + SigninAccountManager.getInstance().getCurrentAccountMail(), false)) {
             signinMoreDialog.setFirstText("Gesture");
         }
         signinMoreDialog.setSecondText("Switch account");

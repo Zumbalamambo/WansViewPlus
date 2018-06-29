@@ -1,6 +1,7 @@
 package net.ajcloud.wansviewplus.support.core.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,6 +11,10 @@ import java.util.List;
 public class ViewAnglesBean implements Serializable {
 
     public List<ViewAngle> viewAngles;
+
+    public ViewAnglesBean() {
+        this.viewAngles = new ArrayList<>();
+    }
 
     public static class ViewAngle implements Serializable {
         public int viewAngle;

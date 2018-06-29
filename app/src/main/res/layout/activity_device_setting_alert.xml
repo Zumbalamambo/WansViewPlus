@@ -57,11 +57,10 @@
         <TextView
             android:id="@+id/item_sensitivity_tips"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="23dp"
             android:ellipsize="end"
-            android:gravity="center"
+            android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
             android:text="Motion sensitivity"
@@ -72,50 +71,55 @@
         <TextView
             android:id="@+id/item_sensitivity_level"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="23dp"
             android:ellipsize="end"
-            android:gravity="center"
+            android:gravity="end|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Normal"
+            android:text="medium"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
 
-        <android.support.v7.widget.AppCompatSeekBar
-            android:id="@+id/item_sensitivity_seekbar"
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/item_sensitivity_tips"
-            android:layout_marginEnd="25dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="23dp"
-            android:max="4"
-            android:progress="2"
-            android:progressTint="@color/colorPrimary_light"
-            android:thumbTint="@color/colorPrimary" />
+            android:layout_below="@id/item_sensitivity_tips">
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@id/item_sensitivity_seekbar"
-            android:src="@mipmap/ic_sensitivity_low" />
+            <ImageView
+                android:id="@+id/iv_left"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_sensitivity_low" />
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@id/item_sensitivity_seekbar"
-            android:src="@mipmap/ic_sensitivity" />
+            <ImageView
+                android:id="@+id/iv_right"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_sensitivity" />
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/item_sensitivity_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/iv_left"
+                android:layout_toStartOf="@id/iv_right"
+                android:max="4"
+                android:progress="2"
+                android:progressTint="@color/colorPrimary_light"
+                android:thumbTint="@color/colorPrimary" />
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="@dimen/device_setting_margin_first"
-            android:layout_marginStart="@dimen/device_setting_margin_first"
             android:background="@color/gray_line" />
     </RelativeLayout>
 
