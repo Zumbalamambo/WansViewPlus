@@ -45,6 +45,7 @@ public class Camera implements Serializable {
     public long tunnelSyncTime;
     public String vendorCode;
     public String snapshotUrl;
+    public String accessKey;
 
     public CapabilityBean capability;
     public StreamInfoBean streamConfig;
@@ -102,6 +103,7 @@ public class Camera implements Serializable {
             remoteAddr = bean.base.remoteAddr;
             vendorCode = bean.base.vendorCode;
             snapshotUrl = bean.base.snapshotUrl;
+            accessKey = bean.base.accessKey;
 
             capability = bean.capability;
             streamConfig = bean.streamConfig;

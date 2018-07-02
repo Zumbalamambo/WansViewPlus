@@ -11,6 +11,7 @@ import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
+import net.ajcloud.wansviewplus.support.core.bean.GroupListBean;
 import net.ajcloud.wansviewplus.support.core.bean.LiveSrcBean;
 import net.ajcloud.wansviewplus.support.core.bean.ViewAnglesBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
@@ -161,6 +162,25 @@ public class TestActivity extends BaseActivity {
 //                });
 
                 replayTimeAxisView.setCurrentMode(ReplayTimeAxisView.Mode.DownLoad);
+            }
+        });
+        findViewById(R.id.group_list).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Camera camera = MainApplication.getApplication().getDeviceCache().get("K03868EIVDXGXYBB");
+
+                new DeviceApiUnit(TestActivity.this).getGroupList("K03868EIVDXGXYBB", System.currentTimeMillis() - 2000000, System.currentTimeMillis() + 2000000, new OkgoCommonListener<GroupListBean>() {
+                    @Override
+                    public void onSuccess(GroupListBean bean) {
+
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+
+                    }
+                });
             }
         });
     }

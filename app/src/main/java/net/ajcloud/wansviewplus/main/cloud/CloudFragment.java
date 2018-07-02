@@ -1,4 +1,4 @@
-package net.ajcloud.wansviewplus.main.message;
+package net.ajcloud.wansviewplus.main.cloud;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,18 +15,17 @@ import android.widget.LinearLayout;
 import net.ajcloud.wansviewplus.R;
 
 /**
- * Created by mamengchao on 2018/05/15.
- * 消息页
+ * Created by mamengchao on 2018/07/02.
+ * Function:
  */
-public class MessageFragment extends Fragment implements View.OnClickListener {
+public class CloudFragment extends Fragment implements View.OnClickListener {
 
-    private LinearLayout noMessageLayout;
     private CollapsingToolbarLayout toolbarLayout;
     private Toolbar toolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_message, null);
+        return inflater.inflate(R.layout.fragment_cloud, null);
     }
 
     @Override
@@ -35,16 +34,15 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         toolbar = view.findViewById(R.id.toolbar);
         toolbarLayout = view.findViewById(R.id.toolbar_layout);
         toolbar.setOverflowIcon(null);
-        toolbarLayout.setTitle("Inbox");
+        toolbarLayout.setTitle("Cloud");
         toolbarLayout.setExpandedTitleColor(Color.BLACK);
         toolbarLayout.setExpandedTitleGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         toolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
         toolbarLayout.setCollapsedTitleGravity(Gravity.CENTER);
-
-        noMessageLayout = view.findViewById(R.id.ll_message_none);
     }
 
     @Override
     public void onClick(View v) {
     }
+
 }

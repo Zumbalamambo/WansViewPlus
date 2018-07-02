@@ -1,4 +1,4 @@
-package net.ajcloud.wansviewplus.main.message.adapter;
+package net.ajcloud.wansviewplus.main.alert.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +17,7 @@ import java.util.List;
  * Created by mamengchao on 2018/06/04.
  * Function: 消息中心adapter
  */
-public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_ALARM = 0x20;
     private static final int TYPE_NOTIFICATION = 0x21;
@@ -26,7 +26,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private LayoutInflater inflater;
     private List<MessageInfo> mInfos;
 
-    public MessageAdapter(Context context) {
+    public AlertAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
     }

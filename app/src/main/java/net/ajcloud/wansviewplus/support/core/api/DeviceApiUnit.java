@@ -17,6 +17,7 @@ import net.ajcloud.wansviewplus.support.core.bean.DeviceConfigBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceListBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceTimeBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceUrlBean;
+import net.ajcloud.wansviewplus.support.core.bean.GroupListBean;
 import net.ajcloud.wansviewplus.support.core.bean.LiveSrcBean;
 import net.ajcloud.wansviewplus.support.core.bean.LocalStorBean;
 import net.ajcloud.wansviewplus.support.core.bean.MoveMonitorBean;
@@ -281,39 +282,43 @@ public class DeviceApiUnit {
      * @param deviceId 设备Id
      */
     public void getDeviceOneInfo(String url, final String deviceId, final OkgoCommonListener<ViewAnglesBean> listener) {
+
         JSONObject dataJson = new JSONObject();
         try {
-            List<String> scopes = new ArrayList<>();
-            scopes.add("viewAnglesConfig");
+            JSONArray array = new JSONArray();
+            array.put("viewAnglesConfig");
             dataJson.put("deviceId", deviceId);
-            dataJson.put("scopes", scopes);
+            dataJson.put("scopes", array);
             dataJson.put("agentName", localInfo.deviceName);
             dataJson.put("agentToken", localInfo.deviceId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        OkGo.<ResponseBean<ViewAnglesBean>>post(url + ApiConstant.URL_DEVICE_GET_DEVICE_INFO)
+        OkGo.<ResponseBean<DeviceConfigBean>>post(url + ApiConstant.URL_DEVICE_GET_DEVICE_INFO)
                 .tag(this)
                 .upJson(getReqBody(dataJson, null))
-                .execute(new JsonCallback<ResponseBean<ViewAnglesBean>>() {
+                .execute(new JsonCallback<ResponseBean<DeviceConfigBean>>() {
                     @Override
-                    public void onSuccess(Response<ResponseBean<ViewAnglesBean>> response) {
-                        ResponseBean<ViewAnglesBean> responseBean = response.body();
+                    public void onSuccess(Response<ResponseBean<DeviceConfigBean>> response) {
+                        ResponseBean<DeviceConfigBean> responseBean = response.body();
                         if (responseBean.isSuccess()) {
                             if (responseBean.result != null) {
-                                Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
-                                if (camera != null) {
-                                    camera.viewAnglesConfig = responseBean.result;
+                                DeviceConfigBean configBean = responseBean.result;
+                                if (configBean != null && configBean.viewAnglesConfig != null) {
+                                    Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+                                    if (camera != null) {
+                                        camera.viewAnglesConfig = configBean.viewAnglesConfig;
+                                        listener.onSuccess(configBean.viewAnglesConfig);
+                                    }
                                 }
                             }
-                            listener.onSuccess(responseBean.result);
                         } else {
                             listener.onFail(responseBean.getResultCode(), responseBean.message);
                         }
                     }
 
                     @Override
-                    public void onError(Response<ResponseBean<ViewAnglesBean>> response) {
+                    public void onError(Response<ResponseBean<DeviceConfigBean>> response) {
                         super.onError(response);
                         listener.onFail(-1, response.getException().getMessage());
                     }
@@ -1122,16 +1127,21 @@ public class DeviceApiUnit {
     /**
      * 删除视角
      */
-    public void deleteAngles(String deviceId, List<Integer> angles, final OkgoCommonListener<Object> listener) {
-        Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
-        if (camera == null) {
+    public void deleteAngles(final String deviceId, final List<Integer> angles, final OkgoCommonListener<Object> listener) {
+        final Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+        if (camera == null || angles == null) {
             listener.onFail(-1, "param empty");
             return;
         }
 
         JSONObject dataJson = new JSONObject();
         try {
-            dataJson.put("viewAngles", angles);
+            JSONArray array = new JSONArray();
+            for (Integer angle : angles
+                    ) {
+                array.put(angle);
+            }
+            dataJson.put("viewAngles", array);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1143,6 +1153,11 @@ public class DeviceApiUnit {
                     public void onSuccess(Response<ResponseBean<Object>> response) {
                         ResponseBean responseBean = response.body();
                         if (responseBean.isSuccess()) {
+                            if (camera.viewAnglesConfig != null) {
+                                for (int i = 0; i < angles.size(); i++) {
+                                    camera.viewAnglesConfig.viewAngles.get(angles.get(i) - 1).url = "";
+                                }
+                            }
                             listener.onSuccess(responseBean);
                         } else {
                             listener.onFail(responseBean.getResultCode(), responseBean.message);
@@ -1232,6 +1247,51 @@ public class DeviceApiUnit {
 
                     @Override
                     public void onError(Response<ResponseBean<LiveSrcBean>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 云存储分组查询
+     *
+     * @param dayStartTs 开始时间
+     * @param dayEndTs   结束时间
+     */
+    public void getGroupList(String deviceId, long dayStartTs, long dayEndTs, final OkgoCommonListener<GroupListBean> listener) {
+        Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+        if (camera == null) {
+            listener.onFail(-1, "param empty");
+            return;
+        }
+
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("acessKey", camera.getAccessPriKey());
+            dataJson.put("tzValue", camera.timeConfig.tzValue);
+            dataJson.put("dayStartTs", dayStartTs);
+            dataJson.put("dayEndTs", dayEndTs);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<GroupListBean>>post(camera.getGatewayUrl() + ApiConstant.URL_DEVICE_GROUP_LIST)
+                .tag(this)
+                .upJson(getReqBody(dataJson, deviceId))
+                .execute(new JsonCallback<ResponseBean<GroupListBean>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<GroupListBean>> response) {
+                        ResponseBean<GroupListBean> responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            GroupListBean bean = responseBean.result;
+                            listener.onSuccess(bean);
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<GroupListBean>> response) {
                         super.onError(response);
                         listener.onFail(-1, response.getException().getMessage());
                     }

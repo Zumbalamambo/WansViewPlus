@@ -47,7 +47,7 @@ public class AboutActivity extends BaseActivity {
             case R.id.rl_email:
                 break;
             case R.id.rl_service:
-                startActivity(new Intent(AboutActivity.this, TermsActivity.class));
+                TermsActivity.start(AboutActivity.this, false);
                 break;
             case R.id.rl_terms:
                 startActivity(new Intent(AboutActivity.this, AgreementActivity.class));

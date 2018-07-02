@@ -31,7 +31,7 @@ public class LogoffActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Log off");
+        getToolbar().setTittle("Delete Account");
         getToolbar().setLeftImg(R.mipmap.ic_back);
 
         emailEditText = findViewById(R.id.et_email);
@@ -39,7 +39,7 @@ public class LogoffActivity extends BaseActivity {
         logoffButton = findViewById(R.id.btn_logoff);
 
         confirmDialog = new ConfirmDialog(this);
-        confirmDialog.setTittle("Log off confirmation");
+        confirmDialog.setTittle("Delete confirmation");
         emailEditText.setText(SigninAccountManager.getInstance().getCurrentAccountMail());
         pwdEditText.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);

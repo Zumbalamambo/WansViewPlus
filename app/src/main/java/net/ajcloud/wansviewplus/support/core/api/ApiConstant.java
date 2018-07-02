@@ -55,6 +55,7 @@ public class ApiConstant {
     public static String URL_DEVICE_GET_LIVE_SRC_TOKEN = "/v1/live-sec-token";
     public static String URL_DEVICE_DELETE_ANGLE = "/v1/view-angle-removal";
     public static String URL_DEVICE_TURN_TO_ANGLE = "/v1/view-angle-turn";
+    public static String URL_DEVICE_GROUP_LIST = "/v1/group-list";
 
     public static void setBaseUrl(AppConfigBean bean) {
         isApply = true;

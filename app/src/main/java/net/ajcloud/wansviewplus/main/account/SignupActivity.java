@@ -73,7 +73,7 @@ public class SignupActivity extends BaseActivity {
                 doRegister();
                 break;
             case net.ajcloud.wansviewplus.R.id.tv_terms:
-                startActivityForResult(new Intent(SignupActivity.this, TermsActivity.class), 0);
+                TermsActivity.start(SignupActivity.this, true);
                 break;
             default:
                 break;

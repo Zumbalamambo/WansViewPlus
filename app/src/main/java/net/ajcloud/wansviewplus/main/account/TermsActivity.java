@@ -1,5 +1,7 @@
 package net.ajcloud.wansviewplus.main.account;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.JsResult;
@@ -15,6 +17,13 @@ import net.ajcloud.wansviewplus.support.customview.MyToolbar;
 public class TermsActivity extends BaseActivity {
 
     private WebView mWebView;
+    private boolean hasRight;
+
+    public static void start(Activity context, boolean hasRight) {
+        Intent intent = new Intent(context, TermsActivity.class);
+        intent.putExtra("hasRight", hasRight);
+        context.startActivityForResult(intent, 0);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -28,12 +37,17 @@ public class TermsActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        if (getIntent() != null) {
+            hasRight = getIntent().getBooleanExtra("hasRight", false);
+        }
         MyToolbar toolbar = getToolbar();
         if (toolbar != null) {
             toolbar.setTittle("Terms of Use");
             toolbar.setLeftImg(net.ajcloud.wansviewplus.R.mipmap.ic_back);
-            toolbar.setRightText("Agree");
-            toolbar.setRightTextColor(getResources().getColor(net.ajcloud.wansviewplus.R.color.colorPrimary));
+            if (hasRight) {
+                toolbar.setRightText("Agree");
+                toolbar.setRightTextColor(getResources().getColor(net.ajcloud.wansviewplus.R.color.colorPrimary));
+            }
         }
         mWebView = findViewById(R.id.webView);
         mWebView.setWebChromeClient(mWebChromeClient);
@@ -44,6 +58,11 @@ public class TermsActivity extends BaseActivity {
         if (!TextUtils.isEmpty(url)) {
             mWebView.loadUrl(url);
         }
+    }
+
+    @Override
+    protected void initData() {
+
     }
 
     protected WebChromeClient mWebChromeClient = new WebChromeClient() {
@@ -63,6 +82,7 @@ public class TermsActivity extends BaseActivity {
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.btn_right:
+                setResult(RESULT_OK);
                 finish();
                 break;
             default:

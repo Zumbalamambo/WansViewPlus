@@ -30,10 +30,8 @@ public class AgreementActivity extends BaseActivity {
     protected void initView() {
         MyToolbar toolbar = getToolbar();
         if (toolbar != null) {
-            toolbar.setTittle("Terms of Use");
+            toolbar.setTittle("Agreement");
             toolbar.setLeftImg(net.ajcloud.wansviewplus.R.mipmap.ic_back);
-            toolbar.setRightText("Agree");
-            toolbar.setRightTextColor(getResources().getColor(net.ajcloud.wansviewplus.R.color.colorPrimary));
         }
         mWebView = findViewById(R.id.webView);
         mWebView.setWebChromeClient(mWebChromeClient);

@@ -24,10 +24,11 @@
     </declare-styleable>
 
     <declare-styleable name="ReplayTimeAxisView">
-        <attr name="spacing" format="integer" />
-        <attr name="longScale" format="integer" />
-        <attr name="shortScale" format="integer" />
-        <attr name="textSize" format="integer" />
+        <attr name="spacing" format="dimension" />
+        <attr name="longScale" format="dimension" />
+        <attr name="shortScale" format="dimension" />
+        <attr name="midScale" format="dimension" />
+        <attr name="textSize" format="dimension" />
         <attr name="lineColor" format="color" />
         <attr name="textColor" format="color" />
         <attr name="midLineColor" format="color" />

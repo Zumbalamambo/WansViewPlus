@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".main.test.TestActivity">
 
     <EditText
@@ -51,6 +52,7 @@
         android:text="delete_angle"
         android:textAllCaps="false"
         android:textColor="@color/white" />
+
     <Button
         android:id="@+id/turn_to_angle"
         android:layout_width="wrap_content"
@@ -60,16 +62,38 @@
         android:text="turn_to_angle"
         android:textAllCaps="false"
         android:textColor="@color/white" />
-    <TextView
-        android:id="@+id/tv_test"
-        android:textSize="18sp"
-        android:layout_width="match_parent"
-        android:layout_margin="8dp"
-        android:gravity="start"
-        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/group_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_signin_button"
+        android:text="group_list"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
 
     <net.ajcloud.wansviewplus.support.customview.ReplayTimeAxisView
         android:id="@+id/aaaaa"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="100dp"
+        app:lineColor="@color/gray_line"
+        app:longScale="32dp"
+        app:midScale="40dp"
+        app:midLineColor="@color/colorPrimary"
+        app:recordRectColor="#332979FF"
+        app:selectedRectColor="#512979FF"
+        app:shortScale="16dp"
+        app:spacing="20dp"
+        app:textColor="@color/gray_first"
+        app:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:gravity="start"
+        android:textSize="18sp" />
 </LinearLayout>

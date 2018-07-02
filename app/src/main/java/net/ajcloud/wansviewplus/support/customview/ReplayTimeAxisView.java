@@ -40,11 +40,13 @@ public class ReplayTimeAxisView extends View {
     //画笔宽度
     private int strokeWidth;
     //默认刻度间间隔
-    private int spacing;
+    private float spacing;
     //较长刻度线长度
     private float longScale;
     //较短刻度线长度
     private float shortScale;
+    //较短刻度线长度
+    private float midScale;
     //线条颜色
     private int lineColor;
     //中线颜色
@@ -56,7 +58,7 @@ public class ReplayTimeAxisView extends View {
     //选择下载部分的矩形框颜色
     private int selectedRectColor;
     //文字大小
-    private int textSize;
+    private float textSize;
     private float mLastX;
     //选择的开始时间，结束时间
     private long startTime;
@@ -100,15 +102,16 @@ public class ReplayTimeAxisView extends View {
     public ReplayTimeAxisView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ReplayTimeAxisView, defStyleAttr, 0);
-        longScale = a.getInteger(R.styleable.ReplayTimeAxisView_longScale, 40);
-        shortScale = a.getInteger(R.styleable.ReplayTimeAxisView_shortScale, 30);
-        textSize = a.getInteger(R.styleable.ReplayTimeAxisView_textSize, 40);
+        longScale = a.getDimension(R.styleable.ReplayTimeAxisView_longScale, DisplayUtil.dip2Pix(context, 32));
+        shortScale = a.getDimension(R.styleable.ReplayTimeAxisView_shortScale, DisplayUtil.dip2Pix(context, 16));
+        midScale = a.getDimension(R.styleable.ReplayTimeAxisView_midScale, DisplayUtil.dip2Pix(context, 40));
+        textSize = a.getDimension(R.styleable.ReplayTimeAxisView_textSize, 40);
         lineColor = a.getColor(R.styleable.ReplayTimeAxisView_lineColor, getResources().getColor(R.color.colorPrimary));
         midLineColor = a.getColor(R.styleable.ReplayTimeAxisView_midLineColor, getResources().getColor(R.color.colorPrimary));
         textColor = a.getColor(R.styleable.ReplayTimeAxisView_textColor, getResources().getColor(R.color.colorPrimary));
         recordRectColor = a.getColor(R.styleable.ReplayTimeAxisView_recordRectColor, 0xFF000000);
         selectedRectColor = a.getColor(R.styleable.ReplayTimeAxisView_selectedRectColor, 0x55FFFFFF);
-        spacing = a.getInteger(R.styleable.ReplayTimeAxisView_spacing, DisplayUtil.dip2Pix(context, 1));
+        spacing = a.getDimension(R.styleable.ReplayTimeAxisView_spacing, DisplayUtil.dip2Pix(context, 1));
         a.recycle();
 
         init(context);
@@ -157,7 +160,7 @@ public class ReplayTimeAxisView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //一格120s
-        int unitSeconds = 120;
+        int unitSeconds = 360;
         //左侧第一格时间
         int leftRemainTimeStamp = (int) currentMidTimeStamp
                 % unitSeconds;
@@ -185,7 +188,7 @@ public class ReplayTimeAxisView extends View {
         //画最上最下两条线
         linePaint.setColor(lineColor);
         canvas.drawLine(0, 0, width, 0, linePaint);
-        canvas.drawLine(0, height, width, height, linePaint);
+//        canvas.drawLine(0, height, width, height, linePaint);
         //画有回看部分
         recordRectPaint.setColor(recordRectColor);
         if (recordList.size() > 0) {
@@ -224,7 +227,7 @@ public class ReplayTimeAxisView extends View {
             int remainderBy5 = allMinsBy24Hours % 5;
             if (remainderBy6 == 0 && remainderBy5 == 0) {
                 canvas.drawLine(currentOffset, 0, currentOffset,
-                        height,
+                        midScale,
                         linePaint);
                 String text = "" + (hours < 10 ? "0" + hours : hours) + ":"
                         + (mines < 10 ? "0" + mines : mines);
@@ -234,14 +237,19 @@ public class ReplayTimeAxisView extends View {
             } else if (remainderBy6 != 0 && remainderBy5 == 0) {
                 canvas.drawLine(currentOffset, 0, currentOffset,
                         longScale, linePaint);
-                canvas.drawLine(currentOffset, height
-                        - longScale, currentOffset, height, linePaint);
+//                canvas.drawLine(currentOffset, height
+//                        - longScale, currentOffset, height, linePaint);
+                String text = "" + (hours < 10 ? "0" + hours : hours) + ":"
+                        + (mines < 10 ? "0" + mines : mines);
+                Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt();
+                int baseline = (height - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
+                canvas.drawText(text, currentOffset + 5, baseline, textPaint);
             } else {
                 canvas.drawLine(currentOffset, 0, currentOffset,
                         shortScale,
                         linePaint);
-                canvas.drawLine(currentOffset, height - shortScale,
-                        currentOffset, height, linePaint);
+//                canvas.drawLine(currentOffset, height - shortScale,
+//                        currentOffset, height, linePaint);
             }
 
             currentTimeStamp += unitSeconds;

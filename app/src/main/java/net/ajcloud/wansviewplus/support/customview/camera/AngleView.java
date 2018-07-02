@@ -1,6 +1,7 @@
 package net.ajcloud.wansviewplus.support.customview.camera;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -54,8 +55,13 @@ public class AngleView implements View.OnClickListener {
         normalView = v1;
         deleteView = v2;
         this.virtualCamera = virtualCamera;
-        this.list.addAll(list);
         deviceApiUnit = new DeviceApiUnit(context);
+        for (ViewAnglesBean.ViewAngle angle : list
+                ) {
+            if (!TextUtils.isEmpty(angle.url)) {
+                this.list.add(angle);
+            }
+        }
     }
 
     @Override

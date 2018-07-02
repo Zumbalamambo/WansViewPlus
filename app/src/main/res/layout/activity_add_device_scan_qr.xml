@@ -19,7 +19,7 @@
             android:layout_width="240dp"
             android:layout_height="240dp"
             android:layout_centerHorizontal="true"
-            android:src="@mipmap/ic_model_q3" />
+            android:src="@mipmap/ic_model_k3" />
 
     </LinearLayout>
 

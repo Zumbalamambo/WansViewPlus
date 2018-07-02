@@ -10,9 +10,10 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import net.ajcloud.wansviewplus.R;
+import net.ajcloud.wansviewplus.main.alert.AlertFragment;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
+import net.ajcloud.wansviewplus.main.cloud.CloudFragment;
 import net.ajcloud.wansviewplus.main.device.DeviceFragment;
-import net.ajcloud.wansviewplus.main.message.MessageFragment;
 import net.ajcloud.wansviewplus.main.mine.MineFragment;
 import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
@@ -25,7 +26,8 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     private BottomNavigationBar bottomNavigationBar;
     private FragmentManager fragmentManager;
     private DeviceFragment deviceFragment;
-    private MessageFragment messageFragment;
+    private AlertFragment alertFragment;
+    private CloudFragment cloudFragment;
     private MineFragment mineFragment;
     private ArrayList<Fragment> fragments;
     private UserApiUnit userApiUnit;
@@ -50,7 +52,8 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     protected void initView() {
         userApiUnit = new UserApiUnit(this);
         deviceFragment = new DeviceFragment();
-        messageFragment = new MessageFragment();
+        alertFragment = new AlertFragment();
+        cloudFragment = new CloudFragment();
         mineFragment = new MineFragment();
         fragments = getFragments();
         fragmentManager = getSupportFragmentManager();
@@ -59,8 +62,9 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         int currentSelectedPosition = bottomNavigationBar.getCurrentSelectedPosition();
         bottomNavigationBar.clearAll();
-        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_device_color, getString(R.string.devices)).setInactiveIconResource(R.mipmap.ic_device_mid))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_inbox_color, getString(R.string.inbox)).setInactiveIconResource(R.mipmap.ic_inbox_mid))
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_device_color, getString(R.string.camera)).setInactiveIconResource(R.mipmap.ic_device_mid))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_inbox_color, getString(R.string.alert)).setInactiveIconResource(R.mipmap.ic_inbox_mid))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_cloud_color, getString(R.string.cloud)).setInactiveIconResource(R.mipmap.ic_cloud_mid))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_me_color, getString(R.string.me)).setInactiveIconResource(R.mipmap.ic_me_mid))
                 .setActiveColor(R.color.colorPrimary)
                 .setFirstSelectedPosition(0)
@@ -88,8 +92,10 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
                     ft.show(fragment);
                 } else {
                     String tag = fragment.getClass().getSimpleName();
-                    if (fragment == messageFragment) {
-                        tag = "inbox";
+                    if (fragment == alertFragment) {
+                        tag = "alert";
+                    } else if (fragment == cloudFragment) {
+                        tag = "cloud";
                     } else if (fragment == mineFragment) {
                         tag = "me";
                     }
@@ -126,7 +132,8 @@ public class HomeActivity extends BaseActivity implements BottomNavigationBar.On
     private ArrayList<Fragment> getFragments() {
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(deviceFragment);
-        fragments.add(messageFragment);
+        fragments.add(alertFragment);
+        fragments.add(cloudFragment);
         fragments.add(mineFragment);
         return fragments;
     }

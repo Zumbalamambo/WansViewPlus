@@ -152,7 +152,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Log off account"
+            android:text="Delete Account"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 

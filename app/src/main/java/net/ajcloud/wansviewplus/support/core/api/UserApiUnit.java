@@ -390,10 +390,10 @@ public class UserApiUnit {
                     agentJson.put("pushToken", token);
                 }
                 agentJson.put("pushType", "FCM");
-                List<String> topics = new ArrayList<>();
-                topics.add("notice");
-                topics.add("ads");
-                agentJson.put("pushTopics", topics);
+                JSONArray array = new JSONArray();
+                array.put("notice");
+                array.put("ads");
+                agentJson.put("pushTopics", array);
                 agentsArray.put(agentJson);
 
                 dataJson.put("op", "upsert");

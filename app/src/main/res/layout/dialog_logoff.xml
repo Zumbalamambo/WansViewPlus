@@ -12,7 +12,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="26dp"
         android:gravity="center"
-        android:text="Log off account"
+        android:text="Delete account"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/me_text_size_16" />
 
@@ -38,7 +38,7 @@ you want to write off the account?"
         android:layout_marginStart="@dimen/me_margin_first"
         android:layout_marginTop="26dp"
         android:background="@drawable/shape_logout_button"
-        android:text="Log off"
+        android:text="Delete"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/me_text_size_16" />

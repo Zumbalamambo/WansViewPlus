@@ -27,4 +27,5 @@ public class DeviceBaseInfoBean{
     public String remoteAddr;
     public long tunnelSyncTime;
     public String vendorCode;
+    public String accessKey;
 }

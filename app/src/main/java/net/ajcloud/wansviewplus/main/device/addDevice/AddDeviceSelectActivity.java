@@ -5,6 +5,7 @@ import android.widget.RelativeLayout;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
+import net.ajcloud.wansviewplus.main.device.addDevice.wifi.AddDeviceCameraSettingActivity;
 import net.ajcloud.wansviewplus.support.utils.ConstantsUtil;
 
 public class AddDeviceSelectActivity extends BaseActivity {
@@ -49,7 +50,7 @@ public class AddDeviceSelectActivity extends BaseActivity {
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.rl_k3:
-                AddDeviceModeActivity.start(AddDeviceSelectActivity.this);
+                AddDeviceCameraSettingActivity.start(AddDeviceSelectActivity.this);
                 break;
             case R.id.rl_q3:
                 AddDeviceModeActivity.start(AddDeviceSelectActivity.this);

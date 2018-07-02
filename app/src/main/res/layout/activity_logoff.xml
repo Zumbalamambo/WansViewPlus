@@ -54,7 +54,7 @@
         android:layout_marginStart="@dimen/me_margin_first"
         android:layout_marginTop="92dp"
         android:background="@drawable/shape_logout_button"
-        android:text="Log off"
+        android:text="Delete"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/signIn_textSize_18" />

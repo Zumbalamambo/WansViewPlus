@@ -85,7 +85,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
         toolbar = view.findViewById(R.id.toolbar);
         toolbarLayout = view.findViewById(R.id.toolbar_layout);
         toolbar.setOverflowIcon(null);
-        toolbarLayout.setTitle("Devices");
+        toolbarLayout.setTitle("Camera");
         toolbarLayout.setExpandedTitleColor(Color.BLACK);
         toolbarLayout.setExpandedTitleGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         toolbarLayout.setCollapsedTitleTextColor(Color.BLACK);

@@ -15,7 +15,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="10dp"
-        android:src="@mipmap/ic_model_q3" />
+        android:src="@mipmap/ic_model_k3" />
 
     <TextView
         android:id="@+id/tv_tittle"

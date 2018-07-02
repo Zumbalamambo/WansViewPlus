@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">WansViewPlus</string>
-    <string name="devices">Devices</string>
-    <string name="inbox">Inbox</string>
+    <string name="camera">Camera</string>
+    <string name="alert">Alert</string>
+    <string name="cloud">Cloud</string>
     <string name="me">Me</string>
 
     <string name="cancel">取消</string>

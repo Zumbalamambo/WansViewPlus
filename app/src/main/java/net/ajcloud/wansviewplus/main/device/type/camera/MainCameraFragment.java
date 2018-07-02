@@ -2256,13 +2256,12 @@ public class MainCameraFragment extends BaseFragment
             if (camera.viewAnglesConfig == null || camera.viewAnglesConfig.viewAngles.size() == 0) {
                 position = 0;
             } else {
-                position = camera.viewAnglesConfig.viewAngles.size() - 1;
-//                for (int i = 0; i < camera.viewAnglesConfig.viewAngles.size(); i++) {
-//                    if (TextUtils.isEmpty(getCamera().getViewSettings().get(i).getViewurl())) {
-//                        position = i;
-//                        break;
-//                    }
-//                }
+                for (int i = 0; i < camera.viewAnglesConfig.viewAngles.size(); i++) {
+                    if (TextUtils.isEmpty(camera.viewAnglesConfig.viewAngles.get(i).url)) {
+                        position = i;
+                        break;
+                    }
+                }
             }
             if (position == -1) {
                 ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_angle_view_full);
@@ -2932,7 +2931,7 @@ public class MainCameraFragment extends BaseFragment
                     fOut.close();
 
                     String deviceId = ((DeviceHomeActivity) getActivity()).getOid();
-                    new DeviceApiUnit(getActivity()).b2Upload(deviceId, MainApplication.fileIO.getCacheDir() + index + ".jpg", "cam-viewangle", "b2", index + 1, new OkgoCommonListener<Object>() {
+                    new DeviceApiUnit(getActivity()).b2Upload(deviceId, MainApplication.fileIO.getCacheDir() + index + ".jpg", "cam-viewangle", "b2", index, new OkgoCommonListener<Object>() {
                         @Override
                         public void onSuccess(Object bean) {
                             ToastUtil.single("success");
