@@ -170,7 +170,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(itemView);
 
             iv_thumbnail = itemView.findViewById(R.id.iv_thumbnail);
-            tv_deviceName = itemView.findViewById(R.id.tv_device_name);
+            tv_deviceName = itemView.findViewById(R.id.tv_tittle);
             tv_cloud = itemView.findViewById(R.id.tv_cloud);
             tv_cloudState = itemView.findViewById(R.id.tv_cloud_state);
             tv_status = itemView.findViewById(R.id.tv_device_status);

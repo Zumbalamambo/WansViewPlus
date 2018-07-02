@@ -18,7 +18,7 @@
         android:src="@mipmap/ic_model_q3" />
 
     <TextView
-        android:id="@+id/tv_device_name"
+        android:id="@+id/tv_tittle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/iv_device_icon"
@@ -34,8 +34,8 @@
         android:id="@+id/tv_device_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@id/tv_device_name"
-        android:layout_below="@id/tv_device_name"
+        android:layout_alignStart="@id/tv_tittle"
+        android:layout_below="@id/tv_tittle"
         android:layout_marginEnd="24dp"
         android:ellipsize="end"
         android:maxLines="2"

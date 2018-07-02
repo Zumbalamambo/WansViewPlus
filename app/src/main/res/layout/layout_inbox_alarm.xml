@@ -16,17 +16,11 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY" />
 
-        <TextView
-            android:id="@+id/tv_device_status"
-            android:layout_width="64dp"
+        <ImageView
+            android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_gravity="end|bottom"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:text="ON LINE"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/device_textSize_10" />
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_play_white" />
     </FrameLayout>
 
     <TextView
@@ -36,47 +30,46 @@
         android:layout_below="@id/fl_pic"
         android:layout_marginTop="16dp"
         android:textColor="@color/gray_first"
-        android:textSize="@dimen/signIn_textSize_20"
+        android:textSize="@dimen/inbox_text_size_20"
         tools:text="Front Door" />
 
-    <LinearLayout
-        android:id="@+id/ll_cloud_storage"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_tittle"
         android:layout_marginBottom="15dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        tools:visibility="visible">
+        android:layout_marginTop="10dp">
 
         <TextView
-            android:id="@+id/tv_cloud"
+            android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="Cloud Storage"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/signIn_textSize_14" />
+            android:textColor="@color/gray_third"
+            android:textSize="@dimen/inbox_text_size_14" />
 
         <TextView
-            android:id="@+id/tv_cloud_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text=" not subscribed"
-            android:textColor="@color/gray_second"
-            android:textSize="@dimen/signIn_textSize_14" />
-    </LinearLayout>
+            android:layout_alignTop="@id/tv_date"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/iv_more"
+            android:text="More"
+            android:textColor="@color/gray_third"
+            android:textSize="@dimen/inbox_text_size_14" />
 
-    <ImageView
-        android:id="@+id/iv_refresh"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_alignBottom="@id/ll_cloud_storage"
-        android:layout_alignParentEnd="true"
-        android:visibility="gone"
-        android:src="@drawable/ic_all" />
+        <ImageView
+            android:id="@+id/iv_more"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignBottom="@id/tv_date"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_direction_right_mid" />
+    </RelativeLayout>
 
 </RelativeLayout>

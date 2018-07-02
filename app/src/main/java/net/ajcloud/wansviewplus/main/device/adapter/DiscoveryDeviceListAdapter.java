@@ -73,7 +73,7 @@ public class DiscoveryDeviceListAdapter extends RecyclerView.Adapter<RecyclerVie
             super(itemView);
 
             deviceIcon = itemView.findViewById(R.id.iv_device_icon);
-            deviceName = itemView.findViewById(R.id.tv_device_name);
+            deviceName = itemView.findViewById(R.id.tv_tittle);
             deviceId = itemView.findViewById(R.id.tv_device_id);
             selectButton = itemView.findViewById(R.id.btn_select);
         }
