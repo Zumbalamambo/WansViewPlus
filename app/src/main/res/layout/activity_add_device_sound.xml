@@ -1,95 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".main.device.addDevice.wifi.AddDeviceScanQRActivity">
 
-    <Button
-        android:id="@+id/btn_send"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/shape_signin_button"
-        android:text="Send"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/signIn_textSize_18" />
-
-    <TextView
-        android:id="@+id/tv_hint_one"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_send"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="70dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="-20dp"
+            android:background="@drawable/shape_signin_button"
+            android:text="Send"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/signIn_textSize_18" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_hint_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:gravity="center"
+                android:text="Press 'Send'"
+                android:textColor="@color/gray_first"
+                android:textSize="@dimen/signIn_textSize_16" />
+
+            <TextView
+                android:id="@+id/tv_hint_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Please confirm that the power is connected."
+                android:textColor="@color/gray_second"
+                android:textSize="@dimen/signIn_textSize_12" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center"
-        android:text="Press 'Send'"
-        android:textColor="@color/gray_first"
-        android:textSize="@dimen/signIn_textSize_16" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_hint_two"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_hint_one"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="Please confirm that the power is connected."
-        android:textColor="@color/gray_second"
-        android:textSize="@dimen/signIn_textSize_12" />
+        <ImageView
+            android:id="@+id/iv_hint"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/ic_bind_soundwave" />
 
-    <ImageView
-        android:id="@+id/iv_hint"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_below="@id/tv_hint_two"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:src="@mipmap/ic_bind_soundwave" />
+        <TextView
+            android:id="@+id/tv_hint_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_hint"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="Please turn up the volumeHold your phone closer to the camera"
+            android:textColor="@color/gray_second"
+            android:textSize="@dimen/signIn_textSize_12" />
 
-    <TextView
-        android:id="@+id/tv_hint_three"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/iv_hint"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:text="Please turn up the volumeHold your phone closer to the camera"
-        android:textColor="@color/gray_second"
-        android:textSize="@dimen/signIn_textSize_12" />
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/signIn_btn_height"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/shape_signin_button"
+            android:text="Next"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/signIn_textSize_16" />
 
-    <Button
-        android:id="@+id/btn_next"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/signIn_btn_height"
-        android:layout_below="@id/tv_hint_three"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/shape_signin_button"
-        android:text="Next"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/signIn_textSize_16" />
+        <TextView
+            android:id="@+id/tv_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="30dp"
+            android:padding="5dp"
+            android:text="Didn't hear 'Sound wave received'?"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/signIn_textSize_16" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_error"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_next"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="30dp"
-        android:padding="5dp"
-        android:text="Didn't hear 'Sound wave received'?"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/signIn_textSize_16" />
-</RelativeLayout>
+
+</LinearLayout>

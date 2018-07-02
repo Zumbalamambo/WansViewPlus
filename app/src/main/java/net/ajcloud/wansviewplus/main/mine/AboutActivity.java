@@ -1,9 +1,11 @@
 package net.ajcloud.wansviewplus.main.mine;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import net.ajcloud.wansviewplus.R;
+import net.ajcloud.wansviewplus.main.account.TermsActivity;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 
 public class AboutActivity extends BaseActivity {
@@ -45,8 +47,10 @@ public class AboutActivity extends BaseActivity {
             case R.id.rl_email:
                 break;
             case R.id.rl_service:
+                startActivity(new Intent(AboutActivity.this, TermsActivity.class));
                 break;
             case R.id.rl_terms:
+                startActivity(new Intent(AboutActivity.this, AgreementActivity.class));
                 break;
             default:
                 break;

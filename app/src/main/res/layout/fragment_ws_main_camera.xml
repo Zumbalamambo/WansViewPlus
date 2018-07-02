@@ -54,45 +54,55 @@
 
                         <ImageView
                             android:id="@+id/full_voiceSwitch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:scaleType="centerInside"
-                            android:layout_margin="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="30dp"
                             android:src="@drawable/volume_on_state" />
 
                         <ImageView
                             android:id="@+id/fullscreen_play"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:layout_gravity="bottom|center"
-                            android:layout_margin="10dp"
-                            android:src="@mipmap/play_h"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="30dp"
+                            android:src="@mipmap/ic_play_white"
                             android:visibility="visible" />
 
                         <ImageView
                             android:id="@+id/fullscreen_stop"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:layout_gravity="bottom|center"
-                            android:layout_margin="10dp"
-                            android:src="@mipmap/pause_h"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="30dp"
+                            android:src="@mipmap/ic_stop_white"
                             android:visibility="visible" />
 
                         <ImageView
                             android:id="@+id/fullscreen_recordvideo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:layout_gravity="bottom|center"
-                            android:layout_margin="10dp"
-                            android:src="@mipmap/video_h"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="30dp"
+                            android:src="@mipmap/ic_record_light"
                             android:visibility="visible" />
 
                         <ImageView
                             android:id="@+id/fullscreen_snapshot"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:layout_gravity="bottom|center"
-                            android:layout_margin="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="30dp"
                             android:src="@drawable/fullscreen_snapshot_state"
                             android:visibility="visible" />
 
@@ -417,7 +427,7 @@
                     android:layout_marginRight="4dp"
                     android:padding="6dp"
                     android:scaleType="centerInside"
-                    android:src="@mipmap/full"
+                    android:src="@mipmap/ic_full_screen_white"
                     android:visibility="visible" />
 
                 <TextView

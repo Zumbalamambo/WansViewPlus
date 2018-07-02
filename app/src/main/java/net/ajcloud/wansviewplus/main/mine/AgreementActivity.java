@@ -1,4 +1,4 @@
-package net.ajcloud.wansviewplus.main.account;
+package net.ajcloud.wansviewplus.main.mine;
 
 import android.text.TextUtils;
 import android.view.View;
@@ -12,7 +12,7 @@ import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.support.core.api.ApiConstant;
 import net.ajcloud.wansviewplus.support.customview.MyToolbar;
 
-public class TermsActivity extends BaseActivity {
+public class AgreementActivity extends BaseActivity {
 
     private WebView mWebView;
 
@@ -40,7 +40,7 @@ public class TermsActivity extends BaseActivity {
         mWebView.getSettings().setDomStorageEnabled(true);
         mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
-        String url = ApiConstant.URL_PRIVACY;
+        String url = ApiConstant.URL_AGREEMENT;
         if (!TextUtils.isEmpty(url)) {
             mWebView.loadUrl(url);
         }
@@ -63,6 +63,7 @@ public class TermsActivity extends BaseActivity {
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.btn_right:
+                setResult(RESULT_OK);
                 finish();
                 break;
             default:

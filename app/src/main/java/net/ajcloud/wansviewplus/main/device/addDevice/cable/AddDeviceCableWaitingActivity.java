@@ -202,4 +202,8 @@ public class AddDeviceCableWaitingActivity extends BaseActivity {
             finish();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }

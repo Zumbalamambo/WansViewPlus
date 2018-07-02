@@ -512,12 +512,12 @@ public class MainCameraFragment extends BaseFragment
         });
 
         myToolBar.inflateMenu(menu);
-        myToolBar.setNavigationIcon(net.ajcloud.wansviewplus.R.drawable.ic_all);
+        myToolBar.setNavigationIcon(R.mipmap.ic_back);
         myToolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-
+                    getActivity().finish();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -1163,18 +1163,18 @@ public class MainCameraFragment extends BaseFragment
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    recordVoice.setImageResource(net.ajcloud.wansviewplus.R.mipmap.wv_control_phone_click);
+                    recordVoice.setImageResource(net.ajcloud.wansviewplus.R.mipmap.ic_microphone_dark);
                     if (cannotOperateWhenOfflineOrNoplay()) {
                         hHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                recordVoice.setImageResource(net.ajcloud.wansviewplus.R.mipmap.wv_control_phone);
+                                recordVoice.setImageResource(net.ajcloud.wansviewplus.R.mipmap.ic_microphone_light);
                             }
                         }, 200);
                         return true;
                     }
                     if (isRealTimeSpeechOn) {
-                        recordVoice.setImageResource(net.ajcloud.wansviewplus.R.mipmap.wv_control_phone);
+                        recordVoice.setImageResource(net.ajcloud.wansviewplus.R.mipmap.ic_microphone_color);
                         isRealTimeSpeechOn = false;
                         if (audioSender_Realtime != null) {
                             audioSender_Realtime.stopRecord();
@@ -1182,7 +1182,7 @@ public class MainCameraFragment extends BaseFragment
                         }
                     } else {
                         mMediaPlayer.SetRealTimeTalkFlag(0);
-                        recordVoice.setImageResource(net.ajcloud.wansviewplus.R.mipmap.wv_control_phone_click);
+                        recordVoice.setImageResource(net.ajcloud.wansviewplus.R.mipmap.ic_microphone_white);
                         isRealTimeSpeechOn = true;
                         if (audioSender_Realtime != null) {
                             try {
@@ -1962,7 +1962,7 @@ public class MainCameraFragment extends BaseFragment
                     getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                     isFullScreen(true);
                     getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                    full_screen.setImageResource(net.ajcloud.wansviewplus.R.mipmap.shrink);
+                    full_screen.setImageResource(net.ajcloud.wansviewplus.R.mipmap.ic_small_screen_white);
                     //videoQuality.setVisibility(View.GONE);
 
                     if (isPlaying) {
@@ -1996,7 +1996,7 @@ public class MainCameraFragment extends BaseFragment
                     isFullScreen(false);
                     getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                     getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                    full_screen.setImageResource(net.ajcloud.wansviewplus.R.mipmap.full);
+                    full_screen.setImageResource(net.ajcloud.wansviewplus.R.mipmap.ic_full_screen_white);
                     fullScreenLayout.setVisibility(View.GONE);
                     //videoQuality.setVisibility(View.VISIBLE);
 
@@ -2579,11 +2579,11 @@ public class MainCameraFragment extends BaseFragment
             recordTimer.schedule(task, 1000, 1000);
 
             take_video.setSelected(true);
-            fullscreen_recordvideo.setImageDrawable(getResources().getDrawable(net.ajcloud.wansviewplus.R.mipmap.video_h_click));
+            fullscreen_recordvideo.setImageDrawable(getResources().getDrawable(net.ajcloud.wansviewplus.R.mipmap.ic_record_color));
         } else {
             stopRecord(true);
             take_video.setSelected(false);
-            fullscreen_recordvideo.setImageDrawable(getResources().getDrawable(net.ajcloud.wansviewplus.R.mipmap.video_h));
+            fullscreen_recordvideo.setImageDrawable(getResources().getDrawable(net.ajcloud.wansviewplus.R.mipmap.ic_record_dark));
         }
 
         return true;
@@ -2597,7 +2597,7 @@ public class MainCameraFragment extends BaseFragment
         }
         videoPicPath = getVideoPic();
         take_video.setSelected(false);
-        fullscreen_recordvideo.setImageDrawable(getResources().getDrawable(net.ajcloud.wansviewplus.R.mipmap.video_h));
+        fullscreen_recordvideo.setImageDrawable(getResources().getDrawable(net.ajcloud.wansviewplus.R.mipmap.ic_record_light));
         if (recordTimer != null) {
             recordTimer.cancel();
             recordTimer.purge();

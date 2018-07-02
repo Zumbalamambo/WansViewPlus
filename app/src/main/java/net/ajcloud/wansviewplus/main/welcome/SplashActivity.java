@@ -12,6 +12,8 @@ import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.account.SigninActivity;
 import net.ajcloud.wansviewplus.main.account.SigninTwiceActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.device.type.DeviceHomeActivity;
+import net.ajcloud.wansviewplus.main.device.type.camera.MainCameraFragment;
 import net.ajcloud.wansviewplus.main.home.HomeActivity;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
@@ -25,6 +27,8 @@ public class SplashActivity extends AppCompatActivity {
     private Runnable startHomeTask = new Runnable() {
         @Override
         public void run() {
+//            DeviceHomeActivity.startCamerHomeActivity(SplashActivity.this, "oid", MainCameraFragment.class);
+
             getAppConfig();
         }
     };

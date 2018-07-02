@@ -172,4 +172,8 @@ public class AddDeviceWifiWaitingActivity extends BaseActivity {
             finish();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }
