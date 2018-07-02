@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -27,6 +28,7 @@ import java.util.Locale;
  */
 public class ReplayTimeAxisView extends View {
 
+    private Context context;
     private int width;
     private int height;
     //选择框左边坐标
@@ -101,6 +103,7 @@ public class ReplayTimeAxisView extends View {
 
     public ReplayTimeAxisView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context = context;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ReplayTimeAxisView, defStyleAttr, 0);
         longScale = a.getDimension(R.styleable.ReplayTimeAxisView_longScale, DisplayUtil.dip2Pix(context, 32));
         shortScale = a.getDimension(R.styleable.ReplayTimeAxisView_shortScale, DisplayUtil.dip2Pix(context, 16));
@@ -268,6 +271,17 @@ public class ReplayTimeAxisView extends View {
             //画中线
             linePaint.setColor(midLineColor);
             canvas.drawLine(width / 2, 0, width / 2, height, linePaint);
+
+            float rectWidth = DisplayUtil.dip2Pix(context, 8);
+            float rectHeight = DisplayUtil.dip2Pix(context, 12);
+            //画中线箭头
+            canvas.drawRect(width / 2 - rectWidth / 2, 0, width / 2 + rectWidth / 2, rectHeight * 2 / 3, linePaint);
+            Path path = new Path();
+            path.moveTo(width / 2 - rectWidth / 2, rectHeight * 2 / 3);// 此点为多边形的起点
+            path.lineTo(width / 2 + rectWidth / 2, rectHeight * 2 / 3);
+            path.lineTo(width / 2, rectHeight);
+            path.close(); // 使这些点
+            canvas.drawPath(path, linePaint);
         }
     }
 

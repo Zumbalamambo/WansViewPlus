@@ -1,6 +1,7 @@
 package net.ajcloud.wansviewplus.main.test;
 
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,16 +18,19 @@ import net.ajcloud.wansviewplus.support.core.bean.ViewAnglesBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.customview.ReplayTimeAxisView;
 import net.ajcloud.wansviewplus.support.utils.FileUtil;
+import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TestActivity extends BaseActivity {
 
     private ReplayTimeAxisView replayTimeAxisView;
+    SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     protected int getLayoutId() {
@@ -44,15 +48,28 @@ public class TestActivity extends BaseActivity {
         getToolbar().setLeftImg(R.mipmap.ic_back);
         replayTimeAxisView = findViewById(R.id.aaaaa);
         replayTimeAxisView.setMidTimeStamp(System.currentTimeMillis());
+
+        List<Pair<Long, Long>> list = new ArrayList<>();
+        Pair<Long, Long> time1 = new Pair<>(System.currentTimeMillis()/1000 - 7000, System.currentTimeMillis()/1000 - 5000);
+        Pair<Long, Long> time2 = new Pair<>(System.currentTimeMillis()/1000 - 4000, System.currentTimeMillis() /1000- 1500);
+        Pair<Long, Long> time3 = new Pair<>(System.currentTimeMillis()/1000 - 1000, System.currentTimeMillis() /1000+ 1000);
+        Pair<Long, Long> time4 = new Pair<>(System.currentTimeMillis()/1000 + 1500, System.currentTimeMillis()/1000+ 4000);
+        Pair<Long, Long> time5 = new Pair<>(System.currentTimeMillis() /1000+ 5000, System.currentTimeMillis()/1000 + 7000);
+        list.add(time1);
+        list.add(time2);
+        list.add(time3);
+        list.add(time4);
+        list.add(time5);
+        replayTimeAxisView.setRecordList(list);
         replayTimeAxisView.setOnSlideListener(new ReplayTimeAxisView.OnSlideListener() {
             @Override
             public void onSlide(long timeStamp) {
-
+                ToastUtil.single(sDateFormat.format(timeStamp));
             }
 
             @Override
             public void onSelected(long startTime, long endTime) {
-
+                ToastUtil.single(sDateFormat.format(startTime) + "\n" + sDateFormat.format(endTime));
             }
         });
     }
