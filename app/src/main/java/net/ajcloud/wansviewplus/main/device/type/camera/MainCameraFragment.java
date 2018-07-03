@@ -554,7 +554,7 @@ public class MainCameraFragment extends BaseFragment
                 realTimeImageImageView.setVisibility(View.VISIBLE);
                 realTimeImageImageView.setImageBitmap(bitmap);
             } else {
-                realTimeImageImageView.setImageResource(net.ajcloud.wansviewplus.R.mipmap.realtime_picture);
+                realTimeImageImageView.setImageResource(net.ajcloud.wansviewplus.R.mipmap.ic_device_default);
             }
             realTimeImageLayout.setVisibility(View.VISIBLE);
             realTimeImage_ProgressBar.setVisibility(View.GONE);
@@ -650,7 +650,7 @@ public class MainCameraFragment extends BaseFragment
                 realTimeImageImageView.setVisibility(View.VISIBLE);
                 realTimeImageImageView.setImageBitmap(bitmap);
             } else {
-                realTimeImageImageView.setImageResource(net.ajcloud.wansviewplus.R.mipmap.realtime_picture);
+                realTimeImageImageView.setImageResource(net.ajcloud.wansviewplus.R.mipmap.ic_device_default);
             }
             realTimeImageLayout.setVisibility(View.VISIBLE);
             realTimeImage_ProgressBar.setVisibility(View.GONE);
@@ -1656,7 +1656,7 @@ public class MainCameraFragment extends BaseFragment
         virtualCamera.isAutoTrace = getCamera().getAutotrackSetting().getEnable() != 0;
         //virtualCamera.isMute = MyPreferenceManager.getInstance().getMute(getCamera().getOid());
         virtualCamera.ethMac = getCamera().getCameraState().getEthmac();
-        //virtualCamera.mQuality = MyPreferenceManager.getInstance().getVideoQuality(getCamera().getOid());
+        virtualCamera.mQuality = 4;
         virtualCamera.state = getCamera().getCameraState().getStatus();
         policeHelper = new PoliceHelper(getActivity(), virtualCamera, this);
         String deviceId = ((DeviceHomeActivity) getActivity()).getOid();

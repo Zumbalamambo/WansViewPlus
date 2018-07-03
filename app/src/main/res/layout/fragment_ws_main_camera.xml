@@ -504,7 +504,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/realtime_picture" />
+                        android:src="@mipmap/ic_device_default" />
 
                     <ImageView
                         android:id="@+id/realtime_image_cancel"

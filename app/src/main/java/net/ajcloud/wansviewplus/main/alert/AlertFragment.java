@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,6 +22,8 @@ import net.ajcloud.wansviewplus.R;
 public class AlertFragment extends Fragment implements View.OnClickListener {
 
     private CollapsingToolbarLayout toolbarLayout;
+    private NestedScrollView alertLayout;
+    private LinearLayout noAlertLayout;
     private Toolbar toolbar;
 
     @Override
@@ -39,6 +42,9 @@ public class AlertFragment extends Fragment implements View.OnClickListener {
         toolbarLayout.setExpandedTitleGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         toolbarLayout.setCollapsedTitleTextColor(Color.BLACK);
         toolbarLayout.setCollapsedTitleGravity(Gravity.CENTER);
+
+        alertLayout = view.findViewById(R.id.ll_alert_list);
+        noAlertLayout = view.findViewById(R.id.ll_alert_none);
     }
 
     @Override

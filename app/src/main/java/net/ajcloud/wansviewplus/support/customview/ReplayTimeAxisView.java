@@ -30,7 +30,14 @@ public class ReplayTimeAxisView extends View {
 
     private Context context;
     private int width;
+    //总高度
     private int height;
+    //顶部月份高度
+    private int dateHeight;
+    //时间轴高度
+    private int timelineHeight;
+    //时间高度
+    private int timeHeight;
     //选择框左边坐标
     private float selectedLeft;
     //选择框右边坐标
@@ -140,6 +147,7 @@ public class ReplayTimeAxisView extends View {
         textPaint.setColor(textColor);
         textPaint.setTextAlign(Paint.Align.LEFT);
         textPaint.setTextSize(textSize);
+        textPaint.setTextAlign(Paint.Align.CENTER);
 
         recordRectPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         recordRectPaint.setStyle(Paint.Style.FILL);
@@ -153,6 +161,9 @@ public class ReplayTimeAxisView extends View {
 
         width = getSize(200, widthMeasureSpec);
         height = getSize(50, heightMeasureSpec);
+        dateHeight = height * 5 / 17;
+        timelineHeight = height * 8 / 17;
+        timeHeight = height * 4 / 17;
 
         selectedLeft = width / 2 - defaultSelectedDistance;
         selectedRight = width / 2 + defaultSelectedDistance;
@@ -189,8 +200,8 @@ public class ReplayTimeAxisView extends View {
                 * unitSeconds / (spacing + strokeWidth));
 
         //画最上最下两条线
-        linePaint.setColor(lineColor);
-        canvas.drawLine(0, 0, width, 0, linePaint);
+//        linePaint.setColor(lineColor);
+//        canvas.drawLine(0, 0, width, 0, linePaint);
 //        canvas.drawLine(0, height, width, height, linePaint);
         //画有回看部分
         recordRectPaint.setColor(recordRectColor);
@@ -214,7 +225,7 @@ public class ReplayTimeAxisView extends View {
                                 * (spacing + strokeWidth)
                                 / unitSeconds;
                     }
-                    recordRect.set(startX, 0, endX, height);
+                    recordRect.set(startX, dateHeight, endX, dateHeight + timelineHeight);
                     canvas.drawRect(recordRect, recordRectPaint);
                 }
             }
@@ -229,27 +240,27 @@ public class ReplayTimeAxisView extends View {
             int remainderBy6 = allMinsBy24Hours % 6;
             int remainderBy5 = allMinsBy24Hours % 5;
             if (remainderBy6 == 0 && remainderBy5 == 0) {
-                canvas.drawLine(currentOffset, 0, currentOffset,
-                        midScale,
+                canvas.drawLine(currentOffset, dateHeight, currentOffset,
+                        dateHeight + midScale,
                         linePaint);
                 String text = "" + (hours < 10 ? "0" + hours : hours) + ":"
                         + (mines < 10 ? "0" + mines : mines);
                 Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt();
-                int baseline = (height - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
-                canvas.drawText(text, currentOffset + 5, baseline, textPaint);
+                int baseline = (height - dateHeight - timelineHeight - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top + dateHeight + timelineHeight;
+                canvas.drawText(text, currentOffset, baseline, textPaint);
             } else if (remainderBy6 != 0 && remainderBy5 == 0) {
-                canvas.drawLine(currentOffset, 0, currentOffset,
-                        longScale, linePaint);
+                canvas.drawLine(currentOffset, dateHeight, currentOffset,
+                        dateHeight + longScale, linePaint);
 //                canvas.drawLine(currentOffset, height
 //                        - longScale, currentOffset, height, linePaint);
                 String text = "" + (hours < 10 ? "0" + hours : hours) + ":"
                         + (mines < 10 ? "0" + mines : mines);
                 Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt();
-                int baseline = (height - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
-                canvas.drawText(text, currentOffset + 5, baseline, textPaint);
+                int baseline = (height - dateHeight - timelineHeight - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top + dateHeight + timelineHeight;
+                canvas.drawText(text, currentOffset, baseline, textPaint);
             } else {
-                canvas.drawLine(currentOffset, 0, currentOffset,
-                        shortScale,
+                canvas.drawLine(currentOffset, dateHeight, currentOffset,
+                        dateHeight + shortScale,
                         linePaint);
 //                canvas.drawLine(currentOffset, height - shortScale,
 //                        currentOffset, height, linePaint);
@@ -261,25 +272,25 @@ public class ReplayTimeAxisView extends View {
         if (currentMode == Mode.DownLoad) {
             //画边线
             linePaint.setColor(midLineColor);
-            canvas.drawLine(selectedLeft, 0, selectedLeft, height, linePaint);
-            canvas.drawLine(selectedRight, 0, selectedRight, height, linePaint);
+            canvas.drawLine(selectedLeft, dateHeight, selectedLeft, dateHeight + timelineHeight, linePaint);
+            canvas.drawLine(selectedRight, dateHeight, selectedRight, dateHeight + timelineHeight, linePaint);
             //画选择框
             recordRectPaint.setColor(selectedRectColor);
-            selectedRect.set(selectedLeft, 0, selectedRight, height);
+            selectedRect.set(selectedLeft, dateHeight, selectedRight, dateHeight + timelineHeight);
             canvas.drawRect(selectedRect, recordRectPaint);
         } else {
             //画中线
             linePaint.setColor(midLineColor);
-            canvas.drawLine(width / 2, 0, width / 2, height, linePaint);
+            canvas.drawLine(width / 2, dateHeight, width / 2, dateHeight + timelineHeight, linePaint);
 
             float rectWidth = DisplayUtil.dip2Pix(context, 8);
             float rectHeight = DisplayUtil.dip2Pix(context, 12);
             //画中线箭头
-            canvas.drawRect(width / 2 - rectWidth / 2, 0, width / 2 + rectWidth / 2, rectHeight * 2 / 3, linePaint);
+            canvas.drawRect(width / 2 - rectWidth / 2, dateHeight, width / 2 + rectWidth / 2, dateHeight + rectHeight * 2 / 3, linePaint);
             Path path = new Path();
-            path.moveTo(width / 2 - rectWidth / 2, rectHeight * 2 / 3);// 此点为多边形的起点
-            path.lineTo(width / 2 + rectWidth / 2, rectHeight * 2 / 3);
-            path.lineTo(width / 2, rectHeight);
+            path.moveTo(width / 2 - rectWidth / 2, dateHeight + rectHeight * 2 / 3);// 此点为多边形的起点
+            path.lineTo(width / 2 + rectWidth / 2, dateHeight + rectHeight * 2 / 3);
+            path.lineTo(width / 2, dateHeight + rectHeight);
             path.close(); // 使这些点
             canvas.drawPath(path, linePaint);
         }

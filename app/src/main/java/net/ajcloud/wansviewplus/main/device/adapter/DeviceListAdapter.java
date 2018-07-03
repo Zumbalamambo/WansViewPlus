@@ -116,24 +116,24 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     public void onSuccess(String bean) {
                         Glide.with(context).load(bean)
                                 .placeholder(R.mipmap.figure_big)
-                                .error(R.mipmap.figure_big)
+                                .error(R.mipmap.ic_device_default)
                                 .into(((DeviceListHolder) finalHolder).iv_thumbnail);
                     }
 
                     @Override
                     public void onFail(int code, String msg) {
-                        Glide.with(context).load(R.mipmap.realtime_picture)
+                        Glide.with(context).load(R.mipmap.ic_device_default)
                                 .into(((DeviceListHolder) finalHolder).iv_thumbnail);
                     }
                 });
             } else {
-                Glide.with(context).load(R.mipmap.realtime_picture)
+                Glide.with(context).load(R.mipmap.ic_device_default)
                         .into(((DeviceListHolder) holder).iv_thumbnail);
             }
         } else {
             Glide.with(context).load(camera.snapshotUrl)
                     .placeholder(R.mipmap.figure_big)
-                    .error(R.mipmap.figure_big)
+                    .error(R.mipmap.ic_device_default)
                     .into(((DeviceListHolder) holder).iv_thumbnail);
         }
 

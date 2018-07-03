@@ -77,7 +77,7 @@
         android:id="@+id/aaaaa"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="136dp"
         app:lineColor="@color/gray_line"
         app:longScale="32dp"
         app:midScale="40dp"
