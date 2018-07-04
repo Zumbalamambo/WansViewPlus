@@ -3,19 +3,20 @@ package net.ajcloud.wansviewplus.support.customview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.support.tools.WLog;
 import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
+import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,7 +29,12 @@ import java.util.Locale;
  */
 public class ReplayTimeAxisView extends View {
 
+    private String[] dates = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"};
+    private int[] scaleMultiple = {1, 3, 4, 6};
+    private int currentMultiple = 6;
     private Context context;
+    //每一格时间
+    private int unitSeconds;
     private int width;
     //总高度
     private int height;
@@ -36,14 +42,8 @@ public class ReplayTimeAxisView extends View {
     private int dateHeight;
     //时间轴高度
     private int timelineHeight;
-    //时间高度
-    private int timeHeight;
-    //选择框左边坐标
-    private float selectedLeft;
-    //选择框右边坐标
-    private float selectedRight;
     //默认选择框宽度
-    private static final int defaultSelectedDistance = 50;
+    private static final int defaultSelectedTimeHalf = 6 * 60;
     //当前中间刻度时间点
     private long currentMidTimeStamp;
     //画笔宽度
@@ -54,8 +54,10 @@ public class ReplayTimeAxisView extends View {
     private float longScale;
     //较短刻度线长度
     private float shortScale;
-    //较短刻度线长度
+    //最长刻度线长度
     private float midScale;
+    //下载区间圆形按钮半径
+    private float circleRadius;
     //线条颜色
     private int lineColor;
     //中线颜色
@@ -68,7 +70,6 @@ public class ReplayTimeAxisView extends View {
     private int selectedRectColor;
     //文字大小
     private float textSize;
-    private float mLastX;
     //选择的开始时间，结束时间
     private long startTime;
     private long endTime;
@@ -85,6 +86,7 @@ public class ReplayTimeAxisView extends View {
     private Paint linePaint;
     private Paint textPaint;
     private Paint recordRectPaint;
+    private Paint shadowPaint;
     //TODO 根据具体业务修改格式 回看列表   开始时间  结束时间
     private List<Pair<Long, Long>> recordList;
     //时间轴滑动监听
@@ -122,6 +124,7 @@ public class ReplayTimeAxisView extends View {
         recordRectColor = a.getColor(R.styleable.ReplayTimeAxisView_recordRectColor, 0xFF000000);
         selectedRectColor = a.getColor(R.styleable.ReplayTimeAxisView_selectedRectColor, 0x55FFFFFF);
         spacing = a.getDimension(R.styleable.ReplayTimeAxisView_spacing, DisplayUtil.dip2Pix(context, 1));
+        circleRadius = a.getDimension(R.styleable.ReplayTimeAxisView_circleRadius, DisplayUtil.dip2Pix(context, 6));
         a.recycle();
 
         init(context);
@@ -133,8 +136,7 @@ public class ReplayTimeAxisView extends View {
         selectedRect = new RectF();
         strokeWidth = DisplayUtil.dip2Pix(context, 1);
         calendar = Calendar.getInstance(Locale.getDefault());
-        minSlideScale = ViewConfiguration.get(context)
-                .getScaledTouchSlop();
+        minSlideScale = 2;
 
         linePaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         linePaint.setStyle(Paint.Style.FILL);
@@ -148,6 +150,11 @@ public class ReplayTimeAxisView extends View {
         textPaint.setTextAlign(Paint.Align.LEFT);
         textPaint.setTextSize(textSize);
         textPaint.setTextAlign(Paint.Align.CENTER);
+
+        shadowPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+        shadowPaint.setStyle(Paint.Style.FILL);
+        shadowPaint.setColor(getResources().getColor(R.color.white));
+        shadowPaint.setStrokeWidth(strokeWidth);
 
         recordRectPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         recordRectPaint.setStyle(Paint.Style.FILL);
@@ -163,18 +170,15 @@ public class ReplayTimeAxisView extends View {
         height = getSize(50, heightMeasureSpec);
         dateHeight = height * 5 / 17;
         timelineHeight = height * 8 / 17;
-        timeHeight = height * 4 / 17;
 
-        selectedLeft = width / 2 - defaultSelectedDistance;
-        selectedRight = width / 2 + defaultSelectedDistance;
         setMeasuredDimension(width, height);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        //一格120s
-        int unitSeconds = 360;
+        //每一格时间
+        unitSeconds = currentMultiple * 60;
         //左侧第一格时间
         int leftRemainTimeStamp = (int) currentMidTimeStamp
                 % unitSeconds;
@@ -199,10 +203,9 @@ public class ReplayTimeAxisView extends View {
         long lastTimeStamp = (long) (currentTimeStamp + (width - currentOffset)
                 * unitSeconds / (spacing + strokeWidth));
 
-        //画最上最下两条线
-//        linePaint.setColor(lineColor);
-//        canvas.drawLine(0, 0, width, 0, linePaint);
-//        canvas.drawLine(0, height, width, height, linePaint);
+        //画阴影
+        shadowPaint.setShader(new LinearGradient(0, dateHeight, 0, dateHeight + shortScale, getResources().getColor(R.color.gray_first_translate), getResources().getColor(R.color.white), Shader.TileMode.CLAMP));
+        canvas.drawRect(0, dateHeight, width, dateHeight + timelineHeight, shadowPaint);
         //画有回看部分
         recordRectPaint.setColor(recordRectColor);
         if (recordList.size() > 0) {
@@ -236,47 +239,76 @@ public class ReplayTimeAxisView extends View {
             calendar.setTimeInMillis(currentTimeStamp * 1000);
             int hours = calendar.get(Calendar.HOUR_OF_DAY);
             int mines = calendar.get(Calendar.MINUTE);
-            int allMinsBy24Hours = (hours * 60 + mines) / 2;
-            int remainderBy6 = allMinsBy24Hours % 6;
-            int remainderBy5 = allMinsBy24Hours % 5;
-            if (remainderBy6 == 0 && remainderBy5 == 0) {
-                canvas.drawLine(currentOffset, dateHeight, currentOffset,
-                        dateHeight + midScale,
-                        linePaint);
-                String text = "" + (hours < 10 ? "0" + hours : hours) + ":"
-                        + (mines < 10 ? "0" + mines : mines);
-                Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt();
-                int baseline = (height - dateHeight - timelineHeight - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top + dateHeight + timelineHeight;
-                canvas.drawText(text, currentOffset, baseline, textPaint);
-            } else if (remainderBy6 != 0 && remainderBy5 == 0) {
-                canvas.drawLine(currentOffset, dateHeight, currentOffset,
-                        dateHeight + longScale, linePaint);
-//                canvas.drawLine(currentOffset, height
-//                        - longScale, currentOffset, height, linePaint);
-                String text = "" + (hours < 10 ? "0" + hours : hours) + ":"
-                        + (mines < 10 ? "0" + mines : mines);
-                Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt();
-                int baseline = (height - dateHeight - timelineHeight - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top + dateHeight + timelineHeight;
-                canvas.drawText(text, currentOffset, baseline, textPaint);
-            } else {
-                canvas.drawLine(currentOffset, dateHeight, currentOffset,
-                        dateHeight + shortScale,
-                        linePaint);
-//                canvas.drawLine(currentOffset, height - shortScale,
-//                        currentOffset, height, linePaint);
+            int remainderBy6 = mines % 6;
+            int remainderBy5 = mines % 5;
+            int remainderBy2 = mines % 2;
+            if (currentMultiple == 4 || currentMultiple == 6) {
+                if (remainderBy6 == 0 && remainderBy5 == 0) {
+                    canvas.drawLine(currentOffset, dateHeight, currentOffset,
+                            dateHeight + midScale,
+                            linePaint);
+                    String text = "" + (hours < 10 ? "0" + hours : hours) + ":"
+                            + (mines < 10 ? "0" + mines : mines);
+                    Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt();
+                    int baseline = (height - dateHeight - timelineHeight - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top + dateHeight + timelineHeight;
+                    canvas.drawText(text, currentOffset, baseline, textPaint);
+                } else if (remainderBy6 != 0 && remainderBy5 == 0) {
+                    canvas.drawLine(currentOffset, dateHeight, currentOffset,
+                            dateHeight + longScale, linePaint);
+                    String text = "" + (hours < 10 ? "0" + hours : hours) + ":"
+                            + (mines < 10 ? "0" + mines : mines);
+                    Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt();
+                    int baseline = (height - dateHeight - timelineHeight - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top + dateHeight + timelineHeight;
+                    canvas.drawText(text, currentOffset, baseline, textPaint);
+                } else {
+                    canvas.drawLine(currentOffset, dateHeight, currentOffset,
+                            dateHeight + shortScale,
+                            linePaint);
+                }
+            } else if (currentMultiple == 3 || currentMultiple == 1) {
+                if (remainderBy2 == 0 && remainderBy5 == 0) {
+                    canvas.drawLine(currentOffset, dateHeight, currentOffset,
+                            dateHeight + midScale,
+                            linePaint);
+                    String text = "" + (hours < 10 ? "0" + hours : hours) + ":"
+                            + (mines < 10 ? "0" + mines : mines);
+                    Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt();
+                    int baseline = (height - dateHeight - timelineHeight - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top + dateHeight + timelineHeight;
+                    canvas.drawText(text, currentOffset, baseline, textPaint);
+                } else if (remainderBy2 != 0 && remainderBy5 == 0) {
+                    canvas.drawLine(currentOffset, dateHeight, currentOffset,
+                            dateHeight + longScale, linePaint);
+                    String text = "" + (hours < 10 ? "0" + hours : hours) + ":"
+                            + (mines < 10 ? "0" + mines : mines);
+                    Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt();
+                    int baseline = (height - dateHeight - timelineHeight - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top + dateHeight + timelineHeight;
+                    canvas.drawText(text, currentOffset, baseline, textPaint);
+                } else {
+                    canvas.drawLine(currentOffset, dateHeight, currentOffset,
+                            dateHeight + shortScale,
+                            linePaint);
+                }
             }
+
 
             currentTimeStamp += unitSeconds;
             currentOffset += (spacing + strokeWidth);
         }
+        //画日期
+        Paint.FontMetricsInt fontMetrics = textPaint.getFontMetricsInt();
+        int baseline = (dateHeight - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
+        canvas.drawText(getMidDateText(), width / 2, baseline, textPaint);
+
         if (currentMode == Mode.DownLoad) {
             //画边线
             linePaint.setColor(midLineColor);
-            canvas.drawLine(selectedLeft, dateHeight, selectedLeft, dateHeight + timelineHeight, linePaint);
-            canvas.drawLine(selectedRight, dateHeight, selectedRight, dateHeight + timelineHeight, linePaint);
+            canvas.drawLine(getCurrentXofTime(startTime), dateHeight, getCurrentXofTime(startTime), dateHeight + timelineHeight, linePaint);
+            canvas.drawCircle(getCurrentXofTime(startTime), dateHeight, circleRadius, linePaint);
+            canvas.drawLine(getCurrentXofTime(endTime), dateHeight, getCurrentXofTime(endTime), dateHeight + timelineHeight, linePaint);
+            canvas.drawCircle(getCurrentXofTime(endTime), dateHeight, circleRadius, linePaint);
             //画选择框
             recordRectPaint.setColor(selectedRectColor);
-            selectedRect.set(selectedLeft, dateHeight, selectedRight, dateHeight + timelineHeight);
+            selectedRect.set(getCurrentXofTime(startTime), dateHeight, getCurrentXofTime(endTime), dateHeight + timelineHeight);
             canvas.drawRect(selectedRect, recordRectPaint);
         } else {
             //画中线
@@ -296,75 +328,132 @@ public class ReplayTimeAxisView extends View {
         }
     }
 
+    private float mLastX;
+    int state = 0;//防止手指移动反复更新 只在手指按下和滑动时 启动
+    int mode = 0;//0:单指滑动  1：双指缩放
+    long downTime = 0;//用于判定是否双指
+    private float startDistance;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float eventX = event.getX();
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
+                downTime = System.currentTimeMillis();
                 mLastX = eventX;
+                mode = 0;
+                state = 1;
                 isSelectedLeft = false;
                 isSelectedRight = false;
-                if (Math.abs(eventX - selectedLeft) < 25) {
+                if (Math.abs(eventX - getCurrentXofTime(startTime)) < circleRadius * 2) {
                     isSelectedLeft = true;
-                } else if (Math.abs(eventX - selectedRight) < 25) {
+                } else if (Math.abs(eventX - getCurrentXofTime(endTime)) < circleRadius * 2) {
                     isSelectedRight = true;
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if (isSlide) {
-                    isSlide = false;
-                    if (null != listener) {
-                        if (currentMode == Mode.DownLoad) {
-                            if (selectedLeft > width / 2) {
-                                startTime = currentMidTimeStamp + (int) (120 * ((selectedLeft - width / 2) / (spacing + strokeWidth)));
-                                endTime = currentMidTimeStamp + (int) (120 * ((selectedRight - width / 2) / (spacing + strokeWidth)));
-                            } else if (selectedRight < width / 2) {
-                                startTime = currentMidTimeStamp - (int) (120 * ((width / 2 - selectedLeft) / (spacing + strokeWidth)));
-                                endTime = currentMidTimeStamp - (int) (120 * ((width / 2 - selectedRight) / (spacing + strokeWidth)));
-                            } else {
-                                startTime = currentMidTimeStamp - (int) (120 * ((width / 2 - selectedLeft) / (spacing + strokeWidth)));
-                                endTime = currentMidTimeStamp + (int) (120 * ((selectedRight - width / 2) / (spacing + strokeWidth)));
-                            }
-                            listener.onSelected(getStartTime(), getEndTime());
-                        } else {
-                            listener.onSlide(getMidTimeStamp());
-                        }
+            case MotionEvent.ACTION_POINTER_UP:
+                if (mode == 0)// 是一个手指拖动
+                {
+                    if (state == 1) {
+                        if (isSlide) {
+                            isSlide = false;
+                            if (null != listener) {
+                                if (currentMode == Mode.DownLoad) {
+                                    if (isSelectedLeft || isSelectedRight) {
+                                        listener.onSelected(getStartTime(), getEndTime());
+                                    }
+                                } else {
+                                    listener.onSlide(getMidTimeStamp());
+                                }
 
+                            }
+                        }
                     }
+                } else if (mode == 1) {
+                    float endDistance = distance(event);
+                    if (endDistance - startDistance > 50) {
+                        ToastUtil.single("放大");
+                        if (currentMultiple == 1) {
+
+                        } else if (currentMultiple == 3) {
+                            currentMultiple = scaleMultiple[0];
+                        } else if (currentMultiple == 4) {
+                            currentMultiple = scaleMultiple[1];
+                        } else if (currentMultiple == 6) {
+                            currentMultiple = scaleMultiple[2];
+                        }
+                    } else if (startDistance - endDistance > 50) {
+                        ToastUtil.single("缩小");
+                        if (currentMultiple == 1) {
+                            currentMultiple = scaleMultiple[1];
+                        } else if (currentMultiple == 3) {
+                            currentMultiple = scaleMultiple[2];
+                        } else if (currentMultiple == 4) {
+                            currentMultiple = scaleMultiple[3];
+                        } else if (currentMultiple == 6) {
+
+                        }
+                    }
+                    invalidate();
                 }
+                mode = 0;
+                state = 0;
+
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (event.getPointerCount() == 1) {
-                    float dx = eventX - mLastX;
-                    if (!isSlide) {
-                        isSlide = isSlide(dx);
-                    }
-                    if (isSlide) {
-                        if (currentMode == Mode.DownLoad) {
-                            if (isSelectedLeft) {
-                                selectedLeft = (selectedRight - (selectedLeft + dx)) <= defaultSelectedDistance ? selectedLeft : (selectedLeft + dx);
-                            } else if (isSelectedRight) {
-                                selectedRight = ((selectedRight + dx) - selectedLeft) <= defaultSelectedDistance ? selectedRight : (selectedRight + dx);
-                            }
-                            mLastX = eventX;
-                            invalidate();
-                        } else {
-                            //滑动距离对应时长
-                            int timeStampOffset = (int) (120 * ((dx) / (spacing + strokeWidth)));
-                            currentMidTimeStamp = currentMidTimeStamp
-                                    - currentMidTimeStamp % 60;
-
-                            long tempTimeStamp = (long) (60 * Math
-                                    .round(timeStampOffset
-                                            / (float) 60));
-                            tempTimeStamp = currentMidTimeStamp - tempTimeStamp;
-                            if (tempTimeStamp != currentMidTimeStamp) {
-                                currentMidTimeStamp = tempTimeStamp;
-                                WLog.d("replayTest", "eventX:" + eventX + "  mLastX:" + mLastX);
-                                invalidate();
-                                mLastX = eventX;
+                if (mode == 0)// 是一个手指拖动
+                {
+                    if (state == 1) {
+                        float dx = eventX - mLastX;
+                        if (!isSlide) {
+                            isSlide = isSlide(dx);
+                        }
+                        if (isSlide) {
+                            if (currentMode == Mode.DownLoad) {
+                                if (isSelectedLeft) {
+                                    startTime = (endTime - startTime - (int) (dx * unitSeconds / (spacing + strokeWidth))) < defaultSelectedTimeHalf ?
+                                            startTime : (startTime + (int) (dx * unitSeconds / (spacing + strokeWidth)));
+                                    mLastX = eventX;
+                                    invalidate();
+                                } else if (isSelectedRight) {
+                                    endTime = (endTime - startTime + (int) (dx * unitSeconds / (spacing + strokeWidth))) < defaultSelectedTimeHalf ?
+                                            endTime : (endTime + (int) (dx * unitSeconds / (spacing + strokeWidth)));
+                                    mLastX = eventX;
+                                    invalidate();
+                                } else {
+                                    //滑动距离对应时长
+                                    long timeStampOffset = (long) (unitSeconds * ((dx) / (spacing + strokeWidth)));
+                                    timeStampOffset = (currentMidTimeStamp - timeStampOffset);
+                                    if (timeStampOffset != currentMidTimeStamp) {
+                                        currentMidTimeStamp = timeStampOffset;
+                                        invalidate();
+                                        mLastX = eventX;
+                                    }
+                                }
+                            } else {
+                                //滑动距离对应时长
+                                long timeStampOffset = (long) (unitSeconds * ((dx) / (spacing + strokeWidth)));
+                                timeStampOffset = (currentMidTimeStamp - timeStampOffset);
+                                if (timeStampOffset != currentMidTimeStamp) {
+                                    currentMidTimeStamp = timeStampOffset;
+                                    invalidate();
+                                    mLastX = eventX;
+                                }
                             }
                         }
+                    }
+                } else if (mode == 1) // 两个手指滑动
+                {
+
+                }
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN: // 第二个手指按下事件
+                if (currentMode != Mode.DownLoad) {
+                    long minus = System.currentTimeMillis() - downTime;
+                    if (minus < 50) {
+                        mode = 1;
+                        startDistance = distance(event);
                     }
                 }
                 break;
@@ -372,6 +461,14 @@ public class ReplayTimeAxisView extends View {
                 break;
         }
         return true;
+    }
+
+    // 计算两个触摸点之间的距离
+    private float distance(MotionEvent event) {
+        float dx = event.getX(1) - event.getX(0);
+        float dy = event.getY(1) - event.getY(0);
+
+        return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
     /**
@@ -404,8 +501,10 @@ public class ReplayTimeAxisView extends View {
      * 设置中线时间
      */
     public void setMidTimeStamp(long time) {
-        currentMidTimeStamp = (long) (60 * Math.round(time / 1000 / (float) 60));
-        invalidate();
+        if (!isSlide) {
+            currentMidTimeStamp = (int) (time / 1000);
+            invalidate();
+        }
     }
 
     /**
@@ -448,11 +547,9 @@ public class ReplayTimeAxisView extends View {
      */
     public void setCurrentMode(Mode currentMode) {
         this.currentMode = currentMode;
-        selectedLeft = width / 2 - defaultSelectedDistance;
-        selectedRight = width / 2 + defaultSelectedDistance;
         if (currentMode == Mode.DownLoad) {
-            startTime = currentMidTimeStamp - (int) (120 * ((width / 2 - selectedLeft) / (spacing + strokeWidth)));
-            endTime = currentMidTimeStamp + (int) (120 * ((selectedRight - width / 2) / (spacing + strokeWidth)));
+            startTime = currentMidTimeStamp - defaultSelectedTimeHalf;
+            endTime = currentMidTimeStamp + defaultSelectedTimeHalf;
             listener.onSelected(getStartTime(), getEndTime());
         }
         invalidate();
@@ -464,5 +561,27 @@ public class ReplayTimeAxisView extends View {
 
     public long getEndTime() {
         return endTime * 1000;
+    }
+
+    /**
+     * 获取当前坐标对应时间
+     */
+    private float getCurrentXofTime(long time) {
+        return width / 2 - (currentMidTimeStamp - time) * (spacing + strokeWidth) / unitSeconds;
+    }
+
+    /**
+     * 获取顶部日期文字
+     */
+    private String getMidDateText() {
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        calendar.setTimeInMillis(currentMidTimeStamp * 1000);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        String dayString = String.valueOf(day);
+        if (day < 10) {
+            dayString = "0" + day;
+        }
+        return dates[month] + "." + dayString;
     }
 }

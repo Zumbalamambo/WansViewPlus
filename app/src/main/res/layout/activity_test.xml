@@ -8,80 +8,16 @@
     android:orientation="vertical"
     tools:context=".main.test.TestActivity">
 
-    <EditText
-        android:id="@+id/et_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/button_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/shape_signin_button"
-        android:text="getB2UploadInfo"
-        android:textAllCaps="false"
-        android:textColor="@color/white" />
-
-    <Button
-        android:id="@+id/button_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/shape_signin_button"
-        android:text="uploadNotify"
-        android:textAllCaps="false"
-        android:textColor="@color/white" />
-
-    <Button
-        android:id="@+id/button_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/shape_signin_button"
-        android:text="unbind_all"
-        android:textAllCaps="false"
-        android:textColor="@color/white" />
-
-    <Button
-        android:id="@+id/delete_angle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/shape_signin_button"
-        android:text="delete_angle"
-        android:textAllCaps="false"
-        android:textColor="@color/white" />
-
-    <Button
-        android:id="@+id/turn_to_angle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/shape_signin_button"
-        android:text="turn_to_angle"
-        android:textAllCaps="false"
-        android:textColor="@color/white" />
-
-    <Button
-        android:id="@+id/group_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/shape_signin_button"
-        android:text="group_list"
-        android:textAllCaps="false"
-        android:textColor="@color/white" />
-
     <net.ajcloud.wansviewplus.support.customview.ReplayTimeAxisView
         android:id="@+id/aaaaa"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="136dp"
+        android:layout_marginTop="20dp"
+        app:circleRadius="6dp"
         app:lineColor="@color/gray_line"
         app:longScale="32dp"
-        app:midScale="40dp"
         app:midLineColor="@color/colorPrimary"
+        app:midScale="40dp"
         app:recordRectColor="#332979FF"
         app:selectedRectColor="#512979FF"
         app:shortScale="16dp"
@@ -89,11 +25,98 @@
         app:textColor="@color/gray_first"
         app:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/tv_test"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:gravity="start"
-        android:textSize="18sp" />
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/button_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_signin_button"
+                android:text="getB2UploadInfo"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/button_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_signin_button"
+                android:text="uploadNotify"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/button_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_signin_button"
+                android:text="unbind_all"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/delete_angle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_signin_button"
+                android:text="delete_angle"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/turn_to_angle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_signin_button"
+                android:text="turn_to_angle"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/group_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_signin_button"
+                android:text="group_list"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lav"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:lottie_fileName="sound_wave.json"
+                app:lottie_imageAssetsFolder="images/" />
+
+            <TextView
+                android:id="@+id/tv_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="start"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+    </ScrollView>
+
+
 </LinearLayout>

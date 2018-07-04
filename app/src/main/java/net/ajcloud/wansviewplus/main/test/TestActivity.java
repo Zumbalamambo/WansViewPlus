@@ -1,10 +1,17 @@
 package net.ajcloud.wansviewplus.main.test;
 
+import android.os.CountDownTimer;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.airbnb.lottie.LottieAnimationView;
+import com.hdl.m3u8.M3U8DownloadTask;
+import com.hdl.m3u8.bean.OnDownloadListener;
+import com.hdl.m3u8.utils.NetSpeedUtils;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
@@ -17,18 +24,22 @@ import net.ajcloud.wansviewplus.support.core.bean.LiveSrcBean;
 import net.ajcloud.wansviewplus.support.core.bean.ViewAnglesBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.customview.ReplayTimeAxisView;
+import net.ajcloud.wansviewplus.support.tools.WLog;
 import net.ajcloud.wansviewplus.support.utils.FileUtil;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class TestActivity extends BaseActivity {
 
+    long time;
     private ReplayTimeAxisView replayTimeAxisView;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -46,15 +57,17 @@ public class TestActivity extends BaseActivity {
     protected void initView() {
         getToolbar().setTittle("Test");
         getToolbar().setLeftImg(R.mipmap.ic_back);
+        time = System.currentTimeMillis();
         replayTimeAxisView = findViewById(R.id.aaaaa);
-        replayTimeAxisView.setMidTimeStamp(System.currentTimeMillis());
-
+        //设置中间时间点
+        replayTimeAxisView.setMidTimeStamp(time);
+        //有回看的时间片
         List<Pair<Long, Long>> list = new ArrayList<>();
-        Pair<Long, Long> time1 = new Pair<>(System.currentTimeMillis()/1000 - 7000, System.currentTimeMillis()/1000 - 5000);
-        Pair<Long, Long> time2 = new Pair<>(System.currentTimeMillis()/1000 - 4000, System.currentTimeMillis() /1000- 1500);
-        Pair<Long, Long> time3 = new Pair<>(System.currentTimeMillis()/1000 - 1000, System.currentTimeMillis() /1000+ 1000);
-        Pair<Long, Long> time4 = new Pair<>(System.currentTimeMillis()/1000 + 1500, System.currentTimeMillis()/1000+ 4000);
-        Pair<Long, Long> time5 = new Pair<>(System.currentTimeMillis() /1000+ 5000, System.currentTimeMillis()/1000 + 7000);
+        Pair<Long, Long> time1 = new Pair<>(System.currentTimeMillis() / 1000 - 7000, System.currentTimeMillis() / 1000 - 5000);
+        Pair<Long, Long> time2 = new Pair<>(System.currentTimeMillis() / 1000 - 4000, System.currentTimeMillis() / 1000 - 1500);
+        Pair<Long, Long> time3 = new Pair<>(System.currentTimeMillis() / 1000 - 1000, System.currentTimeMillis() / 1000 + 1000);
+        Pair<Long, Long> time4 = new Pair<>(System.currentTimeMillis() / 1000 + 1500, System.currentTimeMillis() / 1000 + 4000);
+        Pair<Long, Long> time5 = new Pair<>(System.currentTimeMillis() / 1000 + 5000, System.currentTimeMillis() / 1000 + 7000);
         list.add(time1);
         list.add(time2);
         list.add(time3);
@@ -72,6 +85,26 @@ public class TestActivity extends BaseActivity {
                 ToastUtil.single(sDateFormat.format(startTime) + "\n" + sDateFormat.format(endTime));
             }
         });
+        timeCount = new TimeCount(12 * 60 * 1000, 200);
+//        timeCount.start();
+
+        LottieAnimationView animationView = findViewById(R.id.lav);
+        animationView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!animationView.isAnimating())
+                    animationView.playAnimation();
+
+                List<String> warnings = animationView.getComposition().getWarnings();
+                if (warnings != null) {
+                    for (String warn : warnings
+                            ) {
+                        WLog.w(TAG, warn);
+                    }
+                }
+            }
+        });
+
     }
 
     @Override
@@ -85,12 +118,12 @@ public class TestActivity extends BaseActivity {
                 new DeviceApiUnit(TestActivity.this).doSnapshot(camera.getGatewayUrl(), camera.deviceId, new OkgoCommonListener<String>() {
                     @Override
                     public void onSuccess(String bean) {
-
+                        etTest.setText(bean);
                     }
 
                     @Override
                     public void onFail(int code, String msg) {
-
+                        etTest.setText(msg);
                     }
                 });
             }
@@ -185,9 +218,9 @@ public class TestActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                Camera camera = MainApplication.getApplication().getDeviceCache().get("K03868EIVDXGXYBB");
+                Camera camera = MainApplication.getApplication().getDeviceCache().get("K03868KVLJNASXNC");
 
-                new DeviceApiUnit(TestActivity.this).getGroupList("K03868EIVDXGXYBB", System.currentTimeMillis() - 2000000, System.currentTimeMillis() + 2000000, new OkgoCommonListener<GroupListBean>() {
+                new DeviceApiUnit(TestActivity.this).getGroupList("K03868KVLJNASXNC", getTimesmorning(), getTimesnight(), new OkgoCommonListener<GroupListBean>() {
                     @Override
                     public void onSuccess(GroupListBean bean) {
 
@@ -202,6 +235,60 @@ public class TestActivity extends BaseActivity {
         });
     }
 
+    //上一秒的大小
+    private long lastLength = 0;
+    M3U8DownloadTask task1 = new M3U8DownloadTask("1001");
+
+    private void testM3u8(String url) {
+        task1.setSaveFilePath(MainApplication.fileIO.getCacheDir() + "oid" + File.separator + System.currentTimeMillis() + ".ts");
+        task1.download(url, new OnDownloadListener() {
+            @Override
+            public void onDownloading(final long itemFileSize, final int totalTs, final int curTs) {
+                Log.e("=====", task1.getTaskId() + "下载中.....itemFileSize=" + itemFileSize + "\ttotalTs=" + totalTs + "\tcurTs=" + curTs);
+            }
+
+            /**
+             * 下载成功
+             */
+            @Override
+            public void onSuccess() {
+                Log.e("=====", task1.getTaskId() + "下载完成了");
+            }
+
+            /**
+             * 当前的进度回调
+             *
+             * @param curLenght
+             */
+            @Override
+            public void onProgress(final long curLenght) {
+                if (curLenght - lastLength > 0) {
+                    final String speed = NetSpeedUtils.getInstance().displayFileSize(curLenght - lastLength) + "/s";
+                    Log.e("=====", task1.getTaskId() + "speed = " + speed);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.e("=====", "更新了");
+                            // tvSpeed1.setText(speed);
+                            //ELog.e(tvSpeed1.getText().toString());
+                        }
+                    });
+                    lastLength = curLenght;
+
+                }
+            }
+
+            @Override
+            public void onStart() {
+                Log.e("=====", task1.getTaskId() + "开始下载了");
+            }
+
+            @Override
+            public void onError(Throwable errorMsg) {
+                Log.e("=====", task1.getTaskId() + "出错了" + errorMsg);
+            }
+        });
+    }
 
     private JSONObject getReqBody(JSONObject data, String deviceId) {
         try {
@@ -224,5 +311,45 @@ public class TestActivity extends BaseActivity {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private TimeCount timeCount;
+
+    class TimeCount extends CountDownTimer {
+
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            time = time + 1000;
+            replayTimeAxisView.setMidTimeStamp(time);
+        }
+
+        @Override
+        public void onFinish() {
+
+        }
+    }
+
+    //获得当天0点时间
+    public static long getTimesmorning() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTimeInMillis();
+    }
+
+    //获得当天24点时间
+    public static long getTimesnight() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 24);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTimeInMillis();
     }
 }

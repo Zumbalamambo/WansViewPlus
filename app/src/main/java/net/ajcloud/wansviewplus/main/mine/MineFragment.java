@@ -80,7 +80,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         countTextView = view.findViewById(R.id.tv_count);
         videoLayout = view.findViewById(R.id.ll_video);
         photoLayout = view.findViewById(R.id.ll_photo);
-        storageLayout = view.findViewById(R.id.rl_cloud_storage);
+        storageLayout = view.findViewById(R.id.rl_message);
         securityLayout = view.findViewById(R.id.rl_security);
         versionLayout = view.findViewById(R.id.rl_version);
         versionTextView = view.findViewById(R.id.tv_version_name);
@@ -143,7 +143,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.ll_photo:
                 break;
-            case R.id.rl_cloud_storage:
+            case R.id.rl_message:
                 break;
             case R.id.rl_security:
                 startActivity(new Intent(getActivity(), SecurityActivity.class));

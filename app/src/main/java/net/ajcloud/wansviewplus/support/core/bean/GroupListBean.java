@@ -43,5 +43,12 @@ public class GroupListBean {
          * 用户展示超期时间
          */
         public String expireViewAt;
+
+        public String keepDays;
+        public String _id;
+        public String did;
+        public String aclid;
+        public String groupId;
+        public String __v;
     }
 }

@@ -16,7 +16,7 @@
     <color name="gray_line">#CFD8DC</color>
     <color name="gesture_error_inner_red">#FF5252</color>
     <color name="gesture_error_outer_red">#28FFE3E3</color>
-
+    <color name="gray_first_translate">#14263238</color>
 
     <color name="wv_direction_paint1">#00aaee</color>
     <color name="wv_direction_paint2">#76000000</color>

@@ -119,31 +119,31 @@
         android:background="@color/gray_line" />
 
     <RelativeLayout
-        android:id="@+id/rl_cloud_storage"
+        android:id="@+id/rl_message"
         android:layout_width="match_parent"
         android:layout_height="@dimen/me_item_height"
         android:background="@drawable/bg_ripper_effect">
 
         <ImageView
-            android:id="@+id/iv_cloud_storage"
+            android:id="@+id/iv_message"
             android:layout_width="@dimen/me_image_size"
             android:layout_height="@dimen/me_image_size"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/me_margin_first"
-            android:src="@mipmap/ic_cloudstorage" />
+            android:src="@mipmap/ic_message" />
 
         <TextView
-            android:id="@+id/tv_cloud_storage"
+            android:id="@+id/tv_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/me_margin_third"
-            android:layout_toEndOf="@id/iv_cloud_storage"
+            android:layout_toEndOf="@id/iv_message"
             android:ellipsize="end"
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Cloud storage"
+            android:text="System message"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 

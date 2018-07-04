@@ -1268,14 +1268,14 @@ public class DeviceApiUnit {
 
         JSONObject dataJson = new JSONObject();
         try {
-            dataJson.put("acessKey", camera.getAccessPriKey());
+            dataJson.put("accessKey", camera.accessKey);
             dataJson.put("tzValue", camera.timeConfig.tzValue);
             dataJson.put("dayStartTs", dayStartTs);
             dataJson.put("dayEndTs", dayEndTs);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        OkGo.<ResponseBean<GroupListBean>>post(camera.getGatewayUrl() + ApiConstant.URL_DEVICE_GROUP_LIST)
+        OkGo.<ResponseBean<GroupListBean>>post(camera.getCloudStorUrl() + ApiConstant.URL_DEVICE_GROUP_LIST)
                 .tag(this)
                 .upJson(getReqBody(dataJson, deviceId))
                 .execute(new JsonCallback<ResponseBean<GroupListBean>>() {

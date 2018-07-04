@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.smarteye.SEAT_API;
 
 import net.ajcloud.wansviewplus.R;
@@ -20,7 +22,7 @@ import java.util.List;
 
 public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMsgConfig {
 
-    private Button sendButton;
+    private LottieAnimationView sendView;
     private Button nextButton;
     private TextView errorTextView;
     private CommonDialog noSoundDialog;
@@ -54,7 +56,7 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
     protected void initView() {
         getToolbar().setTittle("Connect to network");
         getToolbar().setLeftImg(R.mipmap.ic_back);
-        sendButton = findViewById(R.id.btn_send);
+        sendView = findViewById(R.id.la_send);
         nextButton = findViewById(R.id.btn_next);
         errorTextView = findViewById(R.id.tv_error);
     }
@@ -79,7 +81,7 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
 
     @Override
     protected void initListener() {
-        sendButton.setOnClickListener(this);
+        sendView.setOnClickListener(this);
         nextButton.setOnClickListener(this);
         errorTextView.setOnClickListener(this);
     }
@@ -95,7 +97,14 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
     @Override
     public void onClickView(View v) {
         switch (v.getId()) {
-            case R.id.btn_send:
+            case R.id.la_send:
+                sendView.setBackgroundResource(0);
+                sendView.setAnimation("sound_wave.json");
+                sendView.setImageAssetsFolder("images/");
+                if (!sendView.isAnimating()) {
+                    sendView.playAnimation();
+                }
+
                 //configure Wi-Fi of the device by Smartlink technology
                 StringBuilder content = new StringBuilder();
                 content.append("s=");
@@ -109,23 +118,14 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
                 content.append("\n");
                 WLog.d(TAG, "voice] " + content.toString());
 
-                for (int i = 0; i < 2; i++) {
-                    seat_api.SEAT_Start(handleAudioT[0]);
-//                    int nMode = getCipherType(ssid);
-//                    int nWrite = seat_api.SEAT_WriteSSIDWiFi2(handleAudioT[0], 2, bytsWifi, bytsWifi.length,
-//                            bytsPwd, bytsPwd.length,
-//                            SEAT_API.WIFI_SECURITY_MODE_UNKNOWN, null, //WIFI_SECURITY_MODE_WPAPSK_TKIP, nMode value by getCipherType(MainActivity.this, strCurWiFiSSID);
-//                            null, 0);
-                    int nWrite = seat_api.SEAT_WriteByte(handleAudioT[0], content.toString().getBytes(), content.toString().getBytes().length);
-                    WLog.d(TAG, "voice]  SEAT_WriteSSIDWiFi2(.)=" + nWrite);
-                    seat_api.SEAT_Stop(handleAudioT[0]);
+                send(content.toString());
 
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        send(content.toString());
                     }
-                }
+                }, 2000);
                 break;
             case R.id.btn_next:
                 AddDeviceWifiWaitingActivity.startBind(AddDeviceSoundActivity.this);
@@ -136,6 +136,18 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
             default:
                 break;
         }
+    }
+
+    private void send(String content) {
+        seat_api.SEAT_Start(handleAudioT[0]);
+//                    int nMode = getCipherType(ssid);
+//                    int nWrite = seat_api.SEAT_WriteSSIDWiFi2(handleAudioT[0], 2, bytsWifi, bytsWifi.length,
+//                            bytsPwd, bytsPwd.length,
+//                            SEAT_API.WIFI_SECURITY_MODE_UNKNOWN, null, //WIFI_SECURITY_MODE_WPAPSK_TKIP, nMode value by getCipherType(MainActivity.this, strCurWiFiSSID);
+//                            null, 0);
+        int nWrite = seat_api.SEAT_WriteByte(handleAudioT[0], content.getBytes(), content.getBytes().length);
+        WLog.d(TAG, "voice]  SEAT_WriteSSIDWiFi2(.)=" + nWrite);
+        seat_api.SEAT_Stop(handleAudioT[0]);
     }
 
     private void showDialog() {
