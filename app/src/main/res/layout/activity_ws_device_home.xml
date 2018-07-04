@@ -1,39 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="false"
-    android:background="@color/blue"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false">
 
     <FrameLayout
         android:id="@+id/cameraFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
-            android:id="@+id/empty_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical">
 
-            <ProgressBar
-                android:layout_height="50dp"
-                android:layout_width="50dp"
-                style="@style/Wans_view_Progress_circle"
-                android:indeterminateDuration="700"
-                android:layout_gravity="center"/>
-
-            <TextView
-                android:id="@+id/empty_text"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/wv_view_refeshing"
-                android:textSize="18dp" />
-        </LinearLayout>
 
     </FrameLayout>
 </RelativeLayout>

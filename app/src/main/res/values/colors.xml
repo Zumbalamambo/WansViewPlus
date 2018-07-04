@@ -19,8 +19,8 @@
     <color name="gray_first_translate">#14263238</color>
 
     <color name="wv_direction_paint1">#00aaee</color>
-    <color name="wv_direction_paint2">#76000000</color>
-    <color name="wv_direction_inner_circle">#00ffff</color>
+    <color name="wv_direction_paint2">#ECEFF1</color>
+    <color name="wv_direction_inner_circle">#502979FF</color>
 
     <color name="wv_line_divider_normal">#ebebeb</color>
     <color name="wv_second_bg">#404040</color>

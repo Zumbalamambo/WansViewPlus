@@ -54,8 +54,8 @@ public class TestActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Test");
-        getToolbar().setLeftImg(R.mipmap.ic_back);
+                getToolbar().setTittle("Test");
+                getToolbar().setLeftImg(R.mipmap.ic_back);
         time = System.currentTimeMillis();
         replayTimeAxisView = findViewById(R.id.aaaaa);
         //设置中间时间点

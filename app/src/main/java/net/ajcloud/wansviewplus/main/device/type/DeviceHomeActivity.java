@@ -3,9 +3,14 @@ package net.ajcloud.wansviewplus.main.device.type;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
+import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.BaseFragment;
+import net.ajcloud.wansviewplus.main.device.setting.DeviceSettingActivity;
+import net.ajcloud.wansviewplus.support.core.device.Camera;
+import net.ajcloud.wansviewplus.support.core.device.DeviceInfoDictionary;
 
 public class DeviceHomeActivity extends BaseActivity {
     BaseFragment baseFragment;
@@ -30,25 +35,21 @@ public class DeviceHomeActivity extends BaseActivity {
 
     @Override
     protected boolean hasTittle() {
-        return false;
+        return true;
     }
 
     @Override
     protected void initView() {
         oid = getIntent().getStringExtra("oid");
         baseClass = (Class) getIntent().getSerializableExtra("class");
+
+        Camera camera = application.getDeviceCache().get(oid);
+        getToolbar().setTittle(DeviceInfoDictionary.getNameByDevice(camera));
+        getToolbar().setLeftImg(R.mipmap.ic_back);
+        getToolbar().setRightImg(R.mipmap.ic_setting);
+
         createBaseFragment();
         updataFragment(baseFragment);
-    }
-
-    @Override
-    protected void initData() {
-
-    }
-
-    @Override
-    protected void initListener() {
-
     }
 
     @Override
@@ -119,5 +120,14 @@ public class DeviceHomeActivity extends BaseActivity {
 
     public String getOid() {
         return oid;
+    }
+
+    @Override
+    public void onClickView(View v) {
+        switch (v.getId()) {
+            case R.id.img_right:
+                DeviceSettingActivity.start(DeviceHomeActivity.this, oid);
+                break;
+        }
     }
 }

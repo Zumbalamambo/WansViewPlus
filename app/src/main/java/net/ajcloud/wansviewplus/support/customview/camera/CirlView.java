@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import net.ajcloud.wansviewplus.R;
+
 public class CirlView extends View {
 
     private final static String TAG = CirlView.class.getSimpleName();
@@ -26,7 +28,7 @@ public class CirlView extends View {
 
     private void initPaint() {
         mTransparentPaint = new Paint();
-        mTransparentPaint.setColor(getResources().getColor(net.ajcloud.wansviewplus.R.color.steerview_inner_circle));
+        mTransparentPaint.setColor(getResources().getColor(R.color.white));
         mTransparentPaint.setStyle(Paint.Style.FILL);
         mTransparentPaint.setAntiAlias(true);
     }

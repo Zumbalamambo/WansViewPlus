@@ -48,9 +48,11 @@ public class AngleView implements View.OnClickListener {
     private boolean isEidt;
     private VirtualCamera virtualCamera;
     private DeviceApiUnit deviceApiUnit;
+    private View.OnClickListener addAngleListener;
 
-    public AngleView(final Context context, final String oid, final List<ViewAnglesBean.ViewAngle> list, View v1, View v2, VirtualCamera virtualCamera) {
+    public AngleView(final Context context, final String oid, final List<ViewAnglesBean.ViewAngle> list, View v1, View v2, VirtualCamera virtualCamera,View.OnClickListener addAngleListener) {
         this.context = context;
+        this.addAngleListener = addAngleListener;
         this.oid = oid;
         normalView = v1;
         deleteView = v2;
@@ -152,6 +154,7 @@ public class AngleView implements View.OnClickListener {
         myGridview = (GridView) view.findViewById(net.ajcloud.wansviewplus.R.id.angle_gridview);
         contentLayout = (LinearLayout) view.findViewById(net.ajcloud.wansviewplus.R.id.content_layout);
         emptyLayout = (LinearLayout) view.findViewById(net.ajcloud.wansviewplus.R.id.empty_layout);
+        view.findViewById(net.ajcloud.wansviewplus.R.id.add_angle).setOnClickListener(addAngleListener);
         editImg.setOnClickListener(this);
         cancelTv.setOnClickListener(this);
         selectAllTv.setOnClickListener(this);

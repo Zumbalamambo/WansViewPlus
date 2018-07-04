@@ -17,12 +17,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import net.ajcloud.wansviewplus.R;
+import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
+
 
 /**
  * Created by
  */
 public class CloudDirectionLayout extends FrameLayout {
-	private ViewDragHelper mDragger;
+    private Context context;
+    private ViewDragHelper mDragger;
     private View mAutoBackView;
     private Point mAutoBackOriginPos = new Point();
     private Dir lastCirlDir = Dir.CENTER;
@@ -46,6 +50,7 @@ public class CloudDirectionLayout extends FrameLayout {
 
     public CloudDirectionLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         this.setWillNotDraw(false);//必须 
         mDragger = ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback() {
             @Override
@@ -58,25 +63,25 @@ public class CloudDirectionLayout extends FrameLayout {
 
             @Override
             public int clampViewPositionHorizontal(View child, int left, int dx) {
-            	float cx = left + width / 6 - width/2;
-            	float cy = child.getTop() + width / 6 - width / 2;
-            	
-            	if (cx * cx + cy * cy > (width/3) * (width/3)) {
-            		return child.getLeft();
-            	} else {
-            		return left;
-            	}
+                float cx = left + width / 6 - width / 2;
+                float cy = child.getTop() + width / 6 - width / 2;
+
+                if (cx * cx + cy * cy > (width / 3) * (width / 3)) {
+                    return child.getLeft();
+                } else {
+                    return left;
+                }
             }
 
             @Override
             public int clampViewPositionVertical(View child, int top, int dy) {
-            	float cx = child.getLeft() + width / 6 - width/2;
-            	float cy = top + width / 6 - width / 2;
-            	if (cx * cx + cy * cy > (width/3) * (width/3)) {
-            		return child.getTop();
-            	} else {
-            		return top;
-            	}
+                float cx = child.getLeft() + width / 6 - width / 2;
+                float cy = top + width / 6 - width / 2;
+                if (cx * cx + cy * cy > (width / 3) * (width / 3)) {
+                    return child.getTop();
+                } else {
+                    return top;
+                }
             }
 
             /* 手指释放的时候回调 */
@@ -84,7 +89,7 @@ public class CloudDirectionLayout extends FrameLayout {
             public void onViewReleased(View releasedChild, float xvel, float yvel) {
                 //mAutoBackView手指释放时可以自动回去
                 if (releasedChild == mAutoBackView) {
-                	curCirlDir = Dir.CENTER;
+                    curCirlDir = Dir.CENTER;
                     mDragger.settleCapturedViewAt(mAutoBackOriginPos.x, mAutoBackOriginPos.y);
                     invalidate();
                 }
@@ -93,20 +98,20 @@ public class CloudDirectionLayout extends FrameLayout {
             //在边界拖动时回调
             @Override
             public void onEdgeDragStarted(int edgeFlags, int pointerId) {
-               // mDragger.captureChildView(mEdgeTrackerView, pointerId);
+                // mDragger.captureChildView(mEdgeTrackerView, pointerId);
             }
 
             @Override
             public int getViewHorizontalDragRange(View child) {
-            	return getMeasuredWidth() - child.getMeasuredWidth();
+                return getMeasuredWidth() - child.getMeasuredWidth();
             }
 
             @Override
             public int getViewVerticalDragRange(View child) {
-            	return getMeasuredHeight()-child.getMeasuredHeight();
+                return getMeasuredHeight() - child.getMeasuredHeight();
             }
         });
-        
+
         mDragger.setEdgeTrackingEnabled(ViewDragHelper.EDGE_LEFT);
         initPaint();
     }
@@ -174,15 +179,15 @@ public class CloudDirectionLayout extends FrameLayout {
                 break;
             case MotionEvent.ACTION_MOVE:
                 Dir tmpCirDir = CirlDeDirection();
-                if ( clickCirDir!= Dir.CENTER && clickCirDir != tmpCirDir) {
+                if (clickCirDir != Dir.CENTER && clickCirDir != tmpCirDir) {
                     break;
                 }
                 clickCirDir = Dir.CENTER;
                 curCirlDir = tmpCirDir;
-            	if (lastCirlDir != curCirlDir) {
-            		if (curCirlDir != Dir.CENTER){
-            			showSector = true;
-            			if (listener != null) {
+                if (lastCirlDir != curCirlDir) {
+                    if (curCirlDir != Dir.CENTER) {
+                        showSector = true;
+                        if (listener != null) {
                             Log.e("lastCirlDir" + curCirlDir, "onStop:" + lastCirlDir);
 
                             if (curCirlDir == Dir.Bottom) {
@@ -194,16 +199,16 @@ public class CloudDirectionLayout extends FrameLayout {
                             } else if (curCirlDir == Dir.Right) {
                                 listener.onRightTouch();
                             }
-            			}
-            		} else {
+                        }
+                    } else {
                         if (lastCirlDir != Dir.CENTER) {
                             listener.onStop();
                         }
-            			showSector = false; 
-            		}
+                        showSector = false;
+                    }
                     lastCirlDir = curCirlDir;
-            		invalidate();
-            	}
+                    invalidate();
+                }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
@@ -224,7 +229,7 @@ public class CloudDirectionLayout extends FrameLayout {
 
     @Override
     public void computeScroll() {
-        if(mDragger.continueSettling(true)) {
+        if (mDragger.continueSettling(true)) {
             invalidate();
         }
     }
@@ -255,10 +260,9 @@ public class CloudDirectionLayout extends FrameLayout {
         mGreenPaint.setAntiAlias(true);
 
         mTransparentPaint = new Paint();
-        mTransparentPaint.setColor(getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_inner_circle));
+        mTransparentPaint.setColor(getResources().getColor(R.color.white));
         mTransparentPaint.setStyle(Paint.Style.FILL);
         mTransparentPaint.setAntiAlias(true);
-        initBitmap();
     }
 
     public OnSteerListener getListener() {
@@ -270,10 +274,32 @@ public class CloudDirectionLayout extends FrameLayout {
     }
 
     private void initBitmap() {
-        top = BitmapFactory.decodeResource(getResources(), net.ajcloud.wansviewplus.R.mipmap.wv_direction_up);
-        bottom = BitmapFactory.decodeResource(getResources(), net.ajcloud.wansviewplus.R.mipmap.wv_direction_downs);
-        right = BitmapFactory.decodeResource(getResources(), net.ajcloud.wansviewplus.R.mipmap.wv_direction_right);
-        left = BitmapFactory.decodeResource(getResources(), net.ajcloud.wansviewplus.R.mipmap.wv_direction_left);
+        if (curCirlDir == Dir.Bottom) {
+            top = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_up_mid);
+            bottom = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_down_color);
+            right = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_right_mid);
+            left = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_left_mid);
+        } else if (curCirlDir == Dir.Left) {
+            top = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_up_mid);
+            bottom = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_down_mid);
+            right = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_right_mid);
+            left = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_left_color);
+        } else if (curCirlDir == Dir.Top) {
+            top = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_up_color);
+            bottom = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_down_mid);
+            right = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_right_mid);
+            left = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_left_mid);
+        } else if (curCirlDir == Dir.Right) {
+            top = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_up_mid);
+            bottom = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_down_mid);
+            right = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_right_color);
+            left = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_left_mid);
+        } else {
+            top = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_up_mid);
+            bottom = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_down_mid);
+            right = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_right_mid);
+            left = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_direction_left_mid);
+        }
     }
 
     @Override
@@ -291,72 +317,74 @@ public class CloudDirectionLayout extends FrameLayout {
         innerImageRadius = height / 3;
         outRadius = height / 2;
         innerRadius = height / 16 * 3;
-        Shader mShader = null ;
-        Paint p = new Paint();         
+        Shader mShader = null;
+        Paint p = new Paint();
         canvas.drawColor(Color.TRANSPARENT);
         if (showSector) {
-        	if (curCirlDir == Dir.Bottom){
-        		//if (listener != null) listener.onBottomTouch();
-        		mShader = new LinearGradient(0, 0, 0, height, 
-                        new int[] { getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2), getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2),
-                		getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_inner_circle)}, new float[]{0 , 0.5f, 1.0f}, Shader.TileMode.REPEAT);
-        	} else if (curCirlDir == Dir.Left) {
-        		//if (listener != null) listener.onLeftTouch();
-        		mShader = new LinearGradient(width, 0, 0, 0, 
-                        new int[] { getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2),getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2),
-                		getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_inner_circle)}, new float[]{0 , 0.5f, 1.0f}, Shader.TileMode.REPEAT);
-        	} else if (curCirlDir == Dir.Top) {
-        		//if (listener != null) listener.onTopTouch();
-        		mShader = new LinearGradient(0, height, 0, 0,
-                        new int[] { getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2), getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2),
-                		getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_inner_circle)}, new float[]{0 , 0.5f, 1.0f}, Shader.TileMode.REPEAT);
-        	} else if (curCirlDir == Dir.Right){
-        		//if (listener != null) listener.onRightTouch();
-        		mShader = new LinearGradient(0, 0, width, 0,  
-                        new int[] { getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2), getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2),
-                		getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_inner_circle)}, new float[]{0 , 0.5f, 1.0f}, Shader.TileMode.REPEAT);
-        	} else {
-        	}
-        	p.setShader(mShader);
-        	canvas.drawCircle(centerX, centerY, outImageRadius, p);
+            if (curCirlDir == Dir.Bottom) {
+                //if (listener != null) listener.onBottomTouch();
+                mShader = new LinearGradient(0, 0, 0, height,
+                        new int[]{getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2), getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2),
+                                getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_inner_circle)}, new float[]{0, 0.5f, 1.0f}, Shader.TileMode.REPEAT);
+            } else if (curCirlDir == Dir.Left) {
+                //if (listener != null) listener.onLeftTouch();
+                mShader = new LinearGradient(width, 0, 0, 0,
+                        new int[]{getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2), getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2),
+                                getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_inner_circle)}, new float[]{0, 0.5f, 1.0f}, Shader.TileMode.REPEAT);
+            } else if (curCirlDir == Dir.Top) {
+                //if (listener != null) listener.onTopTouch();
+                mShader = new LinearGradient(0, height, 0, 0,
+                        new int[]{getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2), getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2),
+                                getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_inner_circle)}, new float[]{0, 0.5f, 1.0f}, Shader.TileMode.REPEAT);
+            } else if (curCirlDir == Dir.Right) {
+                //if (listener != null) listener.onRightTouch();
+                mShader = new LinearGradient(0, 0, width, 0,
+                        new int[]{getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2), getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_paint2),
+                                getResources().getColor(net.ajcloud.wansviewplus.R.color.wv_direction_inner_circle)}, new float[]{0, 0.5f, 1.0f}, Shader.TileMode.REPEAT);
+            } else {
+            }
+            p.setShader(mShader);
+            canvas.drawCircle(centerX, centerY, outImageRadius, p);
         } else {
             mBlackPaint.setStrokeWidth(0);
             canvas.drawCircle(centerX, centerY, outImageRadius, mGreenPaint);
         }
+
+        initBitmap();
         canvas.drawBitmap(top,
                 null,
-                new Rect(centerX - top.getWidth() / 2,
-                        centerY - outImageRadius + (outImageRadius - innerImageRadius) / 2 - top.getHeight() / 2,
-                        centerX + top.getWidth() / 2,
-                        centerY - outImageRadius + (outImageRadius - innerImageRadius) / 2 + top.getHeight() / 2),
-                mBlackPaint );
-        
+                new Rect(centerX - DisplayUtil.dip2Pix(context, 12),
+                        centerY - outImageRadius + (outImageRadius - innerImageRadius) / 2 - DisplayUtil.dip2Pix(context, 12),
+                        centerX + DisplayUtil.dip2Pix(context, 12),
+                        centerY - outImageRadius + (outImageRadius - innerImageRadius) / 2 + DisplayUtil.dip2Pix(context, 12)),
+                mBlackPaint);
+
         canvas.drawBitmap(bottom,
                 null,
-                new Rect(centerX - bottom.getWidth() / 2,
-                        centerY + outImageRadius - (outImageRadius - innerImageRadius) / 2 - bottom.getHeight() / 2,
-                        centerX + bottom.getWidth() / 2,
-                        centerY + outImageRadius - (outImageRadius - innerImageRadius) / 2 + bottom.getHeight() / 2),
+                new Rect(centerX - DisplayUtil.dip2Pix(context, 12),
+                        centerY + outImageRadius - (outImageRadius - innerImageRadius) / 2 - DisplayUtil.dip2Pix(context, 12),
+                        centerX + DisplayUtil.dip2Pix(context, 12),
+                        centerY + outImageRadius - (outImageRadius - innerImageRadius) / 2 + DisplayUtil.dip2Pix(context, 12)),
                 mBlackPaint);
-        
+
         canvas.drawBitmap(left,
                 null,
-                new Rect(centerX - outImageRadius + (outImageRadius - innerImageRadius) / 2 - left.getWidth() / 2,
-                        centerY - left.getHeight() / 2,
-                        centerX - outImageRadius + (outImageRadius - innerImageRadius) / 2 + left.getWidth() / 2,
-                        centerY + left.getHeight() / 2),
+                new Rect(centerX - outImageRadius + (outImageRadius - innerImageRadius) / 2 - DisplayUtil.dip2Pix(context, 12),
+                        centerY - DisplayUtil.dip2Pix(context, 12),
+                        centerX - outImageRadius + (outImageRadius - innerImageRadius) / 2 + DisplayUtil.dip2Pix(context, 12),
+                        centerY + DisplayUtil.dip2Pix(context, 12)),
                 mBlackPaint);
-        
+
         canvas.drawBitmap(right,
                 null,
-                new Rect(centerX + outImageRadius - (outImageRadius - innerImageRadius) / 2 - right.getWidth() / 2,
-                        centerY - right.getHeight() / 2,
-                        centerX + outImageRadius - (outImageRadius - innerImageRadius) / 2 + right.getWidth() / 2,
-                        centerY + right.getHeight() / 2),
+                new Rect(centerX + outImageRadius - (outImageRadius - innerImageRadius) / 2 - DisplayUtil.dip2Pix(context, 12),
+                        centerY - DisplayUtil.dip2Pix(context, 12),
+                        centerX + outImageRadius - (outImageRadius - innerImageRadius) / 2 + DisplayUtil.dip2Pix(context, 12),
+                        centerY + DisplayUtil.dip2Pix(context, 12)),
                 mBlackPaint);
-        
+
         mTransparentPaint.setStrokeWidth(0);
-        //canvas.drawCircle(centerX, centerY, innerImageRadius, mTransparentPaint);
+//        canvas.drawCircle(centerX, centerY, innerImageRadius, mTransparentPaint);
     }
 
     /**
@@ -390,51 +418,50 @@ public class CloudDirectionLayout extends FrameLayout {
         }
         return -1;
     }
-    
+
     private Dir CirlDeDirection() {
-    	Point point = new Point();
-    	Rect rect = new Rect(mAutoBackView.getLeft(),mAutoBackView.getTop(),
-    			mAutoBackView.getRight(), mAutoBackView.getBottom());
-    	point.x = width * 7 / 8;
-    	point.y = width / 2;
-    	if (isInRect(rect, point)) {
-    		return Dir.Right;
-    	}
-    	
-    	point.x = width / 2;
-    	point.y = height / 8;
-    	if (isInRect(rect, point)) {
-    		return Dir.Top;
-    	}
-    	
-    	point.x = width / 8;
-    	point.y = height /  2;
-    	if (isInRect(rect, point)) {
-    		return Dir.Left;
-    	}
-    	
-    	point.x = width / 2;
-    	point.y = height * 7 / 8;
-    	if (isInRect(rect, point)) {
-    		return Dir.Bottom;
-    	}
-    	
-    	return Dir.CENTER;
+        Point point = new Point();
+        Rect rect = new Rect(mAutoBackView.getLeft(), mAutoBackView.getTop(),
+                mAutoBackView.getRight(), mAutoBackView.getBottom());
+        point.x = width * 7 / 8;
+        point.y = width / 2;
+        if (isInRect(rect, point)) {
+            return Dir.Right;
+        }
+
+        point.x = width / 2;
+        point.y = height / 8;
+        if (isInRect(rect, point)) {
+            return Dir.Top;
+        }
+
+        point.x = width / 8;
+        point.y = height / 2;
+        if (isInRect(rect, point)) {
+            return Dir.Left;
+        }
+
+        point.x = width / 2;
+        point.y = height * 7 / 8;
+        if (isInRect(rect, point)) {
+            return Dir.Bottom;
+        }
+
+        return Dir.CENTER;
     }
-    
+
     private boolean isInRect(Rect rect, Point point) {
         return point.x >= rect.left && point.x <= rect.right &&
                 point.y >= rect.top && point.y <= rect.bottom;
     }
-    
+
     /**
      * 关于方向的枚举
-     * 
+     *
      * @author Administrator
-     * 
      */
     public enum Dir {
-    	Left, Right, Top, Bottom, CENTER
+        Left, Right, Top, Bottom, CENTER
     }
 
     private boolean canDrag() {
@@ -456,7 +483,9 @@ public class CloudDirectionLayout extends FrameLayout {
         void onStop();
 
         void onTouchDown();
+
         void onTouchLeave();
+
         boolean canDrag();
     }
 }

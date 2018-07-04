@@ -22,12 +22,14 @@
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
+        android:visibility="gone"
         android:layout_marginTop="20dp"
         android:src="@drawable/add_angle_state" />
 
     <ImageView
         android:id="@+id/navigation"
         android:layout_width="30dp"
+        android:visibility="gone"
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/add_angle"

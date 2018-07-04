@@ -100,10 +100,10 @@
     <string name="wv_device_sleep">摄像机正在休眠</string>
     <string name="wv_go_help_center">去帮助中心看看~</string>
     <string name="wv_device_not_online">设备不在线</string>
-    <string name="wv_camera_ptz">云台</string>
-    <string name="wv_camera_dynamic">动态</string>
-    <string name="wv_camera_angle">视角</string>
-    <string name="wv_my_photo">相册</string>
+    <string name="wv_camera_ptz">Console</string>
+    <string name="wv_camera_dynamic">Motion</string>
+    <string name="wv_camera_angle">View</string>
+    <string name="wv_camera_replay">Replay</string>
     <string name="wv_high_middle_quality">高清</string>
     <string name="wv_move_trace_on">移动追踪已开启</string>
     <string name="wv_videoplayer_not_wifi_info">正在使用2G/3G/4G网络，播放已暂停</string>
