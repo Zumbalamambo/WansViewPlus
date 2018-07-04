@@ -2,7 +2,6 @@ package net.ajcloud.wansviewplus.main.test;
 
 import android.os.CountDownTimer;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.EditText;
@@ -87,24 +86,6 @@ public class TestActivity extends BaseActivity {
         });
         timeCount = new TimeCount(12 * 60 * 1000, 200);
 //        timeCount.start();
-
-        LottieAnimationView animationView = findViewById(R.id.lav);
-        animationView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!animationView.isAnimating())
-                    animationView.playAnimation();
-
-                List<String> warnings = animationView.getComposition().getWarnings();
-                if (warnings != null) {
-                    for (String warn : warnings
-                            ) {
-                        WLog.w(TAG, warn);
-                    }
-                }
-            }
-        });
-
     }
 
     @Override
@@ -223,7 +204,13 @@ public class TestActivity extends BaseActivity {
                 new DeviceApiUnit(TestActivity.this).getGroupList("K03868KVLJNASXNC", getTimesmorning(), getTimesnight(), new OkgoCommonListener<GroupListBean>() {
                     @Override
                     public void onSuccess(GroupListBean bean) {
-
+                        if (bean != null && bean.groups != null) {
+                            for (GroupListBean.GroupInfo info : bean.groups
+                                    ) {
+                                if (!TextUtils.isEmpty(info.m3u8Url))
+                                    testM3u8(info.m3u8Url);
+                            }
+                        }
                     }
 
                     @Override
@@ -244,7 +231,7 @@ public class TestActivity extends BaseActivity {
         task1.download(url, new OnDownloadListener() {
             @Override
             public void onDownloading(final long itemFileSize, final int totalTs, final int curTs) {
-                Log.e("=====", task1.getTaskId() + "下载中.....itemFileSize=" + itemFileSize + "\ttotalTs=" + totalTs + "\tcurTs=" + curTs);
+               WLog.e("=====", task1.getTaskId() + "下载中.....itemFileSize=" + itemFileSize + "\ttotalTs=" + totalTs + "\tcurTs=" + curTs);
             }
 
             /**
@@ -252,7 +239,7 @@ public class TestActivity extends BaseActivity {
              */
             @Override
             public void onSuccess() {
-                Log.e("=====", task1.getTaskId() + "下载完成了");
+                WLog.e("=====", task1.getTaskId() + "下载完成了");
             }
 
             /**
@@ -264,13 +251,13 @@ public class TestActivity extends BaseActivity {
             public void onProgress(final long curLenght) {
                 if (curLenght - lastLength > 0) {
                     final String speed = NetSpeedUtils.getInstance().displayFileSize(curLenght - lastLength) + "/s";
-                    Log.e("=====", task1.getTaskId() + "speed = " + speed);
+                    WLog.e("=====", task1.getTaskId() + "speed = " + speed);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.e("=====", "更新了");
+                            WLog.e("=====", "更新了");
                             // tvSpeed1.setText(speed);
-                            //ELog.e(tvSpeed1.getText().toString());
+                            //EWWlog.e(tvSpeed1.getText().toString());
                         }
                     });
                     lastLength = curLenght;
@@ -280,12 +267,12 @@ public class TestActivity extends BaseActivity {
 
             @Override
             public void onStart() {
-                Log.e("=====", task1.getTaskId() + "开始下载了");
+                WLog.e("=====", task1.getTaskId() + "开始下载了");
             }
 
             @Override
             public void onError(Throwable errorMsg) {
-                Log.e("=====", task1.getTaskId() + "出错了" + errorMsg);
+                WLog.e("=====", task1.getTaskId() + "出错了" + errorMsg);
             }
         });
     }

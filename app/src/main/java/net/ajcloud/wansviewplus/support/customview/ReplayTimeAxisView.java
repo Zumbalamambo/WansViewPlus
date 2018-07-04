@@ -42,8 +42,6 @@ public class ReplayTimeAxisView extends View {
     private int dateHeight;
     //时间轴高度
     private int timelineHeight;
-    //默认选择框宽度
-    private static final int defaultSelectedTimeHalf = 6 * 60;
     //当前中间刻度时间点
     private long currentMidTimeStamp;
     //画笔宽度
@@ -310,22 +308,22 @@ public class ReplayTimeAxisView extends View {
             recordRectPaint.setColor(selectedRectColor);
             selectedRect.set(getCurrentXofTime(startTime), dateHeight, getCurrentXofTime(endTime), dateHeight + timelineHeight);
             canvas.drawRect(selectedRect, recordRectPaint);
-        } else {
-            //画中线
-            linePaint.setColor(midLineColor);
-            canvas.drawLine(width / 2, dateHeight, width / 2, dateHeight + timelineHeight, linePaint);
-
-            float rectWidth = DisplayUtil.dip2Pix(context, 8);
-            float rectHeight = DisplayUtil.dip2Pix(context, 12);
-            //画中线箭头
-            canvas.drawRect(width / 2 - rectWidth / 2, dateHeight, width / 2 + rectWidth / 2, dateHeight + rectHeight * 2 / 3, linePaint);
-            Path path = new Path();
-            path.moveTo(width / 2 - rectWidth / 2, dateHeight + rectHeight * 2 / 3);// 此点为多边形的起点
-            path.lineTo(width / 2 + rectWidth / 2, dateHeight + rectHeight * 2 / 3);
-            path.lineTo(width / 2, dateHeight + rectHeight);
-            path.close(); // 使这些点
-            canvas.drawPath(path, linePaint);
         }
+        //画中线
+        linePaint.setColor(midLineColor);
+        canvas.drawLine(width / 2, dateHeight, width / 2, dateHeight + timelineHeight, linePaint);
+
+        float rectWidth = DisplayUtil.dip2Pix(context, 8);
+        float rectHeight = DisplayUtil.dip2Pix(context, 12);
+        //画中线箭头
+        canvas.drawRect(width / 2 - rectWidth / 2, dateHeight, width / 2 + rectWidth / 2, dateHeight + rectHeight * 2 / 3, linePaint);
+        Path path = new Path();
+        path.moveTo(width / 2 - rectWidth / 2, dateHeight + rectHeight * 2 / 3);// 此点为多边形的起点
+        path.lineTo(width / 2 + rectWidth / 2, dateHeight + rectHeight * 2 / 3);
+        path.lineTo(width / 2, dateHeight + rectHeight);
+        path.close(); // 使这些点
+        canvas.drawPath(path, linePaint);
+      
     }
 
     private float mLastX;
@@ -412,12 +410,12 @@ public class ReplayTimeAxisView extends View {
                         if (isSlide) {
                             if (currentMode == Mode.DownLoad) {
                                 if (isSelectedLeft) {
-                                    startTime = (endTime - startTime - (int) (dx * unitSeconds / (spacing + strokeWidth))) < defaultSelectedTimeHalf ?
+                                    startTime = (endTime - startTime - (int) (dx * unitSeconds / (spacing + strokeWidth))) < unitSeconds ?
                                             startTime : (startTime + (int) (dx * unitSeconds / (spacing + strokeWidth)));
                                     mLastX = eventX;
                                     invalidate();
                                 } else if (isSelectedRight) {
-                                    endTime = (endTime - startTime + (int) (dx * unitSeconds / (spacing + strokeWidth))) < defaultSelectedTimeHalf ?
+                                    endTime = (endTime - startTime + (int) (dx * unitSeconds / (spacing + strokeWidth))) < unitSeconds ?
                                             endTime : (endTime + (int) (dx * unitSeconds / (spacing + strokeWidth)));
                                     mLastX = eventX;
                                     invalidate();
@@ -548,8 +546,8 @@ public class ReplayTimeAxisView extends View {
     public void setCurrentMode(Mode currentMode) {
         this.currentMode = currentMode;
         if (currentMode == Mode.DownLoad) {
-            startTime = currentMidTimeStamp - defaultSelectedTimeHalf;
-            endTime = currentMidTimeStamp + defaultSelectedTimeHalf;
+            startTime = currentMidTimeStamp - unitSeconds / 2;
+            endTime = currentMidTimeStamp + unitSeconds / 2;
             listener.onSelected(getStartTime(), getEndTime());
         }
         invalidate();

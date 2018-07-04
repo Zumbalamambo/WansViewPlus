@@ -59,6 +59,7 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
         sendView = findViewById(R.id.la_send);
         nextButton = findViewById(R.id.btn_next);
         errorTextView = findViewById(R.id.tv_error);
+        sendView.enableMergePathsForKitKatAndAbove(true);
     }
 
     @Override
@@ -98,15 +99,13 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.la_send:
-                sendView.setBackgroundResource(0);
-                sendView.setAnimation("sound_wave.json");
-                sendView.setImageAssetsFolder("images/");
-                if (!sendView.isAnimating()) {
-                    sendView.playAnimation();
+                if (sendView.isAnimating()) {
+                    return;
                 }
+                sendView.playAnimation();
 
                 //configure Wi-Fi of the device by Smartlink technology
-                StringBuilder content = new StringBuilder();
+                final StringBuilder content = new StringBuilder();
                 content.append("s=");
                 content.append(ssid);
                 content.append("\n");

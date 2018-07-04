@@ -6,7 +6,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "net.ajcloud.wansviewplus"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -71,6 +71,7 @@ dependencies {
         transitive = true
     }
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.android.support:support-v4:27.1.1'
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'com.google.code.gson:gson:2.8.4'
     implementation 'com.google.firebase:firebase-crash:16.0.0'
