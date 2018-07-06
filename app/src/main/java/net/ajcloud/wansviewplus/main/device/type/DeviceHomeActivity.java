@@ -35,18 +35,13 @@ public class DeviceHomeActivity extends BaseActivity {
 
     @Override
     protected boolean hasTittle() {
-        return true;
+        return false;
     }
 
     @Override
     protected void initView() {
         oid = getIntent().getStringExtra("oid");
         baseClass = (Class) getIntent().getSerializableExtra("class");
-
-        Camera camera = application.getDeviceCache().get(oid);
-        getToolbar().setTittle(DeviceInfoDictionary.getNameByDevice(camera));
-        getToolbar().setLeftImg(R.mipmap.ic_back);
-        getToolbar().setRightImg(R.mipmap.ic_setting);
 
         createBaseFragment();
         updataFragment(baseFragment);
@@ -120,14 +115,5 @@ public class DeviceHomeActivity extends BaseActivity {
 
     public String getOid() {
         return oid;
-    }
-
-    @Override
-    public void onClickView(View v) {
-        switch (v.getId()) {
-            case R.id.img_right:
-                DeviceSettingActivity.start(DeviceHomeActivity.this, oid);
-                break;
-        }
     }
 }

@@ -14,7 +14,7 @@ public class SizeUtil {
 	/**
 	 * 获取屏幕尺寸
 	 * 
-	 * @param activity
+	 * @param context context
 	 * @return
 	 */
 	public static DisplayMetrics getScreenSize(Context context) {
@@ -30,10 +30,11 @@ public class SizeUtil {
 	 * @return screenWidth in pixels
 	 */
 	public static int getScreenWidth(Context context) {
-		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		Point size = new Point();
-		wm.getDefaultDisplay().getSize(size);
-		return size.x;
+		WindowManager wm = (WindowManager) context
+				.getSystemService(Context.WINDOW_SERVICE);
+		DisplayMetrics outMetrics = new DisplayMetrics();
+		wm.getDefaultDisplay().getMetrics(outMetrics);
+		return outMetrics.widthPixels;
 	}
 
 	/**
@@ -41,10 +42,11 @@ public class SizeUtil {
 	 * @return screenHeigth in pixels
 	 */
 	public static int getScreenHeigth(Context context) {
-		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		Point size = new Point();
-		wm.getDefaultDisplay().getSize(size);
-		return size.y;
+		WindowManager wm = (WindowManager) context
+				.getSystemService(Context.WINDOW_SERVICE);
+		DisplayMetrics outMetrics = new DisplayMetrics();
+		wm.getDefaultDisplay().getMetrics(outMetrics);
+		return outMetrics.heightPixels;
 	}
 
 

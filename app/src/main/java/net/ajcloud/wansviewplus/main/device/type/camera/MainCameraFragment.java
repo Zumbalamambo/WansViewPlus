@@ -28,16 +28,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -59,6 +58,8 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.ashokvarma.bottomnavigation.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -79,7 +80,9 @@ import net.ajcloud.wansviewplus.main.device.type.DeviceHomeActivity;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.LiveSrcBean;
+import net.ajcloud.wansviewplus.support.core.device.DeviceInfoDictionary;
 import net.ajcloud.wansviewplus.support.customview.MyStateBar;
+import net.ajcloud.wansviewplus.support.customview.MyToolbar;
 import net.ajcloud.wansviewplus.support.customview.camera.AngleView;
 import net.ajcloud.wansviewplus.support.customview.camera.CloudDirectionLayout;
 import net.ajcloud.wansviewplus.support.customview.camera.DragLayout;
@@ -156,6 +159,7 @@ public class MainCameraFragment extends BaseFragment
     private static int recordSecond = 0;
     private int mCurrentSize;
     private float videoScale = 1;
+    private LinearLayout linearLayout;
     private TextView recordTime;
     public TextView tips;
     private ProgressBar progressBar;
@@ -177,7 +181,7 @@ public class MainCameraFragment extends BaseFragment
     private TextView realTimeImage_tip;
     private ProgressBar realTimeImage_ProgressBar;
     private LinearLayout Offline_LinearLayout;
-    private ImageView realTimeImagePlay;
+    private FrameLayout realTimeImagePlay;
     public ImageView full_screen;
     private ImageView fullscreen_play;
     private ImageView fullscreen_recordvideo;
@@ -194,19 +198,18 @@ public class MainCameraFragment extends BaseFragment
     private VideoPlayArea4To3 videoLayout;
     private FrameLayout realTimeImageFrameLayout;
     private LinearLayout dynamicAddLayout;
-    private LinearLayout PTZ;
-    private LinearLayout angle;
-    private LinearLayout dynamic;
-    private LinearLayout replay;
-    private LinearLayout selectViewLayout;
-    private LinearLayout deleteAngleLayout;
+    //    private LinearLayout PTZ;
+//    private LinearLayout angle;
+//    private LinearLayout dynamic;
+//    private LinearLayout replay;
+//    private LinearLayout selectViewLayout;
     private LinearLayout functionLayout;
     private ImageView take_video;
     private ImageView offlineImg;
     private TextView offlineTip;
     private TextView offlineHelp;
     private TextView videoQuality;
-    private RelativeLayout cameraLayout;
+    private ConstraintLayout cameraLayout;
     private ImageView soundPressEffect;
     private LinearLayout Update_LinearLayout;
     private LinearLayout updateProgressLayout;
@@ -219,8 +222,10 @@ public class MainCameraFragment extends BaseFragment
     private LinearLayout fullScreenLayout;
     private LinearLayout moveTraceLayout;
     private ImageView moveTraceImg;
-    private Toolbar myToolBar;
+    private MyToolbar myToolBar;
     private MyStateBar myStateBar;
+    private BottomNavigationBar bottomNavigationBar;
+    private AngleView angleView;
 
     public int Orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
     private int HideRelayTime = 3000;
@@ -450,7 +455,7 @@ public class MainCameraFragment extends BaseFragment
         upgradeFromSetting = false;
         initVirtualCameraAndPoliceHelper();
         initCameraView(rootView);
-        refreshMenuSetting(net.ajcloud.wansviewplus.R.menu.menu_camer_setting);
+        refreshMenuSetting();
         initSurfaceView();
         ShowUpdate(UPDATE_STATUS.EXIT);
     }
@@ -496,29 +501,22 @@ public class MainCameraFragment extends BaseFragment
         int[] encryptmode = getCamera().getCapAbility().getFeatures().getEncryptmode();
         VideoEncryptionInfo.getVideoEncryptionInfo().setEncryptmode(encryptmode);
 
-        refreshDynamicView();
+//        refreshDynamicView();
     }
 
-    private void refreshMenuSetting(int menu) {
-        myToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == net.ajcloud.wansviewplus.R.id.camer_setting) {
-                    DeviceSettingActivity.start(getActivity(), ((DeviceHomeActivity) getActivity()).getOid());
-                }
-                return true;
-            }
-        });
-
-        myToolBar.inflateMenu(menu);
-        myToolBar.setNavigationIcon(R.mipmap.ic_back);
-        myToolBar.setNavigationOnClickListener(new View.OnClickListener() {
+    private void refreshMenuSetting() {
+        String deviceId = ((DeviceHomeActivity) getActivity()).getOid();
+        net.ajcloud.wansviewplus.support.core.device.Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+        myToolBar.setTittle(DeviceInfoDictionary.getNameByDevice(camera));
+        myToolBar.setLeftImg(R.mipmap.ic_back);
+        myToolBar.setRightImg(R.mipmap.ic_setting);
+        myToolBar.registerClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
+                if (v.getId() == R.id.img_left) {
                     getActivity().finish();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                } else if (v.getId() == R.id.img_right) {
+                    DeviceSettingActivity.start(getActivity(), deviceId);
                 }
             }
         });
@@ -661,10 +659,10 @@ public class MainCameraFragment extends BaseFragment
             Offline_LinearLayout.setVisibility(View.GONE);
             if (virtualCamera.isMute) {
                 voiceSwitch.setImageResource(R.mipmap.ic_speaker_off_dark);
-                fullVoiceSwitch.setImageResource(R.mipmap.ic_speaker_off_dark);
+                fullVoiceSwitch.setImageResource(R.mipmap.ic_speaker_off_white);
             } else {
                 voiceSwitch.setImageResource(net.ajcloud.wansviewplus.R.drawable.volume_on_state);
-                fullVoiceSwitch.setImageResource(R.drawable.volume_on_state);
+                fullVoiceSwitch.setImageResource(R.mipmap.ic_speaker_on_white);
             }
         }
 
@@ -1737,6 +1735,7 @@ public class MainCameraFragment extends BaseFragment
 
     void initCameraView(View view) {
 
+        linearLayout = view.findViewById(net.ajcloud.wansviewplus.R.id.linearLayout);
         recordVoice = view.findViewById(net.ajcloud.wansviewplus.R.id.press_speak);
         voice_content = view.findViewById(net.ajcloud.wansviewplus.R.id.voice_content);
         voice_rcd_hint_cancel_area = view.findViewById(net.ajcloud.wansviewplus.R.id.voice_rcd_hint_cancel_area);
@@ -1776,14 +1775,13 @@ public class MainCameraFragment extends BaseFragment
         videoLayout = view.findViewById(net.ajcloud.wansviewplus.R.id.Video_Area_FrameLayout);
         realTimeImageFrameLayout = view.findViewById(net.ajcloud.wansviewplus.R.id.RealTimeImage_FrameLayout);
         dynamicAddLayout = view.findViewById(net.ajcloud.wansviewplus.R.id.select_view_layout);
-        PTZ = view.findViewById(net.ajcloud.wansviewplus.R.id.PTZ);
-        PTZ.setOnClickListener(selectOnClickListener);
-        angle = view.findViewById(net.ajcloud.wansviewplus.R.id.angle);
-        angle.setOnClickListener(selectOnClickListener);
-        dynamic = view.findViewById(net.ajcloud.wansviewplus.R.id.dynamic);
-        dynamic.setOnClickListener(selectOnClickListener);
-        selectViewLayout = view.findViewById(net.ajcloud.wansviewplus.R.id.choose_view_layout);
-        deleteAngleLayout = view.findViewById(net.ajcloud.wansviewplus.R.id.delete_angleview_layout);
+//        PTZ = view.findViewById(net.ajcloud.wansviewplus.R.id.PTZ);
+//        PTZ.setOnClickListener(selectOnClickListener);
+//        angle = view.findViewById(net.ajcloud.wansviewplus.R.id.angle);
+//        angle.setOnClickListener(selectOnClickListener);
+//        dynamic = view.findViewById(net.ajcloud.wansviewplus.R.id.dynamic);
+//        dynamic.setOnClickListener(selectOnClickListener);
+//        selectViewLayout = view.findViewById(net.ajcloud.wansviewplus.R.id.choose_view_layout);
         functionLayout = view.findViewById(net.ajcloud.wansviewplus.R.id.FunctionBar);
         Update_LinearLayout = view.findViewById(net.ajcloud.wansviewplus.R.id.Update_LinearLayout);
         updateProgressLayout = view.findViewById(net.ajcloud.wansviewplus.R.id.update_progress_layout);
@@ -1813,8 +1811,62 @@ public class MainCameraFragment extends BaseFragment
         fullScreenLayout = view.findViewById(net.ajcloud.wansviewplus.R.id.full_screen_layout);
         moveTraceLayout = view.findViewById(net.ajcloud.wansviewplus.R.id.in_move_trace_LinearLayout);
         moveTraceImg = view.findViewById(net.ajcloud.wansviewplus.R.id.move_trace_img);
-        myToolBar = view.findViewById(net.ajcloud.wansviewplus.R.id.myToolBar);
+        myToolBar = view.findViewById(net.ajcloud.wansviewplus.R.id.toolbar);
         myStateBar = view.findViewById(net.ajcloud.wansviewplus.R.id.status_bar);
+
+        String deviceId = ((DeviceHomeActivity) getActivity()).getOid();
+        net.ajcloud.wansviewplus.support.core.device.Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+        angleView = new AngleView(getActivity(), deviceId, camera.viewAnglesConfig.viewAngles, virtualCamera, addAngleListener);
+        bottomNavigationBar = view.findViewById(R.id.bottom_navigation_bar);
+        bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
+        bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
+        int currentSelectedPosition = bottomNavigationBar.getCurrentSelectedPosition();
+        bottomNavigationBar.clearAll();
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_console_color_, getString(R.string.wv_camera_ptz)).setInactiveIconResource(R.mipmap.ic_console_mid))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_viewangle_color, getString(R.string.wv_camera_angle)).setInactiveIconResource(R.mipmap.ic_viewangle_mid))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_motion_color, getString(R.string.wv_camera_dynamic)).setInactiveIconResource(R.mipmap.ic_motion_mid))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_replay_color, getString(R.string.wv_camera_replay)).setInactiveIconResource(R.mipmap.ic_replay_mid))
+                .setActiveColor(R.color.colorPrimary)
+                .setFirstSelectedPosition(0)
+                .initialise();
+        if (currentSelectedPosition > 0) {
+            bottomNavigationBar.selectTab(currentSelectedPosition, false);
+        }
+        bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int position) {
+                dynamicAddLayout.removeAllViews();
+                View view = null;
+                if (position == 0) {
+                    view = new PTZView(getActivity(), null, navigationListener, directionControlerListener).getView();
+                } else if (position == 1) {
+                    view = angleView.getView();
+                } else if (position == 2) {
+                    view = new DynamicView(getActivity(), getCamera().getOid(), false).getView();
+                } else if (position == 3) {
+
+                }
+
+                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                if (view != null) {
+                    dynamicAddLayout.addView(view, params);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(int position) {
+
+            }
+
+            @Override
+            public void onTabReselected(int position) {
+
+            }
+        });
+
+        View firstView = new PTZView(getActivity(), null, navigationListener, directionControlerListener).getView();
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dynamicAddLayout.addView(firstView, params);
 
         realTimeImagePlay.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
@@ -1824,13 +1876,13 @@ public class MainCameraFragment extends BaseFragment
             }
         });
 
-        selectViewLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onlyRefreshData = true;
-                refreshStatus();
-            }
-        });
+//        selectViewLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onlyRefreshData = true;
+//                refreshStatus();
+//            }
+//        });
 
         voiceSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1840,14 +1892,14 @@ public class MainCameraFragment extends BaseFragment
                 }
                 if (virtualCamera.isMute) {
                     voiceSwitch.setImageResource(net.ajcloud.wansviewplus.R.drawable.volume_on_state);
-                    fullVoiceSwitch.setImageResource(net.ajcloud.wansviewplus.R.drawable.volume_on_state);
+                    fullVoiceSwitch.setImageResource(R.mipmap.ic_speaker_on_white);
                     virtualCamera.isMute = false;
                     if (audioSender_Realtime != null) {
                         audioSender_Realtime.CancelMute();
                     }
                 } else {
                     voiceSwitch.setImageResource(net.ajcloud.wansviewplus.R.mipmap.ic_speaker_off_dark);
-                    fullVoiceSwitch.setImageResource(net.ajcloud.wansviewplus.R.mipmap.ic_speaker_off_dark);
+                    fullVoiceSwitch.setImageResource(R.mipmap.ic_speaker_off_white);
                     virtualCamera.isMute = true;
                     if (audioSender_Realtime != null) {
                         audioSender_Realtime.SetMute();
@@ -1892,13 +1944,6 @@ public class MainCameraFragment extends BaseFragment
             }
         });
 
-        replay = view.findViewById(net.ajcloud.wansviewplus.R.id.replay);
-        replay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //回看
-            }
-        });
 
 //        realTimeImage_Button.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -2123,16 +2168,15 @@ public class MainCameraFragment extends BaseFragment
         });
 
         initcloudDirectionview();
-        myToolBar.setBackgroundResource(net.ajcloud.wansviewplus.R.drawable.grident_toolbar);
-        if (CameraUtil.isSupportControlDirection(getCamera().getCapAbility())) {
-            PTZ.setVisibility(View.VISIBLE);
-            angle.setVisibility(View.VISIBLE);
-            PTZ.setSelected(true);
-        } else {
-            PTZ.setVisibility(View.GONE);
-            angle.setVisibility(View.GONE);
-            dynamic.setSelected(true);
-        }
+//        if (CameraUtil.isSupportControlDirection(getCamera().getCapAbility())) {
+//            PTZ.setVisibility(View.VISIBLE);
+//            angle.setVisibility(View.VISIBLE);
+//            PTZ.setSelected(true);
+//        } else {
+//            PTZ.setVisibility(View.GONE);
+//            angle.setVisibility(View.GONE);
+//            dynamic.setSelected(true);
+//        }
 
         isSupportDirectionControl = CameraUtil.isSupportControlDirection(getCamera().getCapAbility());
     }
@@ -2252,11 +2296,11 @@ public class MainCameraFragment extends BaseFragment
             net.ajcloud.wansviewplus.support.core.device.Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
             int position = -1;
             if (camera.viewAnglesConfig == null || camera.viewAnglesConfig.viewAngles.size() == 0) {
-                position = 0;
+                position = 1;
             } else {
                 for (int i = 0; i < camera.viewAnglesConfig.viewAngles.size(); i++) {
                     if (TextUtils.isEmpty(camera.viewAnglesConfig.viewAngles.get(i).url)) {
-                        position = i;
+                        position = camera.viewAnglesConfig.viewAngles.get(i).viewAngle;
                         break;
                     }
                 }
@@ -2265,7 +2309,7 @@ public class MainCameraFragment extends BaseFragment
                 ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_angle_view_full);
                 return;
             }
-            snapViewAndUpload(position + 1);
+            snapViewAndUpload(position);
         }
     };
 
@@ -2578,7 +2622,7 @@ public class MainCameraFragment extends BaseFragment
             fullscreen_recordvideo.setImageDrawable(getResources().getDrawable(net.ajcloud.wansviewplus.R.mipmap.ic_record_color));
         } else {
             stopRecord(true);
-            fullscreen_recordvideo.setImageDrawable(getResources().getDrawable(R.drawable.videotape_state));
+            fullscreen_recordvideo.setImageDrawable(getResources().getDrawable(R.mipmap.ic_record_white));
         }
 
         return true;
@@ -2608,7 +2652,7 @@ public class MainCameraFragment extends BaseFragment
 
                 if (Orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && !TextUtils.isEmpty(videoPicPath)) {
                     ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_have_save_to_photo);
-                    addAnimationEffect(videoPicPath, replay);
+                    addAnimationEffect(videoPicPath, bottomNavigationBar);
                     new File(videoPicPath).delete();
                 } else {
                     ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_have_save_to_photo);
@@ -2632,7 +2676,7 @@ public class MainCameraFragment extends BaseFragment
         if (mMediaPlayer.takeSnapShot(MainApplication.fileIO.getImageFileDirectory(virtualCamera.cid), 1920, 1080, true)) {
             if (Orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_have_save_to_photo);
-                addAnimationEffect(getLatestFile(MainApplication.fileIO.getImageFileDirectory(virtualCamera.cid)), replay);
+                addAnimationEffect(getLatestFile(MainApplication.fileIO.getImageFileDirectory(virtualCamera.cid)), bottomNavigationBar);
             } else {
                 ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_have_save_to_photo);
             }
@@ -2914,7 +2958,7 @@ public class MainCameraFragment extends BaseFragment
                 try {
                     String filePath = directory.listFiles()[0].getAbsolutePath();
                     ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_camera_angle_tip);
-                    addAnimationEffect(filePath, angle);
+                    addAnimationEffect(filePath, bottomNavigationBar);
                     Bitmap bitmap = BitmapFactory.decodeFile(filePath);
                     Bitmap resized = Bitmap.createScaledBitmap(bitmap, 320, 180, false);
                     //create a file to write bitmap data
@@ -2929,6 +2973,7 @@ public class MainCameraFragment extends BaseFragment
                     new DeviceApiUnit(getActivity()).b2Upload(deviceId, MainApplication.fileIO.getCacheDir() + index + ".jpg", "cam-viewangle", "b2", index, new OkgoCommonListener<Object>() {
                         @Override
                         public void onSuccess(Object bean) {
+                            angleView.addAngle();
                             ToastUtil.single("success");
                         }
 
@@ -3010,6 +3055,7 @@ public class MainCameraFragment extends BaseFragment
         //full_screen.setLayoutParams(params);
         downBar.setVisibility(enable ? View.GONE : View.VISIBLE);
         functionLayout.setVisibility(enable ? View.GONE : View.VISIBLE);
+        bottomNavigationBar.setVisibility(enable ? View.GONE : View.VISIBLE);
         myToolBar.setVisibility(enable ? View.GONE : View.VISIBLE);
         myStateBar.setVisibility(enable ? View.GONE : View.VISIBLE);
     }
@@ -3716,49 +3762,49 @@ public class MainCameraFragment extends BaseFragment
         isSleepMode = data.getBooleanExtra("isSleep", false);
     }
 
-    private void refreshDynamicView() {
-        for (int i = 0; i < selectViewLayout.getChildCount(); i++) {
-            if (selectViewLayout.getChildAt(i).isSelected()) {
-                selectViewLayout.getChildAt(i).performClick();
-                break;
-            }
-        }
-    }
+//    private void refreshDynamicView() {
+//        for (int i = 0; i < selectViewLayout.getChildCount(); i++) {
+//            if (selectViewLayout.getChildAt(i).isSelected()) {
+//                selectViewLayout.getChildAt(i).performClick();
+//                break;
+//            }
+//        }
+//    }
 
-    View.OnClickListener selectOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-            dynamicAddLayout.removeAllViews();
-            PTZ.setSelected(false);
-            angle.setSelected(false);
-            dynamic.setSelected(false);
-            replay.setSelected(false);
-            View view = null;
-            switch (v.getId()) {
-                case net.ajcloud.wansviewplus.R.id.PTZ:
-                    view = new PTZView(getActivity(), null, navigationListener, directionControlerListener).getView();
-                    PTZ.setSelected(true);
-
-                    break;
-                case net.ajcloud.wansviewplus.R.id.angle:
-                    String deviceId = ((DeviceHomeActivity) getActivity()).getOid();
-                    net.ajcloud.wansviewplus.support.core.device.Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
-                    view = new AngleView(getActivity(), deviceId, camera.viewAnglesConfig.viewAngles, selectViewLayout, deleteAngleLayout, virtualCamera, addAngleListener).getView();
-                    angle.setSelected(true);
-
-                    break;
-                case net.ajcloud.wansviewplus.R.id.dynamic:
-                    view = new DynamicView(getActivity(), getCamera().getOid(), false).getView();
-                    dynamic.setSelected(true);
-                    break;
-            }
-            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            if (view != null) {
-                dynamicAddLayout.addView(view, params);
-            }
-        }
-    };
+//    View.OnClickListener selectOnClickListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//
+//            dynamicAddLayout.removeAllViews();
+//            PTZ.setSelected(false);
+//            angle.setSelected(false);
+//            dynamic.setSelected(false);
+//            replay.setSelected(false);
+//            View view = null;
+//            switch (v.getId()) {
+//                case net.ajcloud.wansviewplus.R.id.PTZ:
+//                    view = new PTZView(getActivity(), null, navigationListener, directionControlerListener).getView();
+//                    PTZ.setSelected(true);
+//
+//                    break;
+//                case net.ajcloud.wansviewplus.R.id.angle:
+//                    String deviceId = ((DeviceHomeActivity) getActivity()).getOid();
+//                    net.ajcloud.wansviewplus.support.core.device.Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+//                    view = new AngleView(getActivity(), deviceId, camera.viewAnglesConfig.viewAngles, selectViewLayout, deleteAngleLayout, virtualCamera, addAngleListener).getView();
+//                    angle.setSelected(true);
+//
+//                    break;
+//                case net.ajcloud.wansviewplus.R.id.dynamic:
+//                    view = new DynamicView(getActivity(), getCamera().getOid(), false).getView();
+//                    dynamic.setSelected(true);
+//                    break;
+//            }
+//            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//            if (view != null) {
+//                dynamicAddLayout.addView(view, params);
+//            }
+//        }
+//    };
 
     View.OnClickListener navigationListener = new View.OnClickListener() {
         @Override

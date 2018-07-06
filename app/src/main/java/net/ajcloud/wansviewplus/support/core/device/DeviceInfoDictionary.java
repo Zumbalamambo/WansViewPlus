@@ -23,6 +23,8 @@ public class DeviceInfoDictionary {
             {"K03", 1, R.string.camera_default_name_k3, R.mipmap.ic_model_k3},
             // q3
             {"Q03", 2, R.string.camera_default_name_q3, R.mipmap.ic_model_q3},
+            // q3
+            {"Q3S", 2, R.string.camera_default_name_q3, R.mipmap.ic_model_q3},
             // w2
             {"W02", 3, R.string.camera_default_name_w2, R.mipmap.ic_model_w2}
     };
@@ -60,13 +62,6 @@ public class DeviceInfoDictionary {
     public static int getDefaultNameByType(String type) {
         if (type == null) {
             return R.string.camera_unknow;
-        }
-        if (type.startsWith("K03")) {
-            return R.string.camera_default_name_k3;
-        } else if (type.startsWith("Q03")) {
-            return R.string.camera_default_name_q3;
-        } else if (type.startsWith("W02")) {
-            return R.string.camera_default_name_w2;
         }
 
         DeviceInfoDataBean bean = deviceDataMap.get(type);

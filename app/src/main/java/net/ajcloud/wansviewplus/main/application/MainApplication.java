@@ -77,7 +77,7 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        if (BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
             //Firebase错误收集
             Fabric.with(this, new Crashlytics());
             //自定义崩溃处理

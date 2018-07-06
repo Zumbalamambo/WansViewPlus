@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.autofocus" />
@@ -36,6 +38,9 @@
             android:value="@string/default_notification_channel_id" />
         <meta-data
             android:name="net.ajcloud.wansviewplus.support.utils.glide.MyGlideModule"
+            android:value="GlideModule" />
+        <meta-data
+            android:name="net.ajcloud.wansviewplus.main.history.image.glide.OkHttpProgressGlideModule"
             android:value="GlideModule" />
 
         <service android:name=".main.service.GoogleFirebaseInstanceIdService">
@@ -116,6 +121,13 @@
             android:name=".main.download.ui.VideoDownloadActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".main.history.image.ui.ImagePagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.calendar.CalendarActivity"
+            android:configChanges="locale|layoutDirection"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".main.device.type.DeviceHomeActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"
             android:screenOrientation="portrait"
@@ -151,7 +163,8 @@
         <activity android:name=".main.device.setting.cloudStorage.CloudDetectionTimeActivity" />
         <activity android:name=".main.device.setting.cloudStorage.CloudTimePeriodActivity" />
         <activity android:name=".main.device.addDevice.cable.AddDeviceCableFailActivity" />
-        <activity android:name=".main.mine.AgreementActivity"></activity>
+        <activity android:name=".main.mine.AgreementActivity" />
+        <activity android:name=".main.history.LocalHistoryActivity"></activity>
     </application>
 
 </manifest>

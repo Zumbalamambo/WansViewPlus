@@ -255,7 +255,7 @@ public class UserApiUnit {
      * @param oldPassword 旧密码
      * @param newPassword 新密码
      */
-    public void changePassword(final String mail, final String oldPassword, final String newPassword, final OkgoCommonListener<SigninBean> listener) {
+    public void changePassword(final String mail, final String oldPassword, final String newPassword, final OkgoCommonListener<Object> listener) {
         challenge(mail, "changepassword", new OkgoCommonListener<ChallengeBean>() {
             @Override
             public void onSuccess(ChallengeBean bean) {
@@ -274,16 +274,16 @@ public class UserApiUnit {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                OkGo.<ResponseBean<SigninBean>>post(ApiConstant.URL_USER_CHANGE_PASSWORD)
+                OkGo.<ResponseBean<Object>>post(ApiConstant.URL_USER_CHANGE_PASSWORD)
                         .tag(this)
                         .upJson(getReqBody(dataJson))
-                        .execute(new JsonCallback<ResponseBean<SigninBean>>() {
+                        .execute(new JsonCallback<ResponseBean<Object>>() {
                             @Override
-                            public void onSuccess(Response<ResponseBean<SigninBean>> response) {
-                                ResponseBean<SigninBean> responseBean = response.body();
+                            public void onSuccess(Response<ResponseBean<Object>> response) {
+                                ResponseBean responseBean = response.body();
                                 if (responseBean.isSuccess()) {
-                                    SigninBean bean = responseBean.result;
-                                    SigninAccountManager.getInstance().refreshCurrentAccount(bean);
+//                                    SigninBean bean = responseBean.result;
+//                                    SigninAccountManager.getInstance().refreshCurrentAccount(bean);
                                     listener.onSuccess(bean);
                                 } else {
                                     listener.onFail(responseBean.getResultCode(), responseBean.message);
@@ -291,7 +291,7 @@ public class UserApiUnit {
                             }
 
                             @Override
-                            public void onError(Response<ResponseBean<SigninBean>> response) {
+                            public void onError(Response<ResponseBean<Object>> response) {
                                 super.onError(response);
                                 listener.onFail(-1, context.getString(R.string.Service_Error));
                             }

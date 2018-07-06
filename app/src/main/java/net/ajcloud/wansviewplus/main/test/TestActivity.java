@@ -1,5 +1,7 @@
 package net.ajcloud.wansviewplus.main.test;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.Pair;
@@ -16,6 +18,8 @@ import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.calendar.CalendarActivity;
+import net.ajcloud.wansviewplus.main.history.image.ui.ImagePagerActivity;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.GroupListBean;
@@ -34,13 +38,16 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 public class TestActivity extends BaseActivity {
 
     long time;
     private ReplayTimeAxisView replayTimeAxisView;
     SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final int CALENDAR_REQUEST = 0;
 
     @Override
     protected int getLayoutId() {
@@ -275,6 +282,50 @@ public class TestActivity extends BaseActivity {
                 WLog.e("=====", task1.getTaskId() + "出错了" + errorMsg);
             }
         });
+    }
+
+    /**
+     * 图片查看器
+     */
+    private void startImageLoader() {
+        ArrayList<String> urls;
+        urls=new ArrayList<>();
+        //为了显示效果，重复添加了三次
+        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524477979306&di=3eb07e9302606048abe13d7b6a2bc601&imgtype=0&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201406%2F12%2F20140612211118_YYXAC.jpeg");
+        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524133463580&di=1315bc4db30999f00b89ef79c3bb06e5&imgtype=0&src=http%3A%2F%2Fpic36.photophoto.cn%2F20150710%2F0005018721870517_b.jpg");
+        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524133463575&di=6221f21bcb761675c5d161ebc53d5948&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201410%2F03%2F20141003112442_AkkuH.thumb.700_0.jpeg");
+
+        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524477979306&di=3eb07e9302606048abe13d7b6a2bc601&imgtype=0&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201406%2F12%2F20140612211118_YYXAC.jpeg");
+        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524133463580&di=1315bc4db30999f00b89ef79c3bb06e5&imgtype=0&src=http%3A%2F%2Fpic36.photophoto.cn%2F20150710%2F0005018721870517_b.jpg");
+        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524133463575&di=6221f21bcb761675c5d161ebc53d5948&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201410%2F03%2F20141003112442_AkkuH.thumb.700_0.jpeg");
+
+        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524477979306&di=3eb07e9302606048abe13d7b6a2bc601&imgtype=0&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201406%2F12%2F20140612211118_YYXAC.jpeg");
+        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524133463580&di=1315bc4db30999f00b89ef79c3bb06e5&imgtype=0&src=http%3A%2F%2Fpic36.photophoto.cn%2F20150710%2F0005018721870517_b.jpg");
+        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524133463575&di=6221f21bcb761675c5d161ebc53d5948&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201410%2F03%2F20141003112442_AkkuH.thumb.700_0.jpeg");
+
+        ImagePagerActivity.startImagePage(TestActivity.this,urls, 0, null);
+    }
+
+    /**
+     * 启动日历
+     */
+    private void startCalendar() {
+        HashMap<String, Boolean> record = new HashMap<>();
+        Intent intent = new Intent(TestActivity.this, CalendarActivity.class);
+        Bundle bundleSerializable = new Bundle();
+        bundleSerializable.putSerializable("serializable", record);
+        intent.putExtra("isShowNextDay", true);
+        intent.putExtras(bundleSerializable);
+        intent.putExtra("oid", getIntent().getStringExtra("cid"));
+        startActivityForResult(intent, CALENDAR_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == CALENDAR_REQUEST) {
+            String strTime = data.getStringExtra("calendar");
+        }
     }
 
     private JSONObject getReqBody(JSONObject data, String deviceId) {

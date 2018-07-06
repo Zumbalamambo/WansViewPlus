@@ -69,6 +69,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                 field.setAccessible(true);
                 field.setInt(getWindow().getDecorView(), Color.TRANSPARENT);  //改为透明
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         //透明状态栏和获取状态栏高度
@@ -97,42 +98,42 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         //添加toolbar
         if (hasTittle()) {
             toolbarView = mInflater.inflate(R.layout.tool_bar, null);
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, DisplayUtil.dip2Pix(this, 48));
-            params.topMargin = statusBarHeight;
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, DisplayUtil.dip2Pix(this, 48) + statusBarHeight);
             rootView.addView(toolbarView, params);
             toolbar = toolbarView.findViewById(R.id.toolbar);
+            toolbar.setPadding(0, statusBarHeight, 0, 0);
         }
         //添加contentView
         contentView = mInflater.inflate(getLayoutId(), null);
         contentView.setBackgroundColor(Color.WHITE);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        int topMargin = 0;
         if (hasTittle()) {
-            params.topMargin = DisplayUtil.dip2Pix(this, 48);
+            topMargin = topMargin + DisplayUtil.dip2Pix(this, 48);
         }
-
         if (hasStateBar()) {
-            params.topMargin += statusBarHeight;
+            topMargin = topMargin + statusBarHeight;
         }
 
+        params.topMargin = topMargin;
         rootView.addView(contentView, 0, params);
 
         setContentView(rootView);
-//        setSupportActionBar(toolbar);
     }
 
     protected abstract int getLayoutId();
 
     protected abstract boolean hasTittle();
 
-    protected void initView(){
+    protected void initView() {
 
     }
 
-    protected void initData(){
+    protected void initData() {
 
     }
 
-    protected void initListener(){
+    protected void initListener() {
 
     }
 

@@ -69,9 +69,9 @@ public class ChangePasswordActivity extends BaseActivity {
         }
         //TODO 本地校验
         progressDialogManager.showDialog(CHANGE, this);
-        new UserApiUnit(this).changePassword(SigninAccountManager.getInstance().getCurrentAccountMail(), pwd, newPwd, new OkgoCommonListener<SigninBean>() {
+        new UserApiUnit(this).changePassword(SigninAccountManager.getInstance().getCurrentAccountMail(), pwd, newPwd, new OkgoCommonListener<Object>() {
             @Override
-            public void onSuccess(SigninBean bean) {
+            public void onSuccess(Object bean) {
                 progressDialogManager.dimissDialog(CHANGE, 0);
                 ToastUtil.single("success");
                 finish();

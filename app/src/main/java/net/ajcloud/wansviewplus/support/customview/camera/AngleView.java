@@ -1,23 +1,29 @@
 package net.ajcloud.wansviewplus.support.customview.camera;
 
 import android.content.Context;
+import android.graphics.Rect;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
+import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.entity.camera.CameraStatus;
+import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.device.adapter.ViewAnglesAdapter;
 import net.ajcloud.wansviewplus.main.device.type.camera.VirtualCamera;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.ViewAnglesBean;
+import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -34,28 +40,22 @@ public class AngleView implements View.OnClickListener {
     private LinearLayout editLayout;
     private ImageView editImg;
     private LinearLayout selectLayout;
-    private TextView cancelTv;
-    private TextView selectAllTv;
-    private GridView myGridview;
-    private LinearLayout contentLayout;
+    private TextView count;
     private LinearLayout emptyLayout;
+    private RecyclerView rv_angle;
+
     private ArrayList<ViewAnglesBean.ViewAngle> list = new ArrayList<>();
     private String oid;
-    private AngleAdapter adapter;
-    private View normalView;
-    private View deleteView;
+    private ViewAnglesAdapter viewAnglesAdapter;
     // private TipDialog tip;
-    private boolean isEidt;
     private VirtualCamera virtualCamera;
     private DeviceApiUnit deviceApiUnit;
     private View.OnClickListener addAngleListener;
 
-    public AngleView(final Context context, final String oid, final List<ViewAnglesBean.ViewAngle> list, View v1, View v2, VirtualCamera virtualCamera,View.OnClickListener addAngleListener) {
+    public AngleView(final Context context, final String oid, final List<ViewAnglesBean.ViewAngle> list, VirtualCamera virtualCamera, View.OnClickListener addAngleListener) {
         this.context = context;
         this.addAngleListener = addAngleListener;
         this.oid = oid;
-        normalView = v1;
-        deleteView = v2;
         this.virtualCamera = virtualCamera;
         deviceApiUnit = new DeviceApiUnit(context);
         for (ViewAnglesBean.ViewAngle angle : list
@@ -70,103 +70,104 @@ public class AngleView implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case net.ajcloud.wansviewplus.R.id.edit_angle:
-                isEidt = true;
-                editLayout.setVisibility(View.GONE);
-                selectLayout.setVisibility(View.VISIBLE);
-                normalView.setVisibility(View.GONE);
-                deleteView.setVisibility(View.VISIBLE);
-
-                break;
-            case net.ajcloud.wansviewplus.R.id.cancel:
-                isEidt = false;
-                for (ViewAnglesBean.ViewAngle data : list) {
-                    data.setSelect(false);
+                if (!this.list.isEmpty()) {
+                    editLayout.setVisibility(View.GONE);
+                    selectLayout.setVisibility(View.VISIBLE);
+                    viewAnglesAdapter.setEdit(true);
                 }
+                break;
+            case R.id.select_layout:
                 refreshView();
-                adapter.notifyDataSetChanged();
-
-                break;
-            case net.ajcloud.wansviewplus.R.id.select_all:
-                for (ViewAnglesBean.ViewAngle data : list) {
-                    data.setSelect(true);
-                }
-                adapter.notifyDataSetChanged();
-
+                viewAnglesAdapter.setEdit(false);
                 break;
         }
     }
 
     private void refreshView() {
         if (this.list.isEmpty()) {
-            contentLayout.setVisibility(View.GONE);
+            rv_angle.setVisibility(View.GONE);
             emptyLayout.setVisibility(View.VISIBLE);
         } else {
-            contentLayout.setVisibility(View.VISIBLE);
+            rv_angle.setVisibility(View.VISIBLE);
             emptyLayout.setVisibility(View.GONE);
             editLayout.setVisibility(View.VISIBLE);
             selectLayout.setVisibility(View.GONE);
-        }
-        normalView.setVisibility(View.VISIBLE);
-        deleteView.setVisibility(View.GONE);
-    }
-
-
-    private class AngleAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return list.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = View.inflate(context, net.ajcloud.wansviewplus.R.layout.item_select_angle, null);
-            ImageView angleView = (ImageView) convertView.findViewById(net.ajcloud.wansviewplus.R.id.angle_img);
-            ImageView selectImg = (ImageView) convertView.findViewById(net.ajcloud.wansviewplus.R.id.select_img);
-            ViewAnglesBean.ViewAngle data = list.get(position);
-            Glide.with(context).load(data.url).placeholder(net.ajcloud.wansviewplus.R.mipmap.figure_big).into(angleView);
-            if (isEidt && data.isSelect()) {
-                selectImg.setVisibility(View.VISIBLE);
-            } else {
-                selectImg.setVisibility(View.GONE);
-            }
-            return convertView;
         }
     }
 
     public View getView() {
         view = View.inflate(context, net.ajcloud.wansviewplus.R.layout.view_angle, null);
-        editLayout = (LinearLayout) view.findViewById(net.ajcloud.wansviewplus.R.id.edit_angle_layout);
-        editImg = (ImageView) view.findViewById(net.ajcloud.wansviewplus.R.id.edit_angle);
-        selectLayout = (LinearLayout) view.findViewById(net.ajcloud.wansviewplus.R.id.select_layout);
-        cancelTv = (TextView) view.findViewById(net.ajcloud.wansviewplus.R.id.cancel);
-        selectAllTv = (TextView) view.findViewById(net.ajcloud.wansviewplus.R.id.select_all);
-        myGridview = (GridView) view.findViewById(net.ajcloud.wansviewplus.R.id.angle_gridview);
-        contentLayout = (LinearLayout) view.findViewById(net.ajcloud.wansviewplus.R.id.content_layout);
-        emptyLayout = (LinearLayout) view.findViewById(net.ajcloud.wansviewplus.R.id.empty_layout);
+        editLayout = view.findViewById(net.ajcloud.wansviewplus.R.id.edit_angle_layout);
+        editImg = view.findViewById(net.ajcloud.wansviewplus.R.id.edit_angle);
+        selectLayout = view.findViewById(net.ajcloud.wansviewplus.R.id.select_layout);
+        rv_angle = view.findViewById(net.ajcloud.wansviewplus.R.id.rv_angle);
+        emptyLayout = view.findViewById(net.ajcloud.wansviewplus.R.id.empty_layout);
+        count = view.findViewById(net.ajcloud.wansviewplus.R.id.tv_angles_count);
         view.findViewById(net.ajcloud.wansviewplus.R.id.add_angle).setOnClickListener(addAngleListener);
         editImg.setOnClickListener(this);
-        cancelTv.setOnClickListener(this);
-        selectAllTv.setOnClickListener(this);
-        deleteView.setOnClickListener(new View.OnClickListener() {
+        selectLayout.setOnClickListener(this);
+
+        count.setText(String.format(context.getResources().getString(R.string.angles_count), list.size() + ""));
+
+        viewAnglesAdapter = new ViewAnglesAdapter(context, list);
+        rv_angle.setLayoutManager(new GridLayoutManager(context, 2));
+        rv_angle.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
-            public void onClick(View v) {
-                List<Integer> deleteAngles = new ArrayList<>();
-                for (ViewAnglesBean.ViewAngle data : list) {
-                    if (data.isSelect()) {
-                        deleteAngles.add(data.viewAngle);
+            public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
+                int spanCount = 2;
+                int childCount = parent.getAdapter().getItemCount();
+                if (itemPosition % 2 == 0) {
+                    if (isLastRaw(parent, itemPosition, spanCount, childCount))// 如果是最后一行，则不需要绘制底部
+                    {
+                        outRect.set(0, 0, DisplayUtil.dip2Pix(context, 20), 0);
+                    } else {
+                        outRect.set(0, 0, DisplayUtil.dip2Pix(context, 20),
+                                DisplayUtil.dip2Pix(context, 24));
+                    }
+                } else {
+                    if (isLastRaw(parent, itemPosition, spanCount, childCount))// 如果是最后一行，则不需要绘制底部
+                    {
+                        outRect.set(DisplayUtil.dip2Pix(context, 20), 0, 0, 0);
+                    } else {
+                        outRect.set(DisplayUtil.dip2Pix(context, 20), 0, 0,
+                                DisplayUtil.dip2Pix(context, 24));
                     }
                 }
+            }
+        });
+        rv_angle.setAdapter(viewAnglesAdapter);
+        rv_angle.setNestedScrollingEnabled(false);
+        ((SimpleItemAnimator) rv_angle.getItemAnimator()).setSupportsChangeAnimations(false);
+        Animation animation = new AlphaAnimation(0f, 1f);
+        animation.setDuration(200);
+        LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation, 0.5F);
+        layoutAnimationController.setOrder(LayoutAnimationController.ORDER_NORMAL);
+        rv_angle.setLayoutAnimation(layoutAnimationController);
+
+        viewAnglesAdapter.setListener(new ViewAnglesAdapter.OnItemClickListener() {
+            @Override
+            public void onTurn(int angle) {
+                if (virtualCamera.state == CameraStatus.OFFLINE) {
+                    ToastUtil.show(context.getString(net.ajcloud.wansviewplus.R.string.wv_device_offline));
+                } else {
+                    deviceApiUnit.turnToAngles(oid, angle, new OkgoCommonListener<Object>() {
+                        @Override
+                        public void onSuccess(Object bean) {
+                            ToastUtil.single("success");
+                        }
+
+                        @Override
+                        public void onFail(int code, String msg) {
+                            ToastUtil.single(msg);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onDelete(int angle) {
+                List<Integer> deleteAngles = new ArrayList<>();
+                deleteAngles.add(angle);
                 if (deleteAngles.size() == 0) {
                     ToastUtil.show(context.getString(net.ajcloud.wansviewplus.R.string.wv_not_select_angles));
                     return;
@@ -176,94 +177,59 @@ public class AngleView implements View.OnClickListener {
                     @Override
                     public void onSuccess(Object bean) {
                         ToastUtil.single("success");
-                        normalView.performClick();
-                        isEidt = false;
                         for (int i = list.size() - 1; i >= 0; i--) {
-                            if (list.get(i).isSelect()) {
+                            if (list.get(i).viewAngle == angle) {
                                 list.remove(i);
+                                viewAnglesAdapter.remove(i);
+                                count.setText(String.format(context.getResources().getString(R.string.angles_count), list.size() + ""));
+                                break;
                             }
                         }
-                        refreshView();
-                        adapter.notifyDataSetChanged();
                     }
 
                     @Override
                     public void onFail(int code, String msg) {
-                        isEidt = false;
-                        for (ViewAnglesBean.ViewAngle data : list) {
-                            data.setSelect(false);
-                        }
-                        refreshView();
-                        adapter.notifyDataSetChanged();
+                        ToastUtil.single(msg);
                     }
                 });
-//                tip.show();
-                /*HttpAdapterManger.getCameraRequest().removeCameraViewAngles(AppApplication.devHostPresenter.getDevHost(oid),
-                        seqs.substring(1),
-                        new ZResponse(CameraRequest.RemoveCameraViewAngles, new ResponseListener() {
-                            @Override
-                            public void onSuccess(String api, Object object) {
-                                normalView.performClick();
-                                isEidt = false;
-                                for (int i = list.size() - 1; i >= 0; i--) {
-                                    if (list.get(i).isSelect()) {
-                                        list.remove(i);
-                                    }
-                                }
-                                refreshView();
-                                adapter.notifyDataSetChanged();
-                                tip.dismiss();
-                            }
-
-                            @Override
-                            public void onError(String api, int errorcode) {
-                                isEidt = false;
-                                for (ViewSetting data : list) {
-                                    data.setSelect(false);
-                                }
-                                refreshView();
-                                adapter.notifyDataSetChanged();
-                                tip.dismiss();
-                            }
-                        }));*/
-            }
-        });
-
-        adapter = new AngleAdapter();
-        myGridview.setAdapter(adapter);
-        myGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (isEidt) {
-                    for (int i = 0; i < list.size(); i++) {
-                        if (i == position) {
-                            list.get(i).setSelect(!list.get(i).isSelect());
-                            break;
-                        }
-                    }
-                    adapter.notifyDataSetChanged();
-                } else {
-                    if (virtualCamera.state == CameraStatus.OFFLINE) {
-                        ToastUtil.show(context.getString(net.ajcloud.wansviewplus.R.string.wv_device_offline));
-                    } else {
-//                        virtualCamera.onTurnView(list.get(position).viewAngle);
-                        //TODO 转动视角
-                        deviceApiUnit.turnToAngles(oid, list.get(position).viewAngle, new OkgoCommonListener<Object>() {
-                            @Override
-                            public void onSuccess(Object bean) {
-                                ToastUtil.single("success");
-                            }
-
-                            @Override
-                            public void onFail(int code, String msg) {
-
-                            }
-                        });
-                    }
-                }
             }
         });
         refreshView();
         return view;
+    }
+
+    public void addAngle() {
+        net.ajcloud.wansviewplus.support.core.device.Camera camera = MainApplication.getApplication().getDeviceCache().get(oid);
+        if (viewAnglesAdapter != null) {
+            viewAnglesAdapter.add(camera);
+        }
+    }
+
+    private boolean isLastRaw(RecyclerView parent, int pos, int spanCount,
+                              int childCount) {
+        RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
+        if (layoutManager instanceof GridLayoutManager) {
+            childCount = childCount - childCount % spanCount;
+            if (pos >= childCount)// 如果是最后一行，则不需要绘制底部
+                return true;
+        } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+            int orientation = ((StaggeredGridLayoutManager) layoutManager)
+                    .getOrientation();
+            // StaggeredGridLayoutManager 且纵向滚动
+            if (orientation == StaggeredGridLayoutManager.VERTICAL) {
+                childCount = childCount - childCount % spanCount;
+                // 如果是最后一行，则不需要绘制底部
+                if (pos >= childCount)
+                    return true;
+            } else
+            // StaggeredGridLayoutManager 且横向滚动
+            {
+                // 如果是最后一行，则不需要绘制底部
+                if ((pos + 1) % spanCount == 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
-    app:elevation="0dp">
+    app:elevation="48dp">
 
     <net.ajcloud.wansviewplus.support.customview.MyToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height"
-        android:background="@color/colorPrimaryDark"
+        android:layout_height="wrap_content"
+        android:background="@color/toolBar_color"
         android:minHeight="@dimen/toolbar_height"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
@@ -21,7 +21,7 @@
         <RelativeLayout
             android:id="@+id/toolbar_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="48dp">
 
             <ImageView
                 android:id="@+id/img_left"
@@ -100,8 +100,8 @@
                 android:layout_height="@dimen/toolbar_img_size"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:clickable="true"
                 android:layout_marginEnd="@dimen/default_margin_left"
+                android:clickable="true"
                 android:src="@mipmap/ic_back"
                 android:visibility="gone"
                 tools:visibility="visible" />

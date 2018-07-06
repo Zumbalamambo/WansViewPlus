@@ -19,14 +19,5 @@ public class ViewAnglesBean implements Serializable {
     public static class ViewAngle implements Serializable {
         public int viewAngle;
         public String url;
-        private boolean isSelect;
-
-        public boolean isSelect() {
-            return isSelect;
-        }
-
-        public void setSelect(boolean select) {
-            isSelect = select;
-        }
     }
 }
