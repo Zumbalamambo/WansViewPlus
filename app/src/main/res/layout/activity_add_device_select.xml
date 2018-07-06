@@ -35,7 +35,7 @@
                     android:layout_below="@id/iv_k3"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:text="K3"
+                    android:text="@string/camera_default_name_k3"
                     android:textColor="@color/gray_first"
                     android:textSize="@dimen/signIn_textSize_20" />
             </RelativeLayout>
@@ -59,7 +59,7 @@
                     android:layout_below="@id/iv_q3"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:text="Q3"
+                    android:text="@string/camera_default_name_q3"
                     android:textColor="@color/gray_first"
                     android:textSize="@dimen/signIn_textSize_20" />
             </RelativeLayout>
@@ -83,7 +83,7 @@
                     android:layout_below="@id/iv_w2"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:text="W2"
+                    android:text="@string/camera_default_name_w2"
                     android:textColor="@color/gray_first"
                     android:textSize="@dimen/signIn_textSize_20" />
             </RelativeLayout>

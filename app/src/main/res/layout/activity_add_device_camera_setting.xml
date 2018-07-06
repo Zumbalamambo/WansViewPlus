@@ -22,7 +22,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:gravity="center"
-        android:text="Check if the camera LED is flashing BLUE AND RED"
+        android:text="@string/add_device_camera_setting_tip_1"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/signIn_textSize_16" />
 
@@ -35,7 +35,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="Please confirm that the power is connected."
+        android:text="@string/add_device_camera_setting_tip_2"
         android:textColor="@color/gray_second"
         android:textSize="@dimen/signIn_textSize_12" />
 
@@ -48,7 +48,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="92dp"
         android:background="@drawable/shape_signin_button"
-        android:text="Flashing"
+        android:text="@string/add_device_flash"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/signIn_textSize_18" />
@@ -63,7 +63,7 @@
         android:ellipsize="end"
         android:padding="5dp"
         android:singleLine="true"
-        android:text="Not flashing"
+        android:text="@string/add_device_not_flash"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/signIn_textSize_16" />
 </RelativeLayout>

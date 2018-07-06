@@ -50,7 +50,7 @@ public class AddDeviceWifiWaitingActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_add_device_wifi_waiting;
+        return R.layout.activity_add_device_waiting;
     }
 
     @Override

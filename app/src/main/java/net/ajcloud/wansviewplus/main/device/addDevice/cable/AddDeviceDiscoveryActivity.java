@@ -103,7 +103,7 @@ public class AddDeviceDiscoveryActivity extends BaseActivity implements SwipeRef
                     @Override
                     public void run() {
                         refreshLayout.setRefreshing(false);
-                        deviceNumTextView.setText(String.format(getResources().getString(R.string.device_discovery_num), list.size() + ""));
+                        deviceNumTextView.setText(String.format(getResources().getString(R.string.add_device_discovery_num), list.size() + ""));
                         if (list.size() == 0) {
                             noDeviceLayout.setVisibility(View.VISIBLE);
                             deviceListView.setVisibility(View.GONE);

@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:text="Your Wi-Fi"
+                android:text="@string/add_device_yout_wifi"
                 android:textColor="@color/gray_first"
                 android:textSize="@dimen/signIn_textSize_14" />
 
@@ -31,7 +31,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="20dp"
-                android:text="empty"
+                android:text="@string/add_device_wifi_empty"
                 android:textColor="@color/gray_second"
                 android:textSize="@dimen/signIn_textSize_14" />
 
@@ -52,7 +52,6 @@
                 android:layout_below="@id/view_line"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:text="Found 0 devices"
                 android:textColor="@color/gray_third"
                 android:textSize="@dimen/signIn_textSize_14" />
 
@@ -90,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
-                    android:text="Please connect the device with cable"
+                    android:text="@string/add_device_discovery_none_tip_1"
                     android:textColor="@color/gray_first"
                     android:textSize="@dimen/signIn_textSize_16" />
 
@@ -99,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
-                    android:text="Your phone must be connected to Wifi in the same network environment as the camera."
+                    android:text="@string/add_device_discovery_none_tip_2"
                     android:textColor="@color/gray_third"
                     android:textSize="@dimen/signIn_textSize_16" />
             </LinearLayout>

@@ -23,7 +23,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Camera ID"
+            android:text="@string/device_setting_camera_id"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -38,7 +38,6 @@
             android:ellipsize="end"
             android:gravity="end|center_vertical"
             android:singleLine="true"
-            tools:text="LoungeHGFDHH2783"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
@@ -69,7 +68,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Firmware Version"
+            android:text="@string/device_setting_camera_version"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -94,7 +93,6 @@
             android:ellipsize="end"
             android:gravity="end|center_vertical"
             android:singleLine="true"
-            tools:text="V1.0.6"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
@@ -125,7 +123,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="IP Address"
+            android:text="@string/device_setting_camera_ip"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -140,7 +138,6 @@
             android:ellipsize="end"
             android:gravity="end|center_vertical"
             android:singleLine="true"
-            tools:text="192.168.1.150"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
@@ -171,7 +168,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Wi-Fi MAC"
+            android:text="@string/device_setting_camera_mac"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -186,7 +183,6 @@
             android:ellipsize="end"
             android:gravity="end|center_vertical"
             android:singleLine="true"
-            tools:text="30:99:35:f2:81:7b"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>

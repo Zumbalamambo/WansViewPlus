@@ -22,7 +22,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
-        android:hint="Name the camera"
+        android:hint="@string/add_device_success_name"
         android:inputType="text"
         android:maxLines="1"
         android:textSize="18sp"
@@ -43,7 +43,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/shape_signin_button"
-        android:text="OK"
+        android:text="@string/common_ok"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/signIn_textSize_18" />

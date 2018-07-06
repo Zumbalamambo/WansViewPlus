@@ -31,7 +31,7 @@
                 android:id="@+id/tv_wifi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wi-Fi connection"
+                android:text="@string/add_device_mode_wifi"
                 android:textColor="@color/gray_first"
                 android:textSize="@dimen/signIn_textSize_20"
                 android:textStyle="bold" />
@@ -43,7 +43,7 @@
                 android:layout_alignStart="@id/tv_wifi"
                 android:layout_below="@id/tv_wifi"
                 android:layout_marginTop="5dp"
-                android:text="The camera will be connected to the same Wi-Fi with your phone."
+                android:text="@string/add_device_mode_wifi_tip"
                 android:textColor="@color/gray_second"
                 android:textSize="@dimen/signIn_textSize_12" />
 
@@ -55,7 +55,7 @@
                 android:layout_below="@id/tv_wifi"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/shape_signin_button"
-                android:text="Select"
+                android:text="@string/add_device_select"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/signIn_textSize_16" />
@@ -88,7 +88,7 @@
                 android:id="@+id/tv_cable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cable connection"
+                android:text="@string/add_device_mode_cable"
                 android:textColor="@color/gray_first"
                 android:textSize="@dimen/signIn_textSize_20"
                 android:textStyle="bold" />
@@ -100,7 +100,7 @@
                 android:layout_alignStart="@id/tv_cable"
                 android:layout_below="@id/tv_cable"
                 android:layout_marginTop="5dp"
-                android:text="Your phone must be connected to Wifi in the same network environment as the camera."
+                android:text="@string/add_device_mode_cable_tip"
                 android:textColor="@color/gray_second"
                 android:textSize="@dimen/signIn_textSize_12" />
 
@@ -112,7 +112,7 @@
                 android:layout_below="@id/tv_cable"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/shape_add_device_button"
-                android:text="Select"
+                android:text="@string/add_device_select"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/signIn_textSize_16" />

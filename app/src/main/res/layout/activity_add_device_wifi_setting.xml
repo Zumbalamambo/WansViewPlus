@@ -14,7 +14,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="20dp"
-        android:hint="Network"
+        android:hint="@string/add_device_wifi_name"
         android:inputType="text"
         android:maxLines="1"
         android:textSize="18sp"
@@ -34,7 +34,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="18dp"
-        android:hint="Password"
+        android:hint="@string/add_device_wifi_password"
         android:inputType="textPassword"
         android:maxLines="1"
         android:textSize="18sp"
@@ -54,7 +54,7 @@
         android:layout_below="@id/et_password"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
-        android:text="The 5G band and enterprise level Wi-Fi are not supported for the time being."
+        android:text="@string/add_device_wifi_tip"
         android:textColor="@color/gray_third"
         android:textSize="@dimen/signIn_textSize_12" />
 
@@ -67,7 +67,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="58dp"
         android:background="@drawable/shape_signin_button"
-        android:text="Join"
+        android:text="@string/add_device_join"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/signIn_textSize_18" />

@@ -24,7 +24,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Movement detection"
+            android:text="@string/device_setting_movement_detection"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -63,7 +63,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Motion sensitivity"
+            android:text="@string/device_setting_motion_sensitivity"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -77,7 +77,7 @@
             android:gravity="end|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="medium"
+            android:text="@string/device_setting_motion_medium"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -149,7 +149,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Detection time"
+            android:text="@string/device_setting_detection_time"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -173,7 +173,6 @@
             android:ellipsize="end"
             android:gravity="end|center_vertical"
             android:singleLine="true"
-            android:text="24-hour"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
 

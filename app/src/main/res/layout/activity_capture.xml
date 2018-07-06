@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Tap to turn light on"
+                    android:text="@string/add_device_qr_light"
                     android:textColor="@color/white"
                     android:textSize="@dimen/device_setting_text_size_12" />
             </LinearLayout>
@@ -101,7 +101,7 @@
             android:layout_marginStart="@dimen/default_margin_left"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="Scan the QR code on the camera"
+            android:text="@string/add_device_qr_tip"
             android:textColor="@color/white"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -115,7 +115,7 @@
             android:layout_marginEnd="@dimen/device_setting_margin_first"
             android:layout_marginStart="@dimen/device_setting_margin_first"
             android:background="@drawable/selector_button"
-            android:text="Enter manually"
+            android:text="@string/add_device_qr_enter_manually"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/device_setting_text_size_16" />

@@ -24,7 +24,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Placement"
+            android:text="@string/device_setting_placement"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -48,7 +48,6 @@
             android:ellipsize="end"
             android:gravity="end|center_vertical"
             android:singleLine="true"
-            android:text="Upright"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
@@ -77,7 +76,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Auto Night vision"
+            android:text="@string/device_setting_night_vision"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -117,7 +116,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Camera microphone"
+            android:text="@string/device_setting_microphone"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -164,7 +163,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Camera speaking volume"
+            android:text="@string/device_setting_speaking_volume"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -177,7 +176,6 @@
             android:gravity="end|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="50"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
 

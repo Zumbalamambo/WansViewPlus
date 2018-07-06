@@ -35,7 +35,7 @@
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
                 android:singleLine="true"
-                android:text="Camera name"
+                android:text="@string/device_setting_name"
                 android:textColor="@color/gray_first"
                 android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -95,7 +95,7 @@
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
                 android:singleLine="true"
-                android:text="Device information"
+                android:text="@string/device_setting_information"
                 android:textColor="@color/gray_first"
                 android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -141,7 +141,7 @@
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
                 android:singleLine="true"
-                android:text="Network"
+                android:text="@string/device_setting_network"
                 android:textColor="@color/gray_first"
                 android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -209,7 +209,7 @@
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
                 android:singleLine="true"
-                android:text="Home alert"
+                android:text="@string/device_setting_alert"
                 android:textColor="@color/gray_first"
                 android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -255,7 +255,7 @@
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
                 android:singleLine="true"
-                android:text="Image and audio"
+                android:text="@string/device_setting_image_audio"
                 android:textColor="@color/gray_first"
                 android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -301,7 +301,7 @@
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
                 android:singleLine="true"
-                android:text="Camera time zone"
+                android:text="@string/device_setting_timezone"
                 android:textColor="@color/gray_first"
                 android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -370,7 +370,7 @@
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
                 android:singleLine="true"
-                android:text="TFcard storage"
+                android:text="@string/device_setting_card_storage"
                 android:textColor="@color/gray_first"
                 android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -416,7 +416,7 @@
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
                 android:singleLine="true"
-                android:text="Cloud storage"
+                android:text="@string/device_setting_cloud_storage"
                 android:textColor="@color/gray_first"
                 android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -470,7 +470,7 @@
                 android:gravity="start|center_vertical"
                 android:maxWidth="200dp"
                 android:singleLine="true"
-                android:text="Device maintenance"
+                android:text="@string/device_setting_maintenance"
                 android:textColor="@color/gray_first"
                 android:textSize="@dimen/device_setting_text_size_14" />
 

@@ -35,9 +35,8 @@
             android:id="@+id/tv_hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/iv_qr_code"
             android:gravity="center"
-            android:text="Place the QR code 10 to 20 centimeters in front of the camera."
+            android:text="@string/add_device_scan_tip"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/signIn_textSize_16" />
 
@@ -45,8 +44,6 @@
             android:id="@+id/iv_hint"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_below="@id/tv_hint"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:src="@mipmap/ic_bind_scan" />
 
@@ -54,10 +51,9 @@
             android:id="@+id/btn_sure"
             android:layout_width="match_parent"
             android:layout_height="@dimen/signIn_btn_height"
-            android:layout_below="@id/iv_hint"
             android:layout_marginTop="20dp"
             android:background="@drawable/shape_signin_button"
-            android:text="Voice prompt has been heard"
+            android:text="@string/add_device_scan_success"
             android:textAllCaps="false"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/signIn_textSize_16" />
@@ -66,11 +62,9 @@
             android:id="@+id/tv_sound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btn_sure"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:padding="5dp"
-            android:text="Try Sound configuration"
+            android:text="@string/add_device_try_sound"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/signIn_textSize_16" />
     </LinearLayout>

@@ -22,7 +22,7 @@
         android:layout_marginStart="@dimen/me_margin_first"
         android:layout_marginTop="18dp"
         android:gravity="center"
-        android:text="Please draw unlock pattern"
+        android:text="@string/me_security_modify_gesture_tip"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/me_text_size_16" />
 

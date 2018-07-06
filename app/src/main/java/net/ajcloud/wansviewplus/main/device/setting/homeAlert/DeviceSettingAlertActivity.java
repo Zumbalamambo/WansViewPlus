@@ -99,15 +99,15 @@ public class DeviceSettingAlertActivity extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (progress == 0) {
-                    levelTextView.setText("low");
+                    levelTextView.setText(R.string.device_setting_motion_low);
                 } else if (progress == 1) {
 
                 } else if (progress == 2) {
-                    levelTextView.setText("medium");
+                    levelTextView.setText(R.string.device_setting_motion_medium);
                 } else if (progress == 3) {
 
                 } else if (progress == 4) {
-                    levelTextView.setText("high");
+                    levelTextView.setText(R.string.device_setting_motion_high);
                 }
             }
 

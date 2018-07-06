@@ -22,6 +22,7 @@ import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.account.SigninTwiceActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.history.LocalHistoryActivity;
 import net.ajcloud.wansviewplus.main.mine.security.SecurityActivity;
 import net.ajcloud.wansviewplus.main.test.TestActivity;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
@@ -30,6 +31,9 @@ import net.ajcloud.wansviewplus.support.customview.dialog.LogoutDialog;
 import net.ajcloud.wansviewplus.support.customview.dialog.ProgressDialogManager;
 import net.ajcloud.wansviewplus.support.tools.TimeLock;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
+
+import static net.ajcloud.wansviewplus.main.history.LocalHistoryActivity.ITEM_IMAGE;
+import static net.ajcloud.wansviewplus.main.history.LocalHistoryActivity.ITEM_VIDEO;
 
 /**
  * Created by mamengchao on 2018/05/15.
@@ -140,8 +144,10 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.ll_video:
+                LocalHistoryActivity.start(getActivity(), ITEM_VIDEO);
                 break;
             case R.id.ll_photo:
+                LocalHistoryActivity.start(getActivity(), ITEM_IMAGE);
                 break;
             case R.id.rl_message:
                 break;

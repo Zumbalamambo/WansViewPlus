@@ -21,9 +21,7 @@
         android:layout_marginStart="@dimen/default_margin_left"
         android:layout_marginTop="16dp"
         android:gravity="start"
-        android:text="1.The router is not properly connected.
-Please check if the wireless network is
-normal."
+        android:text="@string/add_device_cable_fail_tip"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/device_setting_text_size_16" />
 
@@ -39,7 +37,7 @@ normal."
             android:layout_height="@dimen/device_btn_height"
             android:layout_marginStart="@dimen/default_margin_left"
             android:background="@drawable/shape_add_device_button"
-            android:text="I know"
+            android:text="@string/add_device_know"
             android:textAllCaps="false"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/device_setting_text_size_16" />
@@ -51,7 +49,7 @@ normal."
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/default_margin_left"
             android:background="@drawable/shape_signin_button"
-            android:text="Reconnect"
+            android:text="@string/add_device_reconnect"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/device_setting_text_size_16" />

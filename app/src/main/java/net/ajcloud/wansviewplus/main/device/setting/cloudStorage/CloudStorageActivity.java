@@ -27,7 +27,7 @@ public class CloudStorageActivity extends BaseActivity {
     private static final String LOADING = "LOADING";
     private SwitchCompat storageSwitch;
     private RelativeLayout timeLayout, qualityLayout, planOneLayout, planTwoLayout;
-    private TextView timeTextView, qualityTextView, planOneTextView, planTwoTextView, periodOneTextView, periodTwoTextView;
+    private TextView timeTextView, qualityTextView;
     private Button expireButton, replenishButton;
     private AudioQualityDialog audioQualityDialog;
     private DeviceApiUnit deviceApiUnit;
@@ -59,14 +59,8 @@ public class CloudStorageActivity extends BaseActivity {
         storageSwitch = findViewById(R.id.item_storage_switch);
         timeLayout = findViewById(R.id.item_time);
         qualityLayout = findViewById(R.id.item_quality);
-        planOneLayout = findViewById(R.id.item_plan_one);
-        planTwoLayout = findViewById(R.id.item_plan_two);
         timeTextView = findViewById(R.id.item_time_time);
         qualityTextView = findViewById(R.id.item_quality_time);
-        planOneTextView = findViewById(R.id.item_plan_one_time);
-        planTwoTextView = findViewById(R.id.item_plan_two_time);
-        periodOneTextView = findViewById(R.id.item_one_time_time);
-        periodTwoTextView = findViewById(R.id.item_two_time_time);
         expireButton = findViewById(R.id.btn_expire);
         replenishButton = findViewById(R.id.btn_replenish);
         audioQualityDialog = new AudioQualityDialog(this);
@@ -123,10 +117,6 @@ public class CloudStorageActivity extends BaseActivity {
                 if (!audioQualityDialog.isShowing()) {
                     audioQualityDialog.show();
                 }
-                break;
-            case R.id.item_plan_one:
-                break;
-            case R.id.item_plan_two:
                 break;
             default:
                 break;

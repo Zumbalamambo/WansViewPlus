@@ -23,7 +23,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:gravity="center"
-        android:text="Please wait 1-2 minutes"
+        android:text="@string/add_device_wait_tip_1"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/signIn_textSize_16" />
 
@@ -37,7 +37,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
         android:gravity="center"
-        android:text="After connection,you will be able to view the camera with your phone."
+        android:text="@string/add_device_wait_tip_2"
         android:textColor="@color/gray_second"
         android:textSize="@dimen/signIn_textSize_12" />
 
@@ -54,14 +54,13 @@
             android:id="@+id/tv_second"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="120"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/signIn_textSize_16" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" seconds left"
+            android:text="@string/add_device_seconds"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/signIn_textSize_16" />
     </LinearLayout>
