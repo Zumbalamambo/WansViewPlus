@@ -14,9 +14,6 @@ import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.utils.FileUtil;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
-import net.ajcloud.wansviewplus.support.utils.FileUtil;
-import net.ajcloud.wansviewplus.support.utils.ToastUtil;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -105,7 +102,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         new Thread() {
             public void run() {
                 Looper.prepare();
-                ToastUtil.show(R.string.stopwork_prompt);
+                ToastUtil.show(R.string.app_error_stopwork_prompt);
                 Looper.loop();
             }
         }.start();

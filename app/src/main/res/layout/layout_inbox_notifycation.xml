@@ -49,7 +49,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@id/iv_more"
-            android:text="More"
+            android:text="@string/common_more"
             android:textColor="@color/gray_third"
             android:textSize="@dimen/inbox_text_size_14" />
 

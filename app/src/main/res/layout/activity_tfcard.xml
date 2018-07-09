@@ -24,7 +24,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="TF card storage"
+            android:text="@string/device_setting_card_storage"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -64,7 +64,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Detection time"
+            android:text="@string/device_setting_detection_time"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -88,7 +88,6 @@
             android:ellipsize="end"
             android:gravity="end|center_vertical"
             android:singleLine="true"
-            android:text="24-hour"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -127,7 +126,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Video quality"
+            android:text="@string/device_setting_quality"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -151,7 +150,6 @@
             android:ellipsize="end"
             android:gravity="end|center_vertical"
             android:singleLine="true"
-            android:text="FHD"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
@@ -169,7 +167,6 @@
             android:layout_height="0.1dp"
             android:layout_marginEnd="@dimen/device_setting_margin_first"
             android:layout_marginStart="@dimen/device_setting_margin_first"
-
             android:background="@color/gray_line" />
 
         <TextView
@@ -183,7 +180,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Record when image changes"
+            android:text="@string/device_setting_motion_detection"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 

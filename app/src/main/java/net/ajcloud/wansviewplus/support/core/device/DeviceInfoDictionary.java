@@ -20,13 +20,13 @@ public class DeviceInfoDictionary {
     private static final Object[][] deviceInfoData = new Object[][]{
             // type		typeId     nameRes
             // k3
-            {"K03", 1, R.string.camera_default_name_k3, R.mipmap.ic_model_k3},
+            {"K03", 1, R.string.device_default_name_k3, R.mipmap.ic_model_k3},
             // q3
-            {"Q03", 2, R.string.camera_default_name_q3, R.mipmap.ic_model_q3},
+            {"Q03", 2, R.string.device_default_name_q3, R.mipmap.ic_model_q3},
             // q3
-            {"Q3S", 2, R.string.camera_default_name_q3, R.mipmap.ic_model_q3},
+            {"Q3S", 2, R.string.device_default_name_q3, R.mipmap.ic_model_q3},
             // w2
-            {"W02", 3, R.string.camera_default_name_w2, R.mipmap.ic_model_w2}
+            {"W02", 3, R.string.device_default_name_w2, R.mipmap.ic_model_w2}
     };
 
     static {
@@ -61,19 +61,19 @@ public class DeviceInfoDictionary {
      */
     public static int getDefaultNameByType(String type) {
         if (type == null) {
-            return R.string.camera_unknow;
+            return R.string.device_unknow;
         }
 
         DeviceInfoDataBean bean = deviceDataMap.get(type);
         if (bean == null) {
-            return R.string.camera_unknow;
+            return R.string.device_unknow;
         }
         return bean.nameRes;
     }
 
     public static String getNameByDevice(Camera camera) {
         if (camera == null) {
-            return MainApplication.getApplication().getResources().getString(R.string.camera_unknow);
+            return MainApplication.getApplication().getResources().getString(R.string.device_unknow);
         } else {
             String deviceName = camera.aliasName;
             if (deviceName == null) {

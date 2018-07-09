@@ -23,7 +23,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Time period 1"
+            android:text="@string/device_setting_period_1"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -74,7 +74,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Start time"
+            android:text="@string/device_setting_start_time"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -129,7 +129,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="End time"
+            android:text="@string/device_setting_end_time"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 
@@ -184,7 +184,7 @@
             android:gravity="start|center_vertical"
             android:maxWidth="200dp"
             android:singleLine="true"
-            android:text="Repeat time"
+            android:text="@string/device_setting_repeat_time"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/device_setting_text_size_14" />
 

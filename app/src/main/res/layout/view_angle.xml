@@ -75,7 +75,7 @@
                         android:ellipsize="end"
                         android:gravity="center_vertical|end"
                         android:singleLine="true"
-                        android:text="@string/complete"
+                        android:text="@string/common_complete"
                         android:textColor="@color/gray_second"
                         android:textSize="@dimen/device_setting_text_size_14" />
                 </LinearLayout>

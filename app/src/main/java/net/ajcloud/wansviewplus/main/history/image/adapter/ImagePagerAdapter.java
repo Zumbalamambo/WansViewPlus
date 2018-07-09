@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 
+import net.ajcloud.wansviewplus.main.history.entity.ImageInfo;
 import net.ajcloud.wansviewplus.main.history.image.ui.ImageDetailFragment;
 import net.ajcloud.wansviewplus.main.history.image.widget.DragViewPager;
 
@@ -16,23 +17,20 @@ public class ImagePagerAdapter extends FragmentStatePagerAdapter {
     private DragViewPager mPager;
     private ArrayList<Fragment> mFragmentList;
 
-    public ImagePagerAdapter(FragmentManager fm, List<String> datas, DragViewPager pager) {
+    public ImagePagerAdapter(FragmentManager fm, List<ImageInfo> datas, DragViewPager pager) {
         super(fm);
         mPager=pager;
         mPager.setAdapter(this);
         updateData(datas);
     }
 
-    public void updateData(List<String> dataList) {
+    public void updateData(List<ImageInfo> dataList) {
         ArrayList<Fragment> fragments = new ArrayList<>();
         for (int i = 0, size = dataList.size(); i < size; i++) {
-            final ImageDetailFragment fragment = ImageDetailFragment.newInstance(dataList.get(i));
-            fragment.setOnImageListener(new ImageDetailFragment.OnImageListener() {
-                @Override
-                public void onInit() {
-                    View view = fragment.getView();
-                    mPager.setCurrentShowView(view);
-                }
+            final ImageDetailFragment fragment = ImageDetailFragment.newInstance(dataList.get(i).getImagePath());
+            fragment.setOnImageListener(() -> {
+                View view = fragment.getView();
+                mPager.setCurrentShowView(view);
             });
             fragments.add(fragment);
         }

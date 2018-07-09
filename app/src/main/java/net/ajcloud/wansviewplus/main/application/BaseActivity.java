@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.support.customview.MyToolbar;
+import net.ajcloud.wansviewplus.support.customview.SwipeBackLayout;
 import net.ajcloud.wansviewplus.support.customview.dialog.ProgressDialogManager;
 import net.ajcloud.wansviewplus.support.tools.TimeLock;
 import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
@@ -55,69 +56,14 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     private void initRootView() {
         /*直接创建一个帧布局，作为视图容器的父容器*/
-        rootView = new FrameLayout(this);
+        rootView =  new FrameLayout(this);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         rootView.setLayoutParams(params);
     }
 
     public void setContentView() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            try {
-                Class decorViewClazz = Class.forName("com.android.internal.policy.DecorView");
-                Field field = decorViewClazz.getDeclaredField("mSemiTransparentStatusBarColor");
-                field.setAccessible(true);
-                field.setInt(getWindow().getDecorView(), Color.TRANSPARENT);  //改为透明
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        //透明状态栏和获取状态栏高度
-        int statusBarHeight = 0;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //状态栏高度调整
-            {
-                //获取status_bar_height资源的ID
-                int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-                if (resourceId > 0) {
-                    //根据资源ID获取响应的尺寸值
-                    statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-                } else {
-                    statusBarHeight = DisplayUtil.dip2Pix(MainApplication.getApplication(), 20);
-                }
-            }
-            Window window = getWindow();
-            // Translucent status bar
-            window.setFlags(
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().setStatusBarColor(Color.TRANSPARENT);
-            }
-        }
-        //添加toolbar
-        if (hasTittle()) {
-            toolbarView = mInflater.inflate(R.layout.tool_bar, null);
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, DisplayUtil.dip2Pix(this, 48) + statusBarHeight);
-            rootView.addView(toolbarView, params);
-            toolbar = toolbarView.findViewById(R.id.toolbar);
-            toolbar.setPadding(0, statusBarHeight, 0, 0);
-        }
-        //添加contentView
-        contentView = mInflater.inflate(getLayoutId(), null);
-        contentView.setBackgroundColor(Color.WHITE);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        int topMargin = 0;
-        if (hasTittle()) {
-            topMargin = topMargin + DisplayUtil.dip2Pix(this, 48);
-        }
-        if (hasStateBar()) {
-            topMargin = topMargin + statusBarHeight;
-        }
-
-        params.topMargin = topMargin;
-        rootView.addView(contentView, 0, params);
-
+        rootView = getRootView();
         setContentView(rootView);
     }
 
@@ -178,6 +124,64 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
     public FrameLayout getRootView() {
+        if (0 == rootView.getChildCount()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                try {
+                    Class decorViewClazz = Class.forName("com.android.internal.policy.DecorView");
+                    Field field = decorViewClazz.getDeclaredField("mSemiTransparentStatusBarColor");
+                    field.setAccessible(true);
+                    field.setInt(getWindow().getDecorView(), Color.TRANSPARENT);  //改为透明
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            //透明状态栏和获取状态栏高度
+            int statusBarHeight = 0;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                //状态栏高度调整
+                {
+                    //获取status_bar_height资源的ID
+                    int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+                    if (resourceId > 0) {
+                        //根据资源ID获取响应的尺寸值
+                        statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+                    } else {
+                        statusBarHeight = DisplayUtil.dip2Pix(this, 20);
+                    }
+                }
+                Window window = getWindow();
+                // Translucent status bar
+                window.setFlags(
+                        WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                        WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getWindow().setStatusBarColor(Color.TRANSPARENT);
+                }
+            }
+
+            //添加toolbar
+            if (hasTittle()) {
+                toolbarView = mInflater.inflate(R.layout.tool_bar, null);
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, DisplayUtil.dip2Pix(this, 48) + statusBarHeight);
+                rootView.addView(toolbarView, params);
+                toolbar = toolbarView.findViewById(R.id.toolbar);
+                toolbar.setPadding(0, statusBarHeight, 0, 0);
+            }
+            //添加contentView
+            contentView = mInflater.inflate(getLayoutId(), null);
+            contentView.setBackgroundColor(Color.WHITE);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            int topMargin = 0;
+            if (hasTittle()) {
+                topMargin = topMargin + DisplayUtil.dip2Pix(this, 48);
+            }
+            if (hasStateBar()) {
+                topMargin = topMargin + statusBarHeight;
+            }
+
+            params.topMargin = topMargin;
+            rootView.addView(contentView, 0, params);
+        }
         return rootView;
     }
 }

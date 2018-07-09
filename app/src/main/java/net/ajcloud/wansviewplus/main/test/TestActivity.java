@@ -18,6 +18,7 @@ import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.application.SwipeBaseActivity;
 import net.ajcloud.wansviewplus.main.calendar.CalendarActivity;
 import net.ajcloud.wansviewplus.main.history.image.ui.ImagePagerActivity;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
@@ -42,7 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
-public class TestActivity extends BaseActivity {
+public class TestActivity extends SwipeBaseActivity {
 
     long time;
     private ReplayTimeAxisView replayTimeAxisView;
@@ -303,7 +304,7 @@ public class TestActivity extends BaseActivity {
         urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524133463580&di=1315bc4db30999f00b89ef79c3bb06e5&imgtype=0&src=http%3A%2F%2Fpic36.photophoto.cn%2F20150710%2F0005018721870517_b.jpg");
         urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524133463575&di=6221f21bcb761675c5d161ebc53d5948&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201410%2F03%2F20141003112442_AkkuH.thumb.700_0.jpeg");
 
-        ImagePagerActivity.startImagePage(TestActivity.this,urls, 0, null);
+//        ImagePagerActivity.startImagePage(TestActivity.this,urls, 0, null);
     }
 
     /**

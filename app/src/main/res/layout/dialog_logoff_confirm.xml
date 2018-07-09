@@ -13,7 +13,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="26dp"
         android:gravity="center"
-        android:text="Log off confirmation"
+        android:text="@string/dialog_log_off_confirmation"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/me_text_size_16" />
 
@@ -25,7 +25,7 @@
         android:layout_marginStart="@dimen/me_margin_first"
         android:layout_marginTop="26dp"
         android:background="@drawable/shape_logout_button"
-        android:text="confirm"
+        android:text="@string/common_confirm"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/me_text_size_16" />
@@ -39,7 +39,7 @@
         android:layout_marginStart="@dimen/me_margin_first"
         android:layout_marginTop="16dp"
         android:background="@drawable/shape_add_device_button"
-        android:text="Cancel"
+        android:text="@string/common_cancel"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/me_text_size_16" />

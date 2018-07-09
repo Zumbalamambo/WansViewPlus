@@ -29,7 +29,7 @@
             android:lines="1"
             android:maxWidth="165dp"
             android:minWidth="100dp"
-            android:text="@string/me_local_edit"
+            android:text="@string/common_edit"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/me_text_size_18"
             android:visibility="gone"

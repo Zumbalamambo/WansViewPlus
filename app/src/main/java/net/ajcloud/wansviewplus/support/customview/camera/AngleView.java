@@ -107,7 +107,7 @@ public class AngleView implements View.OnClickListener {
         editImg.setOnClickListener(this);
         selectLayout.setOnClickListener(this);
 
-        count.setText(String.format(context.getResources().getString(R.string.angles_count), list.size() + ""));
+        count.setText(String.format(context.getResources().getString(R.string.device_angles_count), list.size() + ""));
 
         viewAnglesAdapter = new ViewAnglesAdapter(context, list);
         rv_angle.setLayoutManager(new GridLayoutManager(context, 2));
@@ -181,7 +181,7 @@ public class AngleView implements View.OnClickListener {
                             if (list.get(i).viewAngle == angle) {
                                 list.remove(i);
                                 viewAnglesAdapter.remove(i);
-                                count.setText(String.format(context.getResources().getString(R.string.angles_count), list.size() + ""));
+                                count.setText(String.format(context.getResources().getString(R.string.device_angles_count), list.size() + ""));
                                 break;
                             }
                         }

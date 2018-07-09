@@ -5,41 +5,199 @@
     <string name="cloud">Cloud</string>
     <string name="me">Me</string>
 
-    <string name="cancel">取消</string>
-    <string name="edit">编辑</string>
-    <string name="select_all">全选</string>
-    <string name="complete">Complete</string>
-    <string name="add">添加</string>
-    <string name="today">今天</string>
-    <string name="retry">重试</string>
-    <string name="delete">删除</string>
-    <string name="ok">确定</string>
-    <string name="angles_count">%1$s Collection point</string>
-    <string name="device_discovery_id">ID:%1$s</string>
+    <!--device-->
+    <string name="device_angle_view_num">position %1$s</string>
+    <string name="device_online">ON LINE</string>
+    <string name="device_cloud_storage">Cloud Storage</string>
+    <string name="device_not_subscribed">not subscribed</string>
+    <string name="device_unbind_devices">Unbound any devices</string>
+    <string name="device_add_device">Add device</string>
+    <string name="device_default_name_k3">k3</string>
+    <string name="device_default_name_q3">q3</string>
+    <string name="device_default_name_w2">w2</string>
+    <string name="device_unknow">Unknown Device</string>
+    <string name="device_angles_count">%1$s Collection point</string>
+
+    <!--add_device-->
+    <string name="add_device_discovery_id">ID:%1$s</string>
     <string name="add_device_discovery_num">Found %1$s devices</string>
+    <string name="add_device_cable_confirm_tip_1">Confirm that the network cable is connected</string>
+    <string name="add_device_cable_confirm_tip_2">Your phone must be connected to Wifi in the same network environment as the camera</string>
+    <string name="add_device_cable_fail_tip">1.The router is not properly connected. Please check if the wireless network is normal.</string>
+    <string name="add_device_know">I know</string>
+    <string name="add_device_reconnect">Reconnect</string>
+    <string name="add_device_camera_setting_tip_1">Check if the camera LED is flashing BLUE AND RED</string>
+    <string name="add_device_camera_setting_tip_2">Please confirm that the power is connected.</string>
+    <string name="add_device_flash">Flashing</string>
+    <string name="add_device_not_flash">Not flashing</string>
+    <string name="add_device_yout_wifi">Your Wi-Fi</string>
+    <string name="add_device_wifi_empty">empty</string>
+    <string name="add_device_discovery_none_tip_1">Please connect the device with cable</string>
+    <string name="add_device_discovery_none_tip_2">Your phone must be connected to Wifi in the same network environment as the camera.</string>
+    <string name="add_device_wifi_fail_tip_1">1.Wi-Fi password entered incorrectly, please try to reconnect.</string>
+    <string name="add_device_wifi_fail_tip_2">2.The router is not properly connected. Please check if the wireless network is normal.</string>
+    <string name="add_device_mode_wifi">Wi-Fi connection</string>
+    <string name="add_device_mode_wifi_tip">The camera will be connected to the same Wi-Fi with your phone.</string>
+    <string name="add_device_select">Select</string>
+    <string name="add_device_mode_cable">Cable connection</string>
+    <string name="add_device_mode_cable_tip">Your phone must be connected to Wifi in the same network environment as the camera.</string>
+    <string name="add_device_scan_tip">Place the QR code 10 to 20 centimeters in front of the camera.</string>
+    <string name="add_device_scan_success">Voice prompt has been heard</string>
+    <string name="add_device_try_sound">Try Sound configuration</string>
+    <string name="add_device_sound_press_tip_1">Press \'Send\'</string>
+    <string name="add_device_sound_press_tip_2">Please confirm that the power is connected.</string>
+    <string name="add_device_sound__tip">Please turn up the volumeHold your phone closer to the camera</string>
+    <string name="add_device_sound_fail_tip">Didn\'t hear \'Sound wave received\'?</string>
+    <string name="add_device_success_name">Name the camera</string>
+    <string name="add_device_wait_tip_1">Please wait 1—2 minutes</string>
+    <string name="add_device_wait_tip_2">After connection,you will be able to view the camera with your phone.</string>
+    <string name="add_device_seconds">seconds left</string>
+    <string name="add_device_wifi_name">Network</string>
+    <string name="add_device_wifi_password">Password</string>
+    <string name="add_device_wifi_tip">The 5G band and enterprise level Wi-Fi are not supported for the time being.</string>
+    <string name="add_device_join">Join</string>
+    <string name="add_device_qr_light">Tap to turn light on</string>
+    <string name="add_device_qr_tip">Scan the QR code on the camera</string>
+    <string name="add_device_qr_enter_manually">Enter manually</string>
+
+    <!--signin-->
     <string name="signin_gesture_error_hint">Gesture error, %1$s chances left</string>
+    <string name="signin_hello">Hello</string>
+    <string name="signin_welcome">Welcome to Wansview +</string>
+    <string name="signin_sign_up">Sign up</string>
+    <string name="signin_forgot_password">Forgot password?</string>
+    <string name="signin_sign_in">Sign in</string>
+    <string name="signin_sign_up_tip">Your password must include 8 or more characters long and containat least one capital letter.</string>
+    <string name="signin_sign_up_agreement_tip">I have read and agree to the</string>
+    <string name="signin_sign_up_terms">Terms of Use</string>
+    <string name="signin_sign_up_verify_mail">Please open the mail and verify it</string>
+    <string name="signin_sign_up_send_again">Send mail again</string>
+    <string name="signin_change_password_tip">Current password</string>
+    <string name="signin_new_password_tip">New password</string>
+    <string name="signin_forgot_password_tip">Your password must include 8 or more characters long and containat least one capital letter.</string>
+
+    <!--me-->
+    <string name="me_local_select_all">Select all</string>
+    <string name="me_about_company_name">Wansview +</string>
+    <string name="me_about_email">Email</string>
+    <string name="me_about_service_agreement">Service agreement</string>
+    <string name="me_about_terms">Terms of Cloud storage</string>
+    <string name="me_security_modify_gesture_tip">Please draw unlock pattern</string>
+    <string name="me_security_gesture">Gesture login</string>
+    <string name="me_security_modify_gesture">Modify gesture graphics</string>
+    <string name="me_security_change_password">Change Password</string>
+    <string name="me_security_delete_account">Delete Account</string>
+    <string name="me_local_video">Local Video</string>
+    <string name="me_local_photo">Local Photo</string>
+    <string name="me_system_message">System message</string>
+    <string name="me_security_settings">Security Settings</string>
+    <string name="me_software_version">Software version</string>
+    <string name="me_about">About</string>
+    <string name="me_log_out">Log out</string>
     <string name="me_device_count">%1$s Camera</string>
     <string name="me_set_gesture">Please draw unlock pattern</string>
     <string name="me_set_gesture_again">Please draw unlock pattern again</string>
-    <string name="device_angle_view_num">position %1$s</string>
 
+    <!--device_setting-->
+    <string name="device_setting_cloud_storage">Cloud storage</string>
+    <string name="device_setting_detection_time">Detection time</string>
+    <string name="device_setting_quality">Video quality</string>
+    <string name="device_setting_quality_fhd">FHD</string>
+    <string name="device_setting_quality_hd">HD</string>
+    <string name="device_setting_detection_24">24-hour Alarm</string>
+    <string name="device_setting_period_1">Time period 1</string>
+    <string name="device_setting_period_2">Time period 2</string>
+    <string name="device_setting_name">Camera name</string>
+    <string name="device_setting_information">Device information</string>
+    <string name="device_setting_network">Network</string>
+    <string name="device_setting_alert">Home alert</string>
+    <string name="device_setting_image_audio">Image and audio</string>
+    <string name="device_setting_timezone">Camera time zone</string>
+    <string name="device_setting_card_storage">TFcard storage</string>
+    <string name="device_setting_maintenance">Device maintenance</string>
+    <string name="device_setting_movement_detection">Movement detection</string>
+    <string name="device_setting_motion_sensitivity">Motion sensitivity</string>
+    <string name="device_setting_motion_medium">medium</string>
+    <string name="device_setting_motion_low">low</string>
+    <string name="device_setting_motion_high">high</string>
+    <string name="device_setting_camera_id">Camera ID</string>
+    <string name="device_setting_camera_version">Firmware Version</string>
+    <string name="device_setting_camera_ip">IP Address</string>
+    <string name="device_setting_camera_mac">Wi-Fi MAC</string>
+    <string name="device_setting_placement">Placement</string>
+    <string name="device_setting_night_vision">Auto Night vision</string>
+    <string name="device_setting_microphone">Camera microphone</string>
+    <string name="device_setting_speaking_volume">Camera speaking volume</string>
+    <string name="device_setting_maintenance_restart">Restart camera</string>
+    <string name="device_setting_maintenance_restore">Restore factory setting</string>
+    <string name="device_setting_maintenance_delete">Delete camera</string>
+    <string name="device_setting_motion_detection">Record when image changes</string>
+    <string name="device_setting_start_time">Start time</string>
+    <string name="device_setting_end_time">End time</string>
+    <string name="device_setting_repeat_time">Repeat time</string>
+
+    <!--dialog-->
+    <string name="dialog_delete_account">Delete account</string>
+    <string name="dialog_delete_account_tip">All the devices that your account is bound to will be lost.All your purchase records will be invalidated.Do you want to write off the account?</string>
+    <string name="dialog_log_off_confirmation">Log off confirmation</string>
+    <string name="dialog_log_out_tittle">Log out？</string>
+    <string name="dialog_log_out">Log out</string>
+    <string name="dialog_no_sound_tittle">Didn\'t hear received</string>
+    <string name="dialog_no_sound_tip_1">1.Please turn up the volume Louder. Try again, hold your phone closer to the camera after clicking the send button.</string>
+    <string name="dialog_no_sound_tip_2">2.Try to relink WiFi.The 5G band and enterprise level Wi-Fi are not supported for the time being.</string>
+    <string name="dialog_no_sound_tip_3">3.Try to contact us for help service@wansview.com</string>
+    <string name="dialog_not_flash_tittle">Not flashing</string>
+    <string name="dialog_not_flash_tip_1">1.Please try restarting the camera after power off.</string>
+    <string name="dialog_not_flash_tip_2">2.Try to contact us for help service@wansview.com</string>
+    <string name="dialog_placement_tittle">Set camera placement</string>
+    <string name="dialog_placement_upright">Upright</string>
+    <string name="dialog_placement_inverted">Inverted</string>
+    <string name="dialog_signin_more_gesture">Gesture</string>
+    <string name="dialog_signin_more_switch_account">Switch account</string>
+    <string name="dialog_weekday_monday">Monday</string>
+    <string name="dialog_weekday_tuesday">Tuesday</string>
+    <string name="dialog_weekday_wednesday">Wednesday</string>
+    <string name="dialog_weekday_thursday">Thursday</string>
+    <string name="dialog_weekday_friday">Friday</string>
+    <string name="dialog_weekday_saturday">Saturday</string>
+    <string name="dialog_weekday_sunday">Sunday</string>
+
+    <!--common-->
+    <string name="common_edit">Edit</string>
+    <string name="common_ok">OK</string>
+    <string name="common_more">More</string>
+    <string name="common_next">Next</string>
+    <string name="common_reset">Reset</string>
+    <string name="common_delete">Delete</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_confirm">confirm</string>
+    <string name="common_loading">loading</string>
+    <string name="common_complete">Complete</string>
+    <string name="common_add">添加</string>
+    <string name="common_today">今天</string>
+    <string name="common_retry">重试</string>
+
+    <!--pickerview-->
+    <string name="pickerview_cancel">取消</string>
+    <string name="pickerview_submit">确定</string>
+    <string name="pickerview_year">年</string>
+    <string name="pickerview_month">月</string>
+    <string name="pickerview_day">日</string>
+    <string name="pickerview_hours">时</string>
+    <string name="pickerview_minutes">分</string>
+    <string name="pickerview_seconds">秒</string>
 
     <!--FCM notification channel id-->
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <!-- http -->
     <string name="Service_Error">Unable to connect to server, please check internet or try again later</string>
     <string name="http_time_out">times out...</string>
-    <!--app error-->
-    <string name="Permission_Denied">Authorization request is denied</string>
-    <string name="stopwork_prompt">The program has stopped running</string>
+    <!--app_error-->
+    <string name="app_error_permission_denied">Authorization request is denied</string>
+    <string name="app_error_stopwork_prompt">The program has stopped running</string>
+    <string name="app_error_network_error">当前网络状况不佳</string>
 
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="exit_twotwice">Once again, exit the program</string>
-
-    <string name="chroma_format_default" translatable="false">RV16</string>
-
+    <!--wv-old-->
     <string name="wv_view_refeshing">刷新</string>
     <string name="wv_chatfooter_cancel_rcd">手指上滑，取消发送</string>
     <string name="wv_favorite_release_cancel">松开手指，取消录音</string>
@@ -67,7 +225,6 @@
     <string name="wv_video_already_recording">该视频已在录制中</string>
     <string name="wv_video_cannot_record">该视频不可录制</string>
     <string name="wv_opening_video_and_wait_to_change">正在打开视频…</string>
-
     <string name="wv_videoplayer_menu_quality_low">流畅</string>
     <string name="wv_videoplayer_menu_quality_normal">标清</string>
     <string name="wv_videoplayer_menu_quality_high">高清</string>
@@ -116,14 +273,12 @@
     <string name="wv_cruise_vertical">上下巡航</string>
     <string name="wv_cruise_horizontal">左右巡航</string>
     <string name="wv_camera_stop_cruise">停止巡航</string>
-
     <string name="wv_history_delete_tips">确定要删除吗？</string>
     <string name="wv_history_delete_notify_tips">删除后数据将无法恢复</string>
     <string name="wv_choose_delete_video">请选择要删除的视频</string>
     <string name="wv_video_download_item_name">摄像机</string>
     <string name="wv_video_download_downloaded">已下载</string>
     <string name="wv_video_download_downloading">正在下载</string>
-
     <string name="wv_video_download_item_download_from_cloud">来自云存储</string>
     <string name="wv_video_download_item_download_from_tfcard">来自TF卡</string>
     <string name="wv_video_download_item_download_from_nas">来自NAS设备</string>
@@ -131,131 +286,18 @@
     <string name="wv_video_download_item_download_notfound">下载失败，该文件已过期</string>
     <string name="wv_video_download_item_download_wait">等待中...</string>
     <string name="wv_video_download_item_download_fail">下载失败，点击重新下载</string>
-
-    <string name="videoplayer_network_open_tips">当前网络状况不佳</string>
     <string name="play_fast_rate">快</string>
     <string name="play_slow_rate">慢</string>
     <string name="videoActivity_network_slow">当前网络状况不佳,请重试</string>
     <string name="play_buffing">正在缓冲中...</string>
     <string name="hardware_acceleration_error_title">硬件加速失败</string>
     <string name="hardware_acceleration_error_message">硬件加速失败，请重试</string>
-
-    <string name="camera_default_name_k3">k3</string>
-    <string name="camera_default_name_q3">q3</string>
-    <string name="camera_default_name_w2">w2</string>
-    <string name="camera_unknow">Unknown Device</string>
+    <string name="exit_twotwice">Once again, exit the program</string>
+    <string name="chroma_format_default" translatable="false">RV16</string>
     <string name="wv_first_select_video">请先选一个视频</string>
-
-    <string name="pickerview_cancel">取消</string>
-    <string name="pickerview_submit">确定</string>
-    <string name="pickerview_year">年</string>
-    <string name="pickerview_month">月</string>
-    <string name="pickerview_day">日</string>
-    <string name="pickerview_hours">时</string>
-    <string name="pickerview_minutes">分</string>
-    <string name="pickerview_seconds">秒</string>
-
     <string name="viewpager_indicator">%1$d/%2$d</string>
-    <string name="me_about_company_name">Wansview +</string>
-    <string name="me_about_email">Email</string>
-    <string name="me_about_service_agreement">Service agreement</string>
-    <string name="me_about_terms">Terms of Cloud storage</string>
-    <string name="add_device_cable_confirm_tip_1">Confirm that the network cable is connected</string>
-    <string name="add_device_cable_confirm_tip_2">Your phone must be connected to Wifi in the same network environment as the camera</string>
-    <string name="common_next">Next</string>
-    <string name="add_device_cable_fail_tip">1.The router is not properly connected. Please check if the wireless network is normal.</string>
-    <string name="add_device_know">I know</string>
-    <string name="add_device_reconnect">Reconnect</string>
-    <string name="add_device_camera_setting_tip_1">Check if the camera LED is flashing BLUE AND RED</string>
-    <string name="add_device_camera_setting_tip_2">Please confirm that the power is connected.</string>
-    <string name="add_device_flash">Flashing</string>
-    <string name="add_device_not_flash">Not flashing</string>
-    <string name="add_device_yout_wifi">Your Wi-Fi</string>
-    <string name="add_device_wifi_empty">empty</string>
-    <string name="add_device_discovery_none_tip_1">Please connect the device with cable</string>
-    <string name="add_device_discovery_none_tip_2">Your phone must be connected to Wifi in the same network environment as the camera.</string>
-    <string name="add_device_wifi_fail_tip_1">1.Wi-Fi password entered incorrectly, please try to reconnect.</string>
-    <string name="add_device_wifi_fail_tip_2">2.The router is not properly connected. Please check if the wireless network is normal.</string>
-    <string name="add_device_mode_wifi">Wi-Fi connection</string>
-    <string name="add_device_mode_wifi_tip">The camera will be connected to the same Wi-Fi with your phone.</string>
-    <string name="add_device_select">Select</string>
-    <string name="add_device_mode_cable">Cable connection</string>
-    <string name="add_device_mode_cable_tip">Your phone must be connected to Wifi in the same network environment as the camera.</string>
-    <string name="add_device_scan_tip">Place the QR code 10 to 20 centimeters in front of the camera.</string>
-    <string name="add_device_scan_success">Voice prompt has been heard</string>
-    <string name="add_device_try_sound">Try Sound configuration</string>
-    <string name="add_device_sound_press_tip_1">Press \'Send\'</string>
-    <string name="add_device_sound_press_tip_2">Please confirm that the power is connected.</string>
-    <string name="add_device_sound__tip">Please turn up the volumeHold your phone closer to the camera</string>
-    <string name="add_device_sound_fail_tip">Didn\'t hear \'Sound wave received\'?</string>
-    <string name="add_device_success_name">Name the camera</string>
-    <string name="common_ok">OK</string>
-    <string name="add_device_wait_tip_1">Please wait 1—2 minutes</string>
-    <string name="add_device_wait_tip_2">After connection,you will be able to view the camera with your phone.</string>
-    <string name="add_device_seconds">seconds left</string>
-    <string name="add_device_wifi_name">Network</string>
-    <string name="add_device_wifi_password">Password</string>
-    <string name="add_device_wifi_tip">The 5G band and enterprise level Wi-Fi are not supported for the time being.</string>
-    <string name="add_device_join">Join</string>
-    <string name="add_device_qr_light">Tap to turn light on</string>
-    <string name="add_device_qr_tip">Scan the QR code on the camera</string>
-    <string name="add_device_qr_enter_manually">Enter manually</string>
-    <string name="account_change_password_tip">Current password</string>
-    <string name="account_new_password_tip">New password</string>
-    <string name="device_setting_cloud_storage">Cloud storage</string>
-    <string name="device_setting_detection_time">Detection time</string>
-    <string name="device_setting_quality">Video quality</string>
-    <string name="device_setting_quality_fhd">FHD</string>
-    <string name="device_setting_quality_hd">HD</string>
-    <string name="device_setting_detection_24">24-hour Alarm</string>
-    <string name="device_setting_period_1">Time period 1</string>
-    <string name="device_setting_period_2">Time period 2</string>
-    <string name="device_setting_name">Camera name</string>
-    <string name="device_setting_information">Device information</string>
-    <string name="device_setting_network">Network</string>
-    <string name="device_setting_alert">Home alert</string>
-    <string name="device_setting_image_audio">Image and audio</string>
-    <string name="device_setting_timezone">Camera time zone</string>
-    <string name="device_setting_card_storage">TFcard storage</string>
-    <string name="device_setting_maintenance">Device maintenance</string>
-    <string name="device_setting_movement_detection">Movement detection</string>
-    <string name="device_setting_motion_sensitivity">Motion sensitivity</string>
-    <string name="device_setting_motion_medium">medium</string>
-    <string name="device_setting_motion_low">low</string>
-    <string name="device_setting_motion_high">high</string>
-    <string name="device_setting_camera_id">Camera ID</string>
-    <string name="device_setting_camera_version">Firmware Version</string>
-    <string name="device_setting_camera_ip">IP Address</string>
-    <string name="device_setting_camera_mac">Wi-Fi MAC</string>
     <string name="editText_hint_email">Email</string>
     <string name="editText_hint_password">Password</string>
-    <string name="account_forgot_password_tip">Your password must include 8 or more characters long and containat least one capital letter.</string>
-    <string name="common_reset">Reset</string>
-    <string name="device_setting_placement">Placement</string>
-    <string name="device_setting_night_vision">Auto Night vision</string>
-    <string name="device_setting_microphone">Camera microphone</string>
-    <string name="device_setting_speaking_volume">Camera speaking volume</string>
-    <string name="me_local_edit">Edit</string>
-    <string name="me_local_select_all">Select all</string>
-    <string name="common_delete">Delete</string>
-    <string name="device_setting_maintenance_restart">Restart camera</string>
-    <string name="device_setting_maintenance_restore">Restore factory setting</string>
-    <string name="device_setting_maintenance_delete">Delete camera</string>
-    <string name="me_security_modify_gesture_tip">Please draw unlock pattern</string>
-    <string name="me_security_gesture">Gesture login</string>
-    <string name="me_security_modify_gesture">Modify gesture graphics</string>
-    <string name="me_security_change_password">Change Password</string>
-    <string name="me_security_delete_account">Delete Account</string>
-    <string name="signin_hello">Hello</string>
-    <string name="signin_welcome">Welcome to Wansview +</string>
-    <string name="signin_sign_up">Sign up</string>
-    <string name="signin_forgot_password">Forgot password?</string>
-    <string name="signin_sign_in">Sign in</string>
-    <string name="common_more">More</string>
-    <string name="signin_sign_up_tip">Your password must include 8 or more characters long and containat least one capital letter.</string>
-    <string name="signin_sign_up_agreement_tip">I have read and agree to the</string>
-    <string name="signin_sign_up_terms">Terms of Use</string>
-    <string name="signin_sign_up_verify_mail">Please open the mail and verify it</string>
-    <string name="signin_sign_up_send_again">Send mail again</string>
+    <string name="alert_no_alarm">Temporarily no movement alarm</string>
 
 </resources>

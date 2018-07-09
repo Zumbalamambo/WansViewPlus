@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
+import net.ajcloud.wansviewplus.main.history.entity.ImageInfo;
 import net.ajcloud.wansviewplus.main.history.image.adapter.ImagePagerAdapter;
 import net.ajcloud.wansviewplus.main.history.image.widget.DragViewPager;
 
@@ -33,7 +34,7 @@ public class ImagePagerActivity extends AppCompatActivity implements ImageDetail
     private static final String EXTRA_IMAGE_INDEX = "image_index";
     private static final String EXTRA_IMAGE_URLS = "image_urls";
     private ImagePagerAdapter mAdapter;
-    private ArrayList<String> mImgs;
+    private ArrayList<ImageInfo> mImgs;
     private DragViewPager mPager;
     private TextView indicator;
     private ProgressBar mProgress;
@@ -42,7 +43,7 @@ public class ImagePagerActivity extends AppCompatActivity implements ImageDetail
 
 
 
-    public static void startImagePage(Activity context, ArrayList<String> urls, int pos, @Nullable View view) {
+    public static void startImagePage(Activity context, ArrayList<ImageInfo> urls, int pos, @Nullable View view) {
         Intent intent = new Intent(context, ImagePagerActivity.class);
         // 图片url,从数据库中或网络中获取
         intent.putExtra(EXTRA_IMAGE_URLS, urls);
@@ -81,10 +82,9 @@ public class ImagePagerActivity extends AppCompatActivity implements ImageDetail
     }
 
     private void initView() {
-        mImgs = getIntent().getStringArrayListExtra(
-                EXTRA_IMAGE_URLS);
+        mImgs = (ArrayList<ImageInfo>) getIntent().getSerializableExtra(EXTRA_IMAGE_URLS);
 
-        mPager = (DragViewPager) findViewById(R.id.pager);
+        mPager = findViewById(R.id.pager);
         mPager.setIAnimClose(new DragViewPager.IAnimClose() {
             @Override
             public void onPictureClick() {
@@ -98,10 +98,10 @@ public class ImagePagerActivity extends AppCompatActivity implements ImageDetail
         });
         mPager.setOffscreenPageLimit(mImgs.size());
 
-        mAdapter = new ImagePagerAdapter(getSupportFragmentManager(), mImgs,mPager);
+        mAdapter = new ImagePagerAdapter(getSupportFragmentManager(), mImgs, mPager);
 //        mPager.setAdapter(mAdapter);
-        indicator = (TextView) findViewById(R.id.indicator);
-        mProgress = (ProgressBar) findViewById(R.id.loadingIcon);
+        indicator = findViewById(R.id.indicator);
+        mProgress = findViewById(R.id.loadingIcon);
 
         CharSequence text = getString(R.string.viewpager_indicator, 1, mPager
                 .getAdapter().getCount());

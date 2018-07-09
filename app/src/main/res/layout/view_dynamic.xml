@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="@string/today" />
+            android:text="@string/common_today" />
 
         <ImageView
             android:id="@+id/more"

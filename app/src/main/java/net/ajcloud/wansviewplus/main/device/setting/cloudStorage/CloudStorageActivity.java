@@ -26,7 +26,7 @@ public class CloudStorageActivity extends BaseActivity {
 
     private static final String LOADING = "LOADING";
     private SwitchCompat storageSwitch;
-    private RelativeLayout timeLayout, qualityLayout, planOneLayout, planTwoLayout;
+    private RelativeLayout timeLayout, qualityLayout;
     private TextView timeTextView, qualityTextView;
     private Button expireButton, replenishButton;
     private AudioQualityDialog audioQualityDialog;
@@ -84,8 +84,6 @@ public class CloudStorageActivity extends BaseActivity {
     protected void initListener() {
         timeLayout.setOnClickListener(this);
         qualityLayout.setOnClickListener(this);
-        planOneLayout.setOnClickListener(this);
-        planTwoLayout.setOnClickListener(this);
         replenishButton.setOnClickListener(this);
         storageSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

@@ -26,7 +26,7 @@
             android:ellipsize="end"
             android:maxWidth="150dp"
             android:singleLine="true"
-            android:text="Not flashing"
+            android:text="@string/dialog_not_flash_tittle"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/signIn_textSize_18" />
     </RelativeLayout>
@@ -44,7 +44,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:text="1.Please try restarting the camera after power off."
+        android:text="@string/dialog_not_flash_tip_1"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/signIn_textSize_16" />
 
@@ -55,7 +55,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="25dp"
-        android:text="2.Try to contact us for help service@wansview.com"
+        android:text="@string/dialog_not_flash_tip_2"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/signIn_textSize_16" />
 </LinearLayout>

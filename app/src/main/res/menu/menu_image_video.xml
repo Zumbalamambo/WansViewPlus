@@ -6,10 +6,10 @@
     <item
         android:id="@+id/history_menu_edit"
         app:showAsAction="always"
-        android:title="@string/edit"/>
+        android:title="@string/common_edit"/>
 
     <item
         android:id="@+id/history_menu_cancel"
         app:showAsAction="always"
-        android:title="@string/cancel"/>
+        android:title="@string/common_cancel"/>
 </menu>

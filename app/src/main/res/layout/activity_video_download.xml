@@ -70,7 +70,7 @@
             android:layout_weight="1"
             android:background="@drawable/white_text_button"
             android:gravity="center"
-            android:text="@string/select_all"
+            android:text="@string/me_local_select_all"
             android:textColor="#00ACE5"
             android:textSize="@dimen/wv_base_sizeText_1" />
 
@@ -81,7 +81,7 @@
             android:layout_weight="1"
             android:background="@drawable/white_text_button"
             android:gravity="center"
-            android:text="@string/delete"
+            android:text="@string/common_delete"
             android:textColor="#00ACE5"
             android:textSize="@dimen/wv_base_sizeText_1" />
 

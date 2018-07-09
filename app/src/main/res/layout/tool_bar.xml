@@ -46,7 +46,7 @@
                 android:ellipsize="end"
                 android:gravity="start|center_vertical"
                 android:lines="1"
-                android:text="test"
+                tools:text="test"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/signIn_textSize_18"

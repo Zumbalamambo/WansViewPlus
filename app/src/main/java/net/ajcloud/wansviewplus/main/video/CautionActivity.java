@@ -2,29 +2,23 @@ package net.ajcloud.wansviewplus.main.video;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.entity.camera.Camera;
@@ -41,7 +35,6 @@ import org.httprelay.HttpRelay;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.ReverseAudioInfo;
 
-import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -379,7 +372,7 @@ public class CautionActivity extends BaseActivity implements PlayerView.OnChange
 
     @Override
     public void onNetSlow() {
-        ToastUtil.show(R.string.videoplayer_network_open_tips);
+        ToastUtil.show(R.string.app_error_network_error);
     }
 
     @Override
@@ -679,7 +672,7 @@ public class CautionActivity extends BaseActivity implements PlayerView.OnChange
                     if (preState == Media.State.Opening) {
                         if (System.currentTimeMillis() - preStateBeginTime >= 6000) {
                             preStateBeginTime = System.currentTimeMillis();
-                            ToastUtil.show(R.string.videoplayer_network_open_tips);
+                            ToastUtil.show(R.string.app_error_network_error);
                         }
                     } else {
                         preState = Media.State.Opening;

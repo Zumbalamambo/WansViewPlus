@@ -23,7 +23,7 @@
             android:layout_gravity="end|bottom"
             android:background="@color/colorPrimary"
             android:gravity="center"
-            android:text="ON LINE"
+            android:text="@string/device_online"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/device_textSize_10" />
@@ -36,8 +36,7 @@
         android:layout_below="@id/fl_pic"
         android:layout_marginTop="16dp"
         android:textColor="@color/gray_first"
-        android:textSize="@dimen/signIn_textSize_20"
-        tools:text="Front Door" />
+        android:textSize="@dimen/signIn_textSize_20" />
 
     <LinearLayout
         android:id="@+id/ll_cloud_storage"
@@ -55,7 +54,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="Cloud Storage"
+            android:text="@string/device_cloud_storage"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/signIn_textSize_14" />
 
@@ -65,7 +64,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text=" not subscribed"
+            android:text="@string/device_not_subscribed"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/signIn_textSize_14" />
     </LinearLayout>
@@ -77,6 +76,6 @@
         android:layout_alignBottom="@id/ll_cloud_storage"
         android:layout_alignParentEnd="true"
         android:visibility="gone"
-        android:src="@drawable/ic_all" />
+        android:src="@mipmap/ic_refresh" />
 
 </RelativeLayout>

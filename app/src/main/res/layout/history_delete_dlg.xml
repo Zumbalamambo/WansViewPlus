@@ -47,7 +47,7 @@
 	        android:id="@+id/history_pop_delete"
 			style="@style/BlueBtn"
 	        android:layout_marginTop="20dp"
-	        android:text="@string/delete"
+	        android:text="@string/common_delete"
 	        android:textColor="#ffffff"/>  
 	        
 	    <Button  
@@ -55,6 +55,6 @@
 			style="@style/WhiteBtn"
 			android:layout_marginTop="13dp"
 			android:layout_marginBottom="15dp"
-			android:text="@string/cancel" />
+			android:text="@string/common_cancel" />
 	</LinearLayout>
 </RelativeLayout>  

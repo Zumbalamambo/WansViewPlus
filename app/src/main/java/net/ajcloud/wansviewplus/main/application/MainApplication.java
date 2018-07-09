@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.multidex.MultiDexApplication;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -51,7 +52,7 @@ import okhttp3.OkHttpClient;
  * Created by mamengchao on 2018/05/10.
  */
 
-public class MainApplication extends Application {
+public class MainApplication extends MultiDexApplication {
 
     private LocalInfo localInfo;
 

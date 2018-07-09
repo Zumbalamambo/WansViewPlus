@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rl_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -19,7 +20,7 @@
         android:layout_marginTop="8dp"
         android:singleLine="true"
         android:textColor="@color/wv_second_bg"
-        android:text="333333333"
+        tools:text="333333333"
         android:textSize="@dimen/wv_base_sizeText_3" />
 
     <ImageView

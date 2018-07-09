@@ -26,7 +26,7 @@
             android:ellipsize="end"
             android:maxWidth="150dp"
             android:singleLine="true"
-            android:text="Set camera placement"
+            android:text="@string/dialog_placement_tittle"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/signIn_textSize_18" />
     </RelativeLayout>
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:text="Upright"
+                android:text="@string/dialog_placement_upright"
                 android:textColor="@color/gray_first"
                 android:textSize="@dimen/device_setting_text_size_16" />
         </LinearLayout>
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:text="Inverted"
+                android:text="@string/dialog_placement_inverted"
                 android:textColor="@color/gray_first"
                 android:textSize="@dimen/device_setting_text_size_16" />
         </LinearLayout>

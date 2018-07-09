@@ -12,7 +12,7 @@
         android:layout_height="@dimen/toolbar_height"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Gesture"
+        android:text="@string/dialog_signin_more_gesture"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/signIn_textSize_16"
         android:visibility="gone" />
@@ -23,7 +23,7 @@
         android:layout_height="@dimen/toolbar_height"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Switch account"
+        android:text="@string/dialog_signin_more_switch_account"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/signIn_textSize_16"
         android:visibility="gone" />
@@ -34,7 +34,7 @@
         android:layout_height="@dimen/toolbar_height"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Cancel"
+        android:text="@string/common_cancel"
         android:textColor="@color/gray_second"
         android:textSize="@dimen/signIn_textSize_16" />
 </LinearLayout>

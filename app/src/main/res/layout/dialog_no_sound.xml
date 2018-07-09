@@ -26,7 +26,7 @@
             android:ellipsize="end"
             android:maxWidth="150dp"
             android:singleLine="true"
-            android:text="Didn't hear received"
+            android:text="@string/dialog_no_sound_tittle"
             android:textColor="@color/gray_first"
             android:textSize="@dimen/signIn_textSize_18" />
     </RelativeLayout>
@@ -45,7 +45,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:text="1.Please turn up the volume Louder. Try again, hold your phone closer to the camera after clicking the send button."
+        android:text="@string/dialog_no_sound_tip_1"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/signIn_textSize_16" />
 
@@ -55,7 +55,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="26dp"
-        android:text="2.Try to relink WiFi.The 5G band and enterprise level Wi-Fi are not supported for the time being."
+        android:text="@string/dialog_no_sound_tip_2"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/signIn_textSize_16" />
 
@@ -66,7 +66,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="26dp"
         android:layout_marginBottom="26dp"
-        android:text="3.Try to contact us for help service@wansview.com"
+        android:text="@string/dialog_no_sound_tip_3"
         android:textColor="@color/gray_first"
         android:textSize="@dimen/signIn_textSize_16" />
 </LinearLayout>

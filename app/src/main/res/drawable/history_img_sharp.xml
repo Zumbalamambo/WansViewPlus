@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:startColor="@color/history_image_shadow_begin"
+        android:endColor="@color/history_image_shadow"
+        android:angle="90" />
+</shape>

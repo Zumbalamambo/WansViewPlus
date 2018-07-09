@@ -1677,14 +1677,14 @@ public class MainCameraFragment extends BaseFragment
             new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), net.ajcloud.wansviewplus.R.style.AlertDialogCustom))
                     .setCancelable(false)
                     .setTitle(net.ajcloud.wansviewplus.R.string.wv_cannot_play_video)
-                    .setPositiveButton(net.ajcloud.wansviewplus.R.string.retry, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(net.ajcloud.wansviewplus.R.string.common_retry, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             videoPlay();
                             dialog.dismiss();
                             hideProgress();
                         }
-                    }).setNegativeButton(net.ajcloud.wansviewplus.R.string.cancel, new DialogInterface.OnClickListener() {
+                    }).setNegativeButton(net.ajcloud.wansviewplus.R.string.common_cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     stopVideoPlay();
