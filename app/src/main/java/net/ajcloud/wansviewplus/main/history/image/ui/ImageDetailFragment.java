@@ -159,12 +159,13 @@ public class ImageDetailFragment extends Fragment {
                 });
         } else {
             //本地图片
+            if (onLoadListener!=null){
+                onLoadListener.onLoadStart();
+            }
             Flowable.just(mImageUrl)
                     .observeOn(Schedulers.io())
                     .map(path -> {
-                        if (onLoadListener!=null){
-                            onLoadListener.onLoadStart();
-                        }
+
                         return path;
                     })
                     .observeOn(AndroidSchedulers.mainThread())

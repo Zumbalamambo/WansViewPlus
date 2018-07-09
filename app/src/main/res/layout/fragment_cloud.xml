@@ -38,11 +38,59 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <FrameLayout
-            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:id="@+id/ll_cloud_none"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="@dimen/default_none_margin_top"
+                    android:src="@mipmap/ic_device_empty" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:gravity="center"
+                    android:text="@string/cloud_no_plan"
+                    android:textColor="@color/gray_first"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_cloud_introduction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:gravity="center"
+                    android:text="@string/cloud_introduction"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btn_cloud_buy"
+                    android:layout_width="@dimen/device_btn_width"
+                    android:layout_height="@dimen/device_btn_height"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/shape_add_device_button"
+                    android:gravity="center"
+                    android:text="@string/cloud_buy"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <android.support.v4.widget.NestedScrollView
+                android:id="@+id/ll_cloud_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone">

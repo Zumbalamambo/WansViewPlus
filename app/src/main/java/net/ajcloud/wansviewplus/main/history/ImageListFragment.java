@@ -1,6 +1,5 @@
 package net.ajcloud.wansviewplus.main.history;
 
-import android.app.Application;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,16 +16,11 @@ import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.main.history.adapter.ImageListBaseAdapter;
 import net.ajcloud.wansviewplus.main.history.entity.ImageInfo;
-import net.ajcloud.wansviewplus.main.history.image.adapter.ImagePagerAdapter;
 import net.ajcloud.wansviewplus.support.utils.SizeUtil;
 
 import java.io.File;
-import java.io.FilenameFilter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,18 +123,16 @@ public class ImageListFragment extends Fragment {
         int section = 1;
         mtmplist.clear();
         mhasRecord.clear();
-        Map<String, Integer> sectionMap = new HashMap<String, Integer>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Map<String, Integer> sectionMap = new HashMap<>();
         //vlcsnap-2018-07-07-15h36m26s872.png
         for (int i = 0; i < imagesandvideos.length; i++) {
-            String tmp = "";
             String pattern = "-|\\.";
             Pattern pat = Pattern.compile(pattern);
             int start = imagesandvideos[i].lastIndexOf("/");
             if (start != -1) {
                 fileName = imagesandvideos[i].substring(start + 1, imagesandvideos[i].length());
                 if (fileName.startsWith("vlcsnap-")) {
-                    fileName = fileName.substring(11);
+                    fileName = fileName.substring(8);
                 }
             } else {
                 continue;
@@ -149,20 +141,12 @@ public class ImageListFragment extends Fragment {
             final String[] rs = pat.split(fileName);
 
             if (rs.length == 5) { //2015-09-28-14h01m10s934.jpg
-                long time = 0;
-                String timeStr;
-                tmp = rs[0] + "-" + rs[1] + "-" + rs[2];
+                String iamgeHead = rs[0] + "-" + rs[1] + "-" + rs[2];
                 String hour = rs[3].substring(0, 2);
                 String minute = rs[3].substring(3, 5);
                 String second = rs[3].substring(6, 8);
-                timeStr = tmp + " " + hour + ":" + minute + ":" + second;
-                try {
-                    time = dateFormat.parse(timeStr).getTime();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                String imageName = "";
-                String iamgeHead = "";
+
+                String imageName = hour + ":" + minute + ":" + second;
 
                 ImageInfo listData = new ImageInfo();
                 listData.setHeadTime(iamgeHead);
@@ -197,5 +181,31 @@ public class ImageListFragment extends Fragment {
             imageLy.setVisibility(View.GONE);
             mGridView.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void cancalEdit() {
+        mAdapter.setEdit(false);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public void setEdit() {
+        mAdapter.setEdit(true);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public void deleteSelectPic() {
+        for (int i = 0; i < mlist.size(); i++) {
+            ImageInfo tmp = mlist.get(i);
+            try {
+                if (tmp.isCheck()) {
+                    File f = new File(tmp.getImagePath());
+                    f.delete();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        initData();
+        showResult();
     }
 }

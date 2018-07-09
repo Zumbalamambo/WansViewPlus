@@ -1,7 +1,13 @@
 package net.ajcloud.wansviewplus.main.history.adapter;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +26,23 @@ import net.ajcloud.wansviewplus.main.history.image.ui.ImagePagerActivity;
 
 import java.util.ArrayList;
 
-public class ImageListBaseAdapter
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+
+public class VideoListBaseAdapter
         extends BaseAdapter
         implements StickyGridHeadersSimpleAdapter
 {
     private final Activity mContext;
     private LayoutInflater mInflater;
     private ArrayList<ImageInfo> mList;
-    private ArrayList<ImageInfo> mShowImagesList = new ArrayList<>();
 
     private boolean hasEdit = false;
 
-    public ImageListBaseAdapter(Activity context, ArrayList<ImageInfo> list) {
+    public VideoListBaseAdapter(Activity context, ArrayList<ImageInfo> list) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mList = list;
@@ -55,23 +66,53 @@ public class ImageListBaseAdapter
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder mViewHolder;
-
+        String path = getList().get(position).getImagePath();
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.history_image_item, parent, false);
+            convertView = mInflater.inflate(R.layout.history_video_item, parent, false);
             mViewHolder = new ViewHolder();
             mViewHolder.mImageView = convertView.findViewById(R.id.grid_item);
             mViewHolder.mEditBox  = convertView.findViewById(R.id.checkBox);
-            mViewHolder.mBottomBack = convertView.findViewById(R.id.phone_bottom_back);
             mViewHolder.mTvTime = convertView.findViewById(R.id.tv_time);
-
+            mViewHolder.mVideoTime = convertView.findViewById(R.id.video_time);
             convertView.setTag(mViewHolder);
         } else {
             mViewHolder = (ViewHolder) convertView.getTag();
         }
+        //截取视频图片
+        if (TextUtils.isEmpty(mViewHolder.path) ||  !mViewHolder.path.equalsIgnoreCase(path)) {
+            Flowable.just(path)
+                    .observeOn(Schedulers.io())
+                    .map(new Function<String, Bitmap>() {
+                        @Override public Bitmap apply(@NonNull String path) throws Exception {
+                            Bitmap thumbnail = null;
+                            try {
+                                Bitmap videoThumbnail = ThumbnailUtils.createVideoThumbnail(path, MediaStore.Video.Thumbnails.MINI_KIND);
+                                thumbnail = ThumbnailUtils.extractThumbnail(videoThumbnail, 800, 450, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+                            } catch (OutOfMemoryError e) {
+                                e.printStackTrace();
+                            } catch (NullPointerException e) {
+                                e.printStackTrace();
+                            }
 
-        String path = getList().get(position).getImagePath();
-        Glide.with(mContext).load(path).placeholder(R.mipmap.realtime_picture).into(mViewHolder.mImageView);
+                            if (null == thumbnail) {
+                                thumbnail = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.realtime_picture);
+                            }
+                            return thumbnail;
+                        }
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Bitmap>() {
+                        @Override public void accept(@NonNull Bitmap bitmap) throws Exception {
+                            try {
+                                mViewHolder.mImageView.setImageBitmap(bitmap);
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    });
+        }
 
+        mViewHolder.path = path;
         mViewHolder.mImageView.setTag(mViewHolder);
         mViewHolder.mImageView.setOnClickListener(view -> {
             if (isEdit()) {
@@ -81,23 +122,11 @@ public class ImageListBaseAdapter
                 viewHolder.mEditBox.setChecked(isCheck);
             } else {
                 int section = getList().get(position).getSection();
-                mShowImagesList.clear();
-                int pos = 0;
-                for (int i = 0; i < getList().size(); i++) {
-                    if (getList().get(i).getSection() == section) {
-                        if (i == position) {
-                            pos =  mShowImagesList.size();
-                        }
-                        mShowImagesList.add(getList().get(i));
-                    }
-                }
-                ImagePagerActivity.startImagePage(mContext, mShowImagesList, pos, view);
             }
         });
 
         if (isEdit()) {
 //            编辑模式
-            mViewHolder.mBottomBack.setVisibility(View.VISIBLE);
             mViewHolder.mEditBox.setVisibility(View.VISIBLE);
             mViewHolder.mEditBox.setChecked(getList().get(position).isCheck());
         } else {
@@ -164,8 +193,10 @@ public class ImageListBaseAdapter
     public static class ViewHolder {
         public ImageView mImageView;
         public CheckBox mEditBox;
-        public RelativeLayout mBottomBack;
         public TextView mTvTime;
+        public TextView mVideoTime;
+        //缓存视频路径
+        public String path;
     }
 
     public static class HeaderViewHolder {

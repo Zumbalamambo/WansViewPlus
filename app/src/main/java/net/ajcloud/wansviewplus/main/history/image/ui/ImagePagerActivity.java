@@ -3,6 +3,7 @@ package net.ajcloud.wansviewplus.main.history.image.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -67,6 +68,8 @@ public class ImagePagerActivity extends AppCompatActivity implements ImageDetail
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //设置使用分享元素
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        //透明背景
+        getWindow().setBackgroundDrawable(new ColorDrawable(0x000000000));
 
         setContentView(R.layout.image_detail_page);
 
@@ -77,8 +80,6 @@ public class ImagePagerActivity extends AppCompatActivity implements ImageDetail
         }
 
         initView();
-
-
     }
 
     private void initView() {

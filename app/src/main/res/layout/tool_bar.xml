@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/appbar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     android:background="@android:color/transparent"
-    app:elevation="48dp">
+    app:elevation="0dp"
+    android:layout_height="48dp">
 
     <net.ajcloud.wansviewplus.support.customview.MyToolbar
         android:id="@+id/toolbar"
@@ -15,8 +15,7 @@
         android:background="@color/toolBar_color"
         android:minHeight="@dimen/toolbar_height"
         app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        app:elevation="0dp">
+        app:contentInsetStart="0dp">
 
         <RelativeLayout
             android:id="@+id/toolbar_content"

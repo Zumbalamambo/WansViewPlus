@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+	<RelativeLayout
+		android:layout_width="wrap_content"
+		android:layout_height="0dp"
+		android:layout_weight="1">
+		<ImageView
+			android:id="@+id/grid_item"
+			android:adjustViewBounds="true"
+			android:src="@mipmap/realtime_picture"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent" />
+
+		<RelativeLayout
+			android:id="@+id/phone_bottom_back"
+			android:layout_width="fill_parent"
+			android:layout_height="30dp"
+			android:layout_alignParentBottom="true"
+			android:background="@drawable/history_img_sharp">
+			<CheckBox
+				android:visibility="invisible"
+				android:layout_width="30dp"
+				android:layout_height="30dp"
+				android:layout_marginRight="5dp"
+				android:layout_centerInParent="true"
+				android:layout_alignParentRight="true"
+				style="@style/CustomCheckboxTheme"
+				android:id="@+id/checkBox"
+				android:clickable="false"/>
+
+			<TextView
+				android:id="@+id/video_time"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerInParent="true"
+				android:layout_alignParentRight="true"
+				android:text="00:00"
+				android:textColor="@color/white"
+				android:textSize="@dimen/abc_text_size_small_material"
+				android:visibility="gone"/>
+
+			<ImageView
+				android:id="@+id/myVeidoView"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerInParent="true"
+				android:layout_alignParentLeft="true"
+				android:src="@mipmap/icon_record"
+				android:visibility="visible"/>
+		</RelativeLayout>
+	</RelativeLayout>
+	<TextView
+		android:id="@+id/tv_time"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:textColor="@color/black"
+		android:textSize="@dimen/abc_text_size_small_material"/>
+</LinearLayout>
