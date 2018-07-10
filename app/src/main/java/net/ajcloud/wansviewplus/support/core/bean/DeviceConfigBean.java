@@ -18,4 +18,5 @@ public class DeviceConfigBean {
     public AudioInfoBean audioConfig;
     public PictureInfoBean pictureConfig;
     public DeviceTimeBean timeConfig;
+    public CloudStorPlanBean cloudStorPlan;
 }

@@ -100,6 +100,7 @@ public class DeviceCache {
         cameraOrigin.audioConfig = camera.audioConfig;
         cameraOrigin.pictureConfig = camera.pictureConfig;
         cameraOrigin.timeConfig = camera.timeConfig;
+        cameraOrigin.cloudStorPlan = camera.cloudStorPlan;
     }
 
     public void remove(@NonNull Camera camera) {

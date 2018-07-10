@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import net.ajcloud.wansviewplus.support.core.bean.AudioInfoBean;
 import net.ajcloud.wansviewplus.support.core.bean.CapabilityBean;
 import net.ajcloud.wansviewplus.support.core.bean.CloudStorBean;
+import net.ajcloud.wansviewplus.support.core.bean.CloudStorPlanBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceConfigBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceTimeBean;
 import net.ajcloud.wansviewplus.support.core.bean.LivePolicyBean;
@@ -59,6 +60,7 @@ public class Camera implements Serializable {
     public AudioInfoBean audioConfig;
     public PictureInfoBean pictureConfig;
     public DeviceTimeBean timeConfig;
+    public CloudStorPlanBean cloudStorPlan;
 
     public int refreshStatus;  //刷新状态   0：正在刷新    1：成功    2：失败
     public String sortStr;  //用于排序
@@ -117,6 +119,7 @@ public class Camera implements Serializable {
             audioConfig = bean.audioConfig;
             pictureConfig = bean.pictureConfig;
             timeConfig = bean.timeConfig;
+            cloudStorPlan = bean.cloudStorPlan;
         }
     }
 

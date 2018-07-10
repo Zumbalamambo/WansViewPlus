@@ -36,6 +36,7 @@ public class ApiConstant {
     public static String URL_DEVICE_UNBIND = BASE_UAC_URL + "/unbind";
     //emc
     public static String URL_DEVICE_PUSH_SETTING = BASE_EMC_URL + "/push-setting";
+    public static String URL_DEVICE_ALARMS_SUMMARY = BASE_EMC_URL + "/alarms-summary";
     //cam-config
     public static String URL_DEVICE_GET_DEVICE_INFO = "/v1/fetch-info";
     public static String URL_DEVICE_SET_DEVICE_NAME = "/v1/alias-name";
@@ -85,5 +86,6 @@ public class ApiConstant {
         URL_DEVICE_UNBIND = BASE_UAC_URL + "/unbind";
         //emc
         URL_DEVICE_PUSH_SETTING = BASE_EMC_URL + "/push-setting";
+        URL_DEVICE_ALARMS_SUMMARY = BASE_EMC_URL + "/alarms-summary";
     }
 }

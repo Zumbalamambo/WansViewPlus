@@ -49,11 +49,11 @@ import java.util.List;
  */
 public class DeviceFragment extends Fragment implements View.OnClickListener {
 
+    private CollapsingToolbarLayout toolbarLayout;
+    private Toolbar toolbar;
     private SwipeRefreshLayout refreshLayout;
     private NestedScrollView deviceLayout;
     private LinearLayout noDeviceLayout;
-    private CollapsingToolbarLayout toolbarLayout;
-    private Toolbar toolbar;
     private ImageView addDeviceImageView;
     private Button addDeviceButton;
     private RecyclerView deviceListRecycleView;

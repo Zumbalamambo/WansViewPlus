@@ -34,11 +34,11 @@ public class GroupListBean {
         /**
          * 开始时间戳: 毫秒
          */
-        public String tsStart;
+        public long tsStart;
         /**
          * 结束时间戳: 毫秒
          */
-        public String tsEnd;
+        public long tsEnd;
         /**
          * 用户展示超期时间
          */

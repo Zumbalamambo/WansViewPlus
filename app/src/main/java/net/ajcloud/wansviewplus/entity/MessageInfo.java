@@ -5,19 +5,10 @@ package net.ajcloud.wansviewplus.entity;
  * Function:消息中心inbox
  */
 public class MessageInfo {
-    private int type;
     private String tittle;
     private String message;
     private String date;
     private String img;
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
 
     public String getTittle() {
         return tittle;

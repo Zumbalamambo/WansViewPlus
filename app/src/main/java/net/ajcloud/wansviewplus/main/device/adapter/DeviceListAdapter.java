@@ -92,7 +92,9 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((DeviceListHolder) holder).iv_refresh.setVisibility(View.VISIBLE);
         }
 
-        if (camera.cloudStorConfig == null || TextUtils.equals(camera.cloudStorConfig.enable, "0")) {//关闭
+        if (camera.cloudStorPlan == null ||
+                TextUtils.isEmpty(camera.cloudStorPlan.sku) ||
+                System.currentTimeMillis() > Long.parseLong(camera.cloudStorPlan.validTsEnd)) {//关闭
             ((DeviceListHolder) holder).tv_cloud.setTextColor(context.getResources().getColor(R.color.gray_second));
             ((DeviceListHolder) holder).tv_cloudState.setText(" not subscribed");
             ((DeviceListHolder) holder).tv_cloud.setOnClickListener(new View.OnClickListener() {

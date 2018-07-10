@@ -14,7 +14,8 @@
             android:id="@+id/iv_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY" />
+            android:scaleType="centerCrop"
+            android:src="@mipmap/figure_big" />
 
         <ImageView
             android:layout_width="24dp"
@@ -23,20 +24,36 @@
             android:src="@mipmap/ic_play_white" />
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/tv_tittle"
-        android:layout_width="wrap_content"
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/fl_pic"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/gray_first"
-        android:textSize="@dimen/inbox_text_size_20"
-        tools:text="Front Door" />
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/tv_tittle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/inbox_text_size_20"
+            tools:text="Front Door" />
+
+        <ImageView
+            android:id="@+id/iv_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_tittle"
+        android:layout_below="@id/rl_top"
         android:layout_marginBottom="15dp"
         android:layout_marginTop="10dp">
 

@@ -9,20 +9,20 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.airbnb.lottie.LottieAnimationView;
+import com.google.gson.Gson;
 import com.hdl.m3u8.M3U8DownloadTask;
 import com.hdl.m3u8.bean.OnDownloadListener;
 import com.hdl.m3u8.utils.NetSpeedUtils;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
-import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.main.application.SwipeBaseActivity;
 import net.ajcloud.wansviewplus.main.calendar.CalendarActivity;
-import net.ajcloud.wansviewplus.main.history.image.ui.ImagePagerActivity;
+import net.ajcloud.wansviewplus.support.core.api.AlertApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
+import net.ajcloud.wansviewplus.support.core.bean.AlarmBean;
 import net.ajcloud.wansviewplus.support.core.bean.GroupListBean;
 import net.ajcloud.wansviewplus.support.core.bean.LiveSrcBean;
 import net.ajcloud.wansviewplus.support.core.bean.ViewAnglesBean;
@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.TimeZone;
 
 public class TestActivity extends SwipeBaseActivity {
 
@@ -62,25 +61,12 @@ public class TestActivity extends SwipeBaseActivity {
 
     @Override
     protected void initView() {
-                getToolbar().setTittle("Test");
-                getToolbar().setLeftImg(R.mipmap.ic_back);
+        getToolbar().setTittle("Test");
+        getToolbar().setLeftImg(R.mipmap.ic_back);
         time = System.currentTimeMillis();
         replayTimeAxisView = findViewById(R.id.aaaaa);
         //设置中间时间点
         replayTimeAxisView.setMidTimeStamp(time);
-        //有回看的时间片
-        List<Pair<Long, Long>> list = new ArrayList<>();
-        Pair<Long, Long> time1 = new Pair<>(System.currentTimeMillis() / 1000 - 7000, System.currentTimeMillis() / 1000 - 5000);
-        Pair<Long, Long> time2 = new Pair<>(System.currentTimeMillis() / 1000 - 4000, System.currentTimeMillis() / 1000 - 1500);
-        Pair<Long, Long> time3 = new Pair<>(System.currentTimeMillis() / 1000 - 1000, System.currentTimeMillis() / 1000 + 1000);
-        Pair<Long, Long> time4 = new Pair<>(System.currentTimeMillis() / 1000 + 1500, System.currentTimeMillis() / 1000 + 4000);
-        Pair<Long, Long> time5 = new Pair<>(System.currentTimeMillis() / 1000 + 5000, System.currentTimeMillis() / 1000 + 7000);
-        list.add(time1);
-        list.add(time2);
-        list.add(time3);
-        list.add(time4);
-        list.add(time5);
-        replayTimeAxisView.setRecordList(list);
         replayTimeAxisView.setOnSlideListener(new ReplayTimeAxisView.OnSlideListener() {
             @Override
             public void onSlide(long timeStamp) {
@@ -207,18 +193,39 @@ public class TestActivity extends SwipeBaseActivity {
             @Override
             public void onClick(View v) {
 
-                Camera camera = MainApplication.getApplication().getDeviceCache().get("K03868KVLJNASXNC");
+                Camera camera = MainApplication.getApplication().getDeviceCache().get("K3C876J4PAXFNGVW");
 
-                new DeviceApiUnit(TestActivity.this).getGroupList("K03868KVLJNASXNC", getTimesmorning(), getTimesnight(), new OkgoCommonListener<GroupListBean>() {
+                new DeviceApiUnit(TestActivity.this).getGroupList("K3C876J4PAXFNGVW", getTimesmorning(), getTimesnight(), new OkgoCommonListener<GroupListBean>() {
                     @Override
                     public void onSuccess(GroupListBean bean) {
                         if (bean != null && bean.groups != null) {
+                            List<Pair<Long, Long>> list = new ArrayList<>();
                             for (GroupListBean.GroupInfo info : bean.groups
                                     ) {
-                                if (!TextUtils.isEmpty(info.m3u8Url))
-                                    testM3u8(info.m3u8Url);
+//                                if (!TextUtils.isEmpty(info.m3u8Url))
+//                                    testM3u8(info.m3u8Url);
+                                Pair<Long, Long> time = new Pair<>(info.tsStart / 1000, info.tsEnd / 1000);
+                                list.add(time);
+
                             }
+                            replayTimeAxisView.setRecordList(list);
                         }
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+
+                    }
+                });
+            }
+        });
+        findViewById(R.id.getAlarmsSummary).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertApiUnit(TestActivity.this).getAlarmsSummary(new OkgoCommonListener<List<AlarmBean>>() {
+                    @Override
+                    public void onSuccess(List<AlarmBean> bean) {
+                        tvTest.setText(new Gson().toJson(bean));
                     }
 
                     @Override
@@ -239,7 +246,7 @@ public class TestActivity extends SwipeBaseActivity {
         task1.download(url, new OnDownloadListener() {
             @Override
             public void onDownloading(final long itemFileSize, final int totalTs, final int curTs) {
-               WLog.e("=====", task1.getTaskId() + "下载中.....itemFileSize=" + itemFileSize + "\ttotalTs=" + totalTs + "\tcurTs=" + curTs);
+                WLog.e("=====", task1.getTaskId() + "下载中.....itemFileSize=" + itemFileSize + "\ttotalTs=" + totalTs + "\tcurTs=" + curTs);
             }
 
             /**
@@ -290,7 +297,7 @@ public class TestActivity extends SwipeBaseActivity {
      */
     private void startImageLoader() {
         ArrayList<String> urls;
-        urls=new ArrayList<>();
+        urls = new ArrayList<>();
         //为了显示效果，重复添加了三次
         urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524477979306&di=3eb07e9302606048abe13d7b6a2bc601&imgtype=0&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201406%2F12%2F20140612211118_YYXAC.jpeg");
         urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524133463580&di=1315bc4db30999f00b89ef79c3bb06e5&imgtype=0&src=http%3A%2F%2Fpic36.photophoto.cn%2F20150710%2F0005018721870517_b.jpg");
