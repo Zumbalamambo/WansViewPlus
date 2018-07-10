@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             app:collapsedTitleTextAppearance="@style/TittleTextAppearanceCollapse"
             app:contentScrim="@color/white"
-            app:expandedTitleMarginStart="@dimen/default_margin_left"
+            app:expandedTitleMarginStart="@dimen/default_margin_24"
             app:expandedTitleTextAppearance="@style/TittleTextAppearanceExpand"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
@@ -102,8 +102,8 @@
                     android:id="@+id/rv_device_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/default_margin_left"
-                    android:layout_marginStart="@dimen/default_margin_left"
+                    android:layout_marginEnd="@dimen/default_margin_24"
+                    android:layout_marginStart="@dimen/default_margin_24"
                     android:scrollbars="none" />
 
             </android.support.v4.widget.NestedScrollView>

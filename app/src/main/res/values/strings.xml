@@ -79,8 +79,23 @@
     <!--cloud-->
     <string name="cloud_no_plan">Cloud Storage was not activated</string>
     <string name="cloud_introduction">What is Cloud Storage</string>
-    <string name="cloud_buy">Buy Now</string>
     <string name="cloud_about">About Cloud Storage</string>
+    <string name="cloud_buy">Buy Now</string>
+    <string name="cloud_buy_tips_1">You must purchase a
+subscription or activate the
+free trial to utilize the
+Cloud Storage function.
+</string>
+    <string name="cloud_buy_tips_2">When you enable Cloud
+Storage,all the captured
+videos will be saved into
+Cloud.</string>
+    <string name="cloud_buy_tips_3">As per your Cloud Storage
+package, the camera will
+continuously record the
+most recent 7 or 30 days of
+video to the cloud recorded
+videos .</string>
 
     <!--me-->
     <string name="me_local_select_all">Select all</string>

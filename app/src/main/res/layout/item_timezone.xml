@@ -9,7 +9,7 @@
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/device_setting_item_height"
-        android:layout_marginStart="@dimen/default_margin_left"
+        android:layout_marginStart="@dimen/default_margin_24"
         android:ellipsize="end"
         android:gravity="center_vertical|start"
         android:singleLine="true"
@@ -36,7 +36,7 @@
         android:layout_height="24dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/default_margin_left"
+        android:layout_marginEnd="@dimen/default_margin_24"
         android:src="@mipmap/ic_chosen"
         android:visibility="invisible" />
 </RelativeLayout>

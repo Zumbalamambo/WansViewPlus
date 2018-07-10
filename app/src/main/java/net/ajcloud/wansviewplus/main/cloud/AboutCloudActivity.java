@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class AboutCloudActivity extends AppCompatActivity implements View.OnClic
     private Toolbar toolbar;
     private TextView tv_tittle;
     private ImageView iv_back;
+    private Button btn_buy;
     private AppBarLayout appBarLayout;
 
     @Override
@@ -67,13 +69,16 @@ public class AboutCloudActivity extends AppCompatActivity implements View.OnClic
         appBarLayout = findViewById(R.id.app_bar);
         tv_tittle = findViewById(R.id.tv_tittle);
         iv_back = findViewById(R.id.iv_back);
+        btn_buy = findViewById(R.id.btn_buy);
         toolbar = findViewById(R.id.toolbar);
+
         CollapsingToolbarLayout.LayoutParams params = new CollapsingToolbarLayout.LayoutParams(CollapsingToolbarLayout.LayoutParams.MATCH_PARENT, CollapsingToolbarLayout.LayoutParams.WRAP_CONTENT);
         params.topMargin = statusBarHeight;
         params.setCollapseMode(CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN);
         toolbar.setLayoutParams(params);
-        iv_back.setOnClickListener(this);
 
+        iv_back.setOnClickListener(this);
+        btn_buy.setOnClickListener(this);
         appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
@@ -92,6 +97,7 @@ public class AboutCloudActivity extends AppCompatActivity implements View.OnClic
                 }
             }
         });
+
     }
 
     @Override
@@ -99,6 +105,8 @@ public class AboutCloudActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.iv_back:
                 finish();
+                break;
+            case R.id.btn_buy:
                 break;
         }
     }

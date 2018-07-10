@@ -320,7 +320,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/device_setting_margin_second"
-                android:layout_marginStart="@dimen/default_margin_left"
+                android:layout_marginStart="@dimen/default_margin_24"
                 android:layout_toEndOf="@id/item_timezone_tips"
                 android:layout_toStartOf="@id/item_timezone_arrow"
                 android:ellipsize="end"

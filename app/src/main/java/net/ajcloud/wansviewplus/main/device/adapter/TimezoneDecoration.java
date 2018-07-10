@@ -23,7 +23,7 @@ public class TimezoneDecoration extends RecyclerView.ItemDecoration {
     public TimezoneDecoration(Context context) {
         this.context = context;
         dividerHeight = context.getResources().getDimensionPixelSize(R.dimen.default_divider_Height);
-        margin = context.getResources().getDimensionPixelSize(R.dimen.default_margin_left);
+        margin = context.getResources().getDimensionPixelSize(R.dimen.default_margin_24);
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         mPaint.setColor(context.getResources().getColor(R.color.gray_line));
     }
