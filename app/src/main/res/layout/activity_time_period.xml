@@ -46,7 +46,6 @@
         android:layout_marginStart="@dimen/device_setting_margin_first"
         android:background="@color/gray_line" />
 
-
     <RelativeLayout
         android:id="@+id/item_start"
         android:layout_width="match_parent"
@@ -101,7 +100,6 @@
             android:textColor="@color/gray_second"
             android:textSize="@dimen/device_setting_text_size_14" />
     </RelativeLayout>
-
 
     <RelativeLayout
         android:id="@+id/item_end"
@@ -219,4 +217,5 @@
             android:layout_marginStart="@dimen/device_setting_margin_first"
             android:background="@color/gray_line" />
     </RelativeLayout>
+
 </LinearLayout>

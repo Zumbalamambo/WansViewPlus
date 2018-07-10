@@ -1,7 +1,5 @@
-package net.ajcloud.wansviewplus.support.customview.picker.pickerview.adapter;
+package net.ajcloud.wansviewplus.support.customview.picker.wheelview.adapter;
 
-
-import net.ajcloud.wansviewplus.support.customview.picker.wheelview.adapter.WheelAdapter;
 
 /**
  * Numeric Wheel adapter.

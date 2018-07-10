@@ -1,31 +1,20 @@
 package net.ajcloud.wansviewplus.main.device.setting.homeAlert;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.support.core.bean.MoveMonitorBean;
+import net.ajcloud.wansviewplus.support.customview.dialog.TimePickerDialog;
 import net.ajcloud.wansviewplus.support.customview.dialog.WeekDayDialog;
-import net.ajcloud.wansviewplus.support.customview.picker.pickerview.TimePickerView;
-import net.ajcloud.wansviewplus.support.customview.picker.pickerview.builder.TimePickerBuilder;
-import net.ajcloud.wansviewplus.support.customview.picker.pickerview.listener.OnTimeSelectListener;
-import net.ajcloud.wansviewplus.support.tools.WLog;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class TimePeriodActivity extends BaseActivity {
@@ -35,8 +24,8 @@ public class TimePeriodActivity extends BaseActivity {
     private RelativeLayout startLayout, endLayout, repeatLayout;
     private TextView startTextView, endTextView, repeatTextView;
     private String period;
-    private TimePickerView startTimeView;
-    private TimePickerView endTimeView;
+    private TimePickerDialog startTimeDialog;
+    private TimePickerDialog endTimeDialog;
     private WeekDayDialog weekDayDialog;
 
     private MoveMonitorBean cloneBean;
@@ -69,8 +58,6 @@ public class TimePeriodActivity extends BaseActivity {
         startTextView = findViewById(R.id.item_start_time);
         endTextView = findViewById(R.id.item_end_time);
         repeatTextView = findViewById(R.id.item_repeat_time);
-        initStartTimeDialog();
-        initEndTimeDialog();
     }
 
     @Override
@@ -135,12 +122,10 @@ public class TimePeriodActivity extends BaseActivity {
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.item_start:
-                startTimeView.setDate(Calendar.getInstance());
-                startTimeView.show();
+                showStartTimeDialog();
                 break;
             case R.id.item_end:
-                endTimeView.setDate(Calendar.getInstance());
-                endTimeView.show();
+                showEndTimeDialog();
                 break;
             case R.id.item_repeat:
                 if (!weekDayDialog.isShowing()) {
@@ -150,111 +135,61 @@ public class TimePeriodActivity extends BaseActivity {
         }
     }
 
-    private void initStartTimeDialog() {
-        if (startTimeView == null) {
-            startTimeView = new TimePickerBuilder(this, new OnTimeSelectListener() {
+    private void showStartTimeDialog() {
+        if (startTimeDialog == null) {
+            startTimeDialog = new TimePickerDialog(TimePeriodActivity.this);
+            startTimeDialog.setOnTimeSelectListener(new TimePickerDialog.OnTimeSelectListener() {
                 @Override
-                public void onTimeSelect(Date date, View v) {
-                    String[] times = sf.format(date).split(":");
-                    StringBuilder time = new StringBuilder();
-                    time.append(times[0]);
-                    time.append(times[1]);
-                    time.append("00");
-                    WLog.d(TAG, time.toString());
+                public void onTimeSelected(String time) {
                     for (MoveMonitorBean.Policy policy : cloneBean.policies) {
                         if (TextUtils.equals(policy.no, period)) {
-                            policy.startTime = time.toString();
+                            policy.startTime = time;
                             break;
                         }
                     }
                     refreshUI();
                 }
-            })
-                    .setCancelText("Cancel")
-                    .setCancelColor(getResources().getColor(R.color.gray_second))
-                    .setSubmitText("Confirm")
-                    .setSubmitColor(getResources().getColor(R.color.gray_first))
-                    .setTitleBgColor(getResources().getColor(R.color.white))
-                    .setLabel("", "", "", "", "", "")
-                    .setType(new boolean[]{false, false, false, true, true, false})
-                    .isDialog(true)
-                    .setLineSpacingMultiplier(4.0f)
-                    .isCyclic(true)
-                    .build();
+            });
         }
-        Dialog mDialog = startTimeView.getDialog();
-        if (mDialog != null) {
-
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    Gravity.BOTTOM);
-
-            params.leftMargin = 0;
-            params.rightMargin = 0;
-            startTimeView.getDialogContainerLayout().setLayoutParams(params);
-
-            Window dialogWindow = mDialog.getWindow();
-            if (dialogWindow != null) {
-                dialogWindow.setWindowAnimations(R.style.picker_view_slide_anim);//修改动画样式
-                dialogWindow.setGravity(Gravity.BOTTOM);//改成Bottom,底部显示
+        String time = "000000";
+        for (MoveMonitorBean.Policy policy : cloneBean.policies) {
+            if (TextUtils.equals(policy.no, period)) {
+                if (!TextUtils.isEmpty(policy.startTime))
+                    time = policy.startTime;
+                break;
             }
         }
+        startTimeDialog.setDate(Integer.valueOf(time.substring(0, 2)), Integer.valueOf(time.substring(2, 4)));
+        startTimeDialog.show();
     }
 
-    private void initEndTimeDialog() {
-        if (endTimeView == null) {
-            endTimeView = new TimePickerBuilder(this, new OnTimeSelectListener() {
+    private void showEndTimeDialog() {
+        if (endTimeDialog == null) {
+            endTimeDialog = new TimePickerDialog(TimePeriodActivity.this);
+            endTimeDialog.setOnTimeSelectListener(new TimePickerDialog.OnTimeSelectListener() {
                 @Override
-                public void onTimeSelect(Date date, View v) {
-                    String[] times = sf.format(date).split(":");
-                    StringBuilder time = new StringBuilder();
-                    time.append(times[0]);
-                    time.append(times[1]);
-                    time.append("00");
-                    WLog.d(TAG, time.toString());
+                public void onTimeSelected(String time) {
                     for (MoveMonitorBean.Policy policy : cloneBean.policies) {
                         if (TextUtils.equals(policy.no, period)) {
-                            policy.endTime = time.toString();
+                            policy.endTime = time;
                             break;
                         }
                     }
                     refreshUI();
                 }
-            })
-                    .setCancelText("Cancel")
-                    .setCancelColor(getResources().getColor(R.color.gray_second))
-                    .setSubmitText("Confirm")
-                    .setSubmitColor(getResources().getColor(R.color.gray_first))
-                    .setTitleBgColor(getResources().getColor(R.color.white))
-                    .setLabel("", "", "", "", "", "")
-                    .setType(new boolean[]{false, false, false, true, true, false})
-                    .isDialog(true)
-                    .setLineSpacingMultiplier(4.0f)
-                    .isCyclic(true)
-                    .build();
+            });
         }
-        Dialog mDialog = endTimeView.getDialog();
-        if (mDialog != null) {
-
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    Gravity.BOTTOM);
-
-            params.leftMargin = 0;
-            params.rightMargin = 0;
-            endTimeView.getDialogContainerLayout().setLayoutParams(params);
-
-            Window dialogWindow = mDialog.getWindow();
-            if (dialogWindow != null) {
-                dialogWindow.setWindowAnimations(R.style.picker_view_slide_anim);//修改动画样式
-                dialogWindow.setGravity(Gravity.BOTTOM);//改成Bottom,底部显示
+        String time = "000000";
+        for (MoveMonitorBean.Policy policy : cloneBean.policies) {
+            if (TextUtils.equals(policy.no, period)) {
+                if (!TextUtils.isEmpty(policy.endTime))
+                    time = policy.endTime;
+                break;
             }
         }
+        endTimeDialog.setDate(Integer.valueOf(time.substring(0, 2)), Integer.valueOf(time.substring(2, 4)));
+        endTimeDialog.show();
     }
-
-    SimpleDateFormat sf = new SimpleDateFormat("HH:mm:ss");
 
     private void refreshUI() {
         for (MoveMonitorBean.Policy policy : cloneBean.policies) {
