@@ -18,6 +18,9 @@ public class MyToolbar extends Toolbar {
     private ImageView img_left, img_right, img_tittle;
     private Button btn_left, btn_right;
     private TextView tv_tittle;
+    /*calendar*/
+    private TextView tv_date;
+    private ImageView iv_arrow;
 
     public MyToolbar(Context context) {
         super(context);
@@ -41,6 +44,8 @@ public class MyToolbar extends Toolbar {
         btn_right = findViewById(R.id.btn_right);
         tv_tittle = findViewById(R.id.tv_tittle);
         img_tittle = findViewById(R.id.img_tittle);
+        tv_date = findViewById(R.id.tv_date);
+        iv_arrow = findViewById(R.id.iv_arrow);
     }
 
     public void registerClickListener(OnClickListener listener) {
@@ -64,6 +69,8 @@ public class MyToolbar extends Toolbar {
     public void setTittle(String tittle) {
         tv_tittle.setVisibility(VISIBLE);
         img_tittle.setVisibility(GONE);
+        tv_date.setVisibility(GONE);
+        iv_arrow.setVisibility(GONE);
         tv_tittle.setText(tittle);
     }
 
@@ -73,6 +80,8 @@ public class MyToolbar extends Toolbar {
     public void setTittle(int resId) {
         tv_tittle.setVisibility(VISIBLE);
         img_tittle.setVisibility(GONE);
+        tv_date.setVisibility(GONE);
+        iv_arrow.setVisibility(GONE);
         tv_tittle.setText(resId);
     }
 
@@ -82,7 +91,31 @@ public class MyToolbar extends Toolbar {
     public void setTittleImg(int resId) {
         tv_tittle.setVisibility(GONE);
         img_tittle.setVisibility(VISIBLE);
+        tv_date.setVisibility(GONE);
+        iv_arrow.setVisibility(GONE);
         img_tittle.setImageResource(resId);
+    }
+
+    /**
+     * 设置中间日历
+     */
+    public void setTittleCalendar(int resId) {
+        tv_tittle.setVisibility(GONE);
+        img_tittle.setVisibility(GONE);
+        tv_date.setVisibility(VISIBLE);
+        iv_arrow.setVisibility(VISIBLE);
+        tv_date.setText(resId);
+    }
+
+    /**
+     * 设置中间日历
+     */
+    public void setTittleCalendar(String resId) {
+        tv_tittle.setVisibility(GONE);
+        img_tittle.setVisibility(GONE);
+        tv_date.setVisibility(VISIBLE);
+        iv_arrow.setVisibility(VISIBLE);
+        tv_date.setText(resId);
     }
 
     /**
@@ -158,5 +191,13 @@ public class MyToolbar extends Toolbar {
      */
     public void setToolbarBg(int color) {
         toolbar_content.setBackgroundColor(color);
+    }
+
+    public TextView getTextDate() {
+        return tv_date;
+    }
+
+    public ImageView getImgArrow() {
+        return iv_arrow;
     }
 }

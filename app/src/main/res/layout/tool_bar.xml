@@ -67,6 +67,27 @@
                 tools:text="标题"
                 tools:visibility="visible" />
 
+            <!--calendar-->
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/toolbar_height"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/signIn_textSize_18"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="12345566" />
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="@dimen/toolbar_img_size"
+                android:layout_height="@dimen/toolbar_img_size"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/tv_date"
+                android:src="@mipmap/ic_direction_down_mid" />
+
             <ImageView
                 android:id="@+id/img_tittle"
                 android:layout_width="@dimen/toolbar_height"

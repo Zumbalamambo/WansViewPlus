@@ -162,10 +162,8 @@
         <activity android:name=".main.device.addDevice.cable.AddDeviceCableFailActivity" />
         <activity android:name=".main.mine.AgreementActivity" />
         <activity android:name=".main.history.LocalHistoryActivity" />
-        <activity
-            android:name=".main.cloud.AboutCloudActivity"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".main.alert.AlertDetailActivity"></activity>
+        <activity android:name=".main.cloud.AboutCloudActivity" />
+        <activity android:name=".main.alert.AlertDetailActivity" />
     </application>
 
 </manifest>

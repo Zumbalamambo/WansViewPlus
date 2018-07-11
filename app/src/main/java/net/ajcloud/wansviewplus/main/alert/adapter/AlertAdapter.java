@@ -70,7 +70,7 @@ public class AlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             @Override
             public void onClick(View v) {
                 MainApplication.getApplication().getAlarmCountCache().clearDeviceUnread(mInfos.get(position).did);
-                context.startActivity(new Intent(context, AlertDetailActivity.class));
+                AlertDetailActivity.start(context,mInfos.get(position).did, mInfos.get(position).cdate);
             }
         });
     }

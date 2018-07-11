@@ -1,9 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_tittle_calendar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.alert.AlertDetailActivity">
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:id="@+id/rl_play_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <net.ajcloud.wansviewplus.main.video.PlayerView
+            android:id="@+id/pv_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/pv_video"
+            android:layout_alignTop="@id/pv_video">
+
+            <FrameLayout
+                android:id="@+id/fl_play"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/shape_circle_white">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_play_color" />
+            </FrameLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignParentBottom="true">
+
+                <ImageView
+                    android:id="@+id/iv_fullscreen"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="24dp"
+                    android:src="@mipmap/ic_full_screen_white" />
+
+                <ImageView
+                    android:id="@+id/iv_download"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/ic_download_white" />
+
+                <ImageView
+                    android:id="@+id/iv_play_pause"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="24dp"
+                    android:src="@mipmap/ic_play_white" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@id/iv_play_pause"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/alert_text_size_14"
+                    tools:text="00:00" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_alarm_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

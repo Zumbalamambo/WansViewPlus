@@ -59,6 +59,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
     private RecyclerView deviceListRecycleView;
     private DeviceListAdapter deviceListAdapter;
     private DeviceApiUnit deviceApiUnit;
+    private UserApiUnit userApiUnit;
     private boolean isfirst = true;
 
     @Override
@@ -114,6 +115,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
 
     private void initData() {
         deviceApiUnit = new DeviceApiUnit(getActivity());
+        userApiUnit = new UserApiUnit(getActivity());
         getDeviceList();
     }
 
@@ -158,7 +160,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
     }
 
     private void pushSetting() {
-        new UserApiUnit(getActivity()).pushSetting("upsert", null, new OkgoCommonListener<Object>() {
+        userApiUnit.pushSetting("upsert", null, new OkgoCommonListener<Object>() {
             @Override
             public void onSuccess(Object bean) {
 
