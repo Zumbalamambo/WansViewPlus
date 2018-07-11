@@ -23,6 +23,7 @@ import net.ajcloud.wansviewplus.support.core.api.AlertApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.AlarmBean;
+import net.ajcloud.wansviewplus.support.core.bean.AlarmListBean;
 import net.ajcloud.wansviewplus.support.core.bean.GroupListBean;
 import net.ajcloud.wansviewplus.support.core.bean.LiveSrcBean;
 import net.ajcloud.wansviewplus.support.core.bean.ViewAnglesBean;
@@ -168,25 +169,8 @@ public class TestActivity extends SwipeBaseActivity {
             @Override
             public void onClick(View v) {
 
-//                Camera camera = MainApplication.getApplication().getDeviceCache().get("K03868EIVDXGXYBB");
-//
-//                if (camera.viewAnglesConfig == null || camera.viewAnglesConfig.viewAngles.size() == 0) {
-//                    return;
-//                }
-//                int angle = camera.viewAnglesConfig.viewAngles.get(0).viewAngle;
-//                new DeviceApiUnit(TestActivity.this).turnToAngles(camera.deviceId, angle, new OkgoCommonListener<Object>() {
-//                    @Override
-//                    public void onSuccess(Object bean) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onFail(int code, String msg) {
-//
-//                    }
-//                });
-
-                replayTimeAxisView.setCurrentMode(ReplayTimeAxisView.Mode.DownLoad);
+                startCalendar();
+//                replayTimeAxisView.setCurrentMode(ReplayTimeAxisView.Mode.DownLoad);
             }
         });
         findViewById(R.id.group_list).setOnClickListener(new View.OnClickListener() {
@@ -225,6 +209,38 @@ public class TestActivity extends SwipeBaseActivity {
                 new AlertApiUnit(TestActivity.this).getAlarmsSummary(new OkgoCommonListener<List<AlarmBean>>() {
                     @Override
                     public void onSuccess(List<AlarmBean> bean) {
+                        tvTest.setText(new Gson().toJson(bean));
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+
+                    }
+                });
+            }
+        });
+        findViewById(R.id.getAlarmsCalendar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertApiUnit(TestActivity.this).getAlarmsCalendar("K3C876J4PAXFNGVW", new OkgoCommonListener<List<String>>() {
+                    @Override
+                    public void onSuccess(List<String> bean) {
+                        tvTest.setText(new Gson().toJson(bean));
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+
+                    }
+                });
+            }
+        });
+        findViewById(R.id.getAlarmsList).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertApiUnit(TestActivity.this).getAlarmsList("K3C876J4PAXFNGVW", -1, "20180710", 10, new OkgoCommonListener<AlarmListBean>() {
+                    @Override
+                    public void onSuccess(AlarmListBean bean) {
                         tvTest.setText(new Gson().toJson(bean));
                     }
 

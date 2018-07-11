@@ -876,6 +876,17 @@ public class DeviceApiUnit {
                         ResponseBean responseBean = response.body();
                         if (responseBean.isSuccess()) {
                             unBind(deviceId, listener);
+                            new UserApiUnit(context).pushSetting("remove", deviceId, new OkgoCommonListener<Object>() {
+                                @Override
+                                public void onSuccess(Object bean) {
+
+                                }
+
+                                @Override
+                                public void onFail(int code, String msg) {
+
+                                }
+                            });
                         } else {
                             listener.onFail(responseBean.getResultCode(), responseBean.message);
                         }

@@ -4,6 +4,11 @@
     <string name="alert">Alert</string>
     <string name="cloud">Cloud</string>
     <string name="me">Me</string>
+    <!--FCM-Channel-->
+    <string name="channel_normal_id" translatable="false">notice</string>
+    <string name="channel_normal">一般通知</string>
+    <string name="channel_alarm_id" translatable="false">alarm</string>
+    <string name="channel_alarm">报警消息</string>
 
     <!--device-->
     <string name="device_angle_view_num">position %1$s</string>
@@ -208,8 +213,6 @@ videos .</string>
     <string name="pickerview_minutes">分</string>
     <string name="pickerview_seconds">秒</string>
 
-    <!--FCM notification channel id-->
-    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <!-- http -->
     <string name="Service_Error">Unable to connect to server, please check internet or try again later</string>
     <string name="http_time_out">times out...</string>

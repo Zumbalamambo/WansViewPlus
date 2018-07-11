@@ -10,6 +10,7 @@ public class AlarmBean {
     public String did;
     public String ats;
     public String cdate;
+    public String ctime;
     public String cts;
     public List<ItemInfoBean> avs;
     public List<ItemInfoBean> images;

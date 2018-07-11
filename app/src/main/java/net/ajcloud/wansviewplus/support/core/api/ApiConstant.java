@@ -14,6 +14,7 @@ public class ApiConstant {
     //服务条款与免责声明
     public static String URL_AGREEMENT;
     public static String URL_PRIVACY;
+    public static String URL_CLOUD_AGREEMENT;
 
     //App启动时需要的公共参数
     public static String URL_GET_APP_CONFIG = "https://sdc.ajyun.com.cn/api/v1/app-config";
@@ -37,6 +38,8 @@ public class ApiConstant {
     //emc
     public static String URL_DEVICE_PUSH_SETTING = BASE_EMC_URL + "/push-setting";
     public static String URL_DEVICE_ALARMS_SUMMARY = BASE_EMC_URL + "/alarms-summary";
+    public static String URL_DEVICE_ALARMS_CALENDAR = BASE_EMC_URL + "/alarms-calendar";
+    public static String URL_DEVICE_ALARMS_LIST = BASE_EMC_URL + "/alarms-list";
     //cam-config
     public static String URL_DEVICE_GET_DEVICE_INFO = "/v1/fetch-info";
     public static String URL_DEVICE_SET_DEVICE_NAME = "/v1/alias-name";
@@ -64,6 +67,7 @@ public class ApiConstant {
         ApiConstant.EMC_URL = bean.emcUrl;
         ApiConstant.URL_AGREEMENT = bean.agreementUrl;
         ApiConstant.URL_PRIVACY = bean.privacyUrl;
+        ApiConstant.URL_CLOUD_AGREEMENT = bean.cloudStorAgreementUrl;
 
         applyUrls();
     }
@@ -87,5 +91,7 @@ public class ApiConstant {
         //emc
         URL_DEVICE_PUSH_SETTING = BASE_EMC_URL + "/push-setting";
         URL_DEVICE_ALARMS_SUMMARY = BASE_EMC_URL + "/alarms-summary";
+        URL_DEVICE_ALARMS_CALENDAR = BASE_EMC_URL + "/alarms-calendar";
+        URL_DEVICE_ALARMS_LIST = BASE_EMC_URL + "/alarms-list";
     }
 }

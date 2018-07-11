@@ -22,6 +22,7 @@ import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import java.util.List;
 
+@Deprecated
 public class CloudStorageActivity extends BaseActivity {
 
     private static final String LOADING = "LOADING";

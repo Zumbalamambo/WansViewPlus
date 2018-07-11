@@ -110,6 +110,26 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
 
+            <Button
+                android:id="@+id/getAlarmsCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_signin_button"
+                android:text="getAlarmsCalendar"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/getAlarmsList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_signin_button"
+                android:text="getAlarmsList"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lav"
                 android:layout_width="200dp"

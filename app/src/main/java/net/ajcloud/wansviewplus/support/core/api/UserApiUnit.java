@@ -25,9 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by mamengchao on 2018/05/21.
  * 账号信息相关
@@ -367,7 +364,7 @@ public class UserApiUnit {
      *
      * @param action 操作：upsert，remove
      */
-    public void pushSetting(@NotNull String action, final OkgoCommonListener<Object> listener) {
+    public void pushSetting(@NotNull String action, String deviceId, final OkgoCommonListener<Object> listener) {
         JSONObject dataJson = new JSONObject();
         try {
             if (TextUtils.equals(action, "upsert")) {
@@ -397,6 +394,22 @@ public class UserApiUnit {
                 agentsArray.put(agentJson);
 
                 dataJson.put("op", "upsert");
+                dataJson.put("devices", devicesArray);
+                dataJson.put("agents", agentsArray);
+            } else if (TextUtils.equals(action, "remove")) {
+                //device
+                JSONArray devicesArray = new JSONArray();
+                JSONObject deviceJson = new JSONObject();
+                deviceJson.put("did", deviceId);
+                devicesArray.put(deviceJson);
+                //agents
+                JSONArray agentsArray = new JSONArray();
+                JSONObject agentJson = new JSONObject();
+                agentJson.put("name", localInfo.deviceName);
+                agentJson.put("token", localInfo.deviceId);
+                agentsArray.put(agentJson);
+
+                dataJson.put("op", "remove");
                 dataJson.put("devices", devicesArray);
                 dataJson.put("agents", agentsArray);
             }

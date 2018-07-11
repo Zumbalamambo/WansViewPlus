@@ -1,6 +1,7 @@
 package net.ajcloud.wansviewplus.main.alert.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import net.ajcloud.wansviewplus.R;
+import net.ajcloud.wansviewplus.main.alert.AlertDetailActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.bean.AlarmBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.device.DeviceInfoDictionary;
-import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import java.util.List;
 
@@ -51,6 +52,12 @@ public class AlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         Camera camera = MainApplication.getApplication().getDeviceCache().get(mInfos.get(position).did);
         ((AlarmHolder) holder).tv_deviceName.setText(DeviceInfoDictionary.getNameByDevice(camera));
         ((AlarmHolder) holder).tv_date.setText(mInfos.get(position).cdate);
+        boolean unread = MainApplication.getApplication().getAlarmCountCache().hasUnread(mInfos.get(position).did);
+        if (unread) {
+            ((AlarmHolder) holder).iv_dot.setVisibility(View.VISIBLE);
+        } else {
+            ((AlarmHolder) holder).iv_dot.setVisibility(View.GONE);
+        }
 
         if (mInfos.get(position).images.size() > 0) {
             AlarmBean.ItemInfoBean imageItemInfo = mInfos.get(position).images.get(0);
@@ -62,7 +69,8 @@ public class AlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         ((AlarmHolder) holder).iv_thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.single("click");
+                MainApplication.getApplication().getAlarmCountCache().clearDeviceUnread(mInfos.get(position).did);
+                context.startActivity(new Intent(context, AlertDetailActivity.class));
             }
         });
     }

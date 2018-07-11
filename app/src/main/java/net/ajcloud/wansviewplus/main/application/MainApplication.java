@@ -1,11 +1,14 @@
 package net.ajcloud.wansviewplus.main.application;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.multidex.MultiDexApplication;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
@@ -15,6 +18,7 @@ import com.crashlytics.android.Crashlytics;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import net.ajcloud.wansviewplus.BuildConfig;
+import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.entity.DaoMaster;
 import net.ajcloud.wansviewplus.entity.DaoSession;
 import net.ajcloud.wansviewplus.entity.LocalInfo;
@@ -24,6 +28,7 @@ import net.ajcloud.wansviewplus.main.framework.FileIO;
 import net.ajcloud.wansviewplus.main.framework.impl.AndroidFileIO;
 import net.ajcloud.wansviewplus.support.core.api.OkSignatureInterceptor;
 import net.ajcloud.wansviewplus.support.core.api.OkTokenInterceptor;
+import net.ajcloud.wansviewplus.support.core.device.AlarmCountCache;
 import net.ajcloud.wansviewplus.support.core.device.DeviceCache;
 import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
 import net.ajcloud.wansviewplus.support.core.okgo.cache.CacheEntity;
@@ -69,6 +74,8 @@ public class MainApplication extends MultiDexApplication {
     public static FileIO fileIO;
 
     private DeviceCache deviceCache;
+
+    private AlarmCountCache alarmCountCache;
 
     public static synchronized MainApplication getApplication() {
         return mInstance;
@@ -154,7 +161,31 @@ public class MainApplication extends MultiDexApplication {
         //FCM主题订阅
         FirebaseMessaging.getInstance().subscribeToTopic("notice");
         FirebaseMessaging.getInstance().subscribeToTopic("ads");
+        initNotificationChannel();
         deviceCache = new DeviceCache();
+        alarmCountCache = new AlarmCountCache();
+    }
+
+    public void initNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = getResources().getString(R.string.channel_normal_id);
+            String channelName = getResources().getString(R.string.channel_normal);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            createNotificationChannel(channelId, channelName, importance);
+
+            channelId = getResources().getString(R.string.channel_alarm_id);
+            channelName = getResources().getString(R.string.channel_alarm);
+            importance = NotificationManager.IMPORTANCE_HIGH;
+            createNotificationChannel(channelId, channelName, importance);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private void createNotificationChannel(String channelId, String channelName, int importance) {
+        NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(
+                NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(channel);
     }
 
     public LocalInfo getLocalInfo() {
@@ -198,6 +229,7 @@ public class MainApplication extends MultiDexApplication {
         //清理缓存
         SigninAccountManager.getInstance().clearAccountSigninInfo();
         getDeviceCache().clear();
+        getAlarmCountCache().clear();
 
         if (isForce) {
             finshActivitys();
@@ -209,6 +241,10 @@ public class MainApplication extends MultiDexApplication {
 
     public DeviceCache getDeviceCache() {
         return deviceCache;
+    }
+
+    public AlarmCountCache getAlarmCountCache() {
+        return alarmCountCache;
     }
 
     public void pushActivity(Activity activity) {

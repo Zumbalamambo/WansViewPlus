@@ -158,7 +158,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
     }
 
     private void pushSetting() {
-        new UserApiUnit(getActivity()).pushSetting("upsert", new OkgoCommonListener<Object>() {
+        new UserApiUnit(getActivity()).pushSetting("upsert", null, new OkgoCommonListener<Object>() {
             @Override
             public void onSuccess(Object bean) {
 

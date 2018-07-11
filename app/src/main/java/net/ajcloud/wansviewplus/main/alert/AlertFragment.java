@@ -25,6 +25,12 @@ import net.ajcloud.wansviewplus.main.alert.adapter.AlertAdapter;
 import net.ajcloud.wansviewplus.support.core.api.AlertApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.AlarmBean;
+import net.ajcloud.wansviewplus.support.event.AlarmPushEvent;
+import net.ajcloud.wansviewplus.support.event.AlarmUnreadEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -42,6 +48,18 @@ public class AlertFragment extends Fragment implements View.OnClickListener {
     private RecyclerView alertsRecycleView;
     private AlertAdapter alertAdapter;
     private AlertApiUnit alertApiUnit;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -118,5 +136,15 @@ public class AlertFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAlarm(AlarmPushEvent event) {
+        getAlertList();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAlarmUnread(AlarmUnreadEvent event) {
+        alertAdapter.notifyDataSetChanged();
     }
 }

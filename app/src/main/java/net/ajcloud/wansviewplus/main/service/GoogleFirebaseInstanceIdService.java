@@ -47,7 +47,7 @@ public class GoogleFirebaseInstanceIdService extends FirebaseInstanceIdService {
         userApiUnit.getAppConfig(new OkgoCommonListener<AppConfigBean>() {
             @Override
             public void onSuccess(AppConfigBean bean) {
-                userApiUnit.pushSetting("upsert", new OkgoCommonListener<Object>() {
+                userApiUnit.pushSetting("upsert", null, new OkgoCommonListener<Object>() {
                     @Override
                     public void onSuccess(Object bean) {
 

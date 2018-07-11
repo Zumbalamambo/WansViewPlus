@@ -12,5 +12,6 @@ public class AppConfigBean {
     public String cloudStorUrl;
     public String agreementUrl;
     public String privacyUrl;
+    public String cloudStorAgreementUrl;
     public List<String> stunServers;
 }

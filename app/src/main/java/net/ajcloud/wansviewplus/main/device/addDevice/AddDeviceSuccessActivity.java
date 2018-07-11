@@ -218,7 +218,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
             @Override
             public void onSuccess(Object bean) {
                 camera.aliasName = name;
-                userApiUnit.pushSetting("upsert", new OkgoCommonListener<Object>() {
+                userApiUnit.pushSetting("upsert", null, new OkgoCommonListener<Object>() {
                     @Override
                     public void onSuccess(Object bean) {
                         deviceApiUnit.setNameUac(deviceId, name, new OkgoCommonListener<Object>() {

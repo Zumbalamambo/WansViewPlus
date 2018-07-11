@@ -22,7 +22,7 @@ public class DeviceSettingActivity extends BaseActivity {
     public static int NETWORK = 1;
     public static int TIMEZONE = 2;
     private RelativeLayout nameLayout, infoLayout, networkLayout, alertLayout,
-            imageLayout, timezoneLayout, tfLayout, cloudLayout, maintenanceLayout;
+            imageLayout, timezoneLayout, tfLayout, maintenanceLayout;
     private TextView nameTextView, networkTextView, timezoneTextView;
     private String deviceId;
     private Camera camera;
@@ -55,7 +55,6 @@ public class DeviceSettingActivity extends BaseActivity {
         imageLayout = findViewById(R.id.item_image);
         timezoneLayout = findViewById(R.id.item_timezone);
         tfLayout = findViewById(R.id.item_tf_storage);
-        cloudLayout = findViewById(R.id.item_cloud_storage);
         maintenanceLayout = findViewById(R.id.item_maintenance);
         nameTextView = findViewById(R.id.item_name_name);
         networkTextView = findViewById(R.id.item_network_name);
@@ -71,7 +70,6 @@ public class DeviceSettingActivity extends BaseActivity {
         imageLayout.setOnClickListener(this);
         timezoneLayout.setOnClickListener(this);
         tfLayout.setOnClickListener(this);
-        cloudLayout.setOnClickListener(this);
         maintenanceLayout.setOnClickListener(this);
     }
 
@@ -116,9 +114,6 @@ public class DeviceSettingActivity extends BaseActivity {
                 break;
             case R.id.item_tf_storage:
                 TFCardActivity.start(DeviceSettingActivity.this, deviceId);
-                break;
-            case R.id.item_cloud_storage:
-                CloudStorageActivity.start(DeviceSettingActivity.this, deviceId);
                 break;
             case R.id.item_maintenance:
                 MaintenanceActivity.start(DeviceSettingActivity.this, deviceId);
