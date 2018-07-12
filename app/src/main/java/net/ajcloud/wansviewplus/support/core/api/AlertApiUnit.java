@@ -129,7 +129,7 @@ public class AlertApiUnit {
      * @param cdate 摄像头时区的日期 20180710
      * @param limit 每页数量, 缺省值: 10
      */
-    public void getAlarmsList(String deviceId, int cts, String cdate, int limit, final OkgoCommonListener<AlarmListBean> listener) {
+    public void getAlarmsList(String deviceId, long cts, String cdate, int limit, final OkgoCommonListener<AlarmListBean> listener) {
         Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
         if (camera == null || camera.timeConfig == null || TextUtils.isEmpty(camera.timeConfig.tzValue)) {
             listener.onFail(-1, "param empty");

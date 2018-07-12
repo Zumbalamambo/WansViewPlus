@@ -8,10 +8,24 @@ import java.util.List;
  */
 public class AlarmBean {
     public String did;
+    public String dname;
+    public String dtzValue;
+    public String title;
+    public String body;
+    public String level;
+    public String pts;
     public String ats;
+    public String _id;
+    public String uid;
+    public String aclid;
+    public String category;
+    public String type;
     public String cdate;
     public String ctime;
     public String cts;
+    public String expireViewAt;
+    public String expireDelAt;
+    public String _v;
     public List<ItemInfoBean> avs;
     public List<ItemInfoBean> images;
 

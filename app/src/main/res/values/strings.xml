@@ -84,6 +84,7 @@
     <!--alert-->
     <string name="alert_no_alarm">Temporarily no movement alarm</string>
     <string name="alert_detail">Alert Detail</string>
+    <string name="alert_detail_load_end">End</string>
 
     <!--cloud-->
     <string name="cloud_no_plan">Cloud Storage was not activated</string>

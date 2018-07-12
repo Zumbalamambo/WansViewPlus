@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -22,6 +21,7 @@ import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.account.SigninTwiceActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.application.WVFragment;
 import net.ajcloud.wansviewplus.main.history.LocalHistoryActivity;
 import net.ajcloud.wansviewplus.main.mine.security.SecurityActivity;
 import net.ajcloud.wansviewplus.main.test.TestActivity;
@@ -39,7 +39,7 @@ import static net.ajcloud.wansviewplus.main.history.LocalHistoryActivity.ITEM_VI
  * Created by mamengchao on 2018/05/15.
  * 我的
  */
-public class MineFragment extends Fragment implements View.OnClickListener {
+public class MineFragment extends WVFragment implements View.OnClickListener {
 
     private static String LOGOUT = "LOGOUT";
     private CollapsingToolbarLayout toolbarLayout;
@@ -97,7 +97,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         } else {
             testLayout.setVisibility(View.GONE);
         }
-        logoutDialog = new LogoutDialog(getActivity());
+        logoutDialog = new LogoutDialog(mActivity);
         initListener();
         initData();
     }
@@ -144,20 +144,20 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.ll_video:
-                LocalHistoryActivity.start(getActivity(), ITEM_VIDEO);
+                LocalHistoryActivity.start(mActivity, ITEM_VIDEO);
                 break;
             case R.id.ll_photo:
-                LocalHistoryActivity.start(getActivity(), ITEM_IMAGE);
+                LocalHistoryActivity.start(mActivity, ITEM_IMAGE);
                 break;
             case R.id.rl_message:
                 break;
             case R.id.rl_security:
-                startActivity(new Intent(getActivity(), SecurityActivity.class));
+                startActivity(new Intent(mActivity, SecurityActivity.class));
                 break;
             case R.id.rl_version:
                 break;
             case R.id.rl_about:
-                startActivity(new Intent(getActivity(), AboutActivity.class));
+                startActivity(new Intent(mActivity, AboutActivity.class));
                 break;
             case R.id.rl_logout:
                 if (!logoutDialog.isShowing()) {
@@ -165,7 +165,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
             case R.id.rl_test:
-                startActivity(new Intent(getActivity(), TestActivity.class));
+                startActivity(new Intent(mActivity, TestActivity.class));
                 break;
             default:
                 break;
@@ -173,13 +173,13 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     }
 
     private void doLogout() {
-        ProgressDialogManager.getDialogManager().showDialog(LOGOUT, getActivity());
-        new UserApiUnit(getActivity()).signout(new OkgoCommonListener<Object>() {
+        ProgressDialogManager.getDialogManager().showDialog(LOGOUT, mActivity);
+        new UserApiUnit(mActivity).signout(new OkgoCommonListener<Object>() {
             @Override
             public void onSuccess(Object bean) {
                 ProgressDialogManager.getDialogManager().dimissDialog(LOGOUT, 0);
-                SigninTwiceActivity.start(getActivity(), SigninAccountManager.getInstance().getCurrentAccountMail());
-                getActivity().finish();
+                SigninTwiceActivity.start(mActivity, SigninAccountManager.getInstance().getCurrentAccountMail());
+                mActivity.finish();
             }
 
             @Override

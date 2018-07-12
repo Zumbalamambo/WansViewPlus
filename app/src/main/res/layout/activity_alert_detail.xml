@@ -22,6 +22,28 @@
             android:layout_alignBottom="@id/pv_video"
             android:layout_alignTop="@id/pv_video">
 
+            <LinearLayout
+                android:id="@+id/ll_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_buffer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="#8000"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
             <FrameLayout
                 android:id="@+id/fl_play"
                 android:layout_width="48dp"
@@ -84,7 +106,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_alarm_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="24dp">
 
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>

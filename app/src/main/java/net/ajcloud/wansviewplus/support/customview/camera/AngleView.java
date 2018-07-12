@@ -23,6 +23,7 @@ import net.ajcloud.wansviewplus.main.device.type.camera.VirtualCamera;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.ViewAnglesBean;
+import net.ajcloud.wansviewplus.support.tools.VideoItemDecoration;
 import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
@@ -111,30 +112,7 @@ public class AngleView implements View.OnClickListener {
 
         viewAnglesAdapter = new ViewAnglesAdapter(context, list);
         rv_angle.setLayoutManager(new GridLayoutManager(context, 2));
-        rv_angle.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
-                int spanCount = 2;
-                int childCount = parent.getAdapter().getItemCount();
-                if (itemPosition % 2 == 0) {
-                    if (isLastRaw(parent, itemPosition, spanCount, childCount))// 如果是最后一行，则不需要绘制底部
-                    {
-                        outRect.set(0, 0, DisplayUtil.dip2Pix(context, 20), 0);
-                    } else {
-                        outRect.set(0, 0, DisplayUtil.dip2Pix(context, 20),
-                                DisplayUtil.dip2Pix(context, 24));
-                    }
-                } else {
-                    if (isLastRaw(parent, itemPosition, spanCount, childCount))// 如果是最后一行，则不需要绘制底部
-                    {
-                        outRect.set(DisplayUtil.dip2Pix(context, 20), 0, 0, 0);
-                    } else {
-                        outRect.set(DisplayUtil.dip2Pix(context, 20), 0, 0,
-                                DisplayUtil.dip2Pix(context, 24));
-                    }
-                }
-            }
-        });
+        rv_angle.addItemDecoration(new VideoItemDecoration(context));
         rv_angle.setAdapter(viewAnglesAdapter);
         rv_angle.setNestedScrollingEnabled(false);
         ((SimpleItemAnimator) rv_angle.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -205,31 +183,4 @@ public class AngleView implements View.OnClickListener {
         }
     }
 
-    private boolean isLastRaw(RecyclerView parent, int pos, int spanCount,
-                              int childCount) {
-        RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
-        if (layoutManager instanceof GridLayoutManager) {
-            childCount = childCount - childCount % spanCount;
-            if (pos >= childCount)// 如果是最后一行，则不需要绘制底部
-                return true;
-        } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-            int orientation = ((StaggeredGridLayoutManager) layoutManager)
-                    .getOrientation();
-            // StaggeredGridLayoutManager 且纵向滚动
-            if (orientation == StaggeredGridLayoutManager.VERTICAL) {
-                childCount = childCount - childCount % spanCount;
-                // 如果是最后一行，则不需要绘制底部
-                if (pos >= childCount)
-                    return true;
-            } else
-            // StaggeredGridLayoutManager 且横向滚动
-            {
-                // 如果是最后一行，则不需要绘制底部
-                if ((pos + 1) % spanCount == 0) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 }

@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +21,7 @@ import android.widget.LinearLayout;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.alert.adapter.AlertAdapter;
+import net.ajcloud.wansviewplus.main.application.WVFragment;
 import net.ajcloud.wansviewplus.support.core.api.AlertApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.AlarmBean;
@@ -38,7 +38,7 @@ import java.util.List;
  * Created by mamengchao on 2018/05/15.
  * 消息页
  */
-public class AlertFragment extends Fragment implements View.OnClickListener {
+public class AlertFragment extends WVFragment implements View.OnClickListener {
 
     private CollapsingToolbarLayout toolbarLayout;
     private Toolbar toolbar;
@@ -82,8 +82,8 @@ public class AlertFragment extends Fragment implements View.OnClickListener {
         noAlertLayout = view.findViewById(R.id.ll_alert_none);
         refreshLayout = view.findViewById(R.id.refresh_layout);
         alertsRecycleView = view.findViewById(R.id.rv_message_list);
-        alertsRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        alertAdapter = new AlertAdapter(getActivity());
+        alertsRecycleView.setLayoutManager(new LinearLayoutManager(mActivity));
+        alertAdapter = new AlertAdapter(mActivity);
         alertsRecycleView.setAdapter(alertAdapter);
         alertsRecycleView.setNestedScrollingEnabled(false);
         ((SimpleItemAnimator) alertsRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -98,7 +98,7 @@ public class AlertFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initData() {
-        alertApiUnit = new AlertApiUnit(getActivity());
+        alertApiUnit = new AlertApiUnit(mActivity);
         getAlertList();
     }
 

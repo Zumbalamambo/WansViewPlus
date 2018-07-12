@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +25,7 @@ import android.widget.LinearLayout;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.application.WVFragment;
 import net.ajcloud.wansviewplus.main.device.adapter.DeviceListAdapter;
 import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceSelectActivity;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
@@ -47,7 +47,7 @@ import java.util.List;
  * Created by mamengchao on 2018/05/15.
  * 设备页
  */
-public class DeviceFragment extends Fragment implements View.OnClickListener {
+public class DeviceFragment extends WVFragment implements View.OnClickListener {
 
     private CollapsingToolbarLayout toolbarLayout;
     private Toolbar toolbar;
@@ -98,8 +98,8 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
         addDeviceImageView = view.findViewById(R.id.iv_add_device);
         addDeviceButton = view.findViewById(R.id.btn_add_device);
         deviceListRecycleView = view.findViewById(R.id.rv_device_list);
-        deviceListRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        deviceListAdapter = new DeviceListAdapter(getActivity());
+        deviceListRecycleView.setLayoutManager(new LinearLayoutManager(mActivity));
+        deviceListAdapter = new DeviceListAdapter(mActivity);
         deviceListRecycleView.setAdapter(deviceListAdapter);
         deviceListRecycleView.setNestedScrollingEnabled(false);
         ((SimpleItemAnimator) deviceListRecycleView.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -114,8 +114,8 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initData() {
-        deviceApiUnit = new DeviceApiUnit(getActivity());
-        userApiUnit = new UserApiUnit(getActivity());
+        deviceApiUnit = new DeviceApiUnit(mActivity);
+        userApiUnit = new UserApiUnit(mActivity);
         getDeviceList();
     }
 
@@ -178,7 +178,7 @@ public class DeviceFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btn_add_device:
             case R.id.iv_add_device:
-                startActivity(new Intent(getContext(), AddDeviceSelectActivity.class));
+                startActivity(new Intent(mActivity, AddDeviceSelectActivity.class));
                 break;
             default:
                 break;

@@ -16,7 +16,6 @@ import android.widget.FrameLayout;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.support.customview.MyToolbar;
-import net.ajcloud.wansviewplus.support.customview.SwipeBackLayout;
 import net.ajcloud.wansviewplus.support.customview.dialog.ProgressDialogManager;
 import net.ajcloud.wansviewplus.support.tools.TimeLock;
 import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
@@ -34,6 +33,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     private View toolbarView;
     private View contentView;
     private MyToolbar toolbar;
+    private int toolbarHeight;
+    private int statusBarHeight;
     private LayoutInflater mInflater;
     protected MainApplication application = MainApplication.getApplication();
     protected ProgressDialogManager progressDialogManager = ProgressDialogManager.getDialogManager();
@@ -44,6 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         application.pushActivity(this);
         mInflater = LayoutInflater.from(this);
+        toolbarHeight = DisplayUtil.dip2Pix(this, 48);
         initRootView();
         setContentView();
         if (null != toolbar) {
@@ -56,7 +58,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     private void initRootView() {
         /*直接创建一个帧布局，作为视图容器的父容器*/
-        rootView =  new FrameLayout(this);
+        rootView = new FrameLayout(this);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         rootView.setLayoutParams(params);
@@ -136,7 +138,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                 }
             }
             //透明状态栏和获取状态栏高度
-            int statusBarHeight = 0;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 //状态栏高度调整
                 {
@@ -151,6 +152,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                 }
                 Window window = getWindow();
                 // Translucent status bar
+                window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                 window.setFlags(
                         WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                         WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -158,11 +161,10 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                     getWindow().setStatusBarColor(Color.TRANSPARENT);
                 }
             }
-
             //添加toolbar
             if (hasTittle()) {
                 toolbarView = mInflater.inflate(R.layout.tool_bar, null);
-                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, DisplayUtil.dip2Pix(this, 48) + statusBarHeight);
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, toolbarHeight + statusBarHeight);
                 rootView.addView(toolbarView, params);
                 toolbar = toolbarView.findViewById(R.id.toolbar);
                 toolbar.setPadding(0, statusBarHeight, 0, 0);
@@ -183,5 +185,19 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             rootView.addView(contentView, 0, params);
         }
         return rootView;
+    }
+
+    public void setToolBarVisible(boolean visible) {
+        if (visible) {
+            toolbarView.setVisibility(View.VISIBLE);
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) contentView.getLayoutParams();
+            params.topMargin = toolbarHeight + statusBarHeight;
+            contentView.setLayoutParams(params);
+        } else {
+            toolbarView.setVisibility(View.GONE);
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) contentView.getLayoutParams();
+            params.topMargin = 0;
+            contentView.setLayoutParams(params);
+        }
     }
 }

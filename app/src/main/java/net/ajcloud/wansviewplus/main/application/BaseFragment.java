@@ -1,9 +1,11 @@
 package net.ajcloud.wansviewplus.main.application;
 
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +22,7 @@ import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
 /**
  * Created by mamengchao on 2018/05/11.
  */
-public abstract class BaseFragment extends Fragment implements View.OnClickListener {
+public abstract class BaseFragment extends WVFragment implements View.OnClickListener {
 
     private View rootView;
     private View contentView;

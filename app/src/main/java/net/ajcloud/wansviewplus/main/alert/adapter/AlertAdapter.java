@@ -1,7 +1,6 @@
 package net.ajcloud.wansviewplus.main.alert.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +13,11 @@ import com.bumptech.glide.Glide;
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.alert.AlertDetailActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.video.CautionActivity;
 import net.ajcloud.wansviewplus.support.core.bean.AlarmBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.device.DeviceInfoDictionary;
+import net.ajcloud.wansviewplus.support.utils.DateUtil;
 
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class AlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         Camera camera = MainApplication.getApplication().getDeviceCache().get(mInfos.get(position).did);
         ((AlarmHolder) holder).tv_deviceName.setText(DeviceInfoDictionary.getNameByDevice(camera));
-        ((AlarmHolder) holder).tv_date.setText(mInfos.get(position).cdate);
+        ((AlarmHolder) holder).tv_date.setText(DateUtil.getFormatDate(mInfos.get(position).cdate));
         boolean unread = MainApplication.getApplication().getAlarmCountCache().hasUnread(mInfos.get(position).did);
         if (unread) {
             ((AlarmHolder) holder).iv_dot.setVisibility(View.VISIBLE);
@@ -65,14 +66,14 @@ public class AlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     .placeholder(R.mipmap.figure_big)
                     .error(R.mipmap.figure_big)
                     .into(((AlarmHolder) holder).iv_thumbnail);
+            ((AlarmHolder) holder).iv_thumbnail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainApplication.getApplication().getAlarmCountCache().clearDeviceUnread(mInfos.get(position).did);
+                    AlertDetailActivity.start(context, mInfos.get(position).did, imageItemInfo.url, mInfos.get(position).cdate);
+                }
+            });
         }
-        ((AlarmHolder) holder).iv_thumbnail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainApplication.getApplication().getAlarmCountCache().clearDeviceUnread(mInfos.get(position).did);
-                AlertDetailActivity.start(context,mInfos.get(position).did, mInfos.get(position).cdate);
-            }
-        });
     }
 
     @Override

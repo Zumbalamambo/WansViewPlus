@@ -18,6 +18,7 @@
     <color name="gesture_error_inner_red">#FF5252</color>
     <color name="gesture_error_outer_red">#28FFE3E3</color>
     <color name="gray_first_translate">#14263238</color>
+    <color name="gray_first_translate_dark">#66263238</color>
     <color name="red_dot">#FF5252</color>
 
     <color name="wv_direction_paint1">#00aaee</color>

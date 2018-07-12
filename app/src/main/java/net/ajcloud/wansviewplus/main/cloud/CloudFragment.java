@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -16,12 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
+import net.ajcloud.wansviewplus.main.application.WVFragment;
 
 /**
  * Created by mamengchao on 2018/07/02.
  * Function:
  */
-public class CloudFragment extends Fragment implements View.OnClickListener {
+public class CloudFragment extends WVFragment implements View.OnClickListener {
 
     private CollapsingToolbarLayout toolbarLayout;
     private Toolbar toolbar;
@@ -60,7 +60,7 @@ public class CloudFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_cloud_introduction:
-                startActivity(new Intent(getActivity(), AboutCloudActivity.class));
+                startActivity(new Intent(mActivity, AboutCloudActivity.class));
                 break;
             case R.id.btn_cloud_buy:
                 break;

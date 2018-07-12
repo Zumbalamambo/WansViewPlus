@@ -279,7 +279,7 @@ public class CautionActivity extends BaseActivity implements PlayerView.OnChange
     }
 
     private void notFullscreen() {
-        getSupportActionBar().show();
+//        getSupportActionBar().show();
         myStateBar.setVisibility(View.VISIBLE);
         videoList.setVisibility(View.VISIBLE);
         View v = getWindow().getDecorView();
@@ -288,7 +288,7 @@ public class CautionActivity extends BaseActivity implements PlayerView.OnChange
     }
 
     private void fullscreen() {
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
         myStateBar.setVisibility(View.GONE);
         videoList.setVisibility(View.GONE);
 
