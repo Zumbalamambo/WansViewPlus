@@ -11,6 +11,8 @@ public class ApiConstant {
     public static String BASE_UAC_URL = UAC_URL + "/v1";
     public static String EMC_URL = "https://emc.ajyun.com.cn/api";
     public static String BASE_EMC_URL = EMC_URL + "/v1";
+    public static String CAP_URL = "https://cap.ajyun.com.cn/api";
+    public static String BASE_CAP_URL = CAP_URL + "/v1";
     //服务条款与免责声明
     public static String URL_AGREEMENT;
     public static String URL_PRIVACY;
@@ -60,11 +62,14 @@ public class ApiConstant {
     public static String URL_DEVICE_DELETE_ANGLE = "/v1/view-angle-removal";
     public static String URL_DEVICE_TURN_TO_ANGLE = "/v1/view-angle-turn";
     public static String URL_DEVICE_GROUP_LIST = "/v1/group-list";
+    //cap
+    public static String URL_GET_DEVICE_CAPABILITY = BASE_CAP_URL + "/capability";
 
     public static void setBaseUrl(AppConfigBean bean) {
         isApply = true;
         ApiConstant.UAC_URL = bean.uacUrl;
         ApiConstant.EMC_URL = bean.emcUrl;
+        ApiConstant.CAP_URL = bean.capUrl;
         ApiConstant.URL_AGREEMENT = bean.agreementUrl;
         ApiConstant.URL_PRIVACY = bean.privacyUrl;
         ApiConstant.URL_CLOUD_AGREEMENT = bean.cloudStorAgreementUrl;
@@ -74,6 +79,8 @@ public class ApiConstant {
 
     private static void applyUrls() {
         BASE_UAC_URL = UAC_URL + "/v1";
+        BASE_EMC_URL = EMC_URL + "/v1";
+        BASE_CAP_URL = CAP_URL + "/v1";
         // uac账号相关
         URL_USER_CHALLENGE = BASE_UAC_URL + "/challenge";
         URL_USER_SIGNIN = BASE_UAC_URL + "/signin";
@@ -93,5 +100,7 @@ public class ApiConstant {
         URL_DEVICE_ALARMS_SUMMARY = BASE_EMC_URL + "/alarms-summary";
         URL_DEVICE_ALARMS_CALENDAR = BASE_EMC_URL + "/alarms-calendar";
         URL_DEVICE_ALARMS_LIST = BASE_EMC_URL + "/alarms-list";
+        //cap
+        URL_GET_DEVICE_CAPABILITY = BASE_CAP_URL + "/capability";
     }
 }

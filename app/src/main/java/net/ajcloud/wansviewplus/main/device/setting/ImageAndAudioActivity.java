@@ -51,7 +51,7 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Image and audio");
+        getToolbar().setTittle(getResources().getString(R.string.device_setting_image_audio));
         getToolbar().setLeftImg(R.mipmap.ic_back);
         placementLayout = findViewById(R.id.item_placement);
         placementTextView = findViewById(R.id.item_placement_mode);
@@ -151,9 +151,9 @@ public class ImageAndAudioActivity extends BaseActivity implements CompoundButto
     private void refreshUI() {
         if (cloneCamera != null) {
             if (TextUtils.equals(cloneCamera.orientationValue, "0")) {
-                placementTextView.setText("Upright");
+                placementTextView.setText(getResources().getString(R.string.dialog_placement_upright));
             } else {
-                placementTextView.setText("inverted");
+                placementTextView.setText(getResources().getString(R.string.dialog_placement_inverted));
             }
 
             nightSwitch.setChecked(TextUtils.equals(cloneCamera.nightMode, "2"));

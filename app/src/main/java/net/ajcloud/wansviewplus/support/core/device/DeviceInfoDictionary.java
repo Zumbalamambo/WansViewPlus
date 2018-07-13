@@ -20,13 +20,14 @@ public class DeviceInfoDictionary {
     private static final Object[][] deviceInfoData = new Object[][]{
             // type		typeId     nameRes
             // k3
-            {"K03", 1, R.string.device_default_name_k3, R.mipmap.ic_model_k3},
+            {"K3C", 1, R.string.device_default_name_k3, R.mipmap.ic_model_k3},
+            {"K3S", 2, R.string.device_default_name_k3, R.mipmap.ic_model_k3},
             // q3
-            {"Q03", 2, R.string.device_default_name_q3, R.mipmap.ic_model_q3},
+            {"Q3C", 3, R.string.device_default_name_q3, R.mipmap.ic_model_q3},
             // q3
-            {"Q3S", 2, R.string.device_default_name_q3, R.mipmap.ic_model_q3},
+            {"Q3S", 4, R.string.device_default_name_q3, R.mipmap.ic_model_q3},
             // w2
-            {"W02", 3, R.string.device_default_name_w2, R.mipmap.ic_model_w2}
+//            {"W02", 3, R.string.device_default_name_w2, R.mipmap.ic_model_w2}
     };
 
     static {
@@ -59,7 +60,7 @@ public class DeviceInfoDictionary {
      * @param type
      * @return
      */
-    public static int getDefaultNameByType(String type) {
+    private static int getDefaultNameByType(String type) {
         if (type == null) {
             return R.string.device_unknow;
         }

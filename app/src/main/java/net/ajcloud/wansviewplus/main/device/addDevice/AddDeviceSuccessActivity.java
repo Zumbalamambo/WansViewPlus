@@ -63,7 +63,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Successfully added device");
+        getToolbar().setTittle(getResources().getString(R.string.add_device_success));
         getToolbar().setRightImg(R.mipmap.ic_home);
         nameEditText = findViewById(R.id.et_name);
         okButton = findViewById(R.id.btn_ok);
@@ -133,7 +133,6 @@ public class AddDeviceSuccessActivity extends BaseActivity {
                                 }
                                 if (!hasCamera) {
                                     progressDialogManager.dimissDialog(LOADING, 0);
-                                    ToastUtil.single("getDeviceList error");
                                     EventBus.getDefault().post(new DeviceBindSuccessEvent(deviceId));
                                     startActivity(new Intent(AddDeviceSuccessActivity.this, HomeActivity.class));
                                 }
@@ -145,7 +144,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
                     public void onError(Response<ResponseBean<DeviceListBean>> response) {
                         super.onError(response);
                         progressDialogManager.dimissDialog(LOADING, 0);
-                        ToastUtil.single("getDeviceList error");
+                        ToastUtil.single(getResources().getString(R.string.common_error));
                         EventBus.getDefault().post(new DeviceBindSuccessEvent(deviceId));
                         startActivity(new Intent(AddDeviceSuccessActivity.this, HomeActivity.class));
                     }
@@ -173,7 +172,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
             @Override
             public void onFail(int code, String msg) {
                 progressDialogManager.dimissDialog(LOADING, 0);
-                ToastUtil.single("getCameraUrl error");
+                ToastUtil.single(msg);
                 EventBus.getDefault().post(new DeviceBindSuccessEvent(deviceId));
                 startActivity(new Intent(AddDeviceSuccessActivity.this, HomeActivity.class));
             }
@@ -206,12 +205,12 @@ public class AddDeviceSuccessActivity extends BaseActivity {
         final String name = nameEditText.getText().toString();
         if (TextUtils.isEmpty(name)) {
             progressDialogManager.dimissDialog(LOADING, 0);
-            nameEditText.setError("cant be empty");
+            nameEditText.setError(getResources().getString(R.string.editText_hint_empty));
             return;
         }
         if (camera == null) {
             progressDialogManager.dimissDialog(LOADING, 0);
-            nameEditText.setError("camera cant be empty");
+            nameEditText.setError(getResources().getString(R.string.editText_hint_empty));
             return;
         }
         deviceApiUnit.setName(camera.getGatewayUrl(), deviceId, name, new OkgoCommonListener<Object>() {
@@ -232,7 +231,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
                             @Override
                             public void onFail(int code, String msg) {
                                 progressDialogManager.dimissDialog(LOADING, 0);
-                                ToastUtil.single("setNameUac error");
+                                ToastUtil.single(msg);
                             }
                         });
                     }
@@ -240,7 +239,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
                     @Override
                     public void onFail(int code, String msg) {
                         progressDialogManager.dimissDialog(LOADING, 0);
-                        ToastUtil.single("setNameEmc error");
+                        ToastUtil.single(msg);
                     }
                 });
             }
@@ -248,7 +247,7 @@ public class AddDeviceSuccessActivity extends BaseActivity {
             @Override
             public void onFail(int code, String msg) {
                 progressDialogManager.dimissDialog(LOADING, 0);
-                ToastUtil.single("setNameGateway error");
+                ToastUtil.single(msg);
             }
         });
 

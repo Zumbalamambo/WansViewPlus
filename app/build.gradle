@@ -56,7 +56,7 @@ android {
 
 greendao {
     //数据库版本号  需要更新时加1
-    schemaVersion 1
+    schemaVersion 2
 }
 
 dependencies {

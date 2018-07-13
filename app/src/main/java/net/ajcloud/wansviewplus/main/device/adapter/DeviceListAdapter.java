@@ -81,9 +81,9 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         ((DeviceListHolder) holder).tv_deviceName.setText(DeviceInfoDictionary.getNameByDevice(camera));
 
         if (camera.onlineStatus == 2) {
-            ((DeviceListHolder) holder).tv_status.setText("ON LINE");
+            ((DeviceListHolder) holder).tv_status.setText(context.getResources().getString(R.string.device_online));
         } else {
-            ((DeviceListHolder) holder).tv_status.setText("OFF LINE");
+            ((DeviceListHolder) holder).tv_status.setText(context.getResources().getString(R.string.device_offline));
         }
 
         if (camera.refreshStatus == 1) {
@@ -96,7 +96,7 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 TextUtils.isEmpty(camera.cloudStorPlan.sku) ||
                 System.currentTimeMillis() > Long.parseLong(camera.cloudStorPlan.validTsEnd)) {//关闭
             ((DeviceListHolder) holder).tv_cloud.setTextColor(context.getResources().getColor(R.color.gray_second));
-            ((DeviceListHolder) holder).tv_cloudState.setText(" not subscribed");
+            ((DeviceListHolder) holder).tv_cloudState.setText(" "+ context.getResources().getString(R.string.device_cloud_not_subscribed));
             ((DeviceListHolder) holder).tv_cloud.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

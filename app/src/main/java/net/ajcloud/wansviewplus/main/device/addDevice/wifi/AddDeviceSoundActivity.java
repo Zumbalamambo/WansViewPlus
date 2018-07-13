@@ -54,7 +54,7 @@ public class AddDeviceSoundActivity extends BaseActivity implements SEAT_API.IMs
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Connect to network");
+        getToolbar().setTittle(getResources().getString(R.string.add_device_connect_network));
         getToolbar().setLeftImg(R.mipmap.ic_back);
         sendView = findViewById(R.id.la_send);
         nextButton = findViewById(R.id.btn_next);

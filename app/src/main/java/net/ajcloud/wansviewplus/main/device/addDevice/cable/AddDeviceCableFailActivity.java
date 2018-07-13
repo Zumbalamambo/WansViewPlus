@@ -23,7 +23,7 @@ public class AddDeviceCableFailActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Problems with settings");
+        getToolbar().setTittle(getResources().getString(R.string.add_device_fail));
         getToolbar().setLeftImg(R.mipmap.ic_back);
 
         knowButton = findViewById(R.id.btn_know);

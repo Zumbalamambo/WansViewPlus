@@ -64,7 +64,7 @@ public class AddDeviceCableWaitingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Wait for connection");
+        getToolbar().setTittle(getResources().getString(R.string.add_device_wait));
         secondTextView = findViewById(R.id.tv_second);
     }
 
@@ -174,7 +174,7 @@ public class AddDeviceCableWaitingActivity extends BaseActivity {
 
             @Override
             public void onFail(int code, String msg) {
-                ToastUtil.single("checkStatus,error");
+                ToastUtil.single(msg);
             }
         });
     }

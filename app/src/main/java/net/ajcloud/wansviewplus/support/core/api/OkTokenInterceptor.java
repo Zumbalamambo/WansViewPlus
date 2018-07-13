@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 
-import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.bean.RefreshTokenBean;
 import net.ajcloud.wansviewplus.support.core.bean.SigninBean;
@@ -12,7 +12,6 @@ import net.ajcloud.wansviewplus.support.core.okgo.model.HttpParams;
 import net.ajcloud.wansviewplus.support.core.okgo.request.base.ProgressRequestBody;
 import net.ajcloud.wansviewplus.support.core.okgo.utils.OkLogger;
 import net.ajcloud.wansviewplus.support.tools.WLog;
-import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;

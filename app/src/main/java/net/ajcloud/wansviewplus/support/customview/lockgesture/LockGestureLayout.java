@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
 
 import java.util.ArrayList;

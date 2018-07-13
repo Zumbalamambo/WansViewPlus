@@ -45,7 +45,7 @@ public class DeviceSettingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Setting");
+        getToolbar().setTittle(getResources().getString(R.string.device_setting));
         getToolbar().setLeftImg(R.mipmap.ic_back);
 
         nameLayout = findViewById(R.id.item_name);

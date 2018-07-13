@@ -7,11 +7,15 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 
 import net.ajcloud.wansviewplus.R;
+import net.ajcloud.wansviewplus.entity.CapabilityInfo;
 import net.ajcloud.wansviewplus.entity.LocalInfo;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.manager.CapabilityManager;
 import net.ajcloud.wansviewplus.support.core.bean.AudioInfoBean;
 import net.ajcloud.wansviewplus.support.core.bean.B2UploadInfoBean;
 import net.ajcloud.wansviewplus.support.core.bean.BindStatusBean;
+import net.ajcloud.wansviewplus.support.core.bean.CapabilityBean;
+import net.ajcloud.wansviewplus.support.core.bean.CapabilityOfModeBean;
 import net.ajcloud.wansviewplus.support.core.bean.CloudStorBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceConfigBean;
 import net.ajcloud.wansviewplus.support.core.bean.DeviceListBean;
@@ -34,6 +38,7 @@ import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
 import net.ajcloud.wansviewplus.support.event.DeviceRefreshEvent;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.greendao.annotation.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -1303,6 +1308,55 @@ public class DeviceApiUnit {
 
                     @Override
                     public void onError(Response<ResponseBean<GroupListBean>> response) {
+                        super.onError(response);
+                        listener.onFail(-1, response.getException().getMessage());
+                    }
+                });
+    }
+
+    /**
+     * 获取设备能力集（根据型号）
+     *
+     * @param deviceType 设备类型
+     */
+    public void getCapability(@NotNull String deviceType, final OkgoCommonListener<CapabilityInfo> listener) {
+        CapabilityInfo info = CapabilityManager.getInstance().getCapability(deviceType);
+        if (info != null) {
+            listener.onSuccess(info);
+            return;
+        }
+
+        JSONObject dataJson = new JSONObject();
+        try {
+            dataJson.put("deviceMode", deviceType);
+            dataJson.put("vendorCode", "WSC");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkGo.<ResponseBean<CapabilityOfModeBean>>post(ApiConstant.URL_GET_DEVICE_CAPABILITY)
+                .tag(this)
+                .upJson(getReqBody(dataJson, null))
+                .execute(new JsonCallback<ResponseBean<CapabilityOfModeBean>>() {
+                    @Override
+                    public void onSuccess(Response<ResponseBean<CapabilityOfModeBean>> response) {
+                        ResponseBean<CapabilityOfModeBean> responseBean = response.body();
+                        if (responseBean.isSuccess()) {
+                            CapabilityOfModeBean bean = responseBean.result;
+                            if (bean != null && bean.capability != null) {
+                                CapabilityBean capabilityBean = bean.capability;
+                                capabilityBean.mode = bean.deviceMode;
+                                capabilityBean.vendorCode = bean.vendorCode;
+                                CapabilityInfo capabilityInfo = new CapabilityInfo(capabilityBean);
+                                CapabilityManager.getInstance().saveCapability(capabilityInfo);
+                                listener.onSuccess(capabilityInfo);
+                            }
+                        } else {
+                            listener.onFail(responseBean.getResultCode(), responseBean.message);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ResponseBean<CapabilityOfModeBean>> response) {
                         super.onError(response);
                         listener.onFail(-1, response.getException().getMessage());
                     }

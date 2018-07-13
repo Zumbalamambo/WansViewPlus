@@ -50,9 +50,9 @@ public class DeviceSettingNameActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Camera name");
+        getToolbar().setTittle(getResources().getString(R.string.device_setting_name));
         getToolbar().setLeftImg(R.mipmap.ic_back);
-        getToolbar().setRightText("Save");
+        getToolbar().setRightText(getResources().getString(R.string.common_save));
         getToolbar().setRightTextColor(getResources().getColor(R.color.colorPrimary));
 
         nameEditText = findViewById(R.id.et_name);
@@ -91,7 +91,7 @@ public class DeviceSettingNameActivity extends BaseActivity {
     private void doChangeName() {
         final String name = nameEditText.getText().toString();
         if (TextUtils.isEmpty(name)) {
-            nameEditText.setError("cant be empty");
+            nameEditText.setError(getResources().getString(R.string.editText_hint_empty));
         } else {
             progressDialogManager.showDialog(LOADING, this);
             deviceApiUnit.setName(camera.getGatewayUrl(), deviceId, name, new OkgoCommonListener<Object>() {
@@ -115,7 +115,7 @@ public class DeviceSettingNameActivity extends BaseActivity {
                                 @Override
                                 public void onFail(int code, String msg) {
                                     progressDialogManager.dimissDialog(LOADING, 0);
-                                    ToastUtil.single("setNameUac error");
+                                    ToastUtil.single(msg);
                                 }
                             });
                         }
@@ -123,7 +123,7 @@ public class DeviceSettingNameActivity extends BaseActivity {
                         @Override
                         public void onFail(int code, String msg) {
                             progressDialogManager.dimissDialog(LOADING, 0);
-                            ToastUtil.single("setNameEmc error");
+                            ToastUtil.single(msg);
                         }
                     });
                 }
@@ -131,7 +131,7 @@ public class DeviceSettingNameActivity extends BaseActivity {
                 @Override
                 public void onFail(int code, String msg) {
                     progressDialogManager.dimissDialog(LOADING, 0);
-                    ToastUtil.single("setNameGateway error");
+                    ToastUtil.single(msg);
                 }
             });
         }

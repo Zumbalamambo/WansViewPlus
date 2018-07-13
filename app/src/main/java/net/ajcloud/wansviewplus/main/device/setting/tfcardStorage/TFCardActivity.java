@@ -51,7 +51,7 @@ public class TFCardActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("TFcard storage");
+        getToolbar().setTittle(getResources().getString(R.string.device_setting_card_storage));
         getToolbar().setLeftImg(R.mipmap.ic_back);
 
         storageSwitch = findViewById(R.id.item_storage_switch);
@@ -142,26 +142,26 @@ public class TFCardActivity extends BaseActivity {
                 }
 
                 if (TextUtils.equals(cloneBean.quality, "1")) {
-                    qualityTextView.setText("HD");
+                    qualityTextView.setText(getResources().getString(R.string.device_setting_quality_hd));
                 } else if (TextUtils.equals(cloneBean.quality, "5")) {
-                    qualityTextView.setText("FHD");
+                    qualityTextView.setText(getResources().getString(R.string.device_setting_quality_fhd));
                 }
 
                 List<LocalStorBean.Policy> policyList = cloneBean.policies;
                 for (LocalStorBean.Policy policy : policyList) {
                     if (TextUtils.equals(policy.no, "1")) {
                         if (TextUtils.equals(policy.enable, "1")) {
-                            timeTextView.setText("24-hour");
+                            timeTextView.setText(getResources().getString(R.string.device_setting_detection_24_hint));
                         } else {
                             StringBuilder time = new StringBuilder();
                             for (LocalStorBean.Policy policy_2 : policyList) {
                                 if (TextUtils.equals(policy_2.no, "2")) {
                                     if (TextUtils.equals(policy_2.enable, "1")) {
-                                        time.append(" period1");
+                                        time.append(" " + getResources().getString(R.string.device_setting_period_1_hint));
                                     }
                                 } else if (TextUtils.equals(policy_2.no, "3")) {
                                     if (TextUtils.equals(policy_2.enable, "1")) {
-                                        time.append(" period2");
+                                        time.append(" " + getResources().getString(R.string.device_setting_period_2_hint));
                                     }
                                 }
                             }

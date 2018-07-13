@@ -102,8 +102,11 @@ public class PlayerView extends FrameLayout
     public void initPlayer(String url) {
         if (VLCUtil.validateLocation(url)) {
             this.uri = Uri.parse(url);
-            getMediaPlayer().getVLCVout().setVideoSurface(mSurfaceHolder.getSurface(), mSurfaceHolder);
-            mMediaPlayer.getVLCVout().attachViews();
+            if (!mMediaPlayer.getVLCVout().areViewsAttached()) {
+                mMediaPlayer.getVLCVout().detachViews();
+                mMediaPlayer.getVLCVout().setVideoSurface(mSurfaceHolder.getSurface(), mSurfaceHolder);
+                mMediaPlayer.getVLCVout().attachViews();
+            }
 
             final Media media = new Media(VLCInstance.get(), uri);
             media.setHWDecoderEnabled(false, false);

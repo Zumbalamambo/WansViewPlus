@@ -44,7 +44,7 @@ public class SignupVerifyActivity extends BaseActivity {
     protected void initView() {
         MyToolbar toolbar = getToolbar();
         if (toolbar != null) {
-            toolbar.setTittle("Mailbox verification");
+            toolbar.setTittle(getResources().getString(R.string.signin_mail_verify));
             toolbar.setLeftImg(net.ajcloud.wansviewplus.R.mipmap.ic_back);
         }
         sendAgainTextView = findViewById(net.ajcloud.wansviewplus.R.id.tv_send_again);
@@ -82,10 +82,10 @@ public class SignupVerifyActivity extends BaseActivity {
     private void register() {
 
         if (TextUtils.isEmpty(mail) || TextUtils.isEmpty(password)) {
-            ToastUtil.single("cant be empty");
+            ToastUtil.single(getResources().getString(R.string.editText_hint_empty));
             return;
         } else if (!RegularTool.isLegalEmailAddress(mail)) {
-            ToastUtil.single("E-mail format is incorrect");
+            ToastUtil.single(getResources().getString(R.string.editText_hint_email_error));
             return;
         }
 

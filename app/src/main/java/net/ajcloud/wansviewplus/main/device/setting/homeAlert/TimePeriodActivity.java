@@ -68,11 +68,11 @@ public class TimePeriodActivity extends BaseActivity {
 
         }
         if (TextUtils.equals(period, "2")) {
-            getToolbar().setTittle("Time Period 1");
-            periodTipsTextView.setText("Time Period 1");
+            getToolbar().setTittle(getResources().getString(R.string.device_setting_period_1));
+            periodTipsTextView.setText(getResources().getString(R.string.device_setting_period_1));
         } else if (TextUtils.equals(period, "3")) {
-            getToolbar().setTittle("Time Period 2");
-            periodTipsTextView.setText("Time Period 2");
+            getToolbar().setTittle(getResources().getString(R.string.device_setting_period_2));
+            periodTipsTextView.setText(getResources().getString(R.string.device_setting_period_2));
         }
         for (MoveMonitorBean.Policy policy : cloneBean.policies) {
             if (TextUtils.equals(policy.no, period)) {

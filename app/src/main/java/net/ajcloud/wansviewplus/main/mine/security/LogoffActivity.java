@@ -6,8 +6,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.support.customview.dialog.ConfirmDialog;
 import net.ajcloud.wansviewplus.support.customview.materialEditText.MaterialEditText;
 
@@ -31,7 +31,7 @@ public class LogoffActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Delete Account");
+        getToolbar().setTittle(getResources().getString(R.string.dialog_delete_account));
         getToolbar().setLeftImg(R.mipmap.ic_back);
 
         emailEditText = findViewById(R.id.et_email);
@@ -39,7 +39,7 @@ public class LogoffActivity extends BaseActivity {
         logoffButton = findViewById(R.id.btn_logoff);
 
         confirmDialog = new ConfirmDialog(this);
-        confirmDialog.setTittle("Delete confirmation");
+        confirmDialog.setTittle(getResources().getString(R.string.me_security_delete_confirm));
         emailEditText.setText(SigninAccountManager.getInstance().getCurrentAccountMail());
         pwdEditText.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
@@ -71,20 +71,20 @@ public class LogoffActivity extends BaseActivity {
         String email = emailEditText.getText().toString();
         String pwd = pwdEditText.getText().toString();
         if (TextUtils.isEmpty(email)) {
-            emailEditText.setError("cant empty");
+            emailEditText.setError(getResources().getString(R.string.editText_hint_empty));
             return;
         }
         if (TextUtils.isEmpty(pwd)) {
-            pwdEditText.setError("cant empty");
+            pwdEditText.setError(getResources().getString(R.string.editText_hint_empty));
             return;
         }
         //TODO 本地校验
-        if (!confirmDialog.isShowing()){
+        if (!confirmDialog.isShowing()) {
             confirmDialog.show();
         }
     }
 
-    private void doLogoff(){
+    private void doLogoff() {
 
     }
 }

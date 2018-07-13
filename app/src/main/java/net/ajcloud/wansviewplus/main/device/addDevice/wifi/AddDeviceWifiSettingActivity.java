@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.support.customview.materialEditText.MaterialEditText;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
@@ -41,7 +42,7 @@ public class AddDeviceWifiSettingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Wi-Fi Setting");
+        getToolbar().setTittle(getResources().getString(R.string.add_device_wifi_setting));
         getToolbar().setLeftImg(net.ajcloud.wansviewplus.R.mipmap.ic_back);
         wifiNameEditText = findViewById(net.ajcloud.wansviewplus.R.id.et_wifi_name);
         passwordEditText = findViewById(net.ajcloud.wansviewplus.R.id.et_password);

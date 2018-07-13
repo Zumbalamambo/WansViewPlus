@@ -26,7 +26,7 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("About");
+        getToolbar().setTittle(getResources().getString(R.string.me_about));
         getToolbar().setLeftImg(R.mipmap.ic_back);
 
         emailLayout = findViewById(R.id.rl_email);

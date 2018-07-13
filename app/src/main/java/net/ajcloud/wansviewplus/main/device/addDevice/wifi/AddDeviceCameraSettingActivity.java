@@ -34,7 +34,7 @@ public class AddDeviceCameraSettingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Camera setting");
+        getToolbar().setTittle(getResources().getString(R.string.add_device_camera_setting));
         getToolbar().setLeftImg(net.ajcloud.wansviewplus.R.mipmap.ic_back);
         flashButton = findViewById(net.ajcloud.wansviewplus.R.id.btn_flash);
         noFlashTextView = findViewById(net.ajcloud.wansviewplus.R.id.tv_no_flash);

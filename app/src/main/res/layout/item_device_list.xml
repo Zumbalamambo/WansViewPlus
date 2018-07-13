@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="@string/device_not_subscribed"
+            android:text="@string/device_cloud_not_subscribed"
             android:textColor="@color/gray_second"
             android:textSize="@dimen/signIn_textSize_14" />
     </LinearLayout>

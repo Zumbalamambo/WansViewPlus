@@ -23,7 +23,7 @@ public class AddDeviceCableConfirmActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Network setting");
+        getToolbar().setTittle(getResources().getString(R.string.add_device_network_setting));
         getToolbar().setLeftImg(R.mipmap.ic_back);
         nextButton = findViewById(R.id.btn_next);
     }

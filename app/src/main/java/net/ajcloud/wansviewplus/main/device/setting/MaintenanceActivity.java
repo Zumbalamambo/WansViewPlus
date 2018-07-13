@@ -47,7 +47,7 @@ public class MaintenanceActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Device maintenance");
+        getToolbar().setTittle(getResources().getString(R.string.device_setting_maintenance));
         getToolbar().setLeftImg(R.mipmap.ic_back);
 
         restartLayout = findViewById(R.id.item_restart);
@@ -56,9 +56,9 @@ public class MaintenanceActivity extends BaseActivity {
         restartDialog = new ConfirmDialog(this);
         restoreDialog = new ConfirmDialog(this);
         deleteDialog = new ConfirmDialog(this);
-        restartDialog.setTittle("restart confirm");
-        restoreDialog.setTittle("restore confirm");
-        deleteDialog.setTittle("delete confirm");
+        restartDialog.setTittle(getResources().getString(R.string.dialog_restart_confirm));
+        restoreDialog.setTittle(getResources().getString(R.string.dialog_restore_confirm));
+        deleteDialog.setTittle(getResources().getString(R.string.dialog_delete_confirm));
     }
 
     @Override
@@ -122,7 +122,7 @@ public class MaintenanceActivity extends BaseActivity {
             @Override
             public void onSuccess(Object bean) {
                 progressDialogManager.dimissDialog(LOADING, 0);
-                ToastUtil.single("success");
+                ToastUtil.single(getResources().getString(R.string.common_success));
             }
 
             @Override
@@ -139,7 +139,7 @@ public class MaintenanceActivity extends BaseActivity {
             @Override
             public void onSuccess(Object bean) {
                 progressDialogManager.dimissDialog(LOADING, 0);
-                ToastUtil.single("success");
+                ToastUtil.single(getResources().getString(R.string.common_success));
             }
 
             @Override

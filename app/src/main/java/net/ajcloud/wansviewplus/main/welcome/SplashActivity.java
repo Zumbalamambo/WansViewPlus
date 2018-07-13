@@ -8,12 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.account.SigninActivity;
 import net.ajcloud.wansviewplus.main.account.SigninTwiceActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
-import net.ajcloud.wansviewplus.main.device.type.DeviceHomeActivity;
-import net.ajcloud.wansviewplus.main.device.type.camera.MainCameraFragment;
 import net.ajcloud.wansviewplus.main.home.HomeActivity;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;

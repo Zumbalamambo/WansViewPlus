@@ -8,6 +8,7 @@ import android.widget.TextView;
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.home.HomeActivity;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
 import net.ajcloud.wansviewplus.support.core.bean.SigninBean;
@@ -47,8 +48,8 @@ public class SigninGestureActivity extends BaseActivity {
         lockGestureView = findViewById(R.id.lockGestureLayout);
         hintTextView = findViewById(R.id.tv_hint);
         signinMoreDialog = new SigninMoreDialog(this);
-        signinMoreDialog.setFirstText("Password sign in");
-        signinMoreDialog.setSecondText("Switch account");
+        signinMoreDialog.setFirstText(getResources().getString(R.string.signin_mode_password));
+        signinMoreDialog.setSecondText(getResources().getString(R.string.signin_mode_switch));
         lockGestureView.setTimes(5);
     }
 

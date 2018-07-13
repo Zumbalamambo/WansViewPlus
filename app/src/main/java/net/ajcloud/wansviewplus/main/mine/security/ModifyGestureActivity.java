@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.support.customview.lockgesture.GestureIndicatorView;
 import net.ajcloud.wansviewplus.support.customview.lockgesture.LockGestureLayout;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
@@ -38,7 +38,7 @@ public class ModifyGestureActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Set gesture graphics");
+        getToolbar().setTittle(getResources().getString(R.string.me_security_set_gesture));
         getToolbar().setLeftImg(R.mipmap.ic_back);
 
         hintTextView = findViewById(R.id.tv_gesture_hint);
@@ -64,7 +64,7 @@ public class ModifyGestureActivity extends BaseActivity {
                     times++;
                 } else {
                     SigninAccountManager.getInstance().setCurrentAccountGesture(password);
-                    ToastUtil.single("set success");
+                    ToastUtil.single(getResources().getString(R.string.common_success));
                     finish();
                 }
             }
@@ -72,7 +72,7 @@ public class ModifyGestureActivity extends BaseActivity {
             @Override
             public void onFail(int restTimes) {
                 if (times == 2) {
-                    ToastUtil.single("set fail,please retry");
+                    ToastUtil.single(getResources().getString(R.string.me_security_set_gesture_fail));
                     gestureLayout.setTmpPassword("");
                     resetIndicator();
                     hintTextView.setText(R.string.me_set_gesture);

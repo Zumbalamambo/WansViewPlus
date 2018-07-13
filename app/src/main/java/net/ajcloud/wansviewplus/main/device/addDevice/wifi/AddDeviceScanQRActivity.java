@@ -51,7 +51,7 @@ public class AddDeviceScanQRActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Connect to network");
+        getToolbar().setTittle(getResources().getString(R.string.add_device_connect_network));
         getToolbar().setLeftImg(R.mipmap.ic_back);
         qrcodeImageView = findViewById(R.id.iv_qr_code);
         waitButton = findViewById(R.id.btn_sure);

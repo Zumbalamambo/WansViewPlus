@@ -2974,7 +2974,7 @@ public class MainCameraFragment extends BaseFragment
                         @Override
                         public void onSuccess(Object bean) {
                             angleView.addAngle();
-                            ToastUtil.single("success");
+                            ToastUtil.single(getResources().getString(R.string.common_success));
                         }
 
                         @Override

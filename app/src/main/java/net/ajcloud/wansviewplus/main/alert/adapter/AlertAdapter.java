@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.alert.AlertDetailActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
-import net.ajcloud.wansviewplus.main.video.CautionActivity;
 import net.ajcloud.wansviewplus.support.core.bean.AlarmBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.device.DeviceInfoDictionary;
@@ -69,7 +68,7 @@ public class AlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             ((AlarmHolder) holder).iv_thumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MainApplication.getApplication().getAlarmCountCache().clearDeviceUnread(mInfos.get(position).did);
+                    MainApplication.getApplication().getAlarmCountCache().setDeviceUnread(mInfos.get(position).did, false);
                     AlertDetailActivity.start(context, mInfos.get(position).did, imageItemInfo.url, mInfos.get(position).cdate);
                 }
             });

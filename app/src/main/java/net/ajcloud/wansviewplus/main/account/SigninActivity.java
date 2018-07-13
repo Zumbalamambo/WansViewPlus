@@ -9,6 +9,7 @@ import android.widget.TextView;
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.home.HomeActivity;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
 import net.ajcloud.wansviewplus.support.core.bean.SigninBean;
@@ -78,13 +79,13 @@ public class SigninActivity extends BaseActivity {
         final String mail = userName.getText().toString();
         final String pwd = password.getText().toString();
         if (TextUtils.isEmpty(mail)) {
-            userName.setError("cant be empty");
+            userName.setError(getResources().getString(R.string.editText_hint_empty));
             return;
         } else if (TextUtils.isEmpty(pwd)) {
-            password.setError("cant be empty");
+            password.setError(getResources().getString(R.string.editText_hint_empty));
             return;
         } else if (!RegularTool.isLegalEmailAddress(mail)) {
-            userName.setError("E-mail format is incorrect");
+            userName.setError(getResources().getString(R.string.editText_hint_email_error));
             return;
         }
 

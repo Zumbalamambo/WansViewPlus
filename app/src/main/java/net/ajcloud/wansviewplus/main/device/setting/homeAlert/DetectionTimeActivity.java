@@ -41,7 +41,7 @@ public class DetectionTimeActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Detection time");
+        getToolbar().setTittle(getResources().getString(R.string.device_setting_detection_time));
         getToolbar().setLeftImg(R.mipmap.ic_back);
 
         alltimeSwitch = findViewById(R.id.item_all_time_switch);
@@ -112,7 +112,7 @@ public class DetectionTimeActivity extends BaseActivity {
                     for (MoveMonitorBean.Policy item : cloneBean.policies) {
                         if (TextUtils.equals(item.no, "2")) {
                             if (item.enable == 0) {
-                                periodOneTextView.setText("off");
+                                periodOneTextView.setText(getResources().getString(R.string.common_off));
                             } else if (!TextUtils.isEmpty(item.startTime) && !TextUtils.isEmpty(item.endTime)) {
                                 StringBuilder startTime = new StringBuilder(item.startTime.substring(0, item.startTime.length() - 2));
                                 StringBuilder endTime = new StringBuilder(item.endTime.substring(0, item.endTime.length() - 2));
@@ -121,7 +121,7 @@ public class DetectionTimeActivity extends BaseActivity {
                         }
                         if (TextUtils.equals(item.no, "3")) {
                             if (item.enable == 0) {
-                                periodTwoTextView.setText("off");
+                                periodTwoTextView.setText(getResources().getString(R.string.common_off));
                             } else if (!TextUtils.isEmpty(item.startTime) && !TextUtils.isEmpty(item.endTime)) {
                                 StringBuilder startTime = new StringBuilder(item.startTime.substring(0, item.startTime.length() - 2));
                                 StringBuilder endTime = new StringBuilder(item.endTime.substring(0, item.endTime.length() - 2));

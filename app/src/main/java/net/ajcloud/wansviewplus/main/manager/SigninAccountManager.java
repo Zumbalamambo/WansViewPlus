@@ -1,4 +1,4 @@
-package net.ajcloud.wansviewplus.main.account;
+package net.ajcloud.wansviewplus.main.manager;
 
 import android.text.TextUtils;
 

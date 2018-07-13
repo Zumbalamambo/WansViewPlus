@@ -13,8 +13,10 @@
     <!--device-->
     <string name="device_angle_view_num">position %1$s</string>
     <string name="device_online">ON LINE</string>
+    <string name="device_offline">OFF LINE</string>
     <string name="device_cloud_storage">Cloud Storage</string>
-    <string name="device_not_subscribed">not subscribed</string>
+    <string name="device_cloud_not_subscribed">not subscribed</string>
+    <string name="device_cloud_in_service">is in service</string>
     <string name="device_unbind_devices">Unbound any devices</string>
     <string name="device_add_device">Add device</string>
     <string name="device_default_name_k3">k3</string>
@@ -64,6 +66,16 @@
     <string name="add_device_qr_light">Tap to turn light on</string>
     <string name="add_device_qr_tip">Scan the QR code on the camera</string>
     <string name="add_device_qr_enter_manually">Enter manually</string>
+    <string name="add_device_select_mode">Select the connection mode</string>
+    <string name="add_device_select_type">Selection of device type</string>
+    <string name="add_device_success">Successfully added device</string>
+    <string name="add_device_fail">Problems with settings</string>
+    <string name="add_device_wait">Wait for connection</string>
+    <string name="add_device_network_setting">Network setting</string>
+    <string name="add_device_discovery">Discovering device</string>
+    <string name="add_device_camera_setting">Camera setting</string>
+    <string name="add_device_connect_network">Connect to network</string>
+    <string name="add_device_wifi_setting">Wi-Fi Setting</string>
 
     <!--signin-->
     <string name="signin_gesture_error_hint">Gesture error, %1$s chances left</string>
@@ -80,11 +92,17 @@
     <string name="signin_change_password_tip">Current password</string>
     <string name="signin_new_password_tip">New password</string>
     <string name="signin_forgot_password_tip">Your password must include 8 or more characters long and containat least one capital letter.</string>
+    <string name="signin_reset_password">Reset password</string>
+    <string name="signin_mode_password">Password sign in</string>
+    <string name="signin_mode_switch">Switch account</string>
+    <string name="signin_mode_gesture">Gesture</string>
+    <string name="signin_mail_verify">Mailbox verification</string>
 
     <!--alert-->
     <string name="alert_no_alarm">Temporarily no movement alarm</string>
     <string name="alert_detail">Alert Detail</string>
     <string name="alert_detail_load_end">End</string>
+    <string name="alert_detail_calendar">Calendar</string>
 
     <!--cloud-->
     <string name="cloud_no_plan">Cloud Storage was not activated</string>
@@ -111,15 +129,21 @@ videos .</string>
     <string name="me_local_select_all">Select all</string>
     <string name="me_about_company_name">Wansview +</string>
     <string name="me_about_email">Email</string>
+    <string name="me_about_agreement">Agreement</string>
     <string name="me_about_service_agreement">Service agreement</string>
     <string name="me_about_terms">Terms of Cloud storage</string>
     <string name="me_security_modify_gesture_tip">Please draw unlock pattern</string>
     <string name="me_security_gesture">Gesture login</string>
+    <string name="me_security_set_gesture">Set gesture graphics</string>
+    <string name="me_security_set_gesture_fail">set fail,please retry</string>
     <string name="me_security_modify_gesture">Modify gesture graphics</string>
     <string name="me_security_change_password">Change Password</string>
     <string name="me_security_delete_account">Delete Account</string>
     <string name="me_local_video">Local Video</string>
     <string name="me_local_photo">Local Photo</string>
+    <string name="me_local_video_tittle">Videos</string>
+    <string name="me_local_photo_tittle">Images</string>
+    <string name="me_local_download_tittle">Downloading</string>
     <string name="me_system_message">System message</string>
     <string name="me_security_settings">Security Settings</string>
     <string name="me_software_version">Software version</string>
@@ -128,16 +152,21 @@ videos .</string>
     <string name="me_device_count">%1$s Camera</string>
     <string name="me_set_gesture">Please draw unlock pattern</string>
     <string name="me_set_gesture_again">Please draw unlock pattern again</string>
+    <string name="me_security_delete_confirm">Delete confirmation</string>
 
     <!--device_setting-->
+    <string name="device_setting">Setting</string>
     <string name="device_setting_cloud_storage">Cloud storage</string>
     <string name="device_setting_detection_time">Detection time</string>
     <string name="device_setting_quality">Video quality</string>
     <string name="device_setting_quality_fhd">FHD</string>
     <string name="device_setting_quality_hd">HD</string>
     <string name="device_setting_detection_24">24-hour Alarm</string>
+    <string name="device_setting_detection_24_hint">24-hour</string>
     <string name="device_setting_period_1">Time period 1</string>
     <string name="device_setting_period_2">Time period 2</string>
+    <string name="device_setting_period_1_hint">period 1</string>
+    <string name="device_setting_period_2_hint">period 2</string>
     <string name="device_setting_name">Camera name</string>
     <string name="device_setting_information">Device information</string>
     <string name="device_setting_network">Network</string>
@@ -192,6 +221,9 @@ videos .</string>
     <string name="dialog_weekday_friday">Friday</string>
     <string name="dialog_weekday_saturday">Saturday</string>
     <string name="dialog_weekday_sunday">Sunday</string>
+    <string name="dialog_restart_confirm">restart confirm</string>
+    <string name="dialog_restore_confirm">restore confirm</string>
+    <string name="dialog_delete_confirm">delete confirm</string>
 
     <!--common-->
     <string name="common_edit">Edit</string>
@@ -207,6 +239,12 @@ videos .</string>
     <string name="common_add">添加</string>
     <string name="common_today">今天</string>
     <string name="common_retry">重试</string>
+    <string name="common_agree">Agree</string>
+    <string name="common_error">error</string>
+    <string name="common_save">Save</string>
+    <string name="common_success">success</string>
+    <string name="common_off">off</string>
+    <string name="common_on">on</string>
 
     <!--pickerview-->
     <string name="pickerview_cancel">取消</string>
@@ -325,8 +363,11 @@ videos .</string>
     <string name="chroma_format_default" translatable="false">RV16</string>
     <string name="wv_first_select_video">请先选一个视频</string>
     <string name="viewpager_indicator">%1$d/%2$d</string>
-    <string name="editText_hint_email">Email</string>
-    <string name="editText_hint_password">Password</string>
     <string name="action_settings">Settings</string>
 
+    <!--editText-->
+    <string name="editText_hint_email">Email</string>
+    <string name="editText_hint_password">Password</string>
+    <string name="editText_hint_empty">cannot be empty</string>
+    <string name="editText_hint_email_error">E-mail format is incorrect</string>
 </resources>

@@ -22,6 +22,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.alert.adapter.AlertListDetailAdapter;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
@@ -55,6 +57,12 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
     private static final int SHOW_PROGRESS = 0;
     private static final int ON_LOADED = 1;
     private RelativeLayout rl_play_content;
+    private RelativeLayout small_screen_layout;
+    private LinearLayout full_screen_layout;
+    private ImageView fullscreen_play;
+    private ImageView fullscreen_stop;
+    private ImageView fullscreen_download;
+    private ImageView fullscreen_small_screen;
     private LinearLayout ll_loading;
     private PlayerView pv_video;
     private FrameLayout fl_play;
@@ -66,6 +74,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
     private RecyclerView rv_alarm_list;
     private TextView tv_date;
     private ImageView iv_arrow;
+    private ImageView iv_cover;
 
     private AudioSender_RealTime audioSender_Realtime = null;
     private Handler hPlayVlcAudioHandler = new Handler();
@@ -84,6 +93,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
     private long cts = -1;
     private String cdate;
     private boolean hasMore = true;
+    private boolean isLandScape;
 
     private Runnable PlayVlcAudioRunnable = new Runnable() {
         @Override
@@ -161,6 +171,12 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         iv_arrow = getToolbar().getImgArrow();
 
         rl_play_content = findViewById(R.id.rl_play_content);
+        small_screen_layout = findViewById(R.id.small_screen_layout);
+        full_screen_layout = findViewById(R.id.full_screen_layout);
+        fullscreen_play = findViewById(R.id.fullscreen_play);
+        fullscreen_stop = findViewById(R.id.fullscreen_stop);
+        fullscreen_download = findViewById(R.id.fullscreen_download);
+        fullscreen_small_screen = findViewById(R.id.fullscreen_small_screen);
         pv_video = findViewById(R.id.pv_video);
         fl_play = findViewById(R.id.fl_play);
         iv_fullscreen = findViewById(R.id.iv_fullscreen);
@@ -170,6 +186,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         rv_alarm_list = findViewById(R.id.rv_alarm_list);
         ll_loading = findViewById(R.id.ll_loading);
         tv_buffer = findViewById(R.id.tv_buffer);
+        iv_cover = findViewById(R.id.iv_cover);
 
         adapter = new AlertListDetailAdapter(this);
         rv_alarm_list.setAdapter(adapter);
@@ -204,6 +221,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
             cdate = getIntent().getStringExtra("date");
             camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
             tv_date.setText(DateUtil.getFormatDate(cdate));
+            Glide.with(this).load(picUrl).into(iv_cover);
         }
         alertApiUnit = new AlertApiUnit(this);
         mHandler = new Handler(this);
@@ -219,6 +237,10 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         iv_fullscreen.setOnClickListener(this);
         iv_download.setOnClickListener(this);
         iv_play_pause.setOnClickListener(this);
+        fullscreen_play.setOnClickListener(this);
+        fullscreen_stop.setOnClickListener(this);
+        fullscreen_download.setOnClickListener(this);
+        fullscreen_small_screen.setOnClickListener(this);
         adapter.setListener(new AlertListDetailAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(int position, String url) {
@@ -266,6 +288,10 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                 iv_play_pause.setVisibility(View.GONE);
                 iv_download.setVisibility(View.GONE);
                 tv_time.setVisibility(View.GONE);
+
+                fullscreen_play.setVisibility(View.GONE);
+                fullscreen_stop.setVisibility(View.GONE);
+                fullscreen_download.setVisibility(View.GONE);
                 break;
             case 2:
                 fl_play.setVisibility(View.GONE);
@@ -273,6 +299,10 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                 iv_download.setVisibility(View.VISIBLE);
                 tv_time.setVisibility(View.VISIBLE);
                 iv_play_pause.setImageResource(R.mipmap.ic_stop_white);
+
+                fullscreen_play.setVisibility(View.VISIBLE);
+                fullscreen_stop.setVisibility(View.VISIBLE);
+                fullscreen_download.setVisibility(View.VISIBLE);
                 break;
             case 3:
                 fl_play.setVisibility(View.GONE);
@@ -280,12 +310,20 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                 iv_download.setVisibility(View.GONE);
                 tv_time.setVisibility(View.VISIBLE);
                 iv_play_pause.setImageResource(R.mipmap.ic_play_white);
+
+                fullscreen_play.setVisibility(View.VISIBLE);
+                fullscreen_stop.setVisibility(View.VISIBLE);
+                fullscreen_download.setVisibility(View.VISIBLE);
                 break;
             case 4:
                 fl_play.setVisibility(View.GONE);
                 iv_play_pause.setVisibility(View.GONE);
                 iv_download.setVisibility(View.VISIBLE);
                 tv_time.setVisibility(View.GONE);
+
+                fullscreen_play.setVisibility(View.GONE);
+                fullscreen_stop.setVisibility(View.GONE);
+                fullscreen_download.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -337,23 +375,44 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
     }
 
     private void fullScreen() {
+        isLandScape = true;
         setToolBarVisible(false);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
-        getWindow().setAttributes(params);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        small_screen_layout.setVisibility(View.GONE);
+        full_screen_layout.setVisibility(View.VISIBLE);
+        rv_alarm_list.setVisibility(View.GONE);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) pv_video.getLayoutParams();
+        layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        layoutParams.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+        pv_video.requestLayout();
     }
 
     private void exitFullScreen() {
+        isLandScape = false;
         setToolBarVisible(true);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().setAttributes(params);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        small_screen_layout.setVisibility(View.VISIBLE);
+        full_screen_layout.setVisibility(View.GONE);
+        rv_alarm_list.setVisibility(View.VISIBLE);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) pv_video.getLayoutParams();
+        layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        layoutParams.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
+        pv_video.requestLayout();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isLandScape) {
+            exitFullScreen();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     //时间转换
@@ -427,7 +486,11 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
             case R.id.iv_fullscreen:
                 fullScreen();
                 break;
+            case R.id.fullscreen_small_screen:
+                exitFullScreen();
+                break;
             case R.id.iv_download:
+            case R.id.fullscreen_download:
                 break;
             case R.id.iv_play_pause:
                 if (isPlaying) {
@@ -435,6 +498,12 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                 } else {
                     onMediaStart();
                 }
+                break;
+            case R.id.fullscreen_play:
+                onMediaStart();
+                break;
+            case R.id.fullscreen_stop:
+                onMediaPause();
                 break;
         }
     }
@@ -482,6 +551,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
             case ON_LOADED:
                 mHandler.sendEmptyMessage(SHOW_PROGRESS);
                 ll_loading.setVisibility(View.GONE);
+                iv_cover.setVisibility(View.GONE);
                 break;
             default:
                 break;

@@ -15,7 +15,7 @@ import com.hdl.m3u8.bean.OnDownloadListener;
 import com.hdl.m3u8.utils.NetSpeedUtils;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.main.application.SwipeBaseActivity;
 import net.ajcloud.wansviewplus.main.calendar.CalendarActivity;

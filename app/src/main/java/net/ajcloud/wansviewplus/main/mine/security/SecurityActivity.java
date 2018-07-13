@@ -7,7 +7,7 @@ import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.support.customview.dialog.LogoffDialog;
 import net.ajcloud.wansviewplus.support.utils.preference.PreferenceKey;
@@ -33,7 +33,7 @@ public class SecurityActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Security settings");
+        getToolbar().setTittle(getResources().getString(R.string.me_security_settings));
         getToolbar().setLeftImg(R.mipmap.ic_back);
 
         gestureSwitch = findViewById(R.id.sc_gesture);

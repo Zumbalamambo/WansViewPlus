@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceSuccessActivity;
@@ -60,7 +59,7 @@ public class AddDeviceWifiWaitingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Wait for connection");
+        getToolbar().setTittle(getResources().getString(R.string.add_device_wait));
         secondTextView = findViewById(R.id.tv_second);
     }
 

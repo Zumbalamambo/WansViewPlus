@@ -5,11 +5,10 @@ import android.view.View;
 import android.widget.Button;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
-import net.ajcloud.wansviewplus.support.core.bean.SigninBean;
 import net.ajcloud.wansviewplus.support.customview.materialEditText.MaterialEditText;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
@@ -32,7 +31,7 @@ public class ChangePasswordActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Change password");
+        getToolbar().setTittle(getResources().getString(R.string.me_security_change_password));
         getToolbar().setLeftImg(R.mipmap.ic_back);
 
         pwdEditText = findViewById(R.id.et_pwd);
@@ -60,11 +59,11 @@ public class ChangePasswordActivity extends BaseActivity {
         String pwd = pwdEditText.getText().toString();
         String newPwd = newPwdEditText.getText().toString();
         if (TextUtils.isEmpty(pwd)) {
-            pwdEditText.setError("cant empty");
+            pwdEditText.setError(getResources().getString(R.string.editText_hint_empty));
             return;
         }
         if (TextUtils.isEmpty(newPwd)) {
-            newPwdEditText.setError("cant empty");
+            newPwdEditText.setError(getResources().getString(R.string.editText_hint_empty));
             return;
         }
         //TODO 本地校验
@@ -73,7 +72,7 @@ public class ChangePasswordActivity extends BaseActivity {
             @Override
             public void onSuccess(Object bean) {
                 progressDialogManager.dimissDialog(CHANGE, 0);
-                ToastUtil.single("success");
+                ToastUtil.single(getResources().getString(R.string.common_success));
                 finish();
             }
 

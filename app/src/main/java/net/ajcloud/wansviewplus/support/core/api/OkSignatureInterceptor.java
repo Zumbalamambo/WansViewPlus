@@ -1,6 +1,6 @@
 package net.ajcloud.wansviewplus.support.core.api;
 
-import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.support.core.cipher.CipherUtil;
 import net.ajcloud.wansviewplus.support.core.okgo.utils.OkLogger;
 import net.ajcloud.wansviewplus.support.tools.WLog;

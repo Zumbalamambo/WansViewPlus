@@ -30,7 +30,7 @@ public class AgreementActivity extends BaseActivity {
     protected void initView() {
         MyToolbar toolbar = getToolbar();
         if (toolbar != null) {
-            toolbar.setTittle("Agreement");
+            toolbar.setTittle(getResources().getString(R.string.me_about_agreement));
             toolbar.setLeftImg(net.ajcloud.wansviewplus.R.mipmap.ic_back);
         }
         mWebView = findViewById(R.id.webView);

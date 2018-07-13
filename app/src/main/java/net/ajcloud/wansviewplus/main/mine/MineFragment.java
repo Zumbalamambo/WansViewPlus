@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.BuildConfig;
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.account.SigninTwiceActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.main.application.WVFragment;
@@ -73,7 +73,7 @@ public class MineFragment extends WVFragment implements View.OnClickListener {
         toolbar = view.findViewById(R.id.toolbar);
         toolbarLayout = view.findViewById(R.id.toolbar_layout);
         toolbar.setOverflowIcon(null);
-        toolbarLayout.setTitle("Me");
+        toolbarLayout.setTitle(getResources().getString(R.string.me));
         toolbarLayout.setExpandedTitleColor(Color.BLACK);
         toolbarLayout.setExpandedTitleGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         toolbarLayout.setCollapsedTitleTextColor(Color.BLACK);

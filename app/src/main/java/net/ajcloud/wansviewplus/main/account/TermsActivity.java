@@ -42,10 +42,10 @@ public class TermsActivity extends BaseActivity {
         }
         MyToolbar toolbar = getToolbar();
         if (toolbar != null) {
-            toolbar.setTittle("Terms of Use");
+            toolbar.setTittle(getResources().getString(R.string.signin_sign_up_terms));
             toolbar.setLeftImg(net.ajcloud.wansviewplus.R.mipmap.ic_back);
             if (hasRight) {
-                toolbar.setRightText("Agree");
+                toolbar.setRightText(getResources().getString(R.string.common_agree));
                 toolbar.setRightTextColor(getResources().getColor(net.ajcloud.wansviewplus.R.color.colorPrimary));
             }
         }

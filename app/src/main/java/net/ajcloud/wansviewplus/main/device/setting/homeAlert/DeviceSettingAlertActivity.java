@@ -54,7 +54,7 @@ public class DeviceSettingAlertActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Home alert");
+        getToolbar().setTittle(getResources().getString(R.string.device_setting_alert));
         getToolbar().setLeftImg(R.mipmap.ic_back);
 
         detectionSwitch = findViewById(R.id.item_detection_switch);
@@ -150,17 +150,17 @@ public class DeviceSettingAlertActivity extends BaseActivity {
                 for (MoveMonitorBean.Policy policy : policyList) {
                     if (TextUtils.equals(policy.no, "1")) {
                         if (policy.enable == 1) {
-                            timeTextView.setText("24-hour");
+                            timeTextView.setText(getResources().getString(R.string.device_setting_detection_24_hint));
                         } else {
                             StringBuilder time = new StringBuilder();
                             for (MoveMonitorBean.Policy policy_2 : policyList) {
                                 if (TextUtils.equals(policy_2.no, "2")) {
                                     if (policy_2.enable == 1) {
-                                        time.append(" period1");
+                                        time.append(" " + getResources().getString(R.string.device_setting_period_1_hint));
                                     }
                                 } else if (TextUtils.equals(policy_2.no, "3")) {
                                     if (policy_2.enable == 1) {
-                                        time.append(" period2");
+                                        time.append(" " + getResources().getString(R.string.device_setting_period_2_hint));
                                     }
                                 }
                             }

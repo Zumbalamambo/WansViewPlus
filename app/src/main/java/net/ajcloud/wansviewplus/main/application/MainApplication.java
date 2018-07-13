@@ -22,7 +22,7 @@ import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.entity.DaoMaster;
 import net.ajcloud.wansviewplus.entity.DaoSession;
 import net.ajcloud.wansviewplus.entity.LocalInfo;
-import net.ajcloud.wansviewplus.main.account.SigninAccountManager;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.account.SigninActivity;
 import net.ajcloud.wansviewplus.main.framework.FileIO;
 import net.ajcloud.wansviewplus.main.framework.impl.AndroidFileIO;

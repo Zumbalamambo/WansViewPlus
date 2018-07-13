@@ -73,9 +73,9 @@ public class LocalHistoryActivity extends BaseActivity implements TabLayout.OnTa
         fragments.add(new VideoListFragment());
         fragments.add(new ImageListFragment());
         fragments.add(new DownloadListFragment());
-        tabLayout.addTab(tabLayout.newTab().setText("Videos"));
-        tabLayout.addTab(tabLayout.newTab().setText("Images"));
-        tabLayout.addTab(tabLayout.newTab().setText("Downloading"));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.me_local_video_tittle)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.me_local_photo_tittle)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.me_local_download_tittle)));
 
         pageAdapter = new MyPageAdapter(getSupportFragmentManager(), datas, fragments);
         viewPager.setAdapter(pageAdapter);

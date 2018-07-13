@@ -38,7 +38,7 @@ public class CalendarActivity extends BaseActivity implements CalendarController
         mController = CalendarController.getInstance(this);
         MyToolbar toolbar = getToolbar();
         if (toolbar != null) {
-            toolbar.setTittle("Calendar");
+            toolbar.setTittle(getResources().getString(R.string.alert_detail_calendar));
             toolbar.setLeftImg(R.mipmap.ic_back);
         }
 

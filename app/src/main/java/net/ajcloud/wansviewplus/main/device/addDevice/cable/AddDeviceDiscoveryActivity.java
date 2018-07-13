@@ -48,7 +48,7 @@ public class AddDeviceDiscoveryActivity extends BaseActivity implements SwipeRef
 
     @Override
     protected void initView() {
-        getToolbar().setTittle("Discovering device");
+        getToolbar().setTittle(getResources().getString(R.string.add_device_discovery));
         getToolbar().setLeftImg(R.mipmap.ic_back);
         refreshLayout = findViewById(R.id.refresh_layout);
         wifiNameTextView = findViewById(R.id.tv_wifi_name);

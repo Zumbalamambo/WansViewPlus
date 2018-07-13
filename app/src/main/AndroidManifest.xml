@@ -163,7 +163,12 @@
         <activity android:name=".main.mine.AgreementActivity" />
         <activity android:name=".main.history.LocalHistoryActivity" />
         <activity android:name=".main.cloud.AboutCloudActivity" />
-        <activity android:name=".main.alert.AlertDetailActivity" />
+        <activity
+            android:name=".main.alert.AlertDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeDeviceTheme" />
     </application>
 
 </manifest>

@@ -16,11 +16,6 @@ import java.util.List;
  */
 public class AlarmCountCache {
 
-
-    /**
-     * 未读报警，每个设备对应最新一条告警的时间 <did,String>
-     */
-    private ArrayMap<String, String> alarmTimeMap = new ArrayMap<>();
     /**
      * 未读报警，每个设备对应最新一条告警的时间 <did,boolean>
      */
@@ -35,25 +30,21 @@ public class AlarmCountCache {
     public synchronized void setAlarmTime(List<AlarmBean> alarms) {
         if (alarms != null) {
             for (AlarmBean bean : alarms) {
-                String currentTime = alarmTimeMap.get(bean.did);
-                if (TextUtils.isEmpty(currentTime)) {
-                    alarmTimeMap.put(bean.did, bean.cts);
+                String ats = bean.ats;
+                if (TextUtils.isEmpty(ats)) {
                     alarmUnReadMap.put(bean.did, true);
-                } else if (!TextUtils.equals(currentTime, bean.cts)) {
-                    alarmTimeMap.put(bean.did, bean.cts);
-                    alarmUnReadMap.put(bean.did, true);
+                } else {
+                    alarmUnReadMap.put(bean.did, false);
                 }
             }
         }
     }
 
     /**
-     * 清除某个设备的未读消息
+     * 设置某个设备的未读消息
      */
-    public synchronized void clearDeviceUnread(String deviceId) {
-        if (!TextUtils.isEmpty(alarmTimeMap.get(deviceId))) {
-            alarmUnReadMap.put(deviceId, false);
-        }
+    public synchronized void setDeviceUnread(String deviceId, boolean isRead) {
+        alarmUnReadMap.put(deviceId, isRead);
         EventBus.getDefault().post(new AlarmUnreadEvent());
     }
 
@@ -61,7 +52,6 @@ public class AlarmCountCache {
      * 清除某个设备的未读消息
      */
     public void clear() {
-        alarmTimeMap.clear();
         alarmUnReadMap.clear();
     }
 
@@ -69,9 +59,6 @@ public class AlarmCountCache {
      * 获取某个设备是否有未读消息
      */
     public boolean hasUnread(String deviceId) {
-        if (TextUtils.isEmpty(alarmTimeMap.get(deviceId))) {
-            return true;
-        }
         return alarmUnReadMap.get(deviceId);
     }
 }

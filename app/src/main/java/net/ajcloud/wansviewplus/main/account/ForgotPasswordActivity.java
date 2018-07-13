@@ -33,7 +33,7 @@ public class ForgotPasswordActivity extends BaseActivity {
     protected void initView() {
         MyToolbar toolbar = getToolbar();
         if (toolbar != null) {
-            toolbar.setTittle("Reset password");
+            toolbar.setTittle(getResources().getString(R.string.signin_reset_password));
             toolbar.setLeftImg(R.mipmap.ic_back);
         }
         userName = findViewById(R.id.editText_userName);
@@ -69,13 +69,13 @@ public class ForgotPasswordActivity extends BaseActivity {
         final String mail = userName.getText().toString();
         final String pwd = password.getText().toString();
         if (TextUtils.isEmpty(mail)) {
-            userName.setError("cant be empty");
+            userName.setError(getResources().getString(R.string.editText_hint_empty));
             return;
         } else if (TextUtils.isEmpty(pwd)) {
-            password.setError("cant be empty");
+            password.setError(getResources().getString(R.string.editText_hint_empty));
             return;
         } else if (!RegularTool.isLegalEmailAddress(mail)) {
-            password.setError("E-mail format is incorrect");
+            password.setError(getResources().getString(R.string.editText_hint_email_error));
             return;
         }
 

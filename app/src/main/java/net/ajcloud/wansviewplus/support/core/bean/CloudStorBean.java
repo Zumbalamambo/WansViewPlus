@@ -14,6 +14,7 @@ import java.util.List;
 public class CloudStorBean implements Serializable {
     public String enable;
     public String quality;
+    public String expireAt;     // 当前所在套餐失效时间戳(秒), 若无套餐则为0
     public List<Policy> policies;
 
     public static class Policy implements Serializable {

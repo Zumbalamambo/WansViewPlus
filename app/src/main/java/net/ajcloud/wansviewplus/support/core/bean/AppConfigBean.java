@@ -9,6 +9,7 @@ import java.util.List;
 public class AppConfigBean {
     public String uacUrl;
     public String emcUrl;
+    public String capUrl;
     public String cloudStorUrl;
     public String agreementUrl;
     public String privacyUrl;

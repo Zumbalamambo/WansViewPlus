@@ -10,6 +10,7 @@ import android.widget.TextView;
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.home.HomeActivity;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.api.UserApiUnit;
 import net.ajcloud.wansviewplus.support.core.bean.SigninBean;
@@ -53,9 +54,9 @@ public class SigninTwiceActivity extends BaseActivity {
         signinButton = findViewById(net.ajcloud.wansviewplus.R.id.btn_signin);
         signinMoreDialog = new SigninMoreDialog(this);
         if ((boolean) SPUtil.getSPUtil(this, PreferenceKey.sp_name.account).get(PreferenceKey.sp_key.USE_GESTURE + SigninAccountManager.getInstance().getCurrentAccountMail(), false)) {
-            signinMoreDialog.setFirstText("Gesture");
+            signinMoreDialog.setFirstText(getResources().getString(R.string.signin_mode_gesture));
         }
-        signinMoreDialog.setSecondText("Switch account");
+        signinMoreDialog.setSecondText(getResources().getString(R.string.signin_mode_switch));
 
 //        password.requestFocus();
 //        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
@@ -112,7 +113,7 @@ public class SigninTwiceActivity extends BaseActivity {
         final String mail = userName;
         final String pwd = password.getText().toString();
         if (TextUtils.isEmpty(pwd)) {
-            password.setError("cant be empty");
+            password.setError(getResources().getString(R.string.editText_hint_empty));
             return;
         }
 
