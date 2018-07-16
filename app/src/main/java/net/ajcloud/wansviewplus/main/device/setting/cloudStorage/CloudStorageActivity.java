@@ -15,6 +15,7 @@ import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
+import net.ajcloud.wansviewplus.support.core.bean.CapabilityBean;
 import net.ajcloud.wansviewplus.support.core.bean.CloudStorBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.customview.dialog.AudioQualityDialog;
@@ -64,7 +65,6 @@ public class CloudStorageActivity extends BaseActivity {
         qualityTextView = findViewById(R.id.item_quality_time);
         expireButton = findViewById(R.id.btn_expire);
         replenishButton = findViewById(R.id.btn_replenish);
-        audioQualityDialog = new AudioQualityDialog(this);
     }
 
     @Override
@@ -78,6 +78,8 @@ public class CloudStorageActivity extends BaseActivity {
                 cloneBean = (CloudStorBean) camera.cloudStorConfig.deepClone();
             }
         }
+        CapabilityBean capabilityBean = camera.capability;
+        audioQualityDialog = new AudioQualityDialog(this, capabilityBean.getVideoQualities());
         refreshUI();
     }
 

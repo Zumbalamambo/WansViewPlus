@@ -5,25 +5,27 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
+
+import java.util.List;
 
 /**
  * Created by mamengchao on 2018/06/21.
  * Function:    视频质量选择
  */
-public class AudioQualityDialog extends Dialog implements View.OnClickListener {
+public class AudioQualityDialog extends Dialog {
     private Context context;
-    private TextView fhdTextView, hdTextView;
+    private LinearLayout ll_qualities;
     private OnDialogClickListener listener;
-    private String firstText, secondText;
+    private List<String> qualities;
 
     public interface OnDialogClickListener {
         void onClick(String quality);
@@ -34,9 +36,10 @@ public class AudioQualityDialog extends Dialog implements View.OnClickListener {
         this.listener = listener;
     }
 
-    public AudioQualityDialog(@NonNull Context context) {
+    public AudioQualityDialog(@NonNull Context context, List<String> qualities) {
         super(context);
         this.context = context;
+        this.qualities = qualities;
     }
 
     @Override
@@ -56,35 +59,25 @@ public class AudioQualityDialog extends Dialog implements View.OnClickListener {
         window.setAttributes(lp);
         setCanceledOnTouchOutside(true);// 点击Dialog外部消失
 
-        fhdTextView = findViewById(R.id.tv_fhd);
-        hdTextView = findViewById(R.id.tv_hd);
-        if (!TextUtils.isEmpty(firstText)) {
-            fhdTextView.setText(firstText);
-            fhdTextView.setVisibility(View.VISIBLE);
-        }
-        if (!TextUtils.isEmpty(secondText)) {
-            hdTextView.setText(secondText);
-            hdTextView.setVisibility(View.VISIBLE);
-        }
-        fhdTextView.setOnClickListener(this);
-        hdTextView.setOnClickListener(this);
-    }
+        ll_qualities = findViewById(R.id.ll_qualities);
 
-    @Override
-    public void onClick(View v) {
-        dismiss();
-        if (listener == null) {
-            return;
-        }
-        switch (v.getId()) {
-            case R.id.tv_fhd:
-                listener.onClick("5");
-                break;
-            case R.id.tv_hd:
-                listener.onClick("1");
-                break;
-            default:
-                break;
+        for (int i = 0; i < ll_qualities.getChildCount(); i++) {
+            if (qualities.size() >= (i + 1) && qualities.get(i) != null) {
+                String[] qualityInfo = qualities.get(i).split(":");
+                TextView textView = (TextView) ll_qualities.getChildAt(i);
+                textView.setVisibility(View.VISIBLE);
+                textView.setText(qualityInfo[1]);
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dismiss();
+                        if (listener == null) {
+                            return;
+                        }
+                        listener.onClick(qualityInfo[0]);
+                    }
+                });
+            }
         }
     }
 }

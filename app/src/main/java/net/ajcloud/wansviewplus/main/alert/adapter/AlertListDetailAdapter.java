@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.support.core.bean.AlarmBean;
@@ -147,13 +147,14 @@ public class AlertListDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public class LoadMoreHolder extends RecyclerView.ViewHolder {
         private LinearLayout ll_loading;
         private LinearLayout ll_end;
-        private ImageView iv_loading;
+        private LottieAnimationView lav_refresh;
 
         private LoadMoreHolder(View itemView) {
             super(itemView);
             ll_loading = itemView.findViewById(R.id.ll_loading);
             ll_end = itemView.findViewById(R.id.ll_end);
-            iv_loading = itemView.findViewById(R.id.iv_loading);
+            lav_refresh = itemView.findViewById(R.id.lav_refresh);
+            lav_refresh.enableMergePathsForKitKatAndAbove(true);
         }
 
         //根据传过来的status控制哪个状态可见
@@ -165,9 +166,10 @@ public class AlertListDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 case STATE_LOADING:
                     setAllGone();
                     ll_loading.setVisibility(View.VISIBLE);
-                    ObjectAnimator animator = ObjectAnimator.ofFloat(iv_loading, "rotation", 0f, 360f);
-                    animator.setDuration(2000).setRepeatCount(-1);
-                    animator.start();
+                    if (lav_refresh.isAnimating()) {
+                        return;
+                    }
+                    lav_refresh.playAnimation();
                     break;
                 case STATE_END:
                     setAllGone();

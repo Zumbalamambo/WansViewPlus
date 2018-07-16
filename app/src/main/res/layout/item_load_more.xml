@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
@@ -12,11 +13,12 @@
         android:gravity="center"
         android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/iv_loading"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_all" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lav_refresh"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:lottie_fileName="refreshing.json"
+            app:lottie_loop="true" />
     </LinearLayout>
 
     <LinearLayout
@@ -32,7 +34,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/alert_detail_load_end"
-            android:textColor="@color/black"
+            android:textColor="@color/gray_second"
             android:textSize="@dimen/alert_text_size_14" />
     </LinearLayout>
 </LinearLayout>

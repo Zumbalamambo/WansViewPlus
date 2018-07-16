@@ -1,9 +1,10 @@
 package net.ajcloud.wansviewplus.main.manager;
 
+import android.text.TextUtils;
+
 import net.ajcloud.wansviewplus.entity.CapabilityInfo;
 import net.ajcloud.wansviewplus.entity.CapabilityInfoDao;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
-import net.ajcloud.wansviewplus.support.core.bean.CapabilityBean;
 
 import org.greenrobot.greendao.annotation.NotNull;
 
@@ -36,7 +37,22 @@ public class CapabilityManager {
                 .where(CapabilityInfoDao.Properties.Mode.eq(bean.getMode()))
                 .unique();
         if (oldCapabilityInfo != null) {
-            capabilityInfoDao.update(bean);
+            oldCapabilityInfo.setAudioSample(bean.getAudioSample());
+            oldCapabilityInfo.setAutoTrack(bean.getAutoTrack());
+            oldCapabilityInfo.setBattery(bean.getBattery());
+            oldCapabilityInfo.setDiagnose(bean.getDiagnose());
+            oldCapabilityInfo.setDuplexVoice(bean.getDuplexVoice());
+            oldCapabilityInfo.setEncryptMode(bean.getEncryptMode());
+            oldCapabilityInfo.setFw_version(bean.getFw_version());
+            oldCapabilityInfo.setLocalStorageTypes(bean.getLocalStorageTypes());
+            oldCapabilityInfo.setNetworkConfig(bean.getNetworkConfig());
+            oldCapabilityInfo.setPirDetect(bean.getPirDetect());
+            oldCapabilityInfo.setPtz(bean.getPtz());
+            oldCapabilityInfo.setQualities(bean.getQualities());
+            oldCapabilityInfo.setResolutions(bean.getResolutions());
+            oldCapabilityInfo.setStreams(bean.getStreams());
+            oldCapabilityInfo.setVoiceDetect(bean.getVoiceDetect());
+            capabilityInfoDao.update(oldCapabilityInfo);
         } else {
             capabilityInfoDao.insert(bean);
         }
@@ -46,8 +62,12 @@ public class CapabilityManager {
      * 获取设备型号的能力集
      */
     public CapabilityInfo getCapability(@NotNull String type) {
-        return capabilityInfoDao.queryBuilder()
+        CapabilityInfo capabilityInfo = capabilityInfoDao.queryBuilder()
                 .where(CapabilityInfoDao.Properties.Mode.eq(type))
                 .unique();
+        if (capabilityInfo == null || TextUtils.isEmpty(capabilityInfo.getNetworkConfig()) || TextUtils.isEmpty(capabilityInfo.getQualities())) {
+            return null;
+        }
+        return capabilityInfo;
     }
 }

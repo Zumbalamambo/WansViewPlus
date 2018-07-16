@@ -1,6 +1,11 @@
 package net.ajcloud.wansviewplus.support.core.bean;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by mamengchao on 2018/06/06.
@@ -24,4 +29,15 @@ public class CapabilityBean implements Serializable {
     public String battery;                  //电池供电
     public String encryptMode;             //加密模式
     public String diagnose;                 //诊断支持
+
+    //获取视频质量
+    public List<String> getVideoQualities() {
+        if (TextUtils.isEmpty(this.qualities)) {
+            return null;
+        } else {
+            List<String> qualities = Arrays.asList(this.qualities.split(","));
+            Collections.reverse(qualities);
+            return qualities;
+        }
+    }
 }

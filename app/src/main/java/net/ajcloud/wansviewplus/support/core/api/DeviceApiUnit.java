@@ -264,7 +264,8 @@ public class DeviceApiUnit {
                         ResponseBean<DeviceConfigBean> responseBean = response.body();
                         if (responseBean.isSuccess()) {
                             if (responseBean.result != null) {
-                                MainApplication.getApplication().getDeviceCache().add(responseBean.result);
+                                DeviceConfigBean bean = responseBean.result;
+                                MainApplication.getApplication().getDeviceCache().add(bean);
                             }
                             listener.onSuccess(responseBean.result);
                         } else {

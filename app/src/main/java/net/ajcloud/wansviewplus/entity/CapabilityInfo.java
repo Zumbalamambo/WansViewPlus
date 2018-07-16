@@ -1,12 +1,14 @@
 package net.ajcloud.wansviewplus.entity;
 
+import android.text.TextUtils;
+
 import net.ajcloud.wansviewplus.support.core.bean.CapabilityBean;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Unique;
-import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by mamengchao on 2018/07/13.
@@ -58,11 +60,11 @@ public class CapabilityInfo {
 
     @Generated(hash = 1830030451)
     public CapabilityInfo(Long id, @NotNull String mode, String vendorCode,
-            String fw_version, String streams, String resolutions, String qualities,
-            String networkConfig, String ptz, String audioSample, String autoTrack,
-            String pirDetect, String voiceDetect, String duplexVoice,
-            String localStorageTypes, String battery, String encryptMode,
-            String diagnose) {
+                          String fw_version, String streams, String resolutions, String qualities,
+                          String networkConfig, String ptz, String audioSample, String autoTrack,
+                          String pirDetect, String voiceDetect, String duplexVoice,
+                          String localStorageTypes, String battery, String encryptMode,
+                          String diagnose) {
         this.id = id;
         this.mode = mode;
         this.vendorCode = vendorCode;
@@ -229,5 +231,14 @@ public class CapabilityInfo {
 
     public void setDiagnose(String diagnose) {
         this.diagnose = diagnose;
+    }
+
+    //获取网络配置
+    public String[] getNetworkConfigs() {
+        if (TextUtils.isEmpty(this.networkConfig)) {
+            return null;
+        } else {
+            return this.networkConfig.split(",");
+        }
     }
 }

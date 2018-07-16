@@ -1,11 +1,15 @@
 package net.ajcloud.wansviewplus.main.device.addDevice;
 
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.entity.CapabilityInfo;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
+import net.ajcloud.wansviewplus.main.device.addDevice.cable.AddDeviceCableConfirmActivity;
+import net.ajcloud.wansviewplus.main.device.addDevice.wifi.AddDeviceCameraSettingActivity;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 
@@ -66,8 +70,22 @@ public class AddDeviceSelectActivity extends BaseActivity {
                 public void onSuccess(CapabilityInfo bean) {
                     progressDialogManager.dimissDialog(LOADING, 0);
                     //TODO
-//                AddDeviceCameraSettingActivity.start(AddDeviceSelectActivity.this);
-                    AddDeviceModeActivity.start(AddDeviceSelectActivity.this);
+                    if (bean != null) {
+                        String[] networkConfigs = bean.getNetworkConfigs();
+                        if (networkConfigs != null) {
+                            if (networkConfigs.length == 2) {
+                                AddDeviceModeActivity.start(AddDeviceSelectActivity.this);
+                            } else if (networkConfigs.length == 1) {
+                                if (TextUtils.equals(networkConfigs[0], "qr")) {
+                                    AddDeviceCameraSettingActivity.start(AddDeviceSelectActivity.this);
+                                } else if (TextUtils.equals(networkConfigs[0], "eth")) {
+                                    startActivity(new Intent(AddDeviceSelectActivity.this, AddDeviceCableConfirmActivity.class));
+                                }
+                            }
+                        }
+                    }
+
+
                 }
 
                 @Override

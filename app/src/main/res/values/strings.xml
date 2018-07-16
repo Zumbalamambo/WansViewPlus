@@ -101,7 +101,7 @@
     <!--alert-->
     <string name="alert_no_alarm">Temporarily no movement alarm</string>
     <string name="alert_detail">Alert Detail</string>
-    <string name="alert_detail_load_end">End</string>
+    <string name="alert_detail_load_end">no more</string>
     <string name="alert_detail_calendar">Calendar</string>
 
     <!--cloud-->

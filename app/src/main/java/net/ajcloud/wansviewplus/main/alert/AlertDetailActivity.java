@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 
 import net.ajcloud.wansviewplus.R;
@@ -75,6 +76,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
     private TextView tv_date;
     private ImageView iv_arrow;
     private ImageView iv_cover;
+    private LottieAnimationView lav_refresh;
 
     private AudioSender_RealTime audioSender_Realtime = null;
     private Handler hPlayVlcAudioHandler = new Handler();
@@ -190,6 +192,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         ll_loading = findViewById(R.id.ll_loading);
         tv_buffer = findViewById(R.id.tv_buffer);
         iv_cover = findViewById(R.id.iv_cover);
+        lav_refresh = findViewById(R.id.lav_refresh);
 
         adapter = new AlertListDetailAdapter(this);
         rv_alarm_list.setAdapter(adapter);
@@ -229,6 +232,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         mHandler = new Handler(this);
         hHandler = new Handler(this);
         pv_video.setSurfaceViewer16To9();
+        lav_refresh.setVisibility(View.VISIBLE);
         getAlarmList();
         if (TextUtils.isEmpty(videoUrl)) {
             refreshUI(4);
@@ -427,7 +431,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         if (isLandScape) {
             exitFullScreen();
         } else {
-            super.onBackPressed();
+            finish();
         }
     }
 
@@ -471,6 +475,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         alertApiUnit.getAlarmsList(deviceId, cts, cdate, 10, new OkgoCommonListener<AlarmListBean>() {
             @Override
             public void onSuccess(AlarmListBean bean) {
+                lav_refresh.setVisibility(View.GONE);
                 isLoading = false;
                 if (bean != null) {
                     if (bean.alarms != null) {
@@ -487,6 +492,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
 
             @Override
             public void onFail(int code, String msg) {
+                lav_refresh.setVisibility(View.GONE);
                 changeAdapterState(STATE_NORMAL);
             }
         });

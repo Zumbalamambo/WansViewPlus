@@ -1,10 +1,12 @@
 package net.ajcloud.wansviewplus.support.core.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by mamengchao on 2018/07/10.
  * Function:
  */
-public class CloudStorPlanBean {
+public class CloudStorPlanBean implements Serializable {
     public String sku;
     public String level;
     public String validTsStart;
