@@ -78,22 +78,24 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
 
     private AudioSender_RealTime audioSender_Realtime = null;
     private Handler hPlayVlcAudioHandler = new Handler();
-    private int AudioPlaySample;
     private ReverseAudioInfo audioInfo;
     private Handler mHandler;
     private Handler hHandler;
     private AlertListDetailAdapter adapter;
     private AlertApiUnit alertApiUnit;
 
-    private String deviceId;
-    private String picUrl;
-    private boolean isPlaying;
     private Camera camera;
     private List<AlarmBean> alarmList;
-    private long cts = -1;
+    private String deviceId;
+    private String picUrl;
+    private String videoUrl;
     private String cdate;
+    private long cts = -1;
+    private int AudioPlaySample;
+    private boolean isPlaying;
     private boolean hasMore = true;
     private boolean isLandScape;
+    private boolean isLoading = true;
 
     private Runnable PlayVlcAudioRunnable = new Runnable() {
         @Override
@@ -145,10 +147,11 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         }
     };
 
-    public static void start(Context context, String deviceId, String picUrl, String date) {
+    public static void start(Context context, String deviceId, String picUrl, String videoUrl, String date) {
         Intent intent = new Intent(context, AlertDetailActivity.class);
         intent.putExtra("deviceId", deviceId);
         intent.putExtra("picUrl", picUrl);
+        intent.putExtra("videoUrl", videoUrl);
         intent.putExtra("date", date);
         context.startActivity(intent);
     }
@@ -190,7 +193,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
 
         adapter = new AlertListDetailAdapter(this);
         rv_alarm_list.setAdapter(adapter);
-        rv_alarm_list.addItemDecoration(new VideoItemDecoration(this));
+        rv_alarm_list.addItemDecoration(new VideoItemDecoration(this, true));
         rv_alarm_list.setNestedScrollingEnabled(false);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -209,8 +212,6 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation, 0.5F);
         layoutAnimationController.setOrder(LayoutAnimationController.ORDER_NORMAL);
         rv_alarm_list.setLayoutAnimation(layoutAnimationController);
-
-        refreshUI(1);
     }
 
     @Override
@@ -218,6 +219,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         if (getIntent() != null) {
             deviceId = getIntent().getStringExtra("deviceId");
             picUrl = getIntent().getStringExtra("picUrl");
+            videoUrl = getIntent().getStringExtra("videoUrl");
             cdate = getIntent().getStringExtra("date");
             camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
             tv_date.setText(DateUtil.getFormatDate(cdate));
@@ -228,6 +230,11 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         hHandler = new Handler(this);
         pv_video.setSurfaceViewer16To9();
         getAlarmList();
+        if (TextUtils.isEmpty(videoUrl)) {
+            refreshUI(4);
+        } else {
+            refreshUI(1);
+        }
     }
 
     @Override
@@ -243,18 +250,27 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         fullscreen_small_screen.setOnClickListener(this);
         adapter.setListener(new AlertListDetailAdapter.OnItemClickListener() {
             @Override
-            public void OnItemClick(int position, String url) {
-                onMediaPlay(url);
+            public void OnItemClick(int position, String imgUrl, String videoUrl) {
+                if (TextUtils.isEmpty(videoUrl)) {
+                    Glide.with(AlertDetailActivity.this).load(imgUrl).into(iv_cover);
+                    refreshUI(4);
+                } else {
+                    onMediaPlay(videoUrl);
+                }
             }
         });
         rv_alarm_list.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
             @Override
             public void onLoadNextPage(View view) {
                 super.onLoadNextPage(view);
-                if (hasMore) {
-                    getAlarmList();
-                } else {
-                    changeAdapterState(STATE_END);
+                if (!isLoading) {
+                    if (hasMore) {
+                        getAlarmList();
+                    } else {
+                        if (adapter.getItemCount() > 10) {
+                            changeAdapterState(STATE_END);
+                        }
+                    }
                 }
             }
         });
@@ -450,11 +466,12 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
     }
 
     private void getAlarmList() {
+        isLoading = true;
         changeAdapterState(STATE_LOADING);
         alertApiUnit.getAlarmsList(deviceId, cts, cdate, 10, new OkgoCommonListener<AlarmListBean>() {
             @Override
             public void onSuccess(AlarmListBean bean) {
-                changeAdapterState(STATE_NORMAL);
+                isLoading = false;
                 if (bean != null) {
                     if (bean.alarms != null) {
                         adapter.addData(bean.alarms);
@@ -465,6 +482,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                         hasMore = bean.alarms.size() == 10;
                     }
                 }
+                changeAdapterState(STATE_NORMAL);
             }
 
             @Override
@@ -478,10 +496,9 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
     public void onClickView(View v) {
         switch (v.getId()) {
             case R.id.fl_play:
-                onMediaPlay("https://f000.backblazeb2.com/file/wsc-alarm/9c17a6b08deb0b670d88c264bc99b5de/1531218996.alarm.ts?Authorization=3_20180710103643_3973ec72b2f7f9981341659a_621dc5af9e324ce1f534b21b580996171626f4cd_000_20180717103643_0032_dnld&expires=1531823003&stor=b2");
-//                if (!pv_video.isPlaying()) {
-//                    pv_video.play();
-//                }
+                if (!TextUtils.isEmpty(videoUrl)) {
+                    onMediaPlay(videoUrl);
+                }
                 break;
             case R.id.iv_fullscreen:
                 fullScreen();

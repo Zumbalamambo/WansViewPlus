@@ -59,20 +59,24 @@ public class AlertAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             ((AlarmHolder) holder).iv_dot.setVisibility(View.GONE);
         }
 
-        if (mInfos.get(position).images.size() > 0) {
-            AlarmBean.ItemInfoBean imageItemInfo = mInfos.get(position).images.get(0);
-            Glide.with(context).load(imageItemInfo.url)
-                    .placeholder(R.mipmap.figure_big)
-                    .error(R.mipmap.figure_big)
-                    .into(((AlarmHolder) holder).iv_thumbnail);
-            ((AlarmHolder) holder).iv_thumbnail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MainApplication.getApplication().getAlarmCountCache().setDeviceUnread(mInfos.get(position).did, false);
-                    AlertDetailActivity.start(context, mInfos.get(position).did, imageItemInfo.url, mInfos.get(position).cdate);
+        AlarmBean.ItemInfoBean imageItemInfo = mInfos.get(position).images.get(0);
+        Glide.with(context).load(imageItemInfo.url)
+                .placeholder(R.mipmap.figure_big)
+                .error(R.mipmap.figure_big)
+                .into(((AlarmHolder) holder).iv_thumbnail);
+        ((AlarmHolder) holder).iv_thumbnail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainApplication.getApplication().getAlarmCountCache().setDeviceUnread(mInfos.get(position).did, false);
+                if (mInfos.get(position).avs != null && mInfos.get(position).avs.size() > 0) {
+                    AlarmBean.ItemInfoBean videoItemInfo = mInfos.get(position).avs.get(0);
+                    AlertDetailActivity.start(context, mInfos.get(position).did, imageItemInfo.url, videoItemInfo.url, mInfos.get(position).cdate);
+                } else {
+                    AlertDetailActivity.start(context, mInfos.get(position).did, imageItemInfo.url, null, mInfos.get(position).cdate);
                 }
-            });
-        }
+
+            }
+        });
     }
 
     @Override

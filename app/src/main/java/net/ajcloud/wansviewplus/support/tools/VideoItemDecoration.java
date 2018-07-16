@@ -14,9 +14,11 @@ import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
  */
 public class VideoItemDecoration extends RecyclerView.ItemDecoration {
     private Context context;
+    private boolean hasFoot;
 
-    public VideoItemDecoration(Context context) {
+    public VideoItemDecoration(Context context, boolean hasFoot) {
         this.context = context;
+        this.hasFoot = hasFoot;
     }
 
     @Override
@@ -26,7 +28,9 @@ public class VideoItemDecoration extends RecyclerView.ItemDecoration {
         if (itemPosition % 2 == 0) {
             if (isLastRaw(parent, itemPosition, spanCount, childCount))// 如果是最后一行，则不需要绘制底部
             {
-                outRect.set(0, 0, DisplayUtil.dip2Pix(context, 20), 0);
+                if (!hasFoot) {
+                    outRect.set(0, 0, DisplayUtil.dip2Pix(context, 20), 0);
+                }
             } else {
                 outRect.set(0, 0, DisplayUtil.dip2Pix(context, 20),
                         DisplayUtil.dip2Pix(context, 24));
@@ -34,7 +38,9 @@ public class VideoItemDecoration extends RecyclerView.ItemDecoration {
         } else {
             if (isLastRaw(parent, itemPosition, spanCount, childCount))// 如果是最后一行，则不需要绘制底部
             {
-                outRect.set(DisplayUtil.dip2Pix(context, 20), 0, 0, 0);
+                if (!hasFoot) {
+                    outRect.set(DisplayUtil.dip2Pix(context, 20), 0, 0, 0);
+                }
             } else {
                 outRect.set(DisplayUtil.dip2Pix(context, 20), 0, 0,
                         DisplayUtil.dip2Pix(context, 24));

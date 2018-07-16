@@ -112,7 +112,7 @@ public class AngleView implements View.OnClickListener {
 
         viewAnglesAdapter = new ViewAnglesAdapter(context, list);
         rv_angle.setLayoutManager(new GridLayoutManager(context, 2));
-        rv_angle.addItemDecoration(new VideoItemDecoration(context));
+        rv_angle.addItemDecoration(new VideoItemDecoration(context, false));
         rv_angle.setAdapter(viewAnglesAdapter);
         rv_angle.setNestedScrollingEnabled(false);
         ((SimpleItemAnimator) rv_angle.getItemAnimator()).setSupportsChangeAnimations(false);

@@ -83,13 +83,11 @@ public class AlertListDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             ((AlarmDetailHolder) holder).tv_date.setText(DateUtil.getSimpleFormatDate(mInfos.get(position).cdate));
             ((AlarmDetailHolder) holder).tv_time.setText(DateUtil.getFormatTime(mInfos.get(position).ctime));
 
-            if (mInfos.get(position).images.size() > 0) {
-                AlarmBean.ItemInfoBean imageItemInfo = mInfos.get(position).images.get(0);
-                Glide.with(context).load(imageItemInfo.url)
-                        .placeholder(R.mipmap.figure_big)
-                        .error(R.mipmap.figure_big)
-                        .into(((AlarmDetailHolder) holder).iv_thumbnail);
-            }
+            AlarmBean.ItemInfoBean imageItemInfo = mInfos.get(position).images.get(0);
+            Glide.with(context).load(imageItemInfo.url)
+                    .placeholder(R.mipmap.figure_big)
+                    .error(R.mipmap.figure_big)
+                    .into(((AlarmDetailHolder) holder).iv_thumbnail);
 
             if (selected == position) {
                 ((AlarmDetailHolder) holder).iv_state.setImageResource(R.mipmap.ic_playing);
@@ -102,8 +100,12 @@ public class AlertListDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 public void onClick(View v) {
                     if (listener != null) {
                         if (mInfos.get(position).avs.size() > 0) {
-                            AlarmBean.ItemInfoBean videoItemInfo = mInfos.get(position).avs.get(0);
-                            listener.OnItemClick(position, videoItemInfo.url);
+                            if (mInfos.get(position).avs != null && mInfos.get(position).avs.size() > 0) {
+                                AlarmBean.ItemInfoBean videoItemInfo = mInfos.get(position).avs.get(0);
+                                listener.OnItemClick(position, imageItemInfo.url, videoItemInfo.url);
+                            } else {
+                                listener.OnItemClick(position, imageItemInfo.url, null);
+                            }
                             selected = position;
                             notifyDataSetChanged();
                         }
@@ -188,6 +190,6 @@ public class AlertListDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public interface OnItemClickListener {
-        void OnItemClick(int position, String url);
+        void OnItemClick(int position, String imgUrl, String videoUrl);
     }
 }
