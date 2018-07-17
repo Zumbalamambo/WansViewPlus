@@ -21,14 +21,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.entity.camera.Camera;
-import net.ajcloud.wansviewplus.entity.camera.CameraToken;
-import net.ajcloud.wansviewplus.entity.camera.CameraTokenStream;
 import net.ajcloud.wansviewplus.entity.camera.EventMessage;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.device.type.camera.AudioSender_RealTime;
 import net.ajcloud.wansviewplus.main.device.type.camera.PlayMethod;
 import net.ajcloud.wansviewplus.main.video.adapter.VideoAdapter;
+import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.customview.MyStateBar;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 import org.httprelay.HttpRelay;
@@ -121,29 +119,29 @@ public class CautionActivity extends BaseActivity implements PlayerView.OnChange
     });
 
     /*return 0:http, 1:rtsp*/
-    private int GetTfPlayType(Camera camera) {
-        if (camera == null) {
-            return 0;
-        }
-
-        String[] playType = camera.getCapAbility().getFeatures().getHistoryvideo();
-        if (playType == null) {
-            return 0;
-        }
-
-        for (int i = 0; i < playType.length; i++) {
-            if (playType[i].equals("http")) {
-                return 0;
-            }
-        }
-
-        for (int i = 0; i < playType.length; i++) {
-            if (playType[i].equals("rtsp")) {
-                return 1;
-            }
-        }
-        return 0;
-    }
+//    private int GetTfPlayType(Camera camera) {
+//        if (camera == null) {
+//            return 0;
+//        }
+//
+//        String[] playType = camera.capability.;
+//        if (playType == null) {
+//            return 0;
+//        }
+//
+//        for (int i = 0; i < playType.length; i++) {
+//            if (playType[i].equals("http")) {
+//                return 0;
+//            }
+//        }
+//
+//        for (int i = 0; i < playType.length; i++) {
+//            if (playType[i].equals("rtsp")) {
+//                return 1;
+//            }
+//        }
+//        return 0;
+//    }
 
     @Override
     protected int getLayoutId() {
@@ -721,44 +719,44 @@ public class CautionActivity extends BaseActivity implements PlayerView.OnChange
 
     }
 
-    private String GetPlayURL(CameraToken cameraToken) {
-        String PlayURL = "";
-
-        try {
-            int reqtype = cameraToken.getReqtype();
-            final String token = cameraToken.getToken();
-            CameraTokenStream streamUrl = cameraToken.getStreamUrl();
-
-            if (GetTfPlayType(camera) == 0) {  //http
-                if (reqtype ==PlayMethod.LAN) {
-                    String urlExample = streamUrl.getLocalurl();
-                    int index = urlExample.indexOf(":", 8);
-                    urlExample = urlExample.substring(4, index);
-                    urlExample = "http" + urlExample + ":52869/web/" + LocalStoreType + "/" + mUrl;
-                    PlayURL = urlExample;
-                } else {
-//                PlayURL = "http://127.0.0.1:56789" +  "/web/tf/" + mUrl;
-                    PlayURL = mUrl;
-                    String reqserver = cameraToken.getReqserver();
-                    int index = reqserver.indexOf(":", 0);
-                    ip = reqserver.substring(0, index);
-                    port = reqserver.substring(index + 1);
-                }
-            } else {//rtsp
-                if (reqtype == PlayMethod.LAN) {
-                    String urlExample = streamUrl.getLocalurl();
-                    int index = urlExample.indexOf("/", 8);
-                    urlExample = urlExample.substring(0, index);
-                    urlExample = urlExample + "/file/" + mUrl;
-                    PlayURL = urlExample + "&token=" + token;
-                } else {
-                    PlayURL = "rtsp://" + cameraToken.getReqserver() + "/file/" + mUrl + "&token=" + token;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return PlayURL;
-    }
+//    private String GetPlayURL(CameraToken cameraToken) {
+//        String PlayURL = "";
+//
+//        try {
+//            int reqtype = cameraToken.getReqtype();
+//            final String token = cameraToken.getToken();
+//            CameraTokenStream streamUrl = cameraToken.getStreamUrl();
+//
+////            if (GetTfPlayType(camera) == 0) {  //http
+////                if (reqtype ==PlayMethod.LAN) {
+////                    String urlExample = streamUrl.getLocalurl();
+////                    int index = urlExample.indexOf(":", 8);
+////                    urlExample = urlExample.substring(4, index);
+////                    urlExample = "http" + urlExample + ":52869/web/" + LocalStoreType + "/" + mUrl;
+////                    PlayURL = urlExample;
+////                } else {
+//////                PlayURL = "http://127.0.0.1:56789" +  "/web/tf/" + mUrl;
+////                    PlayURL = mUrl;
+////                    String reqserver = cameraToken.getReqserver();
+////                    int index = reqserver.indexOf(":", 0);
+////                    ip = reqserver.substring(0, index);
+////                    port = reqserver.substring(index + 1);
+////                }
+////            } else {//rtsp
+//                if (reqtype == PlayMethod.LAN) {
+//                    String urlExample = streamUrl.getLocalurl();
+//                    int index = urlExample.indexOf("/", 8);
+//                    urlExample = urlExample.substring(0, index);
+//                    urlExample = urlExample + "/file/" + mUrl;
+//                    PlayURL = urlExample + "&token=" + token;
+//                } else {
+//                    PlayURL = "rtsp://" + cameraToken.getReqserver() + "/file/" + mUrl + "&token=" + token;
+//                }
+////            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return PlayURL;
+//    }
 }

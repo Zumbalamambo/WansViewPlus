@@ -69,9 +69,10 @@ public class TestActivity extends SwipeBaseActivity {
         //设置中间时间点
         replayTimeAxisView.setMidTimeStamp(time);
         replayTimeAxisView.setOnSlideListener(new ReplayTimeAxisView.OnSlideListener() {
+
             @Override
-            public void onSlide(long timeStamp) {
-                ToastUtil.single(sDateFormat.format(timeStamp));
+            public void onSlide(long startTime, float position) {
+
             }
 
             @Override

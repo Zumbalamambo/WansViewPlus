@@ -1,129 +1,158 @@
 package net.ajcloud.wansviewplus.main.device.type.camera;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.entity.camera.EventMessage;
-import net.ajcloud.wansviewplus.entity.camera.PhoneImageListData;
+import net.ajcloud.wansviewplus.support.core.bean.AlarmBean;
+import net.ajcloud.wansviewplus.support.utils.DateUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.List;
 
 
 /**
  * Created by HW on 2017/9/5.
  */
 
-public class DynamicView /*implements ResponseListener*/ {
+public class DynamicView {
     private Context context;
     private String oid;
     private View view;
-    private LinearLayout emptyLayout;
-    private LinearLayout contentLayout;
+    private LinearLayout ll_date;
+    private LinearLayout ll_empty;
+    private LinearLayout ll_content;
+    private RelativeLayout rl_caution_one;
+    private RelativeLayout rl_caution_two;
     private ImageView imageViewOne;
     private ImageView imageViewTwo;
-    private TextView textViewOne;
-    private TextView textViewTwo;
-    private ImageView more;
+    private ImageView iv_state_one;
+    private ImageView iv_state_two;
+    private ImageView iv_more;
+    private TextView tv_date;
+    private TextView tv_date_one;
+    private TextView tv_date_two;
+    private TextView tv_time_one;
+    private TextView tv_time_two;
+    private List<AlarmBean> alarms;
     private boolean isSharedCamera;
-    private ArrayList<PhoneImageListData> list = new ArrayList<>();
-    private ArrayList<ImageView> imageViews = new ArrayList<>();
-    private ArrayList<TextView> textViews = new ArrayList<>();
 
-    public DynamicView(Context context, String oid, boolean isSharedCamera) {
+    public DynamicView(Context context, String oid, List<AlarmBean> alarms, boolean isSharedCamera) {
         this.context = context;
         this.oid = oid;
+        this.alarms = alarms;
         this.isSharedCamera = isSharedCamera;
     }
 
     public View getView() {
         view = View.inflate(context, net.ajcloud.wansviewplus.R.layout.view_dynamic, null);
-        emptyLayout = (LinearLayout) view.findViewById(net.ajcloud.wansviewplus.R.id.empty_layout);
-        contentLayout = (LinearLayout) view.findViewById(net.ajcloud.wansviewplus.R.id.content_layout);
-        imageViewOne = (ImageView) view.findViewById(net.ajcloud.wansviewplus.R.id.caution_img_one);
-        imageViewTwo = (ImageView) view.findViewById(net.ajcloud.wansviewplus.R.id.caution_img_two);
-        textViewOne = (TextView) view.findViewById(net.ajcloud.wansviewplus.R.id.time_one);
-        textViewTwo = (TextView) view.findViewById(net.ajcloud.wansviewplus.R.id.time_two);
-        more = (ImageView) view.findViewById(net.ajcloud.wansviewplus.R.id.more);
-        imageViews.add(imageViewOne);
-        imageViews.add(imageViewTwo);
-        textViews.add(textViewOne);
-        textViews.add(textViewTwo);
-        imageViewOne.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*Intent intent = new Intent(context, ImageViewer.class);
-                intent.putExtra("type", "network");
-                intent.putExtra("canDelete", false);
-                intent.putExtra("index", 0);
-                intent.putExtra("sources", list);
-                context.startActivity(intent);*/
-            }
-        });
+        ll_date = view.findViewById(net.ajcloud.wansviewplus.R.id.ll_date);
+        ll_empty = view.findViewById(net.ajcloud.wansviewplus.R.id.ll_empty);
+        ll_content = view.findViewById(net.ajcloud.wansviewplus.R.id.ll_content);
+        rl_caution_one = view.findViewById(R.id.rl_caution_one);
+        rl_caution_two = view.findViewById(R.id.rl_caution_two);
 
-        imageViewTwo.setOnClickListener(new View.OnClickListener() {
+        iv_more = view.findViewById(net.ajcloud.wansviewplus.R.id.iv_more);
+        imageViewOne = view.findViewById(net.ajcloud.wansviewplus.R.id.caution_img_one);
+        imageViewTwo = view.findViewById(net.ajcloud.wansviewplus.R.id.caution_img_two);
+        iv_state_one = view.findViewById(R.id.iv_state_one);
+        iv_state_two = view.findViewById(R.id.iv_state_two);
+        tv_date_one = view.findViewById(R.id.tv_date_one);
+        tv_date_two = view.findViewById(R.id.tv_date_two);
+        tv_time_one = view.findViewById(R.id.tv_time_one);
+        tv_time_two = view.findViewById(R.id.tv_time_two);
+        tv_date = view.findViewById(R.id.tv_date);
+
+        ll_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(context, ImageViewer.class);
-                intent.putExtra("type", "network");
-                intent.putExtra("canDelete", false);
-                intent.putExtra("index", 1);
-                intent.putExtra("sources", list);
-                context.startActivity(intent);*/
+
             }
         });
-        more.setOnClickListener(new View.OnClickListener() {
+        rl_caution_one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(context, CautionActivity.class);
-                intent.putExtra("cid", oid);
-                intent.putExtra("isSharedCamera", isSharedCamera);
-                context.startActivity(intent);*/
+
+            }
+        });
+        rl_caution_two.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
         refreshView();
         return view;
     }
 
-    public void refreshView() {
-        long startTs = getCurrentCamraTime();
-        long endTs = startTs + 24 * 60 * 60 * 1000;
-
-        /*HttpAdapterManger.getMessageRequest().listEmDetail(ODM.CAMERA, oid, 50, null, true, endTs, startTs, 2,
-                new ZResponse(MessageRequest.ListEMCDetail, this));*/
-    }
-
-    private long getCurrentCamraTime() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        calendar.clear();
-        try {
-            /*String[] tz = TimeZone.getAvailableIDs(Integer.valueOf(timezoneOffset.get(oid)) * 1000);
-            if (tz != null && tz.length > 0 && !TextUtils.isEmpty(tz[0])) {
-                //calendar.setTimeZone(TimeZone.getTimeZone(TimeZone.getAvailableIDs(Integer.valueOf(lib.zte.homecare.utils.Utils.timezoneOffset.get(oid)) * 1000)[0]));
-                calendar.setTimeZone(TimeZone.getTimeZone(tz[0]));
-            }*/
-        } catch (Exception ex) {
-            ex.printStackTrace();
+    private void refreshView() {
+        tv_date.setText(DateUtil.getCurrentDate());
+        if (alarms == null || alarms.size() == 0) {
+            ll_empty.setVisibility(View.VISIBLE);
+            ll_content.setVisibility(View.GONE);
+        } else {
+            ll_empty.setVisibility(View.GONE);
+            ll_content.setVisibility(View.VISIBLE);
+            for (int i = 0; i < alarms.size(); i++) {
+                AlarmBean bean = alarms.get(i);
+                if (i == 0) {
+                    rl_caution_one.setVisibility(View.VISIBLE);
+                    tv_date_one.setText(DateUtil.getSimpleFormatDate(bean.cdate));
+                    tv_time_one.setText(DateUtil.getFormatTime(bean.ctime));
+                    if (bean.images != null && bean.images.size() > 0) {
+                        for (int j = 0; j < bean.images.size(); j++) {
+                            AlarmBean.ItemInfoBean imgInfo = bean.images.get(j);
+                            if (TextUtils.equals(imgInfo.tags, "thumbnail")) {
+                                Glide.with(context).load(imgInfo.url)
+                                        .placeholder(R.mipmap.figure_big)
+                                        .error(R.mipmap.figure_big)
+                                        .into(imageViewOne);
+                            }
+                        }
+                    }
+                    if (bean.avs == null || bean.avs.size() == 0) {
+                        iv_state_one.setVisibility(View.GONE);
+                    }
+                }
+                if (i == 1) {
+                    rl_caution_two.setVisibility(View.VISIBLE);
+                    tv_date_two.setText(DateUtil.getSimpleFormatDate(bean.cdate));
+                    tv_time_two.setText(DateUtil.getFormatTime(bean.ctime));
+                    if (bean.images != null && bean.images.size() > 0) {
+                        for (int j = 0; j < bean.images.size(); j++) {
+                            AlarmBean.ItemInfoBean imgInfo = bean.images.get(j);
+                            if (TextUtils.equals(imgInfo.tags, "thumbnail")) {
+                                Glide.with(context).load(imgInfo.url)
+                                        .placeholder(R.mipmap.figure_big)
+                                        .error(R.mipmap.figure_big)
+                                        .into(imageViewTwo);
+                            }
+                        }
+                    }
+                    if (bean.avs == null || bean.avs.size() == 0) {
+                        iv_state_two.setVisibility(View.GONE);
+                    }
+                }
+            }
         }
-        calendar.set(year, month, day);
-        return calendar.getTimeInMillis();
     }
 
     //@Override
     public void onSuccess(String api, Object object) {
         /*EventListMessages data = (EventListMessages) object;
         if (data != null && !data.getMessages().isEmpty()) {
-            emptyLayout.setVisibility(View.GONE);
-            contentLayout.setVisibility(View.VISIBLE);
+            ll_empty.setVisibility(View.GONE);
+            ll_content.setVisibility(View.VISIBLE);
             list.clear();
             for (int i = 0; i < data.getMessages().size() && i < 2; i++) {
                 EventMessage message = data.getMessages().get(i);
@@ -141,15 +170,15 @@ public class DynamicView /*implements ResponseListener*/ {
                 textViews.get(i).setText(CameraUtils.getAssignTimezoneDate(oid, data.getMessages().get(i).getCtime(), "HH:mm"));
             }
         } else {
-            emptyLayout.setVisibility(View.VISIBLE);
-            contentLayout.setVisibility(View.GONE);
+            ll_empty.setVisibility(View.VISIBLE);
+            ll_content.setVisibility(View.GONE);
         }*/
     }
 
     //@Override
     public void onError(String api, int errorcode) {
-        emptyLayout.setVisibility(View.VISIBLE);
-        contentLayout.setVisibility(View.GONE);
+        ll_empty.setVisibility(View.VISIBLE);
+        ll_content.setVisibility(View.GONE);
     }
 
     private String getImageUrl(EventMessage mesage) {

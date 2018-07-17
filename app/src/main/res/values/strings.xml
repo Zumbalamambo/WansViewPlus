@@ -14,6 +14,7 @@
     <string name="device_angle_view_num">position %1$s</string>
     <string name="device_online">ON LINE</string>
     <string name="device_offline">OFF LINE</string>
+    <string name="device_no_data">NO DATA</string>
     <string name="device_cloud_storage">Cloud Storage</string>
     <string name="device_cloud_not_subscribed">not subscribed</string>
     <string name="device_cloud_in_service">is in service</string>
@@ -24,6 +25,9 @@
     <string name="device_default_name_w2">w2</string>
     <string name="device_unknow">Unknown Device</string>
     <string name="device_angles_count">%1$s Collection point</string>
+    <string name="device_replay_cloud">Cloud storage</string>
+    <string name="device_replay_tf">TF card</string>
+    <string name="device_replay_tf_empty">The TF card was not inserted</string>
 
     <!--add_device-->
     <string name="add_device_discovery_id">ID:%1$s</string>

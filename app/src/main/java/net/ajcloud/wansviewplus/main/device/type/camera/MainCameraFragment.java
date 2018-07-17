@@ -61,25 +61,23 @@ import android.widget.TextView;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.ashokvarma.bottomnavigation.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import net.ajcloud.wansviewplus.BuildConfig;
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.entity.camera.Camera;
-import net.ajcloud.wansviewplus.entity.camera.CameraModel;
-import net.ajcloud.wansviewplus.entity.camera.CameraState;
-import net.ajcloud.wansviewplus.entity.camera.CameraStatus;
 import net.ajcloud.wansviewplus.entity.camera.PtzCtrlType;
-import net.ajcloud.wansviewplus.entity.camera.VideoEncryptionInfo;
-import net.ajcloud.wansviewplus.entity.camera.ViewSetting;
 import net.ajcloud.wansviewplus.main.application.BaseFragment;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.device.ReplayActivity;
 import net.ajcloud.wansviewplus.main.device.setting.DeviceSettingActivity;
 import net.ajcloud.wansviewplus.main.device.type.DeviceHomeActivity;
+import net.ajcloud.wansviewplus.support.core.api.AlertApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
+import net.ajcloud.wansviewplus.support.core.bean.AlarmBean;
+import net.ajcloud.wansviewplus.support.core.bean.AlarmListBean;
 import net.ajcloud.wansviewplus.support.core.bean.LiveSrcBean;
+import net.ajcloud.wansviewplus.support.core.bean.ViewAnglesBean;
+import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.device.DeviceInfoDictionary;
 import net.ajcloud.wansviewplus.support.customview.MyStateBar;
 import net.ajcloud.wansviewplus.support.customview.MyToolbar;
@@ -94,12 +92,10 @@ import net.ajcloud.wansviewplus.support.customview.camera.VideoQuality;
 import net.ajcloud.wansviewplus.support.utils.AudioUtils;
 import net.ajcloud.wansviewplus.support.utils.CameraUtil;
 import net.ajcloud.wansviewplus.support.utils.ConnectivityUtil;
-import net.ajcloud.wansviewplus.support.utils.FileUtil;
+import net.ajcloud.wansviewplus.support.utils.DateUtil;
 import net.ajcloud.wansviewplus.support.utils.SizeUtil;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
@@ -109,12 +105,12 @@ import org.videolan.vlc.util.VLCInstance;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -152,6 +148,7 @@ public class MainCameraFragment extends BaseFragment
     private String SnapShot_URL;
     private String Version_Now;
     private String Version_New;
+    private String deviceId;
 
     private static final int SURFACE_16_9 = 4;
     private static final int SURFACE_4_3 = 5;
@@ -287,6 +284,9 @@ public class MainCameraFragment extends BaseFragment
     private boolean isSensorEnable = false;
     private int[][] defaultCameraQuality = {{416, 234}, {960, 540}, {1280, 720}, {1920, 1080}};
     private Camera camera;
+    private List<AlarmBean> alarms;
+    private DeviceApiUnit deviceApiUnit;
+    private AlertApiUnit alertApiUnit;
 
     private void setSurfaceViewSize(int quality) {
         int width;
@@ -303,7 +303,7 @@ public class MainCameraFragment extends BaseFragment
         }
 
         try {
-            String resolution[] = getCamera().getCapAbility().getFeatures().getResolution();
+            String resolution[] = camera.capability.resolutions.split(",");
             switch (quality) {
                 case 4:
                     String FD[] = resolution[0].split("\\*");
@@ -452,7 +452,12 @@ public class MainCameraFragment extends BaseFragment
 
     @Override
     protected void initView(View rootView) {
+        deviceApiUnit = new DeviceApiUnit(mActivity);
+        alertApiUnit = new AlertApiUnit(mActivity);
+        alarms = new ArrayList<>();
         upgradeFromSetting = false;
+        deviceId = ((DeviceHomeActivity) getActivity()).getOid();
+        camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
         initVirtualCameraAndPoliceHelper();
         initCameraView(rootView);
         refreshMenuSetting();
@@ -462,7 +467,30 @@ public class MainCameraFragment extends BaseFragment
 
     @Override
     protected void initData() {
+        alertApiUnit.getAlarmsList(deviceId, -1, DateUtil.getCurrentCDate(), 10, new OkgoCommonListener<AlarmListBean>() {
+            @Override
+            public void onSuccess(AlarmListBean bean) {
+                alarms = bean.alarms;
+            }
 
+            @Override
+            public void onFail(int code, String msg) {
+
+            }
+        });
+        deviceApiUnit.getLiveSrcToken(deviceId, 1, 5, new OkgoCommonListener<LiveSrcBean>() {
+            @Override
+            public void onSuccess(LiveSrcBean bean) {
+                if (bean.stream != null && !TextUtils.isEmpty(bean.stream.localUrl)) {
+                    policeHelper.url = bean.stream.localUrl;
+                }
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+
+            }
+        });
     }
 
     @Override
@@ -497,16 +525,15 @@ public class MainCameraFragment extends BaseFragment
         });*/
 
         /*初始化视频加密相关信息*/
-        VideoEncryptionInfo.getVideoEncryptionInfo().setEncryptenabled(getCamera().getCameraState().isEncryptenabled());
-        int[] encryptmode = getCamera().getCapAbility().getFeatures().getEncryptmode();
-        VideoEncryptionInfo.getVideoEncryptionInfo().setEncryptmode(encryptmode);
+//        VideoEncryptionInfo.getVideoEncryptionInfo().setEncryptenabled(getCamera().getCameraState().isEncryptenabled());
+//        int[] encryptmode = getCamera().getCapAbility().getFeatures().getEncryptmode();
+//        VideoEncryptionInfo.getVideoEncryptionInfo().setEncryptmode(encryptmode);
 
 //        refreshDynamicView();
     }
 
     private void refreshMenuSetting() {
-        String deviceId = ((DeviceHomeActivity) getActivity()).getOid();
-        net.ajcloud.wansviewplus.support.core.device.Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
+
         myToolBar.setTittle(DeviceInfoDictionary.getNameByDevice(camera));
         myToolBar.setLeftImg(R.mipmap.ic_back);
         myToolBar.setRightImg(R.mipmap.ic_setting);
@@ -540,10 +567,10 @@ public class MainCameraFragment extends BaseFragment
     };
 
     public void refreshView() {
-        online = getCamera().getCameraState().getStatus();
+        online = camera.onlineStatus;
         full_screen.setVisibility(View.VISIBLE);
 
-        if (CameraStatus.OFFLINE == online) {
+        if (1 == online) {
             File file = new File(MainApplication.fileIO.getRealTimePictureDirectory(virtualCamera.cid) + "/realtime_picture.jpg");
             //本地有图片则不去服务器获�?
             if (file.exists()) {
@@ -567,22 +594,24 @@ public class MainCameraFragment extends BaseFragment
             offlineHelp.setText(getString(net.ajcloud.wansviewplus.R.string.wv_go_help_center));
             videoQuality.setVisibility(View.GONE);
             realTimeImageNoWifiTip.setVisibility(View.GONE);
-        } else if (getCamera().getCameraState().isAnylock() || isSleepMode) {
-            realTimeImageLayout.setVisibility(View.VISIBLE);
-            realTimeImageFrameLayout.setVisibility(View.VISIBLE);
-            realTimeImagePlay.setVisibility(View.GONE);
-            full_screen.setVisibility(View.GONE);
-            Offline_LinearLayout.setVisibility(View.VISIBLE);
-//            videoHide.setVisibility(View.VISIBLE);
-            realTimeImageImageView.setVisibility(View.INVISIBLE);
-            offlineImg.setImageResource(net.ajcloud.wansviewplus.R.mipmap.home_sleep);
-            offlineImg.setOnClickListener(null);
-            offlineTip.setText(getString(net.ajcloud.wansviewplus.R.string.wv_device_sleep));
-            offlineHelp.setText(getString(net.ajcloud.wansviewplus.R.string.wv_right_on));
-            videoQuality.setVisibility(View.GONE);
-            realTimeImageNoWifiTip.setVisibility(View.GONE);
-            ShowUpdate(UPDATE_STATUS.EXIT);
-        } else if (weakNet) {//网络质量差
+        }
+//        else if (getCamera().getCameraState().isAnylock() || isSleepMode) {
+//            realTimeImageLayout.setVisibility(View.VISIBLE);
+//            realTimeImageFrameLayout.setVisibility(View.VISIBLE);
+//            realTimeImagePlay.setVisibility(View.GONE);
+//            full_screen.setVisibility(View.GONE);
+//            Offline_LinearLayout.setVisibility(View.VISIBLE);
+////            videoHide.setVisibility(View.VISIBLE);
+//            realTimeImageImageView.setVisibility(View.INVISIBLE);
+//            offlineImg.setImageResource(net.ajcloud.wansviewplus.R.mipmap.home_sleep);
+//            offlineImg.setOnClickListener(null);
+//            offlineTip.setText(getString(net.ajcloud.wansviewplus.R.string.wv_device_sleep));
+//            offlineHelp.setText(getString(net.ajcloud.wansviewplus.R.string.wv_right_on));
+//            videoQuality.setVisibility(View.GONE);
+//            realTimeImageNoWifiTip.setVisibility(View.GONE);
+//            ShowUpdate(UPDATE_STATUS.EXIT);
+//        }
+        else if (weakNet) {//网络质量差
             realTimeImageLayout.setVisibility(View.VISIBLE);
             realTimeImageFrameLayout.setVisibility(View.VISIBLE);
             realTimeImagePlay.setVisibility(View.GONE);
@@ -603,7 +632,7 @@ public class MainCameraFragment extends BaseFragment
             realTimeImageNoWifiTip.setVisibility(View.GONE);
             videoQuality.setVisibility(View.GONE);
             ShowUpdate(UPDATE_STATUS.EXIT);
-        } else if (CameraStatus.FW_UPGRADE == online) {
+        } else if (4 == online) {
             upgradeFromSetting = false;
             String info = "";//= MyPreferenceManager.getInstance().getUpdateInfo(getCamera().getOid());
             if (!TextUtils.isEmpty(info)) {
@@ -615,8 +644,8 @@ public class MainCameraFragment extends BaseFragment
                     ShowUpdate(UPDATE_STATUS.TIMEOUT);
                 }
             } else {
-                Version_Now = getCamera().getCameraState().getFwversion();
-                Version_New = getCamera().getCameraState().getFwrlsver();
+                Version_Now = camera.fwVersion;
+                Version_New = camera.fwVersion;
                 long time = System.currentTimeMillis();
                 String UpdateInfo = "show" + "=" + Version_Now + "=" + Version_New + "=" + String.valueOf(time);
                 //MyPreferenceManager.getInstance().setUpdateInfo(getCamera().getOid(), UpdateInfo);
@@ -624,13 +653,13 @@ public class MainCameraFragment extends BaseFragment
             }
             Offline_LinearLayout.setVisibility(View.GONE);
             realTimeImageLayout.setVisibility(View.GONE);
-        } else if (CameraStatus.ACTIVED == online) {
+        } else if (2 == online) {
             String info = "";//MyPreferenceManager.getInstance().getUpdateInfo(getCamera().getOid());
             if (!upgradeFromSetting && !TextUtils.isEmpty(info)) {
                 String[] UpdateInfo = info.split("=");
                 //当前版本号与之前最新的版本号一致，表明升级成功
                 //MyPreferenceManager.getInstance().removeUpdateInfo(getCamera().getOid());
-                if (!UpdateInfo[1].equals(getCamera().getCameraState().getFwversion())) {
+                if (!UpdateInfo[1].equals(camera.fwVersion)) {
                     ShowUpdate(UPDATE_STATUS.SUCCESS);
                 } else {
                     ShowUpdate(UPDATE_STATUS.FAIL);
@@ -673,27 +702,27 @@ public class MainCameraFragment extends BaseFragment
         getActivity().registerReceiver(mConnectionReceiver, mFilter);
     }
 
-    public void refreshListAndStatus(boolean reflashDevInfo) {
-        try {
-            //网络差状态清空
-            weakNet = false;
-            Camera ca = new Camera();//= (Camera) getUserData();
-            if (ca != null && ca.getCameraState() != null) {
-                /* 暂时下拉刷新不调用ossx的url获取, 目前方案url不会迁移,如手动迁移则app重新登录即可
-                 * 代码暂时不删除,防止后面流程在做调整 */
-                if (reflashDevInfo || isUpdataUserInfo) {
-                    isUpdataUserInfo = true;
-                    /*HttpAdapterManger.getOssxRequest().getOssxDevinfo(ca.getOid(), ca.getCameraState().getOdm() + "",
-                            new ZResponse(OssxRequest.GetOSSXDevInfo, ZResponse.UNTREATED, this));*/
-                } else {
-                    refreshStatus();
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            //myRefreshScroll.onRefreshComplete();
-        }
-    }
+//    public void refreshListAndStatus(boolean reflashDevInfo) {
+//        try {
+//            //网络差状态清空
+//            weakNet = false;
+//            Camera ca = new Camera();//= (Camera) getUserData();
+//            if (ca != null && ca.getCameraState() != null) {
+//                /* 暂时下拉刷新不调用ossx的url获取, 目前方案url不会迁移,如手动迁移则app重新登录即可
+//                 * 代码暂时不删除,防止后面流程在做调整 */
+//                if (reflashDevInfo || isUpdataUserInfo) {
+//                    isUpdataUserInfo = true;
+//                    /*HttpAdapterManger.getOssxRequest().getOssxDevinfo(ca.getOid(), ca.getCameraState().getOdm() + "",
+//                            new ZResponse(OssxRequest.GetOSSXDevInfo, ZResponse.UNTREATED, this));*/
+//                } else {
+//                    refreshStatus();
+//                }
+//            }
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            //myRefreshScroll.onRefreshComplete();
+//        }
+//    }
 
     public void refreshStatus() {
         /*
@@ -1054,7 +1083,7 @@ public class MainCameraFragment extends BaseFragment
                 if (ConnectivityUtil.isConnected(getActivity())) {
                     if (ConnectivityUtil.isConnectedMobile(getActivity())) {
                         if (true/*MyPreferenceManager.getInstance().getNoWifiNotify()*/) {
-                            if (getCamera().getCameraState().getStatus() == CameraStatus.ACTIVED) {
+                            if (camera.onlineStatus == 2) {
 
                                 if (!weakNet || Offline_LinearLayout.getVisibility() != View.VISIBLE) {
                                     realTimeImageNoWifiTip.setVisibility(View.VISIBLE);
@@ -1083,7 +1112,7 @@ public class MainCameraFragment extends BaseFragment
             /*用于语音发送的相关参数，不支持双向语音不用获取*/
             audioInfo = mMediaPlayer.ReverseAudioGetDesc();
             AudioPlaySample = mMediaPlayer.GetAudioSampleRate();
-            int isDuplexvoice = getCamera().getCapAbility().getFeatures().getDuplexvoice();
+            int isDuplexvoice = camera.capability.duplexVoice;
 
             if (!(mMediaPlayer.getPlayerState() == Media.State.Playing)
                     || (audioInfo == null && isDuplexvoice == 1)
@@ -1548,7 +1577,7 @@ public class MainCameraFragment extends BaseFragment
                 return;
             }
 
-            if (CameraUtil.isSupportAutoTrack(getCamera().getCapAbility())
+            if (CameraUtil.isSupportAutoTrack(camera.capability)
                     && virtualCamera.isAutoTrace) {
                 moveTraceLayout.setVisibility(View.VISIBLE);
                 AnimationDrawable drawable = (AnimationDrawable) moveTraceImg.getDrawable();
@@ -1637,39 +1666,27 @@ public class MainCameraFragment extends BaseFragment
     private void initVirtualCameraAndPoliceHelper() {
         virtualCamera = new VirtualCamera(getActivity());
         String[] viewUrls = new String[8];
-        if (getCamera().getViewSettings() != null && getCamera().getViewSettings().size() > 0) {
-            for (ViewSetting viewSetting : getCamera().getViewSettings()) {
-                int seq = viewSetting.getSeq() - 1;
-                viewUrls[seq] = viewSetting.getViewurl();
+        if (camera.viewAnglesConfig != null && camera.viewAnglesConfig.viewAngles.size() > 0) {
+            for (ViewAnglesBean.ViewAngle viewAngle : camera.viewAnglesConfig.viewAngles) {
+                int seq = viewAngle.viewAngle - 1;
+                viewUrls[seq] = viewAngle.url;
             }
         }
         virtualCamera.viewSettingList = viewUrls;
-        virtualCamera.streamPolicies = getCamera().getCameraState().getStreampolicies();
-        virtualCamera.cid = getCamera().getOid();
-        virtualCamera.progress = getCamera().getVideoSetting().getBrightness();
-        virtualCamera.nightmode = getCamera().getVideoSetting().getNightmode();
-        virtualCamera.gwMac = getCamera().getCameraState().getGwmac();
-        virtualCamera.rmtAddr = getCamera().getCameraState().getRemoteaddr();
-        virtualCamera.isAutoTrace = getCamera().getAutotrackSetting().getEnable() != 0;
+        virtualCamera.streamPolicies = camera.livePolicy;
         //virtualCamera.isMute = MyPreferenceManager.getInstance().getMute(getCamera().getOid());
-        virtualCamera.ethMac = getCamera().getCameraState().getEthmac();
         virtualCamera.mQuality = 4;
-        virtualCamera.state = getCamera().getCameraState().getStatus();
+        virtualCamera.cid = camera.deviceId;
+        virtualCamera.progress = camera.pictureConfig.brightness;
+        virtualCamera.nightmode = camera.nightMode;
+        virtualCamera.gwMac = camera.networkConfig.wlanMac;
+        virtualCamera.rmtAddr = camera.networkConfig.wanIp;
+        virtualCamera.isAutoTrace = camera.capability.autoTrack != 0;
+        virtualCamera.volume = camera.audioConfig.speakerVolume;
+        virtualCamera.ethMac = camera.networkConfig.ethMac;
+        virtualCamera.state = camera.onlineStatus;
+
         policeHelper = new PoliceHelper(getActivity(), virtualCamera, this);
-        String deviceId = ((DeviceHomeActivity) getActivity()).getOid();
-        new DeviceApiUnit(getActivity()).getLiveSrcToken(deviceId, 1, 5, new OkgoCommonListener<LiveSrcBean>() {
-            @Override
-            public void onSuccess(LiveSrcBean bean) {
-                if (bean.stream != null && !TextUtils.isEmpty(bean.stream.localUrl)) {
-                    policeHelper.url = bean.stream.localUrl;
-                }
-            }
-
-            @Override
-            public void onFail(int code, String msg) {
-
-            }
-        });
     }
 
     public void showCannotPlayDialog() {
@@ -1842,9 +1859,9 @@ public class MainCameraFragment extends BaseFragment
                 } else if (position == 1) {
                     view = angleView.getView();
                 } else if (position == 2) {
-                    view = new DynamicView(getActivity(), getCamera().getOid(), false).getView();
+                    view = new DynamicView(getActivity(), camera.deviceId, alarms, false).getView();
                 } else if (position == 3) {
-
+                    ReplayActivity.start(mActivity, deviceId);
                 }
 
                 ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -1963,7 +1980,7 @@ public class MainCameraFragment extends BaseFragment
             fullscreen_quality.setText(net.ajcloud.wansviewplus.R.string.wv_videoplayer_menu_quality_low);
             virtualCamera.mQuality = 2;
         } else if (virtualCamera.mQuality == 3) {
-            if (CameraUtil.isSupport1080P(getCamera().getCapAbility())) {
+            if (CameraUtil.isSupport1080P(camera.capability)) {
                 videoQuality.setText(net.ajcloud.wansviewplus.R.string.wv_videoplayer_menu_quality_high);
                 fullscreen_quality.setText(net.ajcloud.wansviewplus.R.string.wv_videoplayer_menu_quality_high);
             } else {
@@ -1971,7 +1988,7 @@ public class MainCameraFragment extends BaseFragment
                 fullscreen_quality.setText(net.ajcloud.wansviewplus.R.string.wv_videoplayer_menu_quality_normal);
             }
         } else if (virtualCamera.mQuality == 4) {
-            if (CameraUtil.isSupport1080P(getCamera().getCapAbility())) {
+            if (CameraUtil.isSupport1080P(camera.capability)) {
                 videoQuality.setText(net.ajcloud.wansviewplus.R.string.wv_videoplayer_menu_quality_best);
                 fullscreen_quality.setText(net.ajcloud.wansviewplus.R.string.wv_videoplayer_menu_quality_best);
             } else {
@@ -1983,7 +2000,7 @@ public class MainCameraFragment extends BaseFragment
         videoQuality.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (CameraStatus.OFFLINE == online) {
+                if (1 == online) {
                     ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_device_offline);
                     return;
                 }
@@ -2127,7 +2144,7 @@ public class MainCameraFragment extends BaseFragment
                     /*Intent intent = new Intent(getActivity(), NetworkDiagnActivity.class);
                     intent.putExtra(NetworkDiagnActivity.INPUT_CAMERA, getCamera());
                     startActivity(intent);*/
-                } else if (getCamera().getCameraState().isAnylock()) {
+//                } else if (getCamera().getCameraState().isAnylock()) {
                     /*tipDialog.show();
                     HttpAdapterManger.getCameraRequest().setAnyLock(camera,
                             0, new ZResponse(CameraRequest.SetAnyLock, MainCameraFragment.this));*/
@@ -2178,7 +2195,7 @@ public class MainCameraFragment extends BaseFragment
 //            dynamic.setSelected(true);
 //        }
 
-        isSupportDirectionControl = CameraUtil.isSupportControlDirection(getCamera().getCapAbility());
+        isSupportDirectionControl = CameraUtil.isSupportControlDirection(camera.capability);
     }
 
     private boolean isPlaying = false;
@@ -2188,12 +2205,12 @@ public class MainCameraFragment extends BaseFragment
         mPlayerFrame.setMarginLeft(Integer.MAX_VALUE);
         //网络差状态清空
         weakNet = false;
-        if (CameraStatus.OFFLINE == online) {
+        if (1 == online) {
             ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_device_offline);
             return;
         }
 
-        if (CameraStatus.FW_UPGRADE == online) {
+        if (4 == online) {
             ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_device_updating_not_operate);
             return;
         }
@@ -2244,7 +2261,7 @@ public class MainCameraFragment extends BaseFragment
         if (isShotPic) {
             GetImageForReview();
         }
-        if (CameraUtil.isSupportAutoTrack(getCamera().getCapAbility())
+        if (CameraUtil.isSupportAutoTrack(camera.capability)
                 && virtualCamera.isAutoTrace) {
             virtualCamera.setAutoTrackOff();
         }
@@ -2264,7 +2281,7 @@ public class MainCameraFragment extends BaseFragment
         hHandler.removeCallbacks(playingStateMonitorRunnable);
         realtime_rate.setVisibility(View.GONE);
         realTimeImageLayout.setVisibility(View.VISIBLE);
-        if (!(CameraStatus.OFFLINE == getCamera().getCameraState().getStatus() || weakNet || Offline_LinearLayout.getVisibility() == View.VISIBLE)) {
+        if (!(1 == camera.onlineStatus || weakNet || Offline_LinearLayout.getVisibility() == View.VISIBLE)) {
             realTimeImagePlayRelativeLayout.setVisibility(View.VISIBLE);
             realTimeImagePlay.setVisibility(View.VISIBLE);
         }
@@ -2353,7 +2370,7 @@ public class MainCameraFragment extends BaseFragment
         }*/
         view = inflater.inflate(net.ajcloud.wansviewplus.R.layout.popupwindow_quality_horizontal, null);
 
-        if (CameraUtil.isSupport1080P(getCamera().getCapAbility())) {
+        if (CameraUtil.isSupport1080P(camera.capability)) {
             view.findViewById(net.ajcloud.wansviewplus.R.id.quality_FD).setVisibility(View.VISIBLE);
             view.findViewById(net.ajcloud.wansviewplus.R.id.quality_HD).setVisibility(View.VISIBLE);
             view.findViewById(net.ajcloud.wansviewplus.R.id.quality_SD).setVisibility(View.GONE);
@@ -2435,7 +2452,7 @@ public class MainCameraFragment extends BaseFragment
         view.findViewById(net.ajcloud.wansviewplus.R.id.quality_HD).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (CameraUtil.isSupport1080P(getCamera().getCapAbility())) {
+                if (CameraUtil.isSupport1080P(camera.capability)) {
                     if (virtualCamera.mQuality == 3) {
                         pop_quality.dismiss();
                         return;
@@ -2454,7 +2471,7 @@ public class MainCameraFragment extends BaseFragment
                 }
 
                 if (!mMediaPlayer.isPlaying()) {
-                    if (CameraUtil.isSupport1080P(getCamera().getCapAbility())) {
+                    if (CameraUtil.isSupport1080P(camera.capability)) {
                         virtualCamera.mQuality = 3;
                         //AppApplication.camera2quality.put(virtualCamera.cid, 3);
                     } else {
@@ -2472,7 +2489,7 @@ public class MainCameraFragment extends BaseFragment
                 videoQuality.setText(net.ajcloud.wansviewplus.R.string.wv_videoplayer_menu_quality_high);
                 fullscreen_quality.setText(net.ajcloud.wansviewplus.R.string.wv_videoplayer_menu_quality_high);
                 videoScale = 1;
-                if (CameraUtil.isSupport1080P(getCamera().getCapAbility())) {
+                if (CameraUtil.isSupport1080P(camera.capability)) {
                     virtualCamera.mQuality = 3;
                     Log.d(TAG, "on ChangeQuality to " + virtualCamera.mQuality);
                     //AppApplication.camera2quality.put(virtualCamera.cid, 3);
@@ -2830,13 +2847,15 @@ public class MainCameraFragment extends BaseFragment
 
     private boolean cannotOperateWhenOfflineOrNoplay(boolean isAllowedContinueClick, int interval) {
         boolean isCanOperate = false;
-        if (getCamera().getCameraState().getStatus() == CameraStatus.OFFLINE) {
+        if (camera.onlineStatus == 1) {
             isCanOperate = true;
             ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_device_offline);
-        } else if (getCamera().getCameraState().isAnylock() || isSleepMode) {
-            isCanOperate = true;
-            ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_main_sleep_mode_toast_tip);
-        } else if (mMediaPlayer.getPlayerState() != Media.State.Playing) {
+        }
+//        else if (getCamera().getCameraState().isAnylock() || isSleepMode) {
+//            isCanOperate = true;
+//            ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_main_sleep_mode_toast_tip);
+//        }
+        else if (mMediaPlayer.getPlayerState() != Media.State.Playing) {
             isCanOperate = true;
             ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_video_hasnot_play);
         } else if (!isAllowedContinueClick && System.currentTimeMillis() - lastClickTime < interval) {
@@ -2854,13 +2873,15 @@ public class MainCameraFragment extends BaseFragment
 
     private boolean cannotOperateWhenOfflineOrPlay(boolean isAllowedContinueClick, int interval) {
         boolean isCanOperate = false;
-        if (getCamera().getCameraState().getStatus() == CameraStatus.OFFLINE) {
+        if (camera.onlineStatus == 1) {
             isCanOperate = true;
             ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_device_offline);
-        } else if (getCamera().getCameraState().isAnylock() || isSleepMode) {
-            isCanOperate = true;
-            ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_main_sleep_mode_toast_tip);
-        } else if (isPlaying/*mMediaPlayer.getPlayerState() == Media.State.Playing*/) {
+        }
+//        else if (getCamera().getCameraState().isAnylock() || isSleepMode) {
+//            isCanOperate = true;
+//            ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_main_sleep_mode_toast_tip);
+//        }
+        else if (isPlaying/*mMediaPlayer.getPlayerState() == Media.State.Playing*/) {
             isCanOperate = true;
             ToastUtil.show(net.ajcloud.wansviewplus.R.string.wv_playing_video_not_use);
         } else if (!isAllowedContinueClick && System.currentTimeMillis() - lastClickTime < interval) {
@@ -2970,7 +2991,7 @@ public class MainCameraFragment extends BaseFragment
                     fOut.close();
 
                     String deviceId = ((DeviceHomeActivity) getActivity()).getOid();
-                    new DeviceApiUnit(getActivity()).b2Upload(deviceId, MainApplication.fileIO.getCacheDir() + index + ".jpg", "cam-viewangle", "b2", index, new OkgoCommonListener<Object>() {
+                    deviceApiUnit.b2Upload(deviceId, MainApplication.fileIO.getCacheDir() + index + ".jpg", "cam-viewangle", "b2", index, new OkgoCommonListener<Object>() {
                         @Override
                         public void onSuccess(Object bean) {
                             angleView.addAngle();
@@ -3319,38 +3340,38 @@ public class MainCameraFragment extends BaseFragment
         policeHelper.tryNextPolicy();
     }
 
-    public Camera getCamera() {
-        if (null == camera) {
-            JSONObject JsonObject = null;
-            try {
-                JsonObject = new JSONObject(FileUtil.readRawFile(net.ajcloud.wansviewplus.R.raw.experience_camera));
-                JSONObject result = JsonObject.getJSONObject("result");
-                Gson gson = new Gson();
-                Type listType = new TypeToken<Camera>() {
-                }.getType();
-                camera = gson.fromJson(result.toString(), listType);
-
-                JsonObject = new JSONObject(FileUtil.readRawFile(net.ajcloud.wansviewplus.R.raw.experience_camera_state));
-                result = JsonObject.getJSONObject("result");
-                gson = new Gson();
-                listType = new TypeToken<CameraState>() {
-                }.getType();
-                CameraState experience_state = gson.fromJson(result.toString(), listType);
-                camera.setCameraState(experience_state);
-
-                JsonObject = new JSONObject(FileUtil.readRawFile(net.ajcloud.wansviewplus.R.raw.experience_camera_ability));
-                result = JsonObject.getJSONObject("result");
-                gson = new Gson();
-                listType = new TypeToken<CameraModel>() {
-                }.getType();
-                CameraModel experience_capability = gson.fromJson(result.toString(), listType);
-                camera.setCapAbility(experience_capability);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return camera;
-    }
+//    public Camera getCamera() {
+//        if (null == camera) {
+//            JSONObject JsonObject = null;
+//            try {
+//                JsonObject = new JSONObject(FileUtil.readRawFile(net.ajcloud.wansviewplus.R.raw.experience_camera));
+//                JSONObject result = JsonObject.getJSONObject("result");
+//                Gson gson = new Gson();
+//                Type listType = new TypeToken<Camera>() {
+//                }.getType();
+//                camera = gson.fromJson(result.toString(), listType);
+//
+//                JsonObject = new JSONObject(FileUtil.readRawFile(net.ajcloud.wansviewplus.R.raw.experience_camera_state));
+//                result = JsonObject.getJSONObject("result");
+//                gson = new Gson();
+//                listType = new TypeToken<CameraState>() {
+//                }.getType();
+//                CameraState experience_state = gson.fromJson(result.toString(), listType);
+//                camera.setCameraState(experience_state);
+//
+//                JsonObject = new JSONObject(FileUtil.readRawFile(net.ajcloud.wansviewplus.R.raw.experience_camera_ability));
+//                result = JsonObject.getJSONObject("result");
+//                gson = new Gson();
+//                listType = new TypeToken<CameraModel>() {
+//                }.getType();
+//                CameraModel experience_capability = gson.fromJson(result.toString(), listType);
+//                camera.setCapAbility(experience_capability);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return camera;
+//    }
 
     public void setCamera(Object camera) {
         //setUserData(camera);
@@ -3382,7 +3403,7 @@ public class MainCameraFragment extends BaseFragment
         } else {
             //网络状态差界面
             stopVideoPlay();
-            if ((getCamera().getCapAbility().getFeatures().getDiagnose() == 1)) {
+            if ((camera.capability.diagnose == 1)) {
                 weakNet = true;
                 RefreshDataToView();
             } else {
@@ -3550,7 +3571,7 @@ public class MainCameraFragment extends BaseFragment
         @Override
         public void run() {
             if (Orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                if (!CameraUtil.isSupportControlDirection(getCamera().getCapAbility())) {
+                if (!CameraUtil.isSupportControlDirection(camera.capability)) {
                     controlDirection(false);
                 } else {
                     if (mMediaPlayer.getPlayerState() == Media.State.Playing) {
@@ -3575,23 +3596,23 @@ public class MainCameraFragment extends BaseFragment
 
     public void RefreshDataToView() {
         String[] viewUrls = new String[8];
-        if (getCamera().getViewSettings() != null && getCamera().getViewSettings().size() > 0) {
-            for (ViewSetting viewSetting : getCamera().getViewSettings()) {
-                int seq = viewSetting.getSeq() - 1;
-                viewUrls[seq] = viewSetting.getViewurl();
+        if (camera.viewAnglesConfig != null && camera.viewAnglesConfig.viewAngles.size() > 0) {
+            for (ViewAnglesBean.ViewAngle viewAngle : camera.viewAnglesConfig.viewAngles) {
+                int seq = viewAngle.viewAngle - 1;
+                viewUrls[seq] = viewAngle.url;
             }
         }
-        virtualCamera.viewSettingList = viewUrls;
-        virtualCamera.streamPolicies = getCamera().getCameraState().getStreampolicies();
-        virtualCamera.cid = getCamera().getOid();
-        virtualCamera.progress = getCamera().getVideoSetting().getBrightness();
-        virtualCamera.nightmode = getCamera().getVideoSetting().getNightmode();
-        virtualCamera.gwMac = getCamera().getCameraState().getGwmac();
-        virtualCamera.rmtAddr = getCamera().getCameraState().getRemoteaddr();
-        virtualCamera.isAutoTrace = getCamera().getAutotrackSetting().getEnable() != 0;
-        virtualCamera.volume = getCamera().getAudioSetting().getVolume();
-        virtualCamera.ethMac = getCamera().getCameraState().getEthmac();
-        virtualCamera.state = getCamera().getCameraState().getStatus();
+//        virtualCamera.viewSettingList = viewUrls;
+        virtualCamera.streamPolicies = camera.livePolicy;
+        virtualCamera.cid = camera.deviceId;
+        virtualCamera.progress = camera.pictureConfig.brightness;
+        virtualCamera.nightmode = camera.nightMode;
+        virtualCamera.gwMac = camera.networkConfig.wlanMac;
+        virtualCamera.rmtAddr = camera.networkConfig.wanIp;
+        virtualCamera.isAutoTrace = camera.capability.autoTrack != 0;
+        virtualCamera.volume = camera.audioConfig.speakerVolume;
+        virtualCamera.ethMac = camera.networkConfig.ethMac;
+        virtualCamera.state = camera.onlineStatus;
         policeHelper = new PoliceHelper(getActivity(), virtualCamera, this);
         refreshView();
     }
@@ -3650,7 +3671,7 @@ public class MainCameraFragment extends BaseFragment
     public Runnable reFreshView_Runnable = new Runnable() {
         @Override
         public void run() {
-            refreshListAndStatus(false);
+//            refreshListAndStatus(false);
         }
     };
 
@@ -3683,7 +3704,7 @@ public class MainCameraFragment extends BaseFragment
         mMediaPlayer.setMedia(media);
         media.release();
         mMediaPlayer.setEventListener(mMediaPlayerListener);
-        mMediaPlayer.SetVisiableQuality(VideoQuality.FormatQualityToVLC(virtualCamera.mQuality, getCamera()));
+        mMediaPlayer.SetVisiableQuality(VideoQuality.FormatQualityToVLC(virtualCamera.mQuality, camera));
         mMediaPlayer.play();
     }
 

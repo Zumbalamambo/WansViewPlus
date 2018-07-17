@@ -90,13 +90,14 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((DeviceListHolder) holder).iv_refresh.setVisibility(View.GONE);
         } else {
             ((DeviceListHolder) holder).iv_refresh.setVisibility(View.VISIBLE);
+            ((DeviceListHolder) holder).tv_status.setText(context.getResources().getString(R.string.device_no_data));
         }
 
         if (camera.cloudStorPlan == null ||
                 TextUtils.isEmpty(camera.cloudStorPlan.sku) ||
                 System.currentTimeMillis() > Long.parseLong(camera.cloudStorPlan.validTsEnd)) {//关闭
             ((DeviceListHolder) holder).tv_cloud.setTextColor(context.getResources().getColor(R.color.gray_second));
-            ((DeviceListHolder) holder).tv_cloudState.setText(" "+ context.getResources().getString(R.string.device_cloud_not_subscribed));
+            ((DeviceListHolder) holder).tv_cloudState.setText(" " + context.getResources().getString(R.string.device_cloud_not_subscribed));
             ((DeviceListHolder) holder).tv_cloud.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

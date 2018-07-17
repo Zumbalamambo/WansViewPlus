@@ -8,8 +8,10 @@ import net.ajcloud.wansviewplus.support.utils.stun.StunResult;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Queue;
@@ -54,9 +56,28 @@ public class PoliceHelper /*implements ResponseListener*/ {
                 optimisePolice.get(virtualCamera.cid).offer(PlayMethod.LAN);*/
         }
         queue = optimisePolice.get(virtualCamera.cid);
-        for (int i : virtualCamera.streamPolicies)
-            if (!queue.contains(i))
-                queue.offer(i);
+        List<Integer> policies = new ArrayList<>();
+        if (virtualCamera.streamPolicies != null) {
+            if (virtualCamera.streamPolicies.p2p == 1) {
+                if (!queue.contains(PlayMethod.P2PX))
+                    queue.offer(PlayMethod.P2PX);
+            }
+            if (virtualCamera.streamPolicies.relay == 1) {
+                if (!queue.contains(PlayMethod.TCP_RELAY))
+                    queue.offer(PlayMethod.TCP_RELAY);
+            }
+            if (virtualCamera.streamPolicies.rtmp == 1) {
+                if (!queue.contains(PlayMethod.RTMP_RELAY))
+                    queue.offer(PlayMethod.RTMP_RELAY);
+            }
+            if (virtualCamera.streamPolicies.upnp == 1) {
+                if (!queue.contains(PlayMethod.UPNP))
+                    queue.offer(PlayMethod.UPNP);
+            }
+        }
+//        for (int i : virtualCamera.streamPolicies)
+//            if (!queue.contains(i))
+//                queue.offer(i);
 //        queue.remove(PlayMethod.LAN);
 //        queue.remove(PlayMethod.UPNP);
 //        queue.remove(PlayMethod.P2PX);

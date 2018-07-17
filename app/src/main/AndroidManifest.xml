@@ -169,6 +169,12 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/HomeDeviceTheme" />
+        <activity
+            android:name=".main.device.ReplayActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeDeviceTheme"/>
     </application>
 
 </manifest>

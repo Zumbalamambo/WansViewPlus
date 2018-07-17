@@ -3,20 +3,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import net.ajcloud.wansviewplus.entity.camera.CameraModel;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.support.core.bean.CapabilityBean;
 import net.ajcloud.wansviewplus.support.utils.Bitmap.BitmapCompress;
 
 import java.io.File;
 
 public class CameraUtil {
 
-	public static boolean isSupportControlDirection(CameraModel capability) {
+	public static boolean isSupportControlDirection(CapabilityBean capability) {
 		if (capability == null) {
 			return false;
 		}
 
-		int ptz = capability.getFeatures().getPtz();
+		int ptz = capability.ptz;
 
 		if (ptz == 1) {
 			return true;
@@ -25,19 +25,19 @@ public class CameraUtil {
 		}
 	}
 
-	public static boolean isSupportDuplexVoice(CameraModel capability) {
-		if (capability == null) {
-			return false;
-		}
-
-		int duplexvoice = capability.getFeatures().getDuplexvoice();
-
-		if (duplexvoice == 1) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+//	public static boolean isSupportDuplexVoice(CameraModel capability) {
+//		if (capability == null) {
+//			return false;
+//		}
+//
+//		int duplexvoice = capability.getFeatures().getDuplexvoice();
+//
+//		if (duplexvoice == 1) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 
 	private static int computeInitialSampleSize(BitmapFactory.Options options,
 												int minSideLength, int maxNumOfPixels) {
@@ -141,12 +141,16 @@ public class CameraUtil {
 		}
 	}
 
-	public static boolean isSupport1080P(CameraModel capability) {
+	public static boolean isSupport1080P(CapabilityBean capability) {
 		if (capability == null) {
 			return false;
 		}
 
-		String[] resolution = capability.getFeatures().getResolution();
+		if (capability.resolutions == null){
+			return false;
+		}
+
+		String[] resolution = capability.resolutions.split(",");
 
 		if (resolution == null) {
 			return false;
@@ -161,12 +165,12 @@ public class CameraUtil {
 		return false;
 	}
 
-	public static boolean isSupportAutoTrack(CameraModel capability) {
+	public static boolean isSupportAutoTrack(CapabilityBean capability) {
 		if (capability == null) {
 			return false;
 		}
 
-		int autoTrack = capability.getFeatures().getAutotrack();
+		int autoTrack = capability.autoTrack;
 
 		if (autoTrack == 1) {
 			return true;

@@ -39,11 +39,11 @@ public class LocalHistoryActivity extends BaseActivity implements TabLayout.OnTa
     private List<Fragment> fragments = new ArrayList<>();
 
     private boolean isEdit;
-    private int currentItam;
+    private int currentItem;
 
-    public static void start(Context context, int currentItam) {
+    public static void start(Context context, int currentItem) {
         Intent intent = new Intent(context, LocalHistoryActivity.class);
-        intent.putExtra("item", currentItam);
+        intent.putExtra("item", currentItem);
         context.startActivity(intent);
     }
 
@@ -131,9 +131,9 @@ public class LocalHistoryActivity extends BaseActivity implements TabLayout.OnTa
     @Override
     protected void initData() {
         if (getIntent() != null) {
-            currentItam = getIntent().getIntExtra("item", 0);
+            currentItem = getIntent().getIntExtra("item", 0);
         }
-        viewPager.setCurrentItem(currentItam);
+        viewPager.setCurrentItem(currentItem);
     }
 
     @Override

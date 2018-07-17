@@ -91,7 +91,7 @@ public class ReplayTimeAxisView extends View {
     private OnSlideListener listener;
 
     public interface OnSlideListener {
-        void onSlide(long timeStamp);
+        void onSlide(long startTime, float position);
 
         void onSelected(long startTime, long endTime);
     }
@@ -323,7 +323,7 @@ public class ReplayTimeAxisView extends View {
         path.lineTo(width / 2, dateHeight + rectHeight);
         path.close(); // 使这些点
         canvas.drawPath(path, linePaint);
-      
+
     }
 
     private float mLastX;
@@ -362,7 +362,9 @@ public class ReplayTimeAxisView extends View {
                                         listener.onSelected(getStartTime(), getEndTime());
                                     }
                                 } else {
-                                    listener.onSlide(getMidTimeStamp());
+                                    long startTime = getCurrentM3u8Start(getMidTimeStamp() / 1000);
+                                    float rate = getCurrentM3u8Rate(getMidTimeStamp() / 1000);
+                                    listener.onSlide(startTime, rate);
                                 }
 
                             }
@@ -581,5 +583,39 @@ public class ReplayTimeAxisView extends View {
             dayString = "0" + day;
         }
         return dates[month] + "." + dayString;
+    }
+
+    /**
+     * 获取当前时间对应的m3u8开始时间
+     */
+    private long getCurrentM3u8Start(long time) {
+        if (recordList == null || recordList.size() == 0) {
+            return 0;
+        } else {
+            for (int i = 0; i < recordList.size(); i++) {
+                Pair<Long, Long> pairTime = recordList.get(i);
+                if (pairTime.first <= time && pairTime.second >= time) {
+                    return pairTime.first;
+                }
+            }
+            return 0;
+        }
+    }
+
+    /**
+     * 获取当前时间所在的m3u8片段的比例
+     */
+    private float getCurrentM3u8Rate(long time) {
+        if (recordList == null || recordList.size() == 0) {
+            return 0;
+        } else {
+            for (int i = 0; i < recordList.size(); i++) {
+                Pair<Long, Long> pairTime = recordList.get(i);
+                if (pairTime.first <= time && pairTime.second >= time) {
+                    return (float) (time - pairTime.first) / (pairTime.second - pairTime.first);
+                }
+            }
+            return 0;
+        }
     }
 }

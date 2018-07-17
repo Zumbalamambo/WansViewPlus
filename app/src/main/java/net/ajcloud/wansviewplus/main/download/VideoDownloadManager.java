@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.SparseArray;
 
-import net.ajcloud.wansviewplus.entity.camera.Camera;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.main.download.database.VideoDownloadDBHelper;
 
@@ -34,8 +33,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;

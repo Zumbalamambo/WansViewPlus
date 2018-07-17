@@ -2,6 +2,8 @@ package net.ajcloud.wansviewplus.entity.camera;
 
 import android.text.TextUtils;
 
+import net.ajcloud.wansviewplus.support.core.device.Camera;
+
 import java.io.Serializable;
 
 public class PhoneImageListData implements Serializable {

@@ -1,6 +1,6 @@
 package net.ajcloud.wansviewplus.support.customview.camera;
 
-import net.ajcloud.wansviewplus.entity.camera.Camera;
+import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.utils.CameraUtil;
 
 /**
@@ -18,13 +18,13 @@ public class VideoQuality {
         if (quality == 1 || quality == 2) {
             ret = VideoQuality.HC_VIDEO_SMOOTH;
         } else if (quality == 3) {
-            if (CameraUtil.isSupport1080P(camera.getCapAbility())) {
+            if (CameraUtil.isSupport1080P(camera.capability)) {
                 ret = VideoQuality.HC_VIDEO_HIGH;
             } else {
                 ret = VideoQuality.HC_VIDEO_STANDARD;
             }
         } else if (quality == 4) {
-            if (CameraUtil.isSupport1080P(camera.getCapAbility())) {
+            if (CameraUtil.isSupport1080P(camera.capability)) {
                 ret = VideoQuality.HC_VIDEO_SUPER;
             } else {
                 ret = VideoQuality.HC_VIDEO_HIGH;

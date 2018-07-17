@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import net.ajcloud.wansviewplus.entity.camera.PtzCtrlType;
+import net.ajcloud.wansviewplus.support.core.bean.LivePolicyBean;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 
@@ -13,12 +14,12 @@ import net.ajcloud.wansviewplus.support.utils.ToastUtil;
  */
 public class VirtualCamera {
 
-    public int[] streamPolicies;
+    public LivePolicyBean streamPolicies;
     public String[] viewSettingList;
     public String cid;
     public int progress;
-    public int nightmode;
-    public int volume;
+    public String nightmode;
+    public String volume;
     public String gwMac = "";
     public boolean isAutoTrace = false;
     public int mQuality = 1;//AppApplication.AppType;
@@ -55,8 +56,8 @@ public class VirtualCamera {
     }
 
     public void onNightmodeSet() {
-        nightmode = 1 - nightmode % 2;
-        setMedia(null, nightmode, null, null, null);
+        nightmode = String.valueOf(1 - Integer.parseInt(nightmode) % 2);
+        setMedia(null, Integer.parseInt(nightmode), null, null, null);
     }
 
     public void interruptAutoTrace() {

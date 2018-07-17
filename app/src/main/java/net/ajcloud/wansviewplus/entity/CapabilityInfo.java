@@ -27,16 +27,16 @@ public class CapabilityInfo {
     private String resolutions;              //分辨率
     private String qualities;                //视频质量  1:HD,5:FHD
     private String networkConfig;           //配网模式  eth, qr..
-    private String ptz;                      //云台
+    private int ptz;                      //云台
     private String audioSample;             //音频采样
-    private String autoTrack;               //自动追踪
+    private int autoTrack;               //自动追踪
     private String pirDetect;               //红外移动监测
     private String voiceDetect;             //声音监控
-    private String duplexVoice;             //实时双向语音
+    private int duplexVoice;             //实时双向语音
     private String localStorageTypes;      //本地存储方式
     private String battery;                  //电池供电
     private String encryptMode;             //加密模式
-    private String diagnose;                 //诊断支持
+    private int diagnose;                 //诊断支持
 
     public CapabilityInfo(CapabilityBean bean) {
         this.mode = bean.mode;
@@ -58,13 +58,13 @@ public class CapabilityInfo {
         this.diagnose = bean.diagnose;
     }
 
-    @Generated(hash = 1830030451)
+    @Generated(hash = 1927142859)
     public CapabilityInfo(Long id, @NotNull String mode, String vendorCode,
-                          String fw_version, String streams, String resolutions, String qualities,
-                          String networkConfig, String ptz, String audioSample, String autoTrack,
-                          String pirDetect, String voiceDetect, String duplexVoice,
-                          String localStorageTypes, String battery, String encryptMode,
-                          String diagnose) {
+            String fw_version, String streams, String resolutions, String qualities,
+            String networkConfig, int ptz, String audioSample, int autoTrack,
+            String pirDetect, String voiceDetect, int duplexVoice,
+            String localStorageTypes, String battery, String encryptMode,
+            int diagnose) {
         this.id = id;
         this.mode = mode;
         this.vendorCode = vendorCode;
@@ -87,6 +87,15 @@ public class CapabilityInfo {
 
     @Generated(hash = 621108751)
     public CapabilityInfo() {
+    }
+
+    //获取网络配置
+    public String[] getNetworkConfigs() {
+        if (TextUtils.isEmpty(this.networkConfig)) {
+            return null;
+        } else {
+            return this.networkConfig.split(",");
+        }
     }
 
     public Long getId() {
@@ -153,11 +162,11 @@ public class CapabilityInfo {
         this.networkConfig = networkConfig;
     }
 
-    public String getPtz() {
+    public int getPtz() {
         return this.ptz;
     }
 
-    public void setPtz(String ptz) {
+    public void setPtz(int ptz) {
         this.ptz = ptz;
     }
 
@@ -169,11 +178,11 @@ public class CapabilityInfo {
         this.audioSample = audioSample;
     }
 
-    public String getAutoTrack() {
+    public int getAutoTrack() {
         return this.autoTrack;
     }
 
-    public void setAutoTrack(String autoTrack) {
+    public void setAutoTrack(int autoTrack) {
         this.autoTrack = autoTrack;
     }
 
@@ -193,11 +202,11 @@ public class CapabilityInfo {
         this.voiceDetect = voiceDetect;
     }
 
-    public String getDuplexVoice() {
+    public int getDuplexVoice() {
         return this.duplexVoice;
     }
 
-    public void setDuplexVoice(String duplexVoice) {
+    public void setDuplexVoice(int duplexVoice) {
         this.duplexVoice = duplexVoice;
     }
 
@@ -225,20 +234,11 @@ public class CapabilityInfo {
         this.encryptMode = encryptMode;
     }
 
-    public String getDiagnose() {
+    public int getDiagnose() {
         return this.diagnose;
     }
 
-    public void setDiagnose(String diagnose) {
+    public void setDiagnose(int diagnose) {
         this.diagnose = diagnose;
-    }
-
-    //获取网络配置
-    public String[] getNetworkConfigs() {
-        if (TextUtils.isEmpty(this.networkConfig)) {
-            return null;
-        } else {
-            return this.networkConfig.split(",");
-        }
     }
 }

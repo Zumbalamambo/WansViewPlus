@@ -72,7 +72,7 @@ public class Camera implements Serializable {
     private String accessPubKey;
 
 
-    private Camera() {
+    public Camera() {
 
     }
 
