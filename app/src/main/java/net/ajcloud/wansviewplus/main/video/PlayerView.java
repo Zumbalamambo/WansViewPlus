@@ -33,7 +33,7 @@ public class PlayerView extends FrameLayout
 
     private static final String TAG = PlayerView.class.getSimpleName();
     private static final int HW_ERROR = 1000;
-    private Context  mContext;
+    private Context mContext;
 
     public interface OnChangeListener {
 
@@ -68,8 +68,8 @@ public class PlayerView extends FrameLayout
     private int mVideoWidth;
     private int mVideoVisibleHeight;
     private int mVideoVisibleWidth;
-    private int mSarNum=1;
-    private int mSarDen=1;
+    private int mSarNum = 1;
+    private int mSarDen = 1;
     private OnChangeListener mOnChangeListener;
     private boolean mCanSeek = false;
 
@@ -144,7 +144,7 @@ public class PlayerView extends FrameLayout
             @Override
             public void onClick(View v) {
                 if (mContext instanceof CautionActivity) {
-                    ((CautionActivity)mContext).showControl();
+                    ((CautionActivity) mContext).showControl();
                 }
             }
         });
@@ -201,10 +201,10 @@ public class PlayerView extends FrameLayout
     /**
      * 调整视频播放布局
      *
-     * @param preScale    前次缩放比例
-     * @param scale       当前缩放比例
-     * @param pivotX      缩放中心X轴位置
-     * @param pivotY      缩放中心Y轴位置
+     * @param preScale 前次缩放比例
+     * @param scale    当前缩放比例
+     * @param pivotX   缩放中心X轴位置
+     * @param pivotY   缩放中心Y轴位置
      */
     public void changeSurfaceSize(float preScale, float scale, float pivotX, float pivotY) {
         int sw;
@@ -239,38 +239,38 @@ public class PlayerView extends FrameLayout
         double dar = dw / dh;
 
         switch (mCurrentSize) {
-        case SURFACE_BEST_FIT:
-            if (dar < ar)
+            case SURFACE_BEST_FIT:
+                if (dar < ar)
+                    dh = dw / ar;
+                else
+                    dw = dh * ar;
+                break;
+            case SURFACE_FIT_HORIZONTAL:
                 dh = dw / ar;
-            else
+                break;
+            case SURFACE_FIT_VERTICAL:
                 dw = dh * ar;
-            break;
-        case SURFACE_FIT_HORIZONTAL:
-            dh = dw / ar;
-            break;
-        case SURFACE_FIT_VERTICAL:
-            dw = dh * ar;
-            break;
-        case SURFACE_FILL:
-            break;
-        case SURFACE_16_9:
-            ar = 16.0 / 9.0;
-            if (dar < ar)
-                dh = dw / ar;
-            else
-                dw = dh * ar;
-            break;
-        case SURFACE_4_3:
-            ar = 4.0 / 3.0;
-            if (dar < ar)
-                dh = dw / ar;
-            else
-                dw = dh * ar;
-            break;
-        case SURFACE_ORIGINAL:
-            dh = mVideoVisibleHeight;
-            dw = vw;
-            break;
+                break;
+            case SURFACE_FILL:
+                break;
+            case SURFACE_16_9:
+                ar = 16.0 / 9.0;
+                if (dar < ar)
+                    dh = dw / ar;
+                else
+                    dw = dh * ar;
+                break;
+            case SURFACE_4_3:
+                ar = 4.0 / 3.0;
+                if (dar < ar)
+                    dh = dw / ar;
+                else
+                    dw = dh * ar;
+                break;
+            case SURFACE_ORIGINAL:
+                dh = mVideoVisibleHeight;
+                dw = vw;
+                break;
         }
 
         SurfaceView surface;
@@ -308,8 +308,7 @@ public class PlayerView extends FrameLayout
 
 //        竖屏时播放窗最大高度为屏幕的3/4，横屏时全屏
         double maxVisableH = (double) SizeUtil.getScreenHeigth(getContext());
-        if (isPortrait)
-        {
+        if (isPortrait) {
             maxVisableH = maxVisableH * 3 / 4;
         }
 //        Log.d(TAG, "maxVisableH: " + maxVisableH);
@@ -318,7 +317,7 @@ public class PlayerView extends FrameLayout
         int visibleH = (int) Math.min(Math.floor(dh * scale), maxVisableH);
 
 //        Log.d(TAG, "Surface fromMargins(" + lp.leftMargin + ", " + lp.topMargin + ", " + lp.rightMargin + ", " + lp.bottomMargin + ")");
-        if (scale == 1)         {
+        if (scale == 1) {
             lp.setMargins(0, 0, 0, 0);
         } else {// 根据缩放比与缩放中心位置，对视频布局位置进行偏移调整，保证视频画面缩放时一直在缩放中心处变化
 //            根据视频画面当前偏移量，加上缩放造成的中心点漂移量，计算出视频画面应该偏移的位置
@@ -383,7 +382,7 @@ public class PlayerView extends FrameLayout
         mSurface.setKeepScreenOn(false);
     }
 
-    public void destroy () {
+    public void destroy() {
         if (mMediaPlayer != null) {
             final Media media = mMediaPlayer.getMedia();
             if (media != null) {
@@ -410,14 +409,14 @@ public class PlayerView extends FrameLayout
     }
 
     public void setRate(float rate) {
-        if (getRate() * rate > 4.0 || getRate() * rate < 0.25) {
+        if (rate > 8.0 || rate < 1) {
             return;
         }
-        getMediaPlayer().setRate(getRate() * rate);
+        getMediaPlayer().setRate(rate);
     }
 
     public float getRate() {
-        return  getMediaPlayer().getRate();
+        return getMediaPlayer().getRate();
     }
 
     public boolean canSeekable() {
@@ -487,9 +486,9 @@ public class PlayerView extends FrameLayout
                 case MediaPlayer.Event.EndReached:
                     Log.d(TAG, "MediaPlayerEndReached");
                     if (PlayerView.this.mOnChangeListener != null) {
-                        if(OldEvent == Media.State.Buffering){
+                        if (OldEvent == Media.State.Buffering) {
                             PlayerView.this.mOnChangeListener.onError();
-                        } else{
+                        } else {
                             PlayerView.this.mOnChangeListener.onEnd();
                         }
                     }
@@ -538,7 +537,7 @@ public class PlayerView extends FrameLayout
     private MediaPlayer newMediaPlayer() {
         MediaPlayer mp = new MediaPlayer(VLCInstance.get());
         mp.getVLCVout().addCallback(this);
-        return  mp;
+        return mp;
     }
 
     @Override
@@ -548,7 +547,7 @@ public class PlayerView extends FrameLayout
 
         mVideoWidth = width;
         mVideoHeight = height;
-        mVideoVisibleWidth  = visibleWidth;
+        mVideoVisibleWidth = visibleWidth;
         mVideoVisibleHeight = visibleHeight;
         mSarNum = sarNum;
         mSarDen = sarDen;
@@ -566,8 +565,7 @@ public class PlayerView extends FrameLayout
     }
 
     @Override
-    public void onScaleChange(float preScale, float scale, float pivotX, float pivotY)
-    {
+    public void onScaleChange(float preScale, float scale, float pivotX, float pivotY) {
         changeSurfaceSize(preScale, scale, pivotX, pivotY);
     }
 }

@@ -81,6 +81,18 @@
                         android:layout_height="56dp"
                         android:layout_alignParentBottom="true">
 
+                        <TextView
+                            android:id="@+id/tv_speed"
+                            android:layout_width="56dp"
+                            android:layout_height="23dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="24dp"
+                            android:background="@drawable/video_quality_backgroud"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:visibility="visible" />
+
                         <ImageView
                             android:id="@+id/iv_fullscreen"
                             android:layout_width="24dp"

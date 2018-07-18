@@ -2,6 +2,8 @@ package net.ajcloud.wansviewplus.main.device;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,7 +13,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -19,6 +23,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,7 +38,6 @@ import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.GroupListBean;
 import net.ajcloud.wansviewplus.support.customview.ReplayTimeAxisView;
-import net.ajcloud.wansviewplus.support.tools.WLog;
 import net.ajcloud.wansviewplus.support.utils.DateUtil;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
@@ -69,12 +73,14 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
     private ImageView fullscreen_small_screen;
     private PlayerView pv_video;
     private LinearLayout ll_bottom;
+    private TextView tv_speed;
 
     private AudioSender_RealTime audioSender_Realtime = null;
     private Handler hPlayVlcAudioHandler = new Handler();
     private ReverseAudioInfo audioInfo;
     private Handler mHandler;
     private Handler hHandler;
+    private PopupWindow pop_speed;
 
     private DeviceApiUnit deviceApiUnit;
     private String deviceId;
@@ -165,6 +171,7 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
         fullscreen_small_screen = view.findViewById(R.id.fullscreen_small_screen);
         pv_video = view.findViewById(R.id.pv_video);
         ll_bottom = view.findViewById(R.id.ll_bottom);
+        tv_speed = view.findViewById(R.id.tv_speed);
 
         refreshUI(0);
         initData();
@@ -180,6 +187,7 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
         fl_play.setOnClickListener(this);
         iv_fullscreen.setOnClickListener(this);
         fullscreen_small_screen.setOnClickListener(this);
+        tv_speed.setOnClickListener(this);
         replay_time.setOnSlideListener(new ReplayTimeAxisView.OnSlideListener() {
 
             @Override
@@ -208,6 +216,7 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
         mHandler = new Handler(this);
         hHandler = new Handler(this);
         pv_video.setSurfaceViewer16To9();
+        tv_speed.setText("X1");
         getReplay();
     }
 
@@ -248,6 +257,9 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
                 break;
             case R.id.fullscreen_small_screen:
                 exitFullScreen();
+                break;
+            case R.id.tv_speed:
+                showVideoSpeedPopupwindow(tv_speed);
                 break;
         }
     }
@@ -307,6 +319,87 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
             iv_cover.setVisibility(View.VISIBLE);
 
         }
+    }
+
+    private void showVideoSpeedPopupwindow(View anchor) {
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        final View view;
+        view = inflater.inflate(R.layout.popupwindow_speed_horizontal, null);
+
+        // 创建PopupWindow对象
+        pop_speed = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, anchor.getMeasuredHeight(), false);
+        // 需要设置一下此参数，点击外边可消失
+        pop_speed.setBackgroundDrawable(new BitmapDrawable());
+        //设置点击窗口外边窗口消失
+        pop_speed.setOutsideTouchable(true);
+        // 设置此参数获得焦点，否则无法点击
+        pop_speed.setFocusable(true);
+
+        view.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                try {
+                    Rect rect = new Rect();
+                    view.getGlobalVisibleRect(rect);
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        if (!rect.contains((int) event.getX(), (int) event.getY())) {
+                            pop_speed.dismiss();
+                        }
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                return true;
+            }
+        });
+
+        view.findViewById(R.id.ll_speed_1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.equals(tv_speed.getText().toString(), "X1")) {
+                    pop_speed.dismiss();
+                    pv_video.setRate(1f);
+                    tv_speed.setText("X" + (int) pv_video.getRate());
+                }
+            }
+        });
+
+        view.findViewById(R.id.ll_speed_2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.equals(tv_speed.getText().toString(), "X2")) {
+                    pop_speed.dismiss();
+                    pv_video.setRate(2f);
+                    tv_speed.setText("X" + (int) pv_video.getRate());
+                }
+            }
+        });
+
+        view.findViewById(R.id.ll_speed_4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.equals(tv_speed.getText().toString(), "X4")) {
+                    pop_speed.dismiss();
+                    pv_video.setRate(4f);
+                    tv_speed.setText("X" + (int) pv_video.getRate());
+                }
+            }
+        });
+
+        view.findViewById(R.id.ll_speed_8).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.equals(tv_speed.getText().toString(), "X8")) {
+                    pop_speed.dismiss();
+                    pv_video.setRate(8f);
+                    tv_speed.setText("X" + (int) pv_video.getRate());
+                }
+            }
+        });
+
+        int[] location = new int[2];
+        anchor.getLocationOnScreen(location);
+        pop_speed.showAtLocation(anchor, Gravity.NO_GRAVITY, location[0] + anchor.getMeasuredWidth(), location[1]);
     }
 
     void TurnOffPlayAudio() {
