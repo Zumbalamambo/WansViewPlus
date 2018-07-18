@@ -3,10 +3,11 @@ package net.ajcloud.wansviewplus.main.alert;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.text.TextUtils;
@@ -22,7 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 
 import net.ajcloud.wansviewplus.R;
@@ -37,8 +37,8 @@ import net.ajcloud.wansviewplus.support.core.bean.AlarmBean;
 import net.ajcloud.wansviewplus.support.core.bean.AlarmListBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.customview.EndlessRecyclerOnScrollListener;
-import net.ajcloud.wansviewplus.support.tools.VideoItemDecoration;
 import net.ajcloud.wansviewplus.support.utils.DateUtil;
+import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 import org.videolan.libvlc.Media;
@@ -48,10 +48,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
-
-import static net.ajcloud.wansviewplus.main.alert.adapter.AlertListDetailAdapter.STATE_END;
-import static net.ajcloud.wansviewplus.main.alert.adapter.AlertListDetailAdapter.STATE_LOADING;
-import static net.ajcloud.wansviewplus.main.alert.adapter.AlertListDetailAdapter.STATE_NORMAL;
 
 public class AlertDetailActivity extends BaseActivity implements PlayerView.OnChangeListener, Handler.Callback {
 
@@ -76,7 +72,9 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
     private TextView tv_date;
     private ImageView iv_arrow;
     private ImageView iv_cover;
-    private LottieAnimationView lav_refresh;
+    private FrameLayout fl_load;
+    private FrameLayout fl_end;
+    private SwipeRefreshLayout layout_refresh;
 
     private AudioSender_RealTime audioSender_Realtime = null;
     private Handler hPlayVlcAudioHandler = new Handler();
@@ -98,6 +96,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
     private boolean hasMore = true;
     private boolean isLandScape;
     private boolean isLoading = true;
+    private boolean isFirst = true;
 
     private Runnable PlayVlcAudioRunnable = new Runnable() {
         @Override
@@ -192,23 +191,28 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         ll_loading = findViewById(R.id.ll_loading);
         tv_buffer = findViewById(R.id.tv_buffer);
         iv_cover = findViewById(R.id.iv_cover);
-        lav_refresh = findViewById(R.id.lav_refresh);
+        fl_load = findViewById(R.id.fl_load);
+        fl_end = findViewById(R.id.fl_end);
+        layout_refresh = findViewById(R.id.layout_refresh);
 
+        layout_refresh.setEnabled(false);
+        layout_refresh.setRefreshing(true);
         adapter = new AlertListDetailAdapter(this);
         rv_alarm_list.setAdapter(adapter);
-        rv_alarm_list.addItemDecoration(new VideoItemDecoration(this, true));
-        rv_alarm_list.setNestedScrollingEnabled(false);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+        rv_alarm_list.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
-            public int getSpanSize(int position) {
-                //如果是最后一个item，则设置占据3列，否则占据1列
-                boolean isFooter = position == adapter.getItemCount() - 1;
-                return isFooter ? 2 : 1;
+            public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
+                if (itemPosition % 2 == 0) {
+                    outRect.set(0, 0, DisplayUtil.dip2Pix(AlertDetailActivity.this, 20),
+                            DisplayUtil.dip2Pix(AlertDetailActivity.this, 24));
+                } else {
+                    outRect.set(DisplayUtil.dip2Pix(AlertDetailActivity.this, 20), 0, 0,
+                            DisplayUtil.dip2Pix(AlertDetailActivity.this, 24));
+                }
             }
         });
-        rv_alarm_list.setLayoutManager(layoutManager);
+        rv_alarm_list.setNestedScrollingEnabled(false);
+        rv_alarm_list.setLayoutManager(new GridLayoutManager(this, 2));
         ((SimpleItemAnimator) rv_alarm_list.getItemAnimator()).setSupportsChangeAnimations(false);
         Animation animation = new AlphaAnimation(0f, 1f);
         animation.setDuration(200);
@@ -232,7 +236,6 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         mHandler = new Handler(this);
         hHandler = new Handler(this);
         pv_video.setSurfaceViewer16To9();
-        lav_refresh.setVisibility(View.VISIBLE);
         getAlarmList();
         if (TextUtils.isEmpty(videoUrl)) {
             refreshUI(4);
@@ -272,7 +275,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                         getAlarmList();
                     } else {
                         if (adapter.getItemCount() > 10) {
-                            changeAdapterState(STATE_END);
+                            changeFootState(0);
                         }
                     }
                 }
@@ -348,10 +351,25 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         }
     }
 
-    //改变底部bottom的样式
-    protected void changeAdapterState(int state) {
-        if (adapter != null && adapter.loadMoreHolder != null) {
-            adapter.loadMoreHolder.setData(state);
+    /**
+     * 0：normal
+     * 1:loading
+     * 2:end
+     */
+    protected void changeFootState(int state) {
+        switch (state) {
+            case 0:
+                fl_load.setVisibility(View.GONE);
+                fl_end.setVisibility(View.GONE);
+                break;
+            case 1:
+                fl_load.setVisibility(View.VISIBLE);
+                fl_end.setVisibility(View.GONE);
+                break;
+            case 2:
+                fl_load.setVisibility(View.GONE);
+                fl_end.setVisibility(View.VISIBLE);
+                break;
         }
     }
 
@@ -471,11 +489,16 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
 
     private void getAlarmList() {
         isLoading = true;
-        changeAdapterState(STATE_LOADING);
+        if (isFirst) {
+            isFirst = false;
+        } else {
+            changeFootState(1);
+        }
         alertApiUnit.getAlarmsList(deviceId, cts, cdate, 10, new OkgoCommonListener<AlarmListBean>() {
             @Override
             public void onSuccess(AlarmListBean bean) {
-                lav_refresh.setVisibility(View.GONE);
+                layout_refresh.setRefreshing(false);
+                changeFootState(0);
                 isLoading = false;
                 if (bean != null) {
                     if (bean.alarms != null) {
@@ -487,13 +510,12 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                         hasMore = bean.alarms.size() == 10;
                     }
                 }
-                changeAdapterState(STATE_NORMAL);
             }
 
             @Override
             public void onFail(int code, String msg) {
-                lav_refresh.setVisibility(View.GONE);
-                changeAdapterState(STATE_NORMAL);
+                layout_refresh.setRefreshing(false);
+                changeFootState(0);
             }
         });
     }
@@ -559,6 +581,11 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
     @Override
     public void onNetSlow() {
         ToastUtil.show(R.string.app_error_network_error);
+    }
+
+    @Override
+    public void onTimeChange(long time) {
+
     }
 
     @Override

@@ -46,6 +46,8 @@ public class PlayerView extends FrameLayout
         void onEnd();
 
         void onNetSlow();
+
+        void onTimeChange(long time);
     }
 
     private static final int SURFACE_BEST_FIT = 0;
@@ -498,6 +500,9 @@ public class PlayerView extends FrameLayout
                     }
                     break;
                 case MediaPlayer.Event.TimeChanged:
+                    if (PlayerView.this.mOnChangeListener != null) {
+                        PlayerView.this.mOnChangeListener.onTimeChange(event.getTimeChanged());
+                    }
                     break;
                 case MediaPlayer.Event.PositionChanged:
                     if (!PlayerView.this.mCanSeek) {

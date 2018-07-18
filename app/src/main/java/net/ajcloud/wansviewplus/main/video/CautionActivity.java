@@ -374,6 +374,11 @@ public class CautionActivity extends BaseActivity implements PlayerView.OnChange
     }
 
     @Override
+    public void onTimeChange(long time) {
+
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ib_lock:

@@ -15,8 +15,8 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lav_refresh"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             app:lottie_fileName="refreshing.json"
             app:lottie_loop="true" />
     </LinearLayout>

@@ -172,6 +172,7 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
     }
 
     private void initListener() {
+        pv_video.setOnChangeListener(this);
         fl_download.setOnClickListener(this);
         fl_delete.setOnClickListener(this);
         tv_cloud_introduction.setOnClickListener(this);
@@ -183,7 +184,6 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
 
             @Override
             public void onSlide(long startTime, float position) {
-                refreshUI(2);
                 onMediaStop();
 
                 GroupListBean.GroupInfo groupInfo = getCurrentM3u8Info(startTime * 1000);
@@ -299,10 +299,13 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
 
     private void onMediaStop() {
         if (null != pv_video) {
-            ll_loading.setVisibility(View.GONE);
-            pv_video.stop();
+            refreshUI(2);
             mHandler.removeMessages(SHOW_PROGRESS);
             hPlayVlcAudioHandler.removeCallbacks(PlayVlcAudioRunnable);
+            pv_video.stop();
+            ll_loading.setVisibility(View.GONE);
+            iv_cover.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -420,12 +423,17 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
     }
 
     @Override
+    public void onTimeChange(long time) {
+        replay_time.scrollMidTimeStamp(time);
+    }
+
+    @Override
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
             case SHOW_PROGRESS:
                 int time = (int) pv_video.getTime();
                 if (time >= 0) {
-                    WLog.d(time, time + "");
+//                    replay_time.setMidTimeStamp();
                 }
                 mHandler.sendEmptyMessageDelayed(SHOW_PROGRESS, 50);
                 break;

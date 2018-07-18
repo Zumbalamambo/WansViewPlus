@@ -508,6 +508,16 @@ public class ReplayTimeAxisView extends View {
     }
 
     /**
+     * 时间滚动
+     */
+    public void scrollMidTimeStamp(long time) {
+        if (!isSlide) {
+            currentMidTimeStamp = currentMidTimeStamp + (int) (time / 1000);
+            invalidate();
+        }
+    }
+
+    /**
      * 获取中线时间
      */
     public long getMidTimeStamp() {

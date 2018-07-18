@@ -7,10 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 
 import net.ajcloud.wansviewplus.R;
@@ -25,14 +23,11 @@ import java.util.List;
  */
 public class AlertListDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public static int TYPE_NORMAL = 0;
-    public static int TYPE_FOOT = 1;
     public static final int STATE_LOADING = 2;
     public static final int STATE_END = 3;
     public static final int STATE_NORMAL = 4;
     private Context context;
     private LayoutInflater inflater;
-    public LoadMoreHolder loadMoreHolder;
     private List<AlarmBean> mInfos;
     private int selected;
     private OnItemClickListener listener;
@@ -65,67 +60,50 @@ public class AlertListDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView;
-        if (viewType == TYPE_NORMAL) {
-            itemView = inflater.inflate(R.layout.layout_item_alarm, parent, false);
-            return new AlarmDetailHolder(itemView);
-        } else {
-            itemView = inflater.inflate(R.layout.item_load_more, parent, false);
-            loadMoreHolder = new LoadMoreHolder(itemView);
-            return loadMoreHolder;
-        }
+        View itemView = inflater.inflate(R.layout.layout_item_alarm, parent, false);
+        return new AlarmDetailHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        if (holder instanceof AlarmDetailHolder) {
-            ((AlarmDetailHolder) holder).tv_date.setText(DateUtil.getSimpleFormatDate(mInfos.get(position).cdate));
-            ((AlarmDetailHolder) holder).tv_time.setText(DateUtil.getFormatTime(mInfos.get(position).ctime));
+        ((AlarmDetailHolder) holder).tv_date.setText(DateUtil.getSimpleFormatDate(mInfos.get(position).cdate));
+        ((AlarmDetailHolder) holder).tv_time.setText(DateUtil.getFormatTime(mInfos.get(position).ctime));
 
-            AlarmBean.ItemInfoBean imageItemInfo = mInfos.get(position).images.get(0);
-            Glide.with(context).load(imageItemInfo.url)
-                    .placeholder(R.mipmap.figure_big)
-                    .error(R.mipmap.figure_big)
-                    .into(((AlarmDetailHolder) holder).iv_thumbnail);
+        AlarmBean.ItemInfoBean imageItemInfo = mInfos.get(position).images.get(0);
+        Glide.with(context).load(imageItemInfo.url)
+                .placeholder(R.mipmap.figure_big)
+                .error(R.mipmap.figure_big)
+                .into(((AlarmDetailHolder) holder).iv_thumbnail);
 
-            if (selected == position) {
-                ((AlarmDetailHolder) holder).iv_state.setImageResource(R.mipmap.ic_playing);
-            } else {
-                ((AlarmDetailHolder) holder).iv_state.setImageResource(R.mipmap.ic_play_white);
-            }
+        if (selected == position) {
+            ((AlarmDetailHolder) holder).iv_state.setImageResource(R.mipmap.ic_playing);
+        } else {
+            ((AlarmDetailHolder) holder).iv_state.setImageResource(R.mipmap.ic_play_white);
+        }
 
-            ((AlarmDetailHolder) holder).iv_thumbnail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        if (mInfos.get(position).avs.size() > 0) {
-                            if (mInfos.get(position).avs != null && mInfos.get(position).avs.size() > 0) {
-                                AlarmBean.ItemInfoBean videoItemInfo = mInfos.get(position).avs.get(0);
-                                listener.OnItemClick(position, imageItemInfo.url, videoItemInfo.url);
-                            } else {
-                                listener.OnItemClick(position, imageItemInfo.url, null);
-                            }
-                            selected = position;
-                            notifyDataSetChanged();
+        ((AlarmDetailHolder) holder).iv_thumbnail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    if (mInfos.get(position).avs.size() > 0) {
+                        if (mInfos.get(position).avs != null && mInfos.get(position).avs.size() > 0) {
+                            AlarmBean.ItemInfoBean videoItemInfo = mInfos.get(position).avs.get(0);
+                            listener.OnItemClick(position, imageItemInfo.url, videoItemInfo.url);
+                        } else {
+                            listener.OnItemClick(position, imageItemInfo.url, null);
                         }
+                        selected = position;
+                        notifyDataSetChanged();
                     }
                 }
-            });
-        }
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == mInfos.size())
-            return TYPE_FOOT;
-        else
-            return TYPE_NORMAL;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return mInfos == null ? 0 : mInfos.size() + 1;
+        return mInfos == null ? 0 : mInfos.size();
     }
 
 
@@ -141,53 +119,6 @@ public class AlertListDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             iv_state = itemView.findViewById(R.id.iv_state);
             tv_time = itemView.findViewById(R.id.tv_time);
             tv_date = itemView.findViewById(R.id.tv_date);
-        }
-    }
-
-    public class LoadMoreHolder extends RecyclerView.ViewHolder {
-        private LinearLayout ll_loading;
-        private LinearLayout ll_end;
-        private LottieAnimationView lav_refresh;
-
-        private LoadMoreHolder(View itemView) {
-            super(itemView);
-            ll_loading = itemView.findViewById(R.id.ll_loading);
-            ll_end = itemView.findViewById(R.id.ll_end);
-            lav_refresh = itemView.findViewById(R.id.lav_refresh);
-            lav_refresh.enableMergePathsForKitKatAndAbove(true);
-        }
-
-        //根据传过来的status控制哪个状态可见
-        public void setData(int status) {
-            switch (status) {
-                case STATE_NORMAL:
-                    setAllGone();
-                    break;
-                case STATE_LOADING:
-                    setAllGone();
-                    ll_loading.setVisibility(View.VISIBLE);
-                    if (lav_refresh.isAnimating()) {
-                        return;
-                    }
-                    lav_refresh.playAnimation();
-                    break;
-                case STATE_END:
-                    setAllGone();
-                    ll_end.setVisibility(View.VISIBLE);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        //全部不可见
-        void setAllGone() {
-            if (ll_loading != null) {
-                ll_loading.setVisibility(View.GONE);
-            }
-            if (ll_end != null) {
-                ll_end.setVisibility(View.GONE);
-            }
         }
     }
 

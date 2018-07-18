@@ -60,6 +60,7 @@ public class DeviceInfoDictionary {
      * @param type
      * @return
      */
+    @Deprecated
     private static int getDefaultNameByType(String type) {
         if (type == null) {
             return R.string.device_unknow;
@@ -78,7 +79,7 @@ public class DeviceInfoDictionary {
         } else {
             String deviceName = camera.aliasName;
             if (deviceName == null) {
-                deviceName = MainApplication.getApplication().getResources().getString(getDefaultNameByType(camera.deviceMode));
+                deviceName = camera.deviceId;
             }
             return deviceName;
         }
