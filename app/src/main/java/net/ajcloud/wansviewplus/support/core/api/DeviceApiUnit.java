@@ -1330,7 +1330,7 @@ public class DeviceApiUnit {
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("deviceMode", deviceType);
-            dataJson.put("vendorCode", "WSC");
+            dataJson.put("vendorCode", "WVC");
         } catch (JSONException e) {
             e.printStackTrace();
         }

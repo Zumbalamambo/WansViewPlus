@@ -20,6 +20,9 @@
     <string name="device_cloud_in_service">is in service</string>
     <string name="device_unbind_devices">Unbound any devices</string>
     <string name="device_add_device">Add device</string>
+    <string name="device_default_k">k series</string>
+    <string name="device_default_q">q series</string>
+    <string name="device_default_w">w series</string>
     <string name="device_default_name_k3">k3</string>
     <string name="device_default_name_q3">q3</string>
     <string name="device_default_name_w2">w2</string>

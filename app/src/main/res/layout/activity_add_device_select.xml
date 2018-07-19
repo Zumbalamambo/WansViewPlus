@@ -35,7 +35,7 @@
                     android:layout_below="@id/iv_k3"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:text="@string/device_default_name_k3"
+                    android:text="@string/device_default_k"
                     android:textColor="@color/gray_first"
                     android:textSize="@dimen/signIn_textSize_20" />
             </RelativeLayout>
@@ -59,7 +59,7 @@
                     android:layout_below="@id/iv_q3"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:text="@string/device_default_name_q3"
+                    android:text="@string/device_default_q"
                     android:textColor="@color/gray_first"
                     android:textSize="@dimen/signIn_textSize_20" />
             </RelativeLayout>

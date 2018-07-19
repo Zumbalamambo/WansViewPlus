@@ -3,16 +3,12 @@ package net.ajcloud.wansviewplus.main.device.type;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 
-import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.BaseFragment;
-import net.ajcloud.wansviewplus.main.device.setting.DeviceSettingActivity;
-import net.ajcloud.wansviewplus.support.core.device.Camera;
-import net.ajcloud.wansviewplus.support.core.device.DeviceInfoDictionary;
 
 public class DeviceHomeActivity extends BaseActivity {
+    public static int MAIN_CAMERA_REQUEST_CODE = 10;
     BaseFragment baseFragment;
     String oid;
     Class<? extends BaseFragment> baseClass;
@@ -116,4 +112,5 @@ public class DeviceHomeActivity extends BaseActivity {
     public String getOid() {
         return oid;
     }
+
 }

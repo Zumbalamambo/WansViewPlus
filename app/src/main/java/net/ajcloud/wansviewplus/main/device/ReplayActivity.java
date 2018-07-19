@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
@@ -28,6 +31,7 @@ public class ReplayActivity extends BaseActivity {
     private TextView tv_date;
     private ImageView iv_arrow;
     private TabLayout tabLayout;
+    private BottomNavigationBar bottomNavigationBar;
 
     private MyViewPager viewPager;
     private MyPageAdapter pageAdapter;
@@ -72,6 +76,47 @@ public class ReplayActivity extends BaseActivity {
         pageAdapter = new MyPageAdapter(getSupportFragmentManager(), datas, fragments);
         viewPager.setAdapter(pageAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
+        bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
+        bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
+        bottomNavigationBar.clearAll();
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_console_color_, getString(R.string.wv_camera_ptz)).setInactiveIconResource(R.mipmap.ic_console_mid))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_viewangle_color, getString(R.string.wv_camera_angle)).setInactiveIconResource(R.mipmap.ic_viewangle_mid))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_motion_color, getString(R.string.wv_camera_dynamic)).setInactiveIconResource(R.mipmap.ic_motion_mid))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_replay_color, getString(R.string.wv_camera_replay)).setInactiveIconResource(R.mipmap.ic_replay_mid))
+                .setActiveColor(R.color.colorPrimary)
+                .setFirstSelectedPosition(0)
+                .initialise();
+        bottomNavigationBar.selectTab(3, false);
+        bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int position) {
+                if (position == 3) {
+                    return;
+                }
+                Intent intent = new Intent();
+                if (position == 0) {
+                    intent.putExtra("selection", 0);
+                } else if (position == 1) {
+                    intent.putExtra("selection", 1);
+                } else if (position == 2) {
+                    intent.putExtra("selection", 2);
+                }
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+
+            @Override
+            public void onTabUnselected(int position) {
+
+            }
+
+            @Override
+            public void onTabReselected(int position) {
+
+            }
+        });
     }
 
     @Override
@@ -126,10 +171,16 @@ public class ReplayActivity extends BaseActivity {
     @Override
     public void setToolBarVisible(boolean visible) {
         super.setToolBarVisible(visible);
-        if (visible){
+        if (visible) {
             tabLayout.setVisibility(View.VISIBLE);
-        }else {
+            bottomNavigationBar.setVisibility(View.VISIBLE);
+        } else {
             tabLayout.setVisibility(View.GONE);
+            bottomNavigationBar.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }

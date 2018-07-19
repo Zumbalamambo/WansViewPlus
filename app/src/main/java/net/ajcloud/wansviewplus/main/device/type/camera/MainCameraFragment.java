@@ -29,6 +29,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
@@ -114,6 +115,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.app.Activity.RESULT_OK;
+import static net.ajcloud.wansviewplus.main.device.type.DeviceHomeActivity.MAIN_CAMERA_REQUEST_CODE;
 
 /**
  * Created
@@ -1861,7 +1865,9 @@ public class MainCameraFragment extends BaseFragment
                 } else if (position == 2) {
                     view = new DynamicView(getActivity(), camera.deviceId, alarms, false).getView();
                 } else if (position == 3) {
-                    ReplayActivity.start(mActivity, deviceId);
+                    Intent intent = new Intent(mActivity, ReplayActivity.class);
+                    intent.putExtra("deviceId", deviceId);
+                    startActivityForResult(intent, MAIN_CAMERA_REQUEST_CODE);
                 }
 
                 ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -3780,7 +3786,11 @@ public class MainCameraFragment extends BaseFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        isSleepMode = data.getBooleanExtra("isSleep", false);
+//        isSleepMode = data.getBooleanExtra("isSleep", false);
+        if (requestCode == MAIN_CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            int selection = data.getIntExtra("selection", 0);
+            bottomNavigationBar.selectTab(selection);
+        }
     }
 
 //    private void refreshDynamicView() {
@@ -3950,4 +3960,5 @@ public class MainCameraFragment extends BaseFragment
     protected boolean hasStatusBar() {
         return false;
     }
+
 }

@@ -2,25 +2,32 @@ package net.ajcloud.wansviewplus.main.device.setting;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.ajcloud.wansviewplus.R;
+import net.ajcloud.wansviewplus.entity.CapabilityInfo;
 import net.ajcloud.wansviewplus.main.application.BaseActivity;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
-import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceSelectActivity;
-import net.ajcloud.wansviewplus.main.device.setting.cloudStorage.CloudStorageActivity;
+import net.ajcloud.wansviewplus.main.device.addDevice.AddDeviceModeActivity;
+import net.ajcloud.wansviewplus.main.device.addDevice.cable.AddDeviceCableConfirmActivity;
+import net.ajcloud.wansviewplus.main.device.addDevice.wifi.AddDeviceCameraSettingActivity;
 import net.ajcloud.wansviewplus.main.device.setting.homeAlert.DeviceSettingAlertActivity;
 import net.ajcloud.wansviewplus.main.device.setting.tfcardStorage.TFCardActivity;
+import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
+import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.device.DeviceInfoDictionary;
+import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
 public class DeviceSettingActivity extends BaseActivity {
 
     public static int RENAME = 0;
     public static int NETWORK = 1;
     public static int TIMEZONE = 2;
+    public static String LOADING = "LOADING";
     private RelativeLayout nameLayout, infoLayout, networkLayout, alertLayout,
             imageLayout, timezoneLayout, tfLayout, maintenanceLayout;
     private TextView nameTextView, networkTextView, timezoneTextView;
@@ -101,7 +108,7 @@ public class DeviceSettingActivity extends BaseActivity {
                 DeviceSettingInfoActivity.start(DeviceSettingActivity.this, deviceId);
                 break;
             case R.id.item_network:
-                startActivity(new Intent(DeviceSettingActivity.this, AddDeviceSelectActivity.class));
+                startNetworkConfig();
                 break;
             case R.id.item_alert:
                 DeviceSettingAlertActivity.start(DeviceSettingActivity.this, deviceId);
@@ -120,6 +127,53 @@ public class DeviceSettingActivity extends BaseActivity {
                 break;
             default:
                 break;
+        }
+    }
+
+    private void startNetworkConfig() {
+        if (camera.capability != null && !TextUtils.isEmpty(camera.capability.networkConfig)) {
+            String[] configs = camera.capability.networkConfig.split(",");
+            if (configs.length == 1) {
+                if (TextUtils.equals(configs[0], "qr")) {
+                    AddDeviceCameraSettingActivity.start(DeviceSettingActivity.this);
+                } else if (TextUtils.equals(configs[0], "eth")) {
+                    startActivity(new Intent(DeviceSettingActivity.this, AddDeviceCableConfirmActivity.class));
+                }
+            } else {
+                AddDeviceModeActivity.start(DeviceSettingActivity.this);
+            }
+        } else {
+            progressDialogManager.showDialog(LOADING, this);
+            new DeviceApiUnit(DeviceSettingActivity.this).getCapability(camera.deviceMode, new OkgoCommonListener<CapabilityInfo>() {
+                @Override
+                public void onSuccess(CapabilityInfo bean) {
+                    progressDialogManager.dimissDialog(LOADING, 0);
+                    if (bean != null) {
+                        String[] networkConfigs = bean.getNetworkConfigs();
+                        if (networkConfigs != null) {
+                            if (networkConfigs.length == 2) {
+                                AddDeviceModeActivity.start(DeviceSettingActivity.this);
+                            } else if (networkConfigs.length == 1) {
+                                if (TextUtils.equals(networkConfigs[0], "qr")) {
+                                    AddDeviceCameraSettingActivity.start(DeviceSettingActivity.this);
+                                } else if (TextUtils.equals(networkConfigs[0], "eth")) {
+                                    startActivity(new Intent(DeviceSettingActivity.this, AddDeviceCableConfirmActivity.class));
+                                }
+                            }
+                        } else {
+                            ToastUtil.single(R.string.common_error);
+                        }
+                    } else {
+                        ToastUtil.single(R.string.common_error);
+                    }
+                }
+
+                @Override
+                public void onFail(int code, String msg) {
+                    progressDialogManager.dimissDialog(LOADING, 0);
+                    ToastUtil.single(R.string.common_error);
+                }
+            });
         }
     }
 
