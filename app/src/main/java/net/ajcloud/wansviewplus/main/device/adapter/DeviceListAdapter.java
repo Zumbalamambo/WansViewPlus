@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import net.ajcloud.wansviewplus.R;
+import net.ajcloud.wansviewplus.main.device.ReplayActivity;
+import net.ajcloud.wansviewplus.main.device.setting.DeviceSettingActivity;
 import net.ajcloud.wansviewplus.main.device.type.DeviceHomeActivity;
 import net.ajcloud.wansviewplus.main.device.type.camera.MainCameraFragment;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
@@ -86,13 +88,6 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((DeviceListHolder) holder).tv_status.setText(context.getResources().getString(R.string.device_offline));
         }
 
-        if (camera.refreshStatus == 1) {
-            ((DeviceListHolder) holder).iv_refresh.setVisibility(View.GONE);
-        } else {
-            ((DeviceListHolder) holder).iv_refresh.setVisibility(View.VISIBLE);
-            ((DeviceListHolder) holder).tv_status.setText(context.getResources().getString(R.string.device_no_data));
-        }
-
         if (camera.cloudStorPlan == null ||
                 TextUtils.isEmpty(camera.cloudStorPlan.sku) ||
                 System.currentTimeMillis() > Long.parseLong(camera.cloudStorPlan.validTsEnd)) {//关闭
@@ -146,12 +141,16 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 DeviceHomeActivity.startCamerHomeActivity(context, mData.get(finalPosition).deviceId, MainCameraFragment.class);
             }
         });
-        ((DeviceListHolder) holder).iv_refresh.setOnClickListener(new View.OnClickListener() {
+        ((DeviceListHolder) holder).iv_replay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Camera> devices = new ArrayList<>();
-                devices.add(camera);
-                deviceApiUnit.doGetDeviceList(devices);
+                ReplayActivity.start(context, mData.get(finalPosition).deviceId);
+            }
+        });
+        ((DeviceListHolder) holder).iv_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DeviceSettingActivity.start(context, mData.get(finalPosition).deviceId);
             }
         });
     }
@@ -167,7 +166,8 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private TextView tv_cloud;
         private TextView tv_cloudState;
         private TextView tv_status;
-        private ImageView iv_refresh;
+        private ImageView iv_replay;
+        private ImageView iv_setting;
 
         public DeviceListHolder(View itemView) {
             super(itemView);
@@ -177,7 +177,8 @@ public class DeviceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             tv_cloud = itemView.findViewById(R.id.tv_cloud);
             tv_cloudState = itemView.findViewById(R.id.tv_cloud_state);
             tv_status = itemView.findViewById(R.id.tv_device_status);
-            iv_refresh = itemView.findViewById(R.id.iv_refresh);
+            iv_replay = itemView.findViewById(R.id.iv_replay);
+            iv_setting = itemView.findViewById(R.id.iv_setting);
         }
     }
 }

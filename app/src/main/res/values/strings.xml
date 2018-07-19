@@ -231,6 +231,8 @@ videos .</string>
     <string name="dialog_restart_confirm">restart confirm</string>
     <string name="dialog_restore_confirm">restore confirm</string>
     <string name="dialog_delete_confirm">delete confirm</string>
+    <string name="dialog_camera_refresh_tittle">Sorry a little bit problem</string>
+    <string name="dialog_camera_refresh_content">There may be a problem with your network connection.Please refresh or reopen the app.</string>
 
     <!--common-->
     <string name="common_edit">Edit</string>
@@ -252,6 +254,7 @@ videos .</string>
     <string name="common_success">success</string>
     <string name="common_off">off</string>
     <string name="common_on">on</string>
+    <string name="common_refresh">Refresh</string>
 
     <!--pickerview-->
     <string name="pickerview_cancel">取消</string>

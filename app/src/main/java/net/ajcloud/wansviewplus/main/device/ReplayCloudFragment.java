@@ -454,7 +454,7 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
             @Override
             public void onSuccess(GroupListBean bean) {
                 layout_refresh.setRefreshing(false);
-                if (bean != null && bean.groups != null) {
+                if (bean != null && bean.groups != null && bean.groups.size() > 0) {
                     refreshUI(2);
                     records = bean.groups;
                     List<Pair<Long, Long>> list = new ArrayList<>();

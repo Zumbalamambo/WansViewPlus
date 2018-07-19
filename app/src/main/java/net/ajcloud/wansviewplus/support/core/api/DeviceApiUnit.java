@@ -1409,4 +1409,49 @@ public class DeviceApiUnit {
         });
     }
 
+    /**
+     * 获取单个设备信息
+     */
+    public void doGetDeviceInfo(String deviceId, OkgoCommonListener<Object> listener) {
+        List<String> deviceIds = new ArrayList<>();
+        deviceIds.add(deviceId);
+        getDeviceUrlInfo(deviceIds, new OkgoCommonListener<List<DeviceUrlBean.UrlInfo>>() {
+            @Override
+            public void onSuccess(List<DeviceUrlBean.UrlInfo> bean) {
+                if (bean != null && bean.size() > 0) {
+                    for (DeviceUrlBean.UrlInfo info : bean) {
+                        Camera camera = MainApplication.getApplication().getDeviceCache().get(info.deviceId);
+                        if (camera != null) {
+                            if (!TextUtils.isEmpty(info.gatewayUrl)) {
+                                getDeviceInfo(info.gatewayUrl, camera.deviceId, new OkgoCommonListener<DeviceConfigBean>() {
+                                    @Override
+                                    public void onSuccess(DeviceConfigBean bean) {
+                                        if (bean != null && bean.base != null) {
+                                            if (!TextUtils.isEmpty(bean.base.deviceId)) {
+                                                listener.onSuccess("success");
+                                                //刷新单条camera信息
+                                                EventBus.getDefault().post(new DeviceRefreshEvent(bean.base.deviceId));
+                                            }
+                                        } else {
+                                            listener.onFail(-1, "error");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFail(int code, String msg) {
+                                        listener.onFail(code, msg);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+                listener.onFail(code, msg);
+            }
+        });
+    }
 }

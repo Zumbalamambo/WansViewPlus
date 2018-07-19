@@ -14,7 +14,8 @@
             android:id="@+id/iv_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            tools:src="@mipmap/ic_device_default" />
 
         <TextView
             android:id="@+id/tv_device_status"
@@ -29,22 +30,49 @@
             android:textSize="@dimen/device_textSize_10" />
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/tv_tittle"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rl_first"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/fl_pic"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/gray_first"
-        android:textSize="@dimen/signIn_textSize_20" />
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/tv_tittle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/iv_replay"
+            android:ellipsize="end"
+            android:gravity="center_vertical|start"
+            android:singleLine="true"
+            android:textColor="@color/gray_first"
+            android:textSize="@dimen/signIn_textSize_20"
+            tools:text="K3C876J4PAXFNGVW" />
+
+        <ImageView
+            android:id="@+id/iv_replay"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:layout_toStartOf="@id/iv_setting"
+            android:src="@mipmap/ic_replay_mid" />
+
+        <ImageView
+            android:id="@+id/iv_setting"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_setting_mid" />
+    </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/ll_cloud_storage"
+        android:id="@+id/ll_two"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_tittle"
+        android:layout_below="@id/rl_first"
         android:layout_marginBottom="15dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
@@ -70,14 +98,4 @@
             android:textColor="@color/gray_second"
             android:textSize="@dimen/signIn_textSize_14" />
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/iv_refresh"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_alignBottom="@id/ll_cloud_storage"
-        android:layout_alignParentEnd="true"
-        android:visibility="gone"
-        android:src="@mipmap/ic_refresh" />
-
 </RelativeLayout>

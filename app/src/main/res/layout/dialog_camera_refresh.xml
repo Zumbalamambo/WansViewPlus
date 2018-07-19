@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="15dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/dialog_camera_refresh_tittle"
+        android:textColor="@color/gray_first"
+        android:textSize="@dimen/device_setting_text_size_18" />
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="30dp"
+        android:src="@mipmap/ic_device_no_data" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="15dp"
+        android:gravity="start"
+        android:text="@string/dialog_camera_refresh_content"
+        android:textColor="@color/gray_first"
+        android:textSize="@dimen/device_setting_text_size_16" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_close"
+            android:layout_width="124dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/shape_add_device_button"
+            android:gravity="center"
+            android:text="@string/add_device_know"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/device_setting_text_size_16" />
+
+        <Button
+            android:id="@+id/btn_refresh"
+            android:layout_width="124dp"
+            android:layout_height="48dp"
+            android:background="@drawable/shape_signin_button"
+            android:gravity="center"
+            android:text="@string/common_refresh"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/device_setting_text_size_16" />
+    </LinearLayout>
+</LinearLayout>
