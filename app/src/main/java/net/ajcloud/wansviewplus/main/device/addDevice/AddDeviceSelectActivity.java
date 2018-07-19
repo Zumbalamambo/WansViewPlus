@@ -52,7 +52,7 @@ public class AddDeviceSelectActivity extends BaseActivity {
     @Override
     public void onClickView(View v) {
         if (v.getId() != R.id.img_left) {
-            progressDialogManager.showDialog(LOADING, this);
+//            progressDialogManager.showDialog(LOADING, this);
             String type = null;
             switch (v.getId()) {
                 case R.id.rl_k3:
@@ -64,35 +64,35 @@ public class AddDeviceSelectActivity extends BaseActivity {
                 default:
                     break;
             }
-
-            new DeviceApiUnit(AddDeviceSelectActivity.this).getCapability(type, new OkgoCommonListener<CapabilityInfo>() {
-                @Override
-                public void onSuccess(CapabilityInfo bean) {
-                    progressDialogManager.dimissDialog(LOADING, 0);
-                    //TODO
-                    if (bean != null) {
-                        String[] networkConfigs = bean.getNetworkConfigs();
-                        if (networkConfigs != null) {
-                            if (networkConfigs.length == 2) {
-                                AddDeviceModeActivity.start(AddDeviceSelectActivity.this);
-                            } else if (networkConfigs.length == 1) {
-                                if (TextUtils.equals(networkConfigs[0], "qr")) {
-                                    AddDeviceCameraSettingActivity.start(AddDeviceSelectActivity.this);
-                                } else if (TextUtils.equals(networkConfigs[0], "eth")) {
-                                    startActivity(new Intent(AddDeviceSelectActivity.this, AddDeviceCableConfirmActivity.class));
-                                }
-                            }
-                        }
-                    }
-
-
-                }
-
-                @Override
-                public void onFail(int code, String msg) {
-                    progressDialogManager.dimissDialog(LOADING, 0);
-                }
-            });
+            AddDeviceModeActivity.start(AddDeviceSelectActivity.this);
+//            new DeviceApiUnit(AddDeviceSelectActivity.this).getCapability(type, new OkgoCommonListener<CapabilityInfo>() {
+//                @Override
+//                public void onSuccess(CapabilityInfo bean) {
+//                    progressDialogManager.dimissDialog(LOADING, 0);
+//                    //TODO
+//                    if (bean != null) {
+//                        String[] networkConfigs = bean.getNetworkConfigs();
+//                        if (networkConfigs != null) {
+//                            if (networkConfigs.length == 2) {
+//                                AddDeviceModeActivity.start(AddDeviceSelectActivity.this);
+//                            } else if (networkConfigs.length == 1) {
+//                                if (TextUtils.equals(networkConfigs[0], "qr")) {
+//                                    AddDeviceCameraSettingActivity.start(AddDeviceSelectActivity.this);
+//                                } else if (TextUtils.equals(networkConfigs[0], "eth")) {
+//                                    startActivity(new Intent(AddDeviceSelectActivity.this, AddDeviceCableConfirmActivity.class));
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//
+//                }
+//
+//                @Override
+//                public void onFail(int code, String msg) {
+//                    progressDialogManager.dimissDialog(LOADING, 0);
+//                }
+//            });
         }
     }
 }

@@ -3,6 +3,7 @@ package net.ajcloud.wansviewplus.main.alert;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
@@ -415,33 +416,31 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
     private void fullScreen() {
         isLandScape = true;
         setToolBarVisible(false);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         small_screen_layout.setVisibility(View.GONE);
         full_screen_layout.setVisibility(View.VISIBLE);
         rv_alarm_list.setVisibility(View.GONE);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) pv_video.getLayoutParams();
-        layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-        layoutParams.height = RelativeLayout.LayoutParams.MATCH_PARENT;
-        pv_video.requestLayout();
     }
 
     private void exitFullScreen() {
         isLandScape = false;
         setToolBarVisible(true);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         small_screen_layout.setVisibility(View.VISIBLE);
         full_screen_layout.setVisibility(View.GONE);
         rv_alarm_list.setVisibility(View.VISIBLE);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) pv_video.getLayoutParams();
-        layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-        layoutParams.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
-        pv_video.requestLayout();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        pv_video.changeSurfaceSize();
     }
 
     @Override

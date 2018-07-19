@@ -2,6 +2,7 @@ package net.ajcloud.wansviewplus.main.device;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -236,6 +237,12 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        pv_video.changeSurfaceSize();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_cloud_introduction:
@@ -418,10 +425,6 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
         small_screen_layout.setVisibility(View.GONE);
         full_screen_layout.setVisibility(View.VISIBLE);
         ll_bottom.setVisibility(View.GONE);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) pv_video.getLayoutParams();
-        layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-        layoutParams.height = RelativeLayout.LayoutParams.MATCH_PARENT;
-        pv_video.requestLayout();
     }
 
     private void exitFullScreen() {
@@ -434,10 +437,6 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
         small_screen_layout.setVisibility(View.VISIBLE);
         full_screen_layout.setVisibility(View.GONE);
         ll_bottom.setVisibility(View.VISIBLE);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) pv_video.getLayoutParams();
-        layoutParams.width = RelativeLayout.LayoutParams.MATCH_PARENT;
-        layoutParams.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
-        pv_video.requestLayout();
     }
 
 //    @Override

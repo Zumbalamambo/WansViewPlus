@@ -182,7 +182,6 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-
     <FrameLayout
         android:id="@+id/fl_load"
         android:layout_width="match_parent"

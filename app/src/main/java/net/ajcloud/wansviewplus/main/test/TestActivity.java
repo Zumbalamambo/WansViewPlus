@@ -19,6 +19,7 @@ import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.main.application.SwipeBaseActivity;
 import net.ajcloud.wansviewplus.main.calendar.CalendarActivity;
+import net.ajcloud.wansviewplus.main.video.CautionActivity;
 import net.ajcloud.wansviewplus.support.core.api.AlertApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
@@ -239,17 +240,7 @@ public class TestActivity extends SwipeBaseActivity {
         findViewById(R.id.getAlarmsList).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertApiUnit(TestActivity.this).getAlarmsList("K3C876J4PAXFNGVW", -1, "20180710", 10, new OkgoCommonListener<AlarmListBean>() {
-                    @Override
-                    public void onSuccess(AlarmListBean bean) {
-                        tvTest.setText(new Gson().toJson(bean));
-                    }
-
-                    @Override
-                    public void onFail(int code, String msg) {
-
-                    }
-                });
+                CautionActivity.start(TestActivity.this,"https://cloud-stor.ajyun.com.cn/api/v1/segments.m3u8?param=1ekkPNbTJD4AC6XNCi1AJYryGQDwBk6xc2peAdXq5kfBCdcbpwiJAKKnYa861YUC95FWAV8iGsBmRXYrnRXVUCLAH1wSZhqi9psyK9BxESSdmtxQRiPTZsC5EDDJ1JGvRpgu6xN7JktQ6PqyHC5ngYe8gUVtktbBfkU8kpkwSM7HhAxFcCxfTUqugY6UbYT6h8UrjgajYYK", false);
             }
         });
     }

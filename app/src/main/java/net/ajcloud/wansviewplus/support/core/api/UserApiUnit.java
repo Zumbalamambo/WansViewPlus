@@ -6,8 +6,8 @@ import android.util.Base64;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.entity.LocalInfo;
-import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.support.core.bean.AppConfigBean;
 import net.ajcloud.wansviewplus.support.core.bean.ChallengeBean;
 import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
@@ -17,6 +17,7 @@ import net.ajcloud.wansviewplus.support.core.cipher.CipherUtil;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.core.okgo.OkGo;
 import net.ajcloud.wansviewplus.support.core.okgo.model.Response;
+import net.ajcloud.wansviewplus.support.tools.WLog;
 import net.ajcloud.wansviewplus.support.utils.preference.PreferenceKey;
 import net.ajcloud.wansviewplus.support.utils.preference.SPUtil;
 
@@ -343,6 +344,7 @@ public class UserApiUnit {
      */
     public synchronized okhttp3.Response refreshToken() {
         try {
+            WLog.d(TAG, "refreshToken");
             JSONObject dataJson = new JSONObject();
             dataJson.put("agentName", localInfo.deviceName);
             dataJson.put("agentToken", localInfo.deviceId);
