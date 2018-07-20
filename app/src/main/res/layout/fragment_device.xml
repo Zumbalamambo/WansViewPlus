@@ -84,7 +84,7 @@
                     android:layout_width="@dimen/device_btn_width"
                     android:layout_height="@dimen/device_btn_height"
                     android:layout_marginTop="17dp"
-                    android:background="@drawable/shape_add_device_button"
+                    android:background="@drawable/shape_blue_stroke"
                     android:text="@string/device_add_device"
                     android:textAllCaps="false"
                     android:textColor="@color/colorPrimary"

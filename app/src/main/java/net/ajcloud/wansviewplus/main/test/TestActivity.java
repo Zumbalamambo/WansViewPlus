@@ -20,6 +20,7 @@ import net.ajcloud.wansviewplus.main.application.SwipeBaseActivity;
 import net.ajcloud.wansviewplus.main.calendar.CalendarActivity;
 import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.support.core.api.AlertApiUnit;
+import net.ajcloud.wansviewplus.support.core.api.CloudStorageApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.AlarmBean;
@@ -173,7 +174,7 @@ public class TestActivity extends SwipeBaseActivity {
             public void onClick(View v) {
 
 //                startCalendar();
-                new DatePickPopupwindow(TestActivity.this, "20180302").showAsDropDown(findViewById(R.id.turn_to_angle));
+                new DatePickPopupwindow(TestActivity.this, "20180102").show(findViewById(R.id.turn_to_angle));
 //                replayTimeAxisView.setCurrentMode(ReplayTimeAxisView.Mode.DownLoad);
             }
         });
@@ -183,7 +184,7 @@ public class TestActivity extends SwipeBaseActivity {
 
                 Camera camera = MainApplication.getApplication().getDeviceCache().get("K3C876J4PAXFNGVW");
 
-                new DeviceApiUnit(TestActivity.this).getGroupList("K3C876J4PAXFNGVW", getTimesmorning(), getTimesnight(), new OkgoCommonListener<GroupListBean>() {
+                new CloudStorageApiUnit(TestActivity.this).getGroupList("K3C876J4PAXFNGVW", getTimesmorning(), getTimesnight(), new OkgoCommonListener<GroupListBean>() {
                     @Override
                     public void onSuccess(GroupListBean bean) {
                         if (bean != null && bean.groups != null) {

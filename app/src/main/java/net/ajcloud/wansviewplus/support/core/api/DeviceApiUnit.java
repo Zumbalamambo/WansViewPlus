@@ -1271,51 +1271,6 @@ public class DeviceApiUnit {
     }
 
     /**
-     * 云存储分组查询
-     *
-     * @param dayStartTs 开始时间
-     * @param dayEndTs   结束时间
-     */
-    public void getGroupList(String deviceId, long dayStartTs, long dayEndTs, final OkgoCommonListener<GroupListBean> listener) {
-        Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);
-        if (camera == null) {
-            listener.onFail(-1, "param empty");
-            return;
-        }
-
-        JSONObject dataJson = new JSONObject();
-        try {
-            dataJson.put("accessKey", camera.accessKey);
-            dataJson.put("tzValue", camera.timeConfig.tzValue);
-            dataJson.put("dayStartTs", dayStartTs);
-            dataJson.put("dayEndTs", dayEndTs);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        OkGo.<ResponseBean<GroupListBean>>post(camera.getCloudStorUrl() + ApiConstant.URL_DEVICE_GROUP_LIST)
-                .tag(this)
-                .upJson(getReqBody(dataJson, deviceId))
-                .execute(new JsonCallback<ResponseBean<GroupListBean>>() {
-                    @Override
-                    public void onSuccess(Response<ResponseBean<GroupListBean>> response) {
-                        ResponseBean<GroupListBean> responseBean = response.body();
-                        if (responseBean.isSuccess()) {
-                            GroupListBean bean = responseBean.result;
-                            listener.onSuccess(bean);
-                        } else {
-                            listener.onFail(responseBean.getResultCode(), responseBean.message);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<ResponseBean<GroupListBean>> response) {
-                        super.onError(response);
-                        listener.onFail(-1, response.getException().getMessage());
-                    }
-                });
-    }
-
-    /**
      * 获取设备能力集（根据型号）
      *
      * @param deviceType 设备类型

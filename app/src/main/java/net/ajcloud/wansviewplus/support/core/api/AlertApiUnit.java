@@ -85,6 +85,8 @@ public class AlertApiUnit {
 
     /**
      * 获取alert日历
+     *
+     * @param deviceId 设备ID
      */
     public void getAlarmsCalendar(String deviceId, final OkgoCommonListener<List<String>> listener) {
         Camera camera = MainApplication.getApplication().getDeviceCache().get(deviceId);

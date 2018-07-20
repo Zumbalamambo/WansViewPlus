@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/shape_signin_button"
+                android:background="@drawable/shape_blue_fill"
                 android:text="getB2UploadInfo"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/shape_signin_button"
+                android:background="@drawable/shape_blue_fill"
                 android:text="uploadNotify"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/shape_signin_button"
+                android:background="@drawable/shape_blue_fill"
                 android:text="unbind_all"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/shape_signin_button"
+                android:background="@drawable/shape_blue_fill"
                 android:text="delete_angle"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/shape_signin_button"
+                android:background="@drawable/shape_blue_fill"
                 android:text="turn_to_angle"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/shape_signin_button"
+                android:background="@drawable/shape_blue_fill"
                 android:text="group_list"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
@@ -105,7 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/shape_signin_button"
+                android:background="@drawable/shape_blue_fill"
                 android:text="getAlarmsSummary"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
@@ -115,7 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/shape_signin_button"
+                android:background="@drawable/shape_blue_fill"
                 android:text="getAlarmsCalendar"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
@@ -125,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/shape_signin_button"
+                android:background="@drawable/shape_blue_fill"
                 android:text="getAlarmsList"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />

@@ -31,6 +31,11 @@
     <string name="device_replay_cloud">Cloud storage</string>
     <string name="device_replay_tf">TF card</string>
     <string name="device_replay_tf_empty">The TF card was not inserted</string>
+    <string name="device_replay_download_too_long">Download cannot exceed 10 minutes</string>
+    <string name="device_replay_download">Download</string>
+    <string name="device_replay_download_tip">Select the fragment that you want to download</string>
+    <string name="device_replay_delete_tip">Select the fragment that you want to delete</string>
+    <string name="device_replay_delete_whole_day">Delete whole day</string>
 
     <!--add_device-->
     <string name="add_device_discovery_id">ID:%1$s</string>

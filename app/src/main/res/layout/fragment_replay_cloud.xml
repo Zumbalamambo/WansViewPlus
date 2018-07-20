@@ -151,9 +151,11 @@
                     app:textSize="12sp" />
 
                 <RelativeLayout
+                    android:id="@+id/rl_normal"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:visibility="gone">
 
                     <View
                         android:id="@+id/view"
@@ -194,6 +196,96 @@
                     </FrameLayout>
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/rl_download"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@id/ll_download"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center"
+                        android:text="@string/device_replay_download_tip"
+                        android:textColor="@color/gray_second"
+                        android:textSize="@dimen/device_setting_text_size_12" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_download"
+                        android:layout_width="match_parent"
+                        android:layout_height="66dp"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="center">
+
+                        <Button
+                            android:id="@+id/btn_download"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginStart="24dp"
+                            android:background="@drawable/shape_blue_fill"
+                            android:text="@string/device_replay_download"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/device_setting_text_size_16" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_delete"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:visibility="gone"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@id/ll_delete"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center"
+                        android:text="@string/device_replay_delete_tip"
+                        android:textColor="@color/gray_second"
+                        android:textSize="@dimen/device_setting_text_size_12" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_delete"
+                        android:layout_width="match_parent"
+                        android:layout_height="66dp"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="center">
+
+                        <Button
+                            android:id="@+id/btn_delete_day"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_red_stroke"
+                            android:text="@string/device_replay_delete_whole_day"
+                            android:textAllCaps="false"
+                            android:textColor="@color/gesture_error_inner_red"
+                            android:textSize="@dimen/device_setting_text_size_16" />
+
+                        <Button
+                            android:id="@+id/btn_delete"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_red_fill"
+                            android:text="@string/common_delete"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/device_setting_text_size_16" />
+                    </LinearLayout>
+
+                </RelativeLayout>
             </LinearLayout>
 
         </LinearLayout>
@@ -236,7 +328,7 @@
                 android:layout_width="@dimen/device_btn_width"
                 android:layout_height="@dimen/device_btn_height"
                 android:layout_marginTop="32dp"
-                android:background="@drawable/shape_add_device_button"
+                android:background="@drawable/shape_blue_stroke"
                 android:gravity="center"
                 android:text="@string/cloud_buy"
                 android:textAllCaps="false"

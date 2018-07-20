@@ -62,6 +62,8 @@ public class ApiConstant {
     public static String URL_DEVICE_DELETE_ANGLE = "/v1/view-angle-removal";
     public static String URL_DEVICE_TURN_TO_ANGLE = "/v1/view-angle-turn";
     public static String URL_DEVICE_GROUP_LIST = "/v1/group-list";
+    public static String URL_DEVICE_REMOVE_GROUPS = "/v1/remove-groups";
+    public static String URL_DEVICE_PLAN_LIST = "/v1/plan-list";
     //cap
     public static String URL_GET_DEVICE_CAPABILITY = BASE_CAP_URL + "/capability";
 

@@ -52,6 +52,11 @@ public class AlertListDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
+    public void clear() {
+        mInfos.clear();
+        notifyDataSetChanged();
+    }
+
     public void setSelector(int selected) {
         this.selected = selected;
         notifyDataSetChanged();

@@ -35,10 +35,11 @@ import net.ajcloud.wansviewplus.main.application.WVFragment;
 import net.ajcloud.wansviewplus.main.cloud.AboutCloudActivity;
 import net.ajcloud.wansviewplus.main.device.type.camera.AudioSender_RealTime;
 import net.ajcloud.wansviewplus.main.video.PlayerView;
-import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
+import net.ajcloud.wansviewplus.support.core.api.CloudStorageApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.GroupListBean;
 import net.ajcloud.wansviewplus.support.customview.ReplayTimeAxisView;
+import net.ajcloud.wansviewplus.support.customview.dialog.ProgressDialogManager;
 import net.ajcloud.wansviewplus.support.utils.DateUtil;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
@@ -56,6 +57,9 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
 
     private static final int SHOW_PROGRESS = 0;
     private static final int ON_LOADED = 1;
+    private static final int MODE_NORMAL = 2;
+    private static final int MODE_DOWNLOAD = 3;
+    private static final int MODE_DELETE = 4;
     private SwipeRefreshLayout layout_refresh;
     private LinearLayout ll_content;
     private LinearLayout ll_empty;
@@ -75,6 +79,12 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
     private PlayerView pv_video;
     private LinearLayout ll_bottom;
     private TextView tv_speed;
+    private RelativeLayout rl_normal;
+    private RelativeLayout rl_download;
+    private RelativeLayout rl_delete;
+    private Button btn_download;
+    private Button btn_delete_day;
+    private Button btn_delete;
 
     private AudioSender_RealTime audioSender_Realtime = null;
     private Handler hPlayVlcAudioHandler = new Handler();
@@ -83,7 +93,7 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
     private Handler hHandler;
     private PopupWindow pop_speed;
 
-    private DeviceApiUnit deviceApiUnit;
+    private CloudStorageApiUnit cloudStorageApiUnit;
     private String deviceId;
     private boolean isFirst = true;
     private String cdate;
@@ -92,6 +102,9 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
     private long cts = -1;
     private int AudioPlaySample;
     private boolean isLandScape;
+    private long currentStartTime;
+    private long currentEndTime;
+    private int currentMode = MODE_NORMAL;
     private List<GroupListBean.GroupInfo> records;
 
     private Runnable PlayVlcAudioRunnable = new Runnable() {
@@ -173,8 +186,15 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
         pv_video = view.findViewById(R.id.pv_video);
         ll_bottom = view.findViewById(R.id.ll_bottom);
         tv_speed = view.findViewById(R.id.tv_speed);
+        rl_normal = view.findViewById(R.id.rl_normal);
+        rl_download = view.findViewById(R.id.rl_download);
+        rl_delete = view.findViewById(R.id.rl_delete);
+        btn_download = view.findViewById(R.id.btn_download);
+        btn_delete_day = view.findViewById(R.id.btn_delete_day);
+        btn_delete = view.findViewById(R.id.btn_delete);
 
         refreshUI(0);
+        refreshBottom();
         initData();
         initListener();
     }
@@ -189,6 +209,9 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
         iv_fullscreen.setOnClickListener(this);
         fullscreen_small_screen.setOnClickListener(this);
         tv_speed.setOnClickListener(this);
+        btn_download.setOnClickListener(this);
+        btn_delete_day.setOnClickListener(this);
+        btn_delete.setOnClickListener(this);
         replay_time.setOnSlideListener(new ReplayTimeAxisView.OnSlideListener() {
 
             @Override
@@ -206,14 +229,20 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
 
             @Override
             public void onSelected(long startTime, long endTime) {
-
+                if ((endTime - startTime > 1000 * 60 * 10) && currentMode == MODE_DOWNLOAD) {
+                    currentStartTime = -1;
+                    currentEndTime = -1;
+                } else {
+                    currentStartTime = startTime;
+                    currentEndTime = endTime;
+                }
             }
         });
     }
 
     private void initData() {
         deviceId = ((ReplayActivity) getActivity()).getDeviceId();
-        deviceApiUnit = new DeviceApiUnit(mActivity);
+        cloudStorageApiUnit = new CloudStorageApiUnit(mActivity);
         mHandler = new Handler(this);
         hHandler = new Handler(this);
         pv_video.setSurfaceViewer16To9();
@@ -251,8 +280,12 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
             case R.id.btn_cloud_buy:
                 break;
             case R.id.fl_delete:
+                currentMode = MODE_DELETE;
+                refreshBottom();
                 break;
             case R.id.fl_download:
+                currentMode = MODE_DOWNLOAD;
+                refreshBottom();
                 break;
             case R.id.fl_play:
                 if (!TextUtils.isEmpty(videoUrl)) {
@@ -267,6 +300,14 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
                 break;
             case R.id.tv_speed:
                 showVideoSpeedPopupwindow(tv_speed);
+                break;
+            case R.id.btn_download:
+                download();
+                break;
+            case R.id.btn_delete_day:
+                break;
+            case R.id.btn_delete:
+                delete();
                 break;
         }
     }
@@ -291,6 +332,39 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
             ll_content.setVisibility(View.VISIBLE);
             ll_empty.setVisibility(View.GONE);
             fl_play.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * 0:normal
+     * 1:download
+     * 2:delete
+     */
+    private void refreshBottom() {
+        switch (currentMode) {
+            case MODE_NORMAL:
+                rl_normal.setVisibility(View.VISIBLE);
+                rl_download.setVisibility(View.GONE);
+                rl_delete.setVisibility(View.GONE);
+                break;
+            case MODE_DOWNLOAD:
+                rl_normal.setVisibility(View.GONE);
+                rl_download.setVisibility(View.VISIBLE);
+                rl_delete.setVisibility(View.GONE);
+                break;
+            case MODE_DELETE:
+                rl_normal.setVisibility(View.GONE);
+                rl_download.setVisibility(View.GONE);
+                rl_delete.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    public void onBack() {
+        if (currentMode == MODE_NORMAL) {
+            mActivity.finish();
+        } else {
+            currentMode = MODE_NORMAL;
         }
     }
 
@@ -450,7 +524,7 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
 
     private void getReplay() {
         layout_refresh.setRefreshing(true);
-        deviceApiUnit.getGroupList(deviceId, DateUtil.getTimesmorning(), DateUtil.getTimesnight(), new OkgoCommonListener<GroupListBean>() {
+        cloudStorageApiUnit.getGroupList(deviceId, DateUtil.getTimesmorning(), DateUtil.getTimesnight(), new OkgoCommonListener<GroupListBean>() {
             @Override
             public void onSuccess(GroupListBean bean) {
                 layout_refresh.setRefreshing(false);
@@ -541,7 +615,7 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
     }
 
     /**
-     * 获取当前时间对应的m3u8开始时间
+     * 获取当前时间对应的m3u8信息
      */
     private GroupListBean.GroupInfo getCurrentM3u8Info(long time) {
         if (records == null || records.size() == 0) {
@@ -553,6 +627,67 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
                 }
             }
             return null;
+        }
+    }
+
+    private void download() {
+        if (currentStartTime == -1 || currentEndTime == -1) {
+            ToastUtil.single(R.string.device_replay_download_too_long);
+            return;
+        }
+        if (records != null && records.size() > 0) {
+            List<String> downloadList = new ArrayList<>();
+            for (GroupListBean.GroupInfo info : records
+                    ) {
+                long startTime = info.tsStart;
+                long endTime = info.tsEnd;
+                if ((startTime < currentStartTime && endTime > currentStartTime) ||
+                        (startTime < currentEndTime && endTime > currentEndTime) ||
+                        (startTime > currentStartTime && endTime < currentStartTime)) {
+                    downloadList.add(info.m3u8Url);
+                }
+            }
+            //TODO download (downloadList)
+        }
+    }
+
+    private void delete() {
+        if (currentStartTime == -1 || currentEndTime == -1) {
+            ToastUtil.single(R.string.device_replay_download_too_long);
+            return;
+        }
+        if (records != null && records.size() > 0) {
+            GroupListBean.GroupInfo startInfo = null;
+            GroupListBean.GroupInfo endInfo = null;
+            for (GroupListBean.GroupInfo info : records
+                    ) {
+                long startTime = info.tsStart;
+                long endTime = info.tsEnd;
+                if (startTime < currentStartTime && endTime > currentStartTime) {
+                    startInfo = info;
+                }
+                if (startTime < currentEndTime && endTime > currentEndTime) {
+                    endInfo = info;
+                }
+            }
+            //delete
+            if (startInfo != null && endInfo != null) {
+                ProgressDialogManager.getDialogManager().showDialog("LOADING", mActivity, 200000);
+                cloudStorageApiUnit.deleteGroups(deviceId, startInfo, endInfo, new OkgoCommonListener<Object>() {
+                    @Override
+                    public void onSuccess(Object bean) {
+                        ProgressDialogManager.getDialogManager().dimissDialog("LOADING", 0);
+                        ToastUtil.single(R.string.common_success);
+                        //TODO 更新时间轴
+                    }
+
+                    @Override
+                    public void onFail(int code, String msg) {
+                        ProgressDialogManager.getDialogManager().dimissDialog("LOADING", 0);
+                        ToastUtil.single(R.string.common_error);
+                    }
+                });
+            }
         }
     }
 }

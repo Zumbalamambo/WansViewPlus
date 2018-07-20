@@ -291,6 +291,7 @@ public class MainCameraFragment extends BaseFragment
     private List<AlarmBean> alarms;
     private DeviceApiUnit deviceApiUnit;
     private AlertApiUnit alertApiUnit;
+    private int currentSelectedPosition = 0;
 
     private void setSurfaceViewSize(int quality) {
         int width;
@@ -1841,7 +1842,7 @@ public class MainCameraFragment extends BaseFragment
         bottomNavigationBar = view.findViewById(R.id.bottom_navigation_bar);
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
-        int currentSelectedPosition = bottomNavigationBar.getCurrentSelectedPosition();
+//        int currentSelectedPosition = bottomNavigationBar.getCurrentSelectedPosition();
         bottomNavigationBar.clearAll();
         bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_console_color_, getString(R.string.wv_camera_ptz)).setInactiveIconResource(R.mipmap.ic_console_mid))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_viewangle_color, getString(R.string.wv_camera_angle)).setInactiveIconResource(R.mipmap.ic_viewangle_mid))
@@ -1850,7 +1851,7 @@ public class MainCameraFragment extends BaseFragment
                 .setActiveColor(R.color.colorPrimary)
                 .setFirstSelectedPosition(0)
                 .initialise();
-        if (currentSelectedPosition > 0) {
+        if (currentSelectedPosition >= 0) {
             bottomNavigationBar.selectTab(currentSelectedPosition, false);
         }
         bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
@@ -1859,15 +1860,19 @@ public class MainCameraFragment extends BaseFragment
                 dynamicAddLayout.removeAllViews();
                 View view = null;
                 if (position == 0) {
+                    currentSelectedPosition = 0;
                     view = new PTZView(getActivity(), null, navigationListener, directionControlerListener).getView();
                 } else if (position == 1) {
+                    currentSelectedPosition = 1;
                     view = angleView.getView();
                 } else if (position == 2) {
+                    currentSelectedPosition = 2;
                     view = new DynamicView(getActivity(), camera.deviceId, alarms, false).getView();
                 } else if (position == 3) {
-                    Intent intent = new Intent(mActivity, ReplayActivity.class);
-                    intent.putExtra("deviceId", deviceId);
-                    startActivityForResult(intent, MAIN_CAMERA_REQUEST_CODE);
+//                    Intent intent = new Intent(mActivity, ReplayActivity.class);
+//                    intent.putExtra("deviceId", deviceId);
+//                    startActivityForResult(intent, MAIN_CAMERA_REQUEST_CODE);
+                    ReplayActivity.start(mActivity, deviceId);
                 }
 
                 ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -3786,11 +3791,11 @@ public class MainCameraFragment extends BaseFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        isSleepMode = data.getBooleanExtra("isSleep", false);
-        if (requestCode == MAIN_CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
-            int selection = data.getIntExtra("selection", 0);
-            bottomNavigationBar.selectTab(selection);
-        }
+        isSleepMode = data.getBooleanExtra("isSleep", false);
+//        if (requestCode == MAIN_CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+//            int selection = data.getIntExtra("selection", 0);
+//            bottomNavigationBar.selectTab(selection);
+//        }
     }
 
 //    private void refreshDynamicView() {

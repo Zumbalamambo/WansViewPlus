@@ -80,7 +80,7 @@
                     android:layout_width="@dimen/device_btn_width"
                     android:layout_height="@dimen/device_btn_height"
                     android:layout_marginTop="32dp"
-                    android:background="@drawable/shape_add_device_button"
+                    android:background="@drawable/shape_blue_stroke"
                     android:gravity="center"
                     android:text="@string/cloud_buy"
                     android:textAllCaps="false"

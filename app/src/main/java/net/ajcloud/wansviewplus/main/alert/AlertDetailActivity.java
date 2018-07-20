@@ -21,10 +21,12 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.alert.adapter.AlertListDetailAdapter;
@@ -55,7 +57,8 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
 
     private static final int SHOW_PROGRESS = 0;
     private static final int ON_LOADED = 1;
-    private RelativeLayout rl_play_content;
+    private LinearLayout ll_content;
+    private LinearLayout ll_empty;
     private RelativeLayout small_screen_layout;
     private LinearLayout full_screen_layout;
     private ImageView fullscreen_play;
@@ -99,7 +102,6 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
     private boolean hasMore = true;
     private boolean isLandScape;
     private boolean isLoading = true;
-    private boolean isFirst = true;
 
     private Runnable PlayVlcAudioRunnable = new Runnable() {
         @Override
@@ -177,7 +179,8 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         tv_date = getToolbar().getTextDate();
         iv_arrow = getToolbar().getImgArrow();
 
-        rl_play_content = findViewById(R.id.rl_play_content);
+        ll_content = findViewById(R.id.ll_content);
+        ll_empty = findViewById(R.id.ll_empty);
         small_screen_layout = findViewById(R.id.small_screen_layout);
         full_screen_layout = findViewById(R.id.full_screen_layout);
         fullscreen_play = findViewById(R.id.fullscreen_play);
@@ -235,11 +238,13 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
             tv_date.setText(DateUtil.getFormatDate(cdate));
             Glide.with(this).load(picUrl).into(iv_cover);
         }
+        datePickPopupwindow = new DatePickPopupwindow(this, cdate);
         alertApiUnit = new AlertApiUnit(this);
         mHandler = new Handler(this);
         hHandler = new Handler(this);
         pv_video.setSurfaceViewer16To9();
-        getAlarmList();
+        getAlarmList(true);
+        getAlarmCalendar();
         if (TextUtils.isEmpty(videoUrl)) {
             refreshUI(4);
         } else {
@@ -277,13 +282,32 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                 super.onLoadNextPage(view);
                 if (!isLoading) {
                     if (hasMore) {
-                        getAlarmList();
+                        getAlarmList(false);
                     } else {
                         if (adapter.getItemCount() > 10) {
                             changeFootState(0);
                         }
                     }
                 }
+            }
+        });
+        datePickPopupwindow.setPopClickListener(new DatePickPopupwindow.OnPopClickListener() {
+            @Override
+            public void onClick(String date) {
+                if (!TextUtils.isEmpty(date)) {
+                    tv_date.setText(DateUtil.getFormatDate(date));
+                    cts = -1;
+                    cdate = date;
+                    adapter.clear();
+                    layout_refresh.setRefreshing(true);
+                    getAlarmList(true);
+                }
+            }
+        });
+        datePickPopupwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                ObjectAnimator.ofFloat(iv_arrow, "rotationX", 180f, 0f).setDuration(500).start();
             }
         });
     }
@@ -490,11 +514,9 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         return time;
     }
 
-    private void getAlarmList() {
+    private void getAlarmList(boolean isFirst) {
         isLoading = true;
-        if (isFirst) {
-            isFirst = false;
-        } else {
+        if (!isFirst) {
             changeFootState(1);
         }
         alertApiUnit.getAlarmsList(deviceId, cts, cdate, 10, new OkgoCommonListener<AlarmListBean>() {
@@ -503,15 +525,43 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                 layout_refresh.setRefreshing(false);
                 changeFootState(0);
                 isLoading = false;
-                if (bean != null) {
-                    if (bean.alarms != null) {
-                        adapter.addData(bean.alarms);
-                        if (bean.alarms.size() > 0) {
-                            cts = Long.parseLong(bean.alarms.get(bean.alarms.size() - 1).cts);
-                            cdate = bean.alarms.get(bean.alarms.size() - 1).cdate;
+                if (bean != null && bean.alarms != null && bean.alarms.size() > 0) {
+                    ll_content.setVisibility(View.VISIBLE);
+                    ll_empty.setVisibility(View.GONE);
+                    adapter.addData(bean.alarms);
+                    hasMore = bean.alarms.size() == 10;
+                    cts = Long.parseLong(bean.alarms.get(bean.alarms.size() - 1).cts);
+                    cdate = bean.alarms.get(bean.alarms.size() - 1).cdate;
+                    if (isFirst) {
+                        if (bean.alarms.get(0) != null) {
+                            if (bean.alarms.get(0).images != null && bean.alarms.get(0).images.size() > 0) {
+                                for (AlarmBean.ItemInfoBean itemInfoBean : bean.alarms.get(0).images
+                                        ) {
+                                    if (TextUtils.equals(itemInfoBean.tags, "thumbnail")) {
+                                        Glide.with(AlertDetailActivity.this).load(picUrl).into(iv_cover);
+                                    }
+                                }
+                            }
+                            if (bean.alarms.get(0).avs != null && bean.alarms.get(0).avs.size() > 0) {
+                                for (AlarmBean.ItemInfoBean itemInfoBean : bean.alarms.get(0).avs
+                                        ) {
+                                    if (TextUtils.equals(itemInfoBean.tags, "video")) {
+                                        videoUrl = itemInfoBean.url;
+                                        if (TextUtils.isEmpty(itemInfoBean.url)){
+                                            refreshUI(4);
+                                        }else {
+                                            refreshUI(1);
+                                        }
+                                    }
+                                }
+                            } else {
+                                refreshUI(4);
+                            }
                         }
-                        hasMore = bean.alarms.size() == 10;
                     }
+                } else {
+                    ll_content.setVisibility(View.GONE);
+                    ll_empty.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -519,6 +569,20 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
             public void onFail(int code, String msg) {
                 layout_refresh.setRefreshing(false);
                 changeFootState(0);
+            }
+        });
+    }
+
+    private void getAlarmCalendar() {
+        alertApiUnit.getAlarmsCalendar(deviceId, new OkgoCommonListener<List<String>>() {
+            @Override
+            public void onSuccess(List<String> bean) {
+                datePickPopupwindow.setRecord(bean);
+            }
+
+            @Override
+            public void onFail(int code, String msg) {
+
             }
         });
     }
@@ -555,10 +619,8 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                 break;
             case R.id.tv_date:
             case R.id.iv_arrow:
-                if (datePickPopupwindow == null) {
-                    datePickPopupwindow = new DatePickPopupwindow(AlertDetailActivity.this, cdate);
-                }
-                datePickPopupwindow.showAsDropDown(getToolbar());
+                datePickPopupwindow.show(getToolbar());
+                ObjectAnimator.ofFloat(iv_arrow, "rotationX", 0f, 180f).setDuration(500).start();
                 break;
         }
     }
