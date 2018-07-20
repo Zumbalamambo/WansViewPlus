@@ -1,6 +1,7 @@
 package net.ajcloud.wansviewplus.main.calendar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -99,10 +100,10 @@ public class CalendarActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
     /*
-        * 如果你想以周模式启动你的日历，请在onResume是调用
-        * Utils.scrollTo(content, rvToDoList, monthPager.getCellHeight(), 200);
-        * calendarAdapter.switchToWeek(monthPager.getRowIndex());
-        * */
+    * 如果你想以周模式启动你的日历，请在onResume是调用
+    * Utils.scrollTo(content, rvToDoList, monthPager.getCellHeight(), 200);
+    * calendarAdapter.switchToWeek(monthPager.getRowIndex());
+    * */
     @Override
     protected void onResume() {
         super.onResume();
@@ -198,10 +199,18 @@ public class CalendarActivity extends BaseActivity {
      */
     private void initMarkData() {
         HashMap<String, String> markData = new HashMap<>();
+        try {
+            Intent intent = getIntent();
+            markData = (HashMap<String, String>) intent.getSerializableExtra("message");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        /*
         markData.put("2018-8-9", "1");
         markData.put("2018-7-9", "0");
         markData.put("2018-6-9", "1");
         markData.put("2018-6-10", "0");
+        */
         calendarAdapter.setMarkData(markData);
     }
 

@@ -15,21 +15,21 @@ import com.hdl.m3u8.bean.OnDownloadListener;
 import com.hdl.m3u8.utils.NetSpeedUtils;
 
 import net.ajcloud.wansviewplus.R;
-import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
 import net.ajcloud.wansviewplus.main.application.SwipeBaseActivity;
 import net.ajcloud.wansviewplus.main.calendar.CalendarActivity;
-import net.ajcloud.wansviewplus.main.video.CautionActivity;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.support.core.api.AlertApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.DeviceApiUnit;
 import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.AlarmBean;
-import net.ajcloud.wansviewplus.support.core.bean.AlarmListBean;
 import net.ajcloud.wansviewplus.support.core.bean.GroupListBean;
 import net.ajcloud.wansviewplus.support.core.bean.LiveSrcBean;
 import net.ajcloud.wansviewplus.support.core.bean.ViewAnglesBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.customview.ReplayTimeAxisView;
+import net.ajcloud.wansviewplus.support.customview.dialog.CameraRefreshDialog;
+import net.ajcloud.wansviewplus.support.customview.popupwindow.DatePickPopupwindow;
 import net.ajcloud.wansviewplus.support.tools.WLog;
 import net.ajcloud.wansviewplus.support.utils.FileUtil;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
@@ -38,6 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -171,7 +172,8 @@ public class TestActivity extends SwipeBaseActivity {
             @Override
             public void onClick(View v) {
 
-                startCalendar();
+//                startCalendar();
+                new DatePickPopupwindow(TestActivity.this, "20180302").showAsDropDown(findViewById(R.id.turn_to_angle));
 //                replayTimeAxisView.setCurrentMode(ReplayTimeAxisView.Mode.DownLoad);
             }
         });
@@ -240,7 +242,8 @@ public class TestActivity extends SwipeBaseActivity {
         findViewById(R.id.getAlarmsList).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CautionActivity.start(TestActivity.this,"https://cloud-stor.ajyun.com.cn/api/v1/segments.m3u8?param=1ekkPNbTJD4AC6XNCi1AJYryGQDwBk6xc2peAdXq5kfBCdcbpwiJAKKnYa861YUC95FWAV8iGsBmRXYrnRXVUCLAH1wSZhqi9psyK9BxESSdmtxQRiPTZsC5EDDJ1JGvRpgu6xN7JktQ6PqyHC5ngYe8gUVtktbBfkU8kpkwSM7HhAxFcCxfTUqugY6UbYT6h8UrjgajYYK", false);
+                CameraRefreshDialog cameraRefreshDialog = new CameraRefreshDialog(TestActivity.this);
+                cameraRefreshDialog.show();
             }
         });
     }
@@ -326,13 +329,14 @@ public class TestActivity extends SwipeBaseActivity {
      * 启动日历
      */
     private void startCalendar() {
-        HashMap<String, Boolean> record = new HashMap<>();
         Intent intent = new Intent(TestActivity.this, CalendarActivity.class);
-        Bundle bundleSerializable = new Bundle();
-        bundleSerializable.putSerializable("serializable", record);
-        intent.putExtra("isShowNextDay", true);
-        intent.putExtras(bundleSerializable);
-        intent.putExtra("oid", getIntent().getStringExtra("cid"));
+        HashMap<String, String> markData = new HashMap<>();
+        markData.put("2018-8-9", "1");
+        markData.put("2018-7-9", "0");
+        markData.put("2018-6-9", "1");
+        markData.put("2018-6-10", "0");
+
+        intent.putExtra("message",(Serializable)markData);
         startActivityForResult(intent, CALENDAR_REQUEST);
     }
 

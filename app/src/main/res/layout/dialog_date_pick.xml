@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_month_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/gray_second"
+                android:textSize="@dimen/alert_text_size_16"
+                tools:text="Apr.2018" />
+
+            <TextView
+                android:id="@+id/tv_month_mid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textColor="@color/gray_second"
+                android:textSize="@dimen/alert_text_size_16"
+                tools:text="Apr.2018" />
+
+            <TextView
+                android:id="@+id/tv_month_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:textColor="@color/gray_second"
+                android:textSize="@dimen/alert_text_size_16"
+                tools:text="Apr.2018" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_day_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:tag="day"
+                    android:textColor="@color/gray_second"
+                    android:textSize="@dimen/alert_text_size_12"
+                    tools:text="Sat" />
+
+                <TextView
+                    android:id="@+id/tv_date_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:tag="date"
+                    android:textColor="@color/gray_first"
+                    android:textSize="@dimen/alert_text_size_20"
+                    tools:text="28" />
+
+                <ImageView
+                    android:id="@+id/iv_light_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/shape_circle_blue"
+                    android:tag="light"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_day_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:tag="day"
+                    android:textColor="@color/gray_second"
+                    android:textSize="@dimen/alert_text_size_12"
+                    tools:text="Sat" />
+
+                <TextView
+                    android:id="@+id/tv_date_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:tag="date"
+                    android:textColor="@color/gray_first"
+                    android:textSize="@dimen/alert_text_size_20"
+                    tools:text="28" />
+
+                <ImageView
+                    android:id="@+id/iv_light_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/shape_circle_blue"
+                    android:tag="light"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_day_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:tag="day"
+                    android:textColor="@color/gray_second"
+                    android:textSize="@dimen/alert_text_size_12"
+                    tools:text="Sat" />
+
+                <TextView
+                    android:id="@+id/tv_date_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:tag="date"
+                    android:textColor="@color/gray_first"
+                    android:textSize="@dimen/alert_text_size_20"
+                    tools:text="28" />
+
+                <ImageView
+                    android:id="@+id/iv_light_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/shape_circle_blue"
+                    android:tag="light"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_day_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:tag="day"
+                    android:textColor="@color/gray_second"
+                    android:textSize="@dimen/alert_text_size_12"
+                    tools:text="Sat" />
+
+                <TextView
+                    android:id="@+id/tv_date_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:tag="date"
+                    android:textColor="@color/gray_first"
+                    android:textSize="@dimen/alert_text_size_20"
+                    tools:text="28" />
+
+                <ImageView
+                    android:id="@+id/iv_light_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/shape_circle_blue"
+                    android:tag="light"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_day_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:tag="day"
+                    android:textColor="@color/gray_second"
+                    android:textSize="@dimen/alert_text_size_12"
+                    tools:text="Sat" />
+
+                <TextView
+                    android:id="@+id/tv_date_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:tag="date"
+                    android:textColor="@color/gray_first"
+                    android:textSize="@dimen/alert_text_size_20"
+                    tools:text="28" />
+
+                <ImageView
+                    android:id="@+id/iv_light_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/shape_circle_blue"
+                    android:tag="light"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_day_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:tag="day"
+                    android:textColor="@color/gray_second"
+                    android:textSize="@dimen/alert_text_size_12"
+                    tools:text="Sat" />
+
+                <TextView
+                    android:id="@+id/tv_date_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:tag="date"
+                    android:textColor="@color/gray_first"
+                    android:textSize="@dimen/alert_text_size_20"
+                    tools:text="28" />
+
+                <ImageView
+                    android:id="@+id/iv_light_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/shape_circle_blue"
+                    android:tag="light"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_day_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:tag="day"
+                    android:text="@string/common_today"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/alert_text_size_12" />
+
+                <TextView
+                    android:id="@+id/tv_date_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:tag="date"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/alert_text_size_20"
+                    tools:text="28" />
+
+                <ImageView
+                    android:id="@+id/iv_light_7"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/shape_circle_blue"
+                    android:tag="light"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -37,17 +37,21 @@
         android:textSize="@dimen/device_setting_text_size_16" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="40dp"
         android:gravity="center"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_close"
-            android:layout_width="124dp"
+            android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginEnd="32dp"
+            android:layout_weight="1"
             android:background="@drawable/shape_add_device_button"
             android:gravity="center"
             android:text="@string/add_device_know"
@@ -57,8 +61,9 @@
 
         <Button
             android:id="@+id/btn_refresh"
-            android:layout_width="124dp"
+            android:layout_width="0dp"
             android:layout_height="48dp"
+            android:layout_weight="1"
             android:background="@drawable/shape_signin_button"
             android:gravity="center"
             android:text="@string/common_refresh"

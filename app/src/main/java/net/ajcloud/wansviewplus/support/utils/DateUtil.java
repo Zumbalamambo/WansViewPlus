@@ -121,4 +121,46 @@ public class DateUtil {
         cal.set(Calendar.MILLISECOND, 0);
         return cal.getTimeInMillis();
     }
+
+    /**
+     * 20180507--->May.2018
+     */
+    public static String getDateYM(String cdata) {
+        if (cdata.length() != 8) {
+            return null;
+        }
+        StringBuilder result = new StringBuilder();
+        String year = cdata.substring(0, 4);
+        String month = cdata.substring(4, 6);
+
+        result.append(dates[Integer.parseInt(month) - 1]);
+        result.append(".");
+        result.append(year);
+        return result.toString();
+    }
+
+    /**
+     * 20180507--->May.2018 获取上个月
+     */
+    public static String getLastDateYM(String cdata) {
+        if (cdata.length() != 8) {
+            return null;
+        }
+        StringBuilder result = new StringBuilder();
+        String year = cdata.substring(0, 4);
+        String month = cdata.substring(4, 6);
+
+        int monthInt = Integer.parseInt(month);
+        int yearInt = Integer.parseInt(year);
+        if (monthInt == 1) {
+            result.append(dates[11]);
+            result.append(".");
+            result.append(yearInt - 1);
+        } else {
+            result.append(dates[Integer.parseInt(month) - 1 - 1]);
+            result.append(".");
+            result.append(year);
+        }
+        return result.toString();
+    }
 }

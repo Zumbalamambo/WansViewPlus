@@ -38,8 +38,7 @@ public class CameraRefreshDialog extends Dialog implements View.OnClickListener 
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.gravity = Gravity.CENTER;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-//        lp.width = DisplayUtil.dip2Pix(context, 327);
+        lp.width = DisplayUtil.dip2Pix(context, 327);
         window.setAttributes(lp);
 
         btn_close = findViewById(R.id.btn_close);

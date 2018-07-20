@@ -38,6 +38,7 @@ import net.ajcloud.wansviewplus.support.core.bean.AlarmBean;
 import net.ajcloud.wansviewplus.support.core.bean.AlarmListBean;
 import net.ajcloud.wansviewplus.support.core.device.Camera;
 import net.ajcloud.wansviewplus.support.customview.EndlessRecyclerOnScrollListener;
+import net.ajcloud.wansviewplus.support.customview.popupwindow.DatePickPopupwindow;
 import net.ajcloud.wansviewplus.support.utils.DateUtil;
 import net.ajcloud.wansviewplus.support.utils.DisplayUtil;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
@@ -76,6 +77,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
     private FrameLayout fl_load;
     private FrameLayout fl_end;
     private SwipeRefreshLayout layout_refresh;
+    private DatePickPopupwindow datePickPopupwindow;
 
     private AudioSender_RealTime audioSender_Realtime = null;
     private Handler hPlayVlcAudioHandler = new Handler();
@@ -247,6 +249,8 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
 
     @Override
     protected void initListener() {
+        tv_date.setOnClickListener(this);
+        iv_arrow.setOnClickListener(this);
         pv_video.setOnChangeListener(this);
         fl_play.setOnClickListener(this);
         iv_fullscreen.setOnClickListener(this);
@@ -548,6 +552,13 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                 break;
             case R.id.fullscreen_stop:
                 onMediaPause();
+                break;
+            case R.id.tv_date:
+            case R.id.iv_arrow:
+                if (datePickPopupwindow == null) {
+                    datePickPopupwindow = new DatePickPopupwindow(AlertDetailActivity.this, cdate);
+                }
+                datePickPopupwindow.showAsDropDown(getToolbar());
                 break;
         }
     }

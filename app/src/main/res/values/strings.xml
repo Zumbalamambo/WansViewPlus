@@ -246,7 +246,7 @@ videos .</string>
     <string name="common_loading">loading</string>
     <string name="common_complete">Complete</string>
     <string name="common_add">添加</string>
-    <string name="common_today">今天</string>
+    <string name="common_today">Today</string>
     <string name="common_retry">重试</string>
     <string name="common_agree">Agree</string>
     <string name="common_error">error</string>

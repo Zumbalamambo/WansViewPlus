@@ -66,6 +66,11 @@
         <item name="android:windowExitAnimation">@anim/pop_out</item>
     </style>
 
+    <style name="TopInOutAnim">
+        <item name="android:windowEnterAnimation">@anim/top_pop_in</item>
+        <item name="android:windowExitAnimation">@anim/top_pop_out</item>
+    </style>
+
     <style name="Wans_view_Progress_circle">
         <item name="android:indeterminateDrawable">@drawable/ws_view_reflash</item>
         <item name="android:minWidth">25dp</item>
