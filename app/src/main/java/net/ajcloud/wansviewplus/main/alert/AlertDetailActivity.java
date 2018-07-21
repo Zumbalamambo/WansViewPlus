@@ -245,11 +245,12 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
         pv_video.setSurfaceViewer16To9();
         getAlarmList(true);
         getAlarmCalendar();
-        if (TextUtils.isEmpty(videoUrl)) {
-            refreshUI(4);
-        } else {
-            refreshUI(1);
-        }
+        refreshUI(0);
+//        if (TextUtils.isEmpty(videoUrl)) {
+//            refreshUI(4);
+//        } else {
+//            refreshUI(1);
+//        }
     }
 
     @Override
@@ -328,14 +329,21 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
     }
 
     /**
-     * 1:第一次进入；
+     * 0：kong
+     * 1:停止
      * 2:播放；
      * 3:暂停；
      * 4:未购买云存储服务（只有图片无视频）；
      */
     private void refreshUI(int state) {
         switch (state) {
+            case 0:
+                ll_content.setVisibility(View.GONE);
+                ll_empty.setVisibility(View.VISIBLE);
+                break;
             case 1:
+                ll_content.setVisibility(View.VISIBLE);
+                ll_empty.setVisibility(View.GONE);
                 fl_play.setVisibility(View.VISIBLE);
                 iv_play_pause.setVisibility(View.GONE);
                 iv_download.setVisibility(View.GONE);
@@ -346,6 +354,8 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                 fullscreen_download.setVisibility(View.GONE);
                 break;
             case 2:
+                ll_content.setVisibility(View.VISIBLE);
+                ll_empty.setVisibility(View.GONE);
                 fl_play.setVisibility(View.GONE);
                 iv_play_pause.setVisibility(View.VISIBLE);
                 iv_download.setVisibility(View.VISIBLE);
@@ -357,6 +367,8 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                 fullscreen_download.setVisibility(View.VISIBLE);
                 break;
             case 3:
+                ll_content.setVisibility(View.VISIBLE);
+                ll_empty.setVisibility(View.GONE);
                 fl_play.setVisibility(View.GONE);
                 iv_play_pause.setVisibility(View.VISIBLE);
                 iv_download.setVisibility(View.GONE);
@@ -368,6 +380,8 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                 fullscreen_download.setVisibility(View.VISIBLE);
                 break;
             case 4:
+                ll_content.setVisibility(View.VISIBLE);
+                ll_empty.setVisibility(View.GONE);
                 fl_play.setVisibility(View.GONE);
                 iv_play_pause.setVisibility(View.GONE);
                 iv_download.setVisibility(View.VISIBLE);
@@ -526,8 +540,6 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                 changeFootState(0);
                 isLoading = false;
                 if (bean != null && bean.alarms != null && bean.alarms.size() > 0) {
-                    ll_content.setVisibility(View.VISIBLE);
-                    ll_empty.setVisibility(View.GONE);
                     adapter.addData(bean.alarms);
                     hasMore = bean.alarms.size() == 10;
                     cts = Long.parseLong(bean.alarms.get(bean.alarms.size() - 1).cts);
@@ -560,8 +572,7 @@ public class AlertDetailActivity extends BaseActivity implements PlayerView.OnCh
                         }
                     }
                 } else {
-                    ll_content.setVisibility(View.GONE);
-                    ll_empty.setVisibility(View.VISIBLE);
+                    refreshUI(0);
                 }
             }
 

@@ -29,6 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import net.ajcloud.wansviewplus.R;
 import net.ajcloud.wansviewplus.main.application.WVFragment;
@@ -40,6 +41,7 @@ import net.ajcloud.wansviewplus.support.core.api.OkgoCommonListener;
 import net.ajcloud.wansviewplus.support.core.bean.GroupListBean;
 import net.ajcloud.wansviewplus.support.customview.ReplayTimeAxisView;
 import net.ajcloud.wansviewplus.support.customview.dialog.ProgressDialogManager;
+import net.ajcloud.wansviewplus.support.tools.WLog;
 import net.ajcloud.wansviewplus.support.utils.DateUtil;
 import net.ajcloud.wansviewplus.support.utils.ToastUtil;
 
@@ -281,10 +283,12 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
                 break;
             case R.id.fl_delete:
                 currentMode = MODE_DELETE;
+                replay_time.setCurrentMode(ReplayTimeAxisView.Mode.DownLoad);
                 refreshBottom();
                 break;
             case R.id.fl_download:
                 currentMode = MODE_DOWNLOAD;
+                replay_time.setCurrentMode(ReplayTimeAxisView.Mode.DownLoad);
                 refreshBottom();
                 break;
             case R.id.fl_play:
@@ -365,6 +369,8 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
             mActivity.finish();
         } else {
             currentMode = MODE_NORMAL;
+            refreshBottom();
+            replay_time.setCurrentMode(ReplayTimeAxisView.Mode.Play);
         }
     }
 
@@ -643,7 +649,8 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
                 long endTime = info.tsEnd;
                 if ((startTime < currentStartTime && endTime > currentStartTime) ||
                         (startTime < currentEndTime && endTime > currentEndTime) ||
-                        (startTime > currentStartTime && endTime < currentStartTime)) {
+                        (startTime > currentStartTime && endTime < currentEndTime)) {
+                    WLog.d("testtesttest", new Gson().toJson(info));
                     downloadList.add(info.m3u8Url);
                 }
             }
@@ -659,26 +666,46 @@ public class ReplayCloudFragment extends WVFragment implements View.OnClickListe
         if (records != null && records.size() > 0) {
             GroupListBean.GroupInfo startInfo = null;
             GroupListBean.GroupInfo endInfo = null;
+            boolean hasStart = false;
             for (GroupListBean.GroupInfo info : records
                     ) {
                 long startTime = info.tsStart;
                 long endTime = info.tsEnd;
-                if (startTime < currentStartTime && endTime > currentStartTime) {
-                    startInfo = info;
+                if (!hasStart) {
+                    if ((startTime < currentStartTime && endTime > currentStartTime) ||
+                            (startTime > currentStartTime && endTime > currentStartTime)) {
+                        startInfo = info;
+                        hasStart = true;
+                    }
                 }
-                if (startTime < currentEndTime && endTime > currentEndTime) {
+                if ((startTime < currentEndTime && endTime > currentEndTime) ||
+                        (startTime < currentEndTime && endTime < currentEndTime)) {
                     endInfo = info;
                 }
             }
+            WLog.d("testtesttest", new Gson().toJson(startInfo));
+            WLog.d("testtesttest", new Gson().toJson(endInfo));
             //delete
             if (startInfo != null && endInfo != null) {
                 ProgressDialogManager.getDialogManager().showDialog("LOADING", mActivity, 200000);
+                GroupListBean.GroupInfo finalStartInfo = startInfo;
+                GroupListBean.GroupInfo finalEndInfo = endInfo;
                 cloudStorageApiUnit.deleteGroups(deviceId, startInfo, endInfo, new OkgoCommonListener<Object>() {
                     @Override
                     public void onSuccess(Object bean) {
                         ProgressDialogManager.getDialogManager().dimissDialog("LOADING", 0);
                         ToastUtil.single(R.string.common_success);
                         //TODO 更新时间轴
+                        List<Pair<Long, Long>> list = new ArrayList<>();
+                        for (GroupListBean.GroupInfo info : records
+                                ) {
+                            if (TextUtils.equals(info.groupId, finalStartInfo.groupId) ||
+                                    TextUtils.equals(info.groupId, finalEndInfo.groupId)) {
+                                continue;
+                            }
+                            list.add(new Pair<>(info.tsStart / 1000, info.tsEnd / 1000));
+                        }
+                        replay_time.setRecordList(list);
                     }
 
                     @Override

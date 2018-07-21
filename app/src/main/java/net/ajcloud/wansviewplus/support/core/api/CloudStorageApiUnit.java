@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import net.ajcloud.wansviewplus.entity.LocalInfo;
 import net.ajcloud.wansviewplus.main.application.MainApplication;
+import net.ajcloud.wansviewplus.main.manager.SigninAccountManager;
 import net.ajcloud.wansviewplus.support.core.bean.CloudStoragePlan.CloudStoragePlanBean;
 import net.ajcloud.wansviewplus.support.core.bean.GroupListBean;
 import net.ajcloud.wansviewplus.support.core.bean.ResponseBean;
@@ -111,15 +112,16 @@ public class CloudStorageApiUnit {
         JSONObject dataJson = new JSONObject();
         try {
             dataJson.put("deviceId", camera.deviceId);
+            dataJson.put("accessKey", camera.accessKey);
             JSONObject startJson = new JSONObject();
             startJson.put("groupId", startGroup.groupId);
             startJson.put("tsStart", startGroup.tsStart);
             startJson.put("tsEnd", startGroup.tsEnd);
             dataJson.put("start", startJson);
             JSONObject endJson = new JSONObject();
-            startJson.put("groupId", endGroup.groupId);
-            startJson.put("tsStart", endGroup.tsStart);
-            startJson.put("tsEnd", endGroup.tsEnd);
+            endJson.put("groupId", endGroup.groupId);
+            endJson.put("tsStart", endGroup.tsStart);
+            endJson.put("tsEnd", endGroup.tsEnd);
             dataJson.put("end", endJson);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -106,10 +106,15 @@ public class ReplayActivity extends BaseActivity {
     }
 
     @Override
-    public void onClickView(View v) {
+    public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.img_left:
+                onBackPressed();
+                break;
             case R.id.tv_date:
             case R.id.iv_arrow:
+                break;
+            default:
                 break;
         }
     }
@@ -158,7 +163,6 @@ public class ReplayActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (fragments.get(currentPosition) instanceof ReplayCloudFragment) {
             ((ReplayCloudFragment) pageAdapter.getItem(currentPosition)).onBack();
         }
